@@ -7,10 +7,10 @@ verification oracle for each finding. No AI in the loop. Same code, same report,
 ## Quick Start
 
 ```bash
-git clone https://github.com/Clawdius-hash/opensourceeverything.git
-cd opensourceeverything
-npm install
-npx tsx src/services/dst/dst-cli.ts --demo --prove
+git clone https://github.com/Clawdius-hash/dst-engine.git
+cd dst-engine
+npm install --legacy-peer-deps
+npx tsx src/dst-cli.ts --demo --prove
 ```
 
 ## What You'll See
@@ -61,8 +61,8 @@ you the payload to prove it.
 | Log4Shell detection | 5/5 chain files |
 | GPT-5.4 adversarial red team | 35/35 (zero misses) |
 | CWE properties checked per file | 783 |
-| Test suite | 1,834 passing |
-| Languages | 10 |
+| Test suite | 1,709 passing |
+| Languages | 10 (Java, JS/TS, Python, Go, Rust, PHP, C#, Ruby, Kotlin) |
 
 ## What Makes This Different
 
@@ -90,21 +90,21 @@ without a separate fuzzing engine.
 
 ```bash
 # Scan a single file
-npx tsx src/services/dst/dst-cli.ts path/to/file.java
+npx tsx src/dst-cli.ts path/to/file.java
 
 # Scan with proof certificates
-npx tsx src/services/dst/dst-cli.ts path/to/file.java --prove
+npx tsx src/dst-cli.ts path/to/file.java --prove
 
 # Scan a directory (enables cross-file analysis)
-npx tsx src/services/dst/dst-cli.ts path/to/project/
+npx tsx src/dst-cli.ts path/to/project/
 
 # JSON output
-npx tsx src/services/dst/dst-cli.ts path/to/file.java --prove --json
+npx tsx src/dst-cli.ts path/to/file.java --prove --json
 ```
 
 ## Supported Languages
 
-Java, JavaScript, TypeScript, Python, Go, Rust, PHP, C#, Ruby, Kotlin, Swift
+Java, JavaScript, TypeScript, Python, Go, Rust, PHP, C#, Ruby, Kotlin
 
 All languages use tree-sitter for parsing and share the same phoneme-based analysis pipeline.
 Language-specific behavior is isolated to phoneme profiles (~200 lines each).
