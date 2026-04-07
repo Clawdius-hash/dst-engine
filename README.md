@@ -104,10 +104,16 @@ npx tsx src/dst-cli.ts path/to/file.java --prove --json
 
 ## Supported Languages
 
-Java, JavaScript, TypeScript, Python, Go, Rust, PHP, C#, Ruby, Kotlin
+**Battle-tested (benchmarked, real-world apps scanned):**
+- Java — 92.7% OWASP BenchmarkJava, WebGoat, Log4Shell, Juliet NIST
+- JavaScript/TypeScript — demo apps, Express/Node patterns
+
+**Supported (profiles + tests, awaiting benchmark validation):**
+- Python, Go, Rust, PHP, C#, Ruby, Kotlin
 
 All languages use tree-sitter for parsing and share the same phoneme-based analysis pipeline.
 Language-specific behavior is isolated to phoneme profiles (~200 lines each).
+DST reads source code only — it cannot scan compiled binaries, executables, or installed applications.
 
 ## Architecture
 
