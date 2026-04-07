@@ -1,0 +1,16 @@
+{
+  "id": "CWE-631",
+  "name": "DEPRECATED: Resource-specific Weaknesses",
+  "status": "needs_review",
+  "description": "This deprecated CWE View was created as a simple example of CWE view structure before version 1.0. It is no longer actively maintained and provides no utility to stakeholders.",
+  "severity": "low",
+  "category": "configuration",
+  "detection_pattern": "N/A — deprecated view",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": [],
+  "references": ["https://cwe.mitre.org/data/definitions/631.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:00:00Z"
+}

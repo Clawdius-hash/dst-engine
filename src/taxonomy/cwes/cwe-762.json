@@ -1,0 +1,16 @@
+{
+  "id": "CWE-762",
+  "name": "Mismatched Memory Management Routines",
+  "status": "filled",
+  "description": "The product attempts to return a memory resource to the system using a release function that is incompatible with the original allocation function, such as mixing malloc/delete or new/free, causing memory corruption or undefined behavior.",
+  "severity": "high",
+  "category": "memory",
+  "detection_pattern": "TRANSFORM(allocation_function_A) allocates memory, but TRANSFORM(deallocation_function_B) releases it using an incompatible routine. Look for mismatched pairs: malloc with delete, new with free, new[] with delete (not delete[]).",
+  "graph_query": "TRANSFORM(allocate_with_A)→TRANSFORM(deallocate_with_B) without CONTROL(matching_alloc_dealloc_pair)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-763", "CWE-590", "CWE-404"],
+  "references": ["https://cwe.mitre.org/data/definitions/762.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:15:00Z"
+}

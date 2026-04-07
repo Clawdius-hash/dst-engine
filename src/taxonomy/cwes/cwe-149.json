@@ -1,0 +1,16 @@
+{
+  "id": "CWE-149",
+  "name": "Improper Neutralization of Quoting Syntax",
+  "status": "filled",
+  "description": "The product does not properly neutralize quote characters (single quotes, double quotes, backticks) in user input, allowing attackers to break out of quoted contexts, inject additional commands or parameters, or alter the parsing of delimited data.",
+  "severity": "high",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides user-controlled data containing quote characters that flows to TRANSFORM[quoted_context] or EXTERNAL[interpreter] without a TRANSFORM[quote_escape] that escapes or doubles quote characters to prevent breaking out of the quoted context",
+  "graph_query": "INGRESS[quotes]→TRANSFORM[quoted_context] without TRANSFORM[quote_escape]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-138", "CWE-89", "CWE-78"],
+  "references": ["https://cwe.mitre.org/data/definitions/149.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

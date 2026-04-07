@@ -1,0 +1,16 @@
+{
+  "id": "CWE-431",
+  "name": "Missing Handler",
+  "status": "filled",
+  "description": "A handler is not available or implemented for a particular condition, causing the application to miss the opportunity to manage failures gracefully or alter execution flow when exceptions occur.",
+  "severity": "medium",
+  "category": "error_handling",
+  "detection_pattern": "INGRESS node sends request or event that has no matching TRANSFORM handler in STRUCTURAL routing, leading to unhandled condition that may expose default behavior or error information via EGRESS",
+  "graph_query": "INGRESS(event)→STRUCTURAL(no_handler) without TRANSFORM(appropriate_handler)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-691", "CWE-433"],
+  "references": ["https://cwe.mitre.org/data/definitions/431.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:35:00Z"
+}

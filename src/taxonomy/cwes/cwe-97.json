@@ -1,0 +1,16 @@
+{
+  "id": "CWE-97",
+  "name": "Improper Neutralization of Server-Side Includes (SSI) Within a Web Page",
+  "status": "filled",
+  "description": "The product does not properly neutralize user input that could be interpreted as Server-Side Include (SSI) directives (<!--#exec, <!--#include) before embedding it in web pages processed by an SSI-enabled server, allowing attackers to execute commands or include arbitrary files.",
+  "severity": "high",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides user-controlled data containing SSI directive syntax that flows to STORAGE[web_page] or EGRESS[ssi_enabled_output] without a TRANSFORM[ssi_neutralization] node that strips or encodes SSI comment directives before the page is served by an SSI-enabled web server",
+  "graph_query": "INGRESS[ssi_directives]→STORAGE[web_page]|EGRESS[ssi_output] without TRANSFORM[ssi_neutralization]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-96", "CWE-94"],
+  "references": ["https://cwe.mitre.org/data/definitions/97.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-331",
+  "name": "Insufficient Entropy",
+  "status": "filled",
+  "description": "The product uses an algorithm or scheme that produces insufficient entropy, leaving patterns or clusters of values that are more likely to occur than others, making security-critical random values predictable.",
+  "severity": "high",
+  "category": "cryptography",
+  "detection_pattern": "TRANSFORM node generating random values uses a low-entropy source or algorithm that reduces the effective keyspace, feeding into AUTH or STORAGE nodes for tokens, keys, or session identifiers without a CONTROL node validating minimum entropy requirements",
+  "graph_query": "TRANSFORM(low_entropy)→AUTH|STORAGE without CONTROL(entropy_validation)",
+  "owasp_top10": "A02:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-330", "CWE-332", "CWE-333", "CWE-339"],
+  "references": ["https://cwe.mitre.org/data/definitions/331.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:20:00Z"
+}

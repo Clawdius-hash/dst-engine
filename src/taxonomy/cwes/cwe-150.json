@@ -1,0 +1,16 @@
+{
+  "id": "CWE-150",
+  "name": "Improper Neutralization of Escape, Meta, or Control Sequences",
+  "status": "filled",
+  "description": "The product does not properly neutralize escape sequences, meta characters, or control sequences in user input before sending it to a downstream component, allowing attackers to alter terminal behavior, inject commands through ANSI escape codes, or manipulate protocol control sequences.",
+  "severity": "high",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides user-controlled data containing escape sequences (ANSI, terminal control, backslash escapes) that flows to EGRESS[terminal|log|protocol] without a TRANSFORM[escape_strip] that removes or encodes control and escape sequences before output",
+  "graph_query": "INGRESS[escape_sequences]→EGRESS[terminal|log] without TRANSFORM[escape_strip]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-138"],
+  "references": ["https://cwe.mitre.org/data/definitions/150.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

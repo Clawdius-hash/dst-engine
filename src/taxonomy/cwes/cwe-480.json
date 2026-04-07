@@ -1,0 +1,16 @@
+{
+  "id": "CWE-480",
+  "name": "Use of Incorrect Operator",
+  "status": "filled",
+  "description": "The product accidentally uses the wrong operator (e.g., assignment instead of comparison, bitwise instead of logical), changing the program logic in security-relevant ways. These typically result from programmer typos and can cause unintended execution paths.",
+  "severity": "medium",
+  "category": "reliability",
+  "detection_pattern": "A CONTROL[conditional] node contains a TRANSFORM[assignment] or TRANSFORM[bitwise_op] where a TRANSFORM[comparison] or TRANSFORM[logical_op] was expected, causing the control flow to behave incorrectly without a META[static_analysis] check catching the operator misuse.",
+  "graph_query": "TRANSFORM[wrong_operator]→CONTROL[conditional] without META[static_analysis]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-670", "CWE-481", "CWE-482", "CWE-597"],
+  "references": ["https://cwe.mitre.org/data/definitions/480.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

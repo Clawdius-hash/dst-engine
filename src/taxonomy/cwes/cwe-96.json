@@ -1,0 +1,16 @@
+{
+  "id": "CWE-96",
+  "name": "Improper Neutralization of Directives in Statically Saved Code ('Static Code Injection')",
+  "status": "filled",
+  "description": "The product receives input and saves it to a file or resource that is later parsed and executed (config files, templates, included scripts), but does not neutralize code syntax before storage, allowing attackers to inject executable code that runs when the resource is loaded.",
+  "severity": "critical",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides user-controlled data that flows to STORAGE[executable_resource] (PHP include file, config template, script file) without a TRANSFORM[code_neutralization] node that strips or escapes code directives before the data is written to the executable resource",
+  "graph_query": "INGRESS→STORAGE[executable_resource] without TRANSFORM[code_neutralization]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-94", "CWE-97"],
+  "references": ["https://cwe.mitre.org/data/definitions/96.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

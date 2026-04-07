@@ -1,0 +1,16 @@
+{
+  "id": "CWE-128",
+  "name": "Wrap-around Error",
+  "status": "filled",
+  "description": "A value is incremented past the maximum value for its integer type and wraps around to a very small or negative value, causing unexpected behavior in size calculations, loop bounds, or memory allocations that can lead to buffer overflows or other memory corruption.",
+  "severity": "high",
+  "category": "memory",
+  "detection_pattern": "TRANSFORM[arithmetic_increment] on an integer value in STORAGE exceeds the type's maximum (e.g., UINT_MAX, INT_MAX) and wraps to a small/negative value, which is then used in a CONTROL[size_check] or STORAGE[memory_alloc] without a CONTROL[overflow_check] that detects the wrap-around before the value is consumed",
+  "graph_query": "TRANSFORM[increment]→STORAGE[wrapped_value]→CONTROL[size_check]|STORAGE[alloc] without CONTROL[overflow_detection]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-682", "CWE-190", "CWE-119"],
+  "references": ["https://cwe.mitre.org/data/definitions/128.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

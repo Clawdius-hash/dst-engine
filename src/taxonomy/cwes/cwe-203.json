@@ -1,0 +1,16 @@
+{
+  "id": "CWE-203",
+  "name": "Observable Discrepancy",
+  "status": "filled",
+  "description": "The product behaves differently or sends different responses under different circumstances in a way observable to unauthorized actors, revealing security-relevant information about internal state. This is the root of side-channel attacks including timing attacks on authentication and cryptographic operations.",
+  "severity": "high",
+  "category": "data_protection",
+  "detection_pattern": "Look for CONTROL nodes (authentication checks, cryptographic operations) that produce different EGRESS responses (error messages, timing, HTTP status codes) depending on which condition failed. The absence of a TRANSFORM node (constant-time comparison, uniform error response) between the CONTROL node and EGRESS node means an attacker can distinguish between failure modes.",
+  "graph_query": "CONTROL(auth_or_crypto)→EGRESS(differential_response) without TRANSFORM(uniform_response)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-200", "CWE-204", "CWE-205", "CWE-208"],
+  "references": ["https://cwe.mitre.org/data/definitions/203.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

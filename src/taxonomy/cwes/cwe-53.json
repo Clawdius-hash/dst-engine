@@ -1,0 +1,16 @@
+{
+  "id": "CWE-53",
+  "name": "Path Equivalence: '\\multiple\\\\internal\\backslash'",
+  "status": "filled",
+  "description": "The product does not properly handle paths containing multiple consecutive internal backslashes on Windows, which the OS normalizes to single backslashes, allowing attackers to bypass path-based access controls that match the multi-backslash form literally.",
+  "severity": "medium",
+  "category": "file_handling",
+  "detection_pattern": "INGRESS node provides a path with multiple consecutive internal backslashes that bypasses CONTROL[path_check] because the check doesn't normalize duplicate backslashes before comparison, while Windows resolves them equivalently at STORAGE[file_access]",
+  "graph_query": "INGRESS[path 'dir\\\\\\\\file']→CONTROL[path_check]→STORAGE[file_access] without TRANSFORM[normalize_backslashes]",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-41", "CWE-165"],
+  "references": ["https://cwe.mitre.org/data/definitions/53.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-421",
+  "name": "Race Condition During Access to Alternate Channel",
+  "status": "filled",
+  "description": "The product opens an alternate channel for an authorized user but makes it accessible to other actors during a timing window, creating a race condition that allows an attacker to access the channel before the legitimate user and gain unauthorized privileges.",
+  "severity": "high",
+  "category": "concurrency",
+  "detection_pattern": "STRUCTURAL node creating or opening an alternate communication channel (named pipe, temporary socket, shared resource) intended for a specific AUTH-validated user, where a timing gap exists between channel creation and AUTH binding, allowing a concurrent INGRESS from an unauthorized actor to claim the channel first",
+  "graph_query": "STRUCTURAL[channel_create]→INGRESS[unauthorized_access] without CONTROL[atomic_auth_bind]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-362", "CWE-420"],
+  "references": ["https://cwe.mitre.org/data/definitions/421.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:25:00Z"
+}

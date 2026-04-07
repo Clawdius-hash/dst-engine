@@ -1,0 +1,16 @@
+{
+  "id": "CWE-489",
+  "name": "Active Debug Code",
+  "status": "filled",
+  "description": "The product is deployed to production with active debug code or debug features enabled. Debug code can create unintended entry points, expose sensitive information about application internals, or in severe cases grant complete control over web applications and servers.",
+  "severity": "high",
+  "category": "configuration",
+  "detection_pattern": "META node (debug configuration flag) set to enabled in a production STRUCTURAL(deployment) context. Look for CONTROL(debug_conditional) that exposes EGRESS(debug_output) or INGRESS(debug_endpoint) without AUTH(environment_check).",
+  "graph_query": "META(debug_enabled)→EGRESS(debug_info) without CONTROL(production_check)",
+  "owasp_top10": "A05:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-710", "CWE-11", "CWE-215"],
+  "references": ["https://cwe.mitre.org/data/definitions/489.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

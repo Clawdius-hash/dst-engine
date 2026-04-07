@@ -1,0 +1,16 @@
+{
+  "id": "CWE-271",
+  "name": "Privilege Dropping / Lowering Errors",
+  "status": "filled",
+  "description": "The product does not drop privileges before passing control of a resource to an actor that does not have those privileges. This spreads elevated privileges throughout the system, allowing less-privileged actors to perform operations with superuser-level access.",
+  "severity": "high",
+  "category": "authorization",
+  "detection_pattern": "Look for AUTH nodes (elevated privileges, root/admin context) that flow through CONTROL or TRANSFORM nodes (resource handoff, process spawn, file creation) to EXTERNAL nodes (less-privileged user, child process, downstream service) without a CONTROL mediator (privilege drop, setuid call, capability restriction) that reduces the privilege level before the handoff.",
+  "graph_query": "AUTH(elevated)→EXTERNAL(lower_privilege_actor) without CONTROL(privilege_drop)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-269", "CWE-272", "CWE-273", "CWE-274"],
+  "references": ["https://cwe.mitre.org/data/definitions/271.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

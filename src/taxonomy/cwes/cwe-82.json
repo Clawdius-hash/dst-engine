@@ -1,0 +1,16 @@
+{
+  "id": "CWE-82",
+  "name": "Improper Neutralization of Script in Attributes of IMG Tags in a Web Page",
+  "status": "filled",
+  "description": "The product does not neutralize scripting elements embedded within HTML IMG tag attributes (e.g., onerror, onload event handlers), allowing attackers to execute JavaScript when the image tag is processed by the browser.",
+  "severity": "high",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides user input that is placed into IMG tag attributes in EGRESS[html_output] without a TRANSFORM[attribute_encoding] node that strips or encodes event handler attributes (onerror, onload, onmouseover) and javascript: URIs",
+  "graph_query": "INGRESS→EGRESS[html_img_attribute] without TRANSFORM[attribute_encoding|event_handler_strip]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-83", "CWE-79"],
+  "references": ["https://cwe.mitre.org/data/definitions/82.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

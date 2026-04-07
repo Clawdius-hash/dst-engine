@@ -1,0 +1,16 @@
+{
+  "id": "CWE-615",
+  "name": "Inclusion of Sensitive Information in Source Code Comments",
+  "status": "filled",
+  "description": "Source code comments contain sensitive data like filenames, internal links, credentials, or code fragments that attackers can use to map application structure and develop further attacks.",
+  "severity": "low",
+  "category": "data_protection",
+  "detection_pattern": "STRUCTURAL source code contains META(comments) with sensitive information (paths, credentials, internal URLs) that flows to EGRESS when source is exposed, without CONTROL node enforcing comment sanitization before deployment",
+  "graph_query": "META(sensitive_comments)→EGRESS(source_exposure) without CONTROL(comment_sanitization)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-540", "CWE-546"],
+  "references": ["https://cwe.mitre.org/data/definitions/615.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:45:00Z"
+}

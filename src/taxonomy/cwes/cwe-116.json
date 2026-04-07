@@ -1,0 +1,18 @@
+{
+  "id": "CWE-116",
+  "name": "Improper Encoding or Escaping of Output",
+  "status": "implemented",
+  "description": "The product prepares a structured message for another component but fails to properly encode or escape the data, allowing attackers to alter the message's intended structure and inject special characters that change downstream interpretation.",
+  "severity": "high",
+  "category": "input_output",
+  "detection_pattern": "Data flows from any node to an EGRESS or EXTERNAL node that outputs to a structured context (HTML, SQL, shell, logs) without passing through a TRANSFORM node that performs context-appropriate encoding or escaping",
+  "graph_query": "INGRESS→EGRESS|EXTERNAL[structured_output] without TRANSFORM[output_encoding]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": true,
+  "related_cwes": ["CWE-707", "CWE-117", "CWE-644", "CWE-838", "CWE-74"],
+  "references": ["https://cwe.mitre.org/data/definitions/116.html"],
+  "implemented_in": ["verifier.ts"],
+  "verified_at": "2026-03-23T00:00:00Z",
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

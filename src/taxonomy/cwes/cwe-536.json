@@ -1,0 +1,16 @@
+{
+  "id": "CWE-536",
+  "name": "Servlet Runtime Error Message Containing Sensitive Information",
+  "status": "filled",
+  "description": "A servlet runtime error message indicates an unhandled exception and may expose sensitive information such as file paths, database details, or internal code structure to an attacker.",
+  "severity": "medium",
+  "category": "error_handling",
+  "detection_pattern": "EXTERNAL[servlet_runtime] or STRUCTURAL[exception_handler] producing error output that flows to EGRESS without a TRANSFORM node that masks sensitive details. The error path bypasses sanitization and reaches the user directly.",
+  "graph_query": "EXTERNAL[servlet]→EGRESS without TRANSFORM[error_sanitize]",
+  "owasp_top10": "A05:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-211", "CWE-209"],
+  "references": ["https://cwe.mitre.org/data/definitions/536.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

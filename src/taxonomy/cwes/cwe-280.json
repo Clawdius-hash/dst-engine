@@ -1,0 +1,16 @@
+{
+  "id": "CWE-280",
+  "name": "Improper Handling of Insufficient Permissions or Privileges",
+  "status": "filled",
+  "description": "The product does not properly handle situations where it lacks adequate access rights to resources or system functions as defined by their permission settings. This can force the application into unanticipated execution paths, potentially leaving the system in a compromised or unstable state.",
+  "severity": "medium",
+  "category": "error_handling",
+  "detection_pattern": "Look for AUTH nodes (permission checks, access right verifications) that return access-denied results flowing to TRANSFORM or CONTROL nodes (continued execution, fallback paths) without a CONTROL mediator (permission-denied handler, fail-secure logic, graceful denial path) that ensures the system handles the insufficient-permission condition securely rather than entering an undefined state.",
+  "graph_query": "AUTH(permission_check_denied)→TRANSFORM(execution_path) without CONTROL(permission_denied_handler)",
+  "owasp_top10": "A04:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-755", "CWE-636", "CWE-274"],
+  "references": ["https://cwe.mitre.org/data/definitions/280.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

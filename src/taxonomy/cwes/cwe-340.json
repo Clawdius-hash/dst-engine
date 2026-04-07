@@ -1,0 +1,16 @@
+{
+  "id": "CWE-340",
+  "name": "Generation of Predictable Numbers or Identifiers",
+  "status": "filled",
+  "description": "The product uses a scheme that generates numbers or identifiers that are more predictable than required. This is a class-level weakness encompassing various forms of predictable value generation that can undermine security mechanisms relying on randomness.",
+  "severity": "high",
+  "category": "cryptography",
+  "detection_pattern": "TRANSFORM[number_generation] or TRANSFORM[id_generation] produces values used in AUTH[session_token], AUTH[csrf_token], EGRESS[api_key], or STORAGE[secret] without adequate randomness. Look for predictable generation schemes feeding into any security-sensitive node where unpredictability is required.",
+  "graph_query": "TRANSFORM[predictable_generator]→AUTH[security_token] without TRANSFORM[csprng]",
+  "owasp_top10": "A02:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-330", "CWE-341", "CWE-342", "CWE-343", "CWE-384"],
+  "references": ["https://cwe.mitre.org/data/definitions/340.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:20:00Z"
+}

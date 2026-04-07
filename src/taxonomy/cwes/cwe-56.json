@@ -1,0 +1,16 @@
+{
+  "id": "CWE-56",
+  "name": "Path Equivalence: 'filedir*' (Wildcard)",
+  "status": "filled",
+  "description": "The product does not properly handle wildcard characters ('*', '?') in path input, which may be expanded by the filesystem or shell to match unintended files, allowing attackers to bypass access controls or access multiple files at once.",
+  "severity": "medium",
+  "category": "file_handling",
+  "detection_pattern": "INGRESS node provides a path containing wildcard characters (* or ?) that flows to STORAGE[file_access] where the filesystem or shell expands the glob pattern, without a CONTROL node that rejects or escapes wildcard characters before file operations",
+  "graph_query": "INGRESS[path 'file*']→STORAGE[file_access] without CONTROL[reject_wildcards]",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-41", "CWE-155"],
+  "references": ["https://cwe.mitre.org/data/definitions/56.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

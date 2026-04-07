@@ -1,0 +1,16 @@
+{
+  "id": "CWE-224",
+  "name": "Obscured Security-relevant Information by Alternate Name",
+  "status": "filled",
+  "description": "The product logs security events using alternate names rather than canonical names, allowing attackers to obscure their actions. For example, logging a symbolic link name instead of the actual file path being accessed enables an attacker to hide privilege escalation or unauthorized access.",
+  "severity": "medium",
+  "category": "logging",
+  "detection_pattern": "Look for INGRESS nodes (file access, resource requests via symlinks or aliases) flowing to STORAGE nodes (audit logs) without a TRANSFORM node (name canonicalization, symlink resolution) that resolves alternate names to canonical resource identifiers before logging.",
+  "graph_query": "INGRESS(alternate_name)→STORAGE(audit_log) without TRANSFORM(name_canonicalization)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-221", "CWE-59"],
+  "references": ["https://cwe.mitre.org/data/definitions/224.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

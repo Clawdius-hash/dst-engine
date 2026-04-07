@@ -1,0 +1,16 @@
+{
+  "id": "CWE-748",
+  "name": "Category: CERT C Secure Coding Standard (2008) Appendix - POSIX (POS)",
+  "status": "needs_review",
+  "description": "Category grouping weaknesses related to POSIX rules from the CERT C Secure Coding Standard (2008). Covers link following, improper null termination, dangerous functions, least privilege violations, race conditions, thread safety, improper locking, and incorrect behavior order.",
+  "severity": "low",
+  "category": "configuration",
+  "detection_pattern": "N/A — category",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-734", "CWE-59", "CWE-170", "CWE-242", "CWE-272", "CWE-273", "CWE-363", "CWE-366", "CWE-562", "CWE-667", "CWE-686", "CWE-696"],
+  "references": ["https://cwe.mitre.org/data/definitions/748.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:15:00Z"
+}

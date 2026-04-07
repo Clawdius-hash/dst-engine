@@ -1,0 +1,16 @@
+{
+  "id": "CWE-746",
+  "name": "Category: CERT C Secure Coding Standard (2008) Chapter 13 - Error Handling (ERR)",
+  "status": "needs_review",
+  "description": "Category grouping weaknesses related to error handling rules from the CERT C Secure Coding Standard (2008). Covers unchecked error conditions, missing standardized error handling, use of potentially dangerous functions, and incorrect control flow scoping.",
+  "severity": "low",
+  "category": "error_handling",
+  "detection_pattern": "N/A — category",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-734", "CWE-20", "CWE-391", "CWE-544", "CWE-676", "CWE-705"],
+  "references": ["https://cwe.mitre.org/data/definitions/746.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:15:00Z"
+}

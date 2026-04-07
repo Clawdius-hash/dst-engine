@@ -1,0 +1,16 @@
+{
+  "id": "CWE-781",
+  "name": "Improper Address Validation in IOCTL with METHOD_NEITHER I/O Control Code",
+  "status": "filled",
+  "description": "The product defines an IOCTL that uses METHOD_NEITHER for I/O but fails to validate the supplied memory addresses. Without proper address validation, attackers can supply arbitrary memory addresses leading to privilege escalation or system crashes.",
+  "severity": "high",
+  "category": "input_output",
+  "detection_pattern": "INGRESS node (IOCTL request with METHOD_NEITHER) provides memory addresses that flow to a TRANSFORM or STORAGE node performing memory operations without a CONTROL node that validates address ranges.",
+  "graph_query": "INGRESS[ioctl_request]→TRANSFORM[memory_access] without CONTROL[address_validation]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-1285", "CWE-822", "CWE-782"],
+  "references": ["https://cwe.mitre.org/data/definitions/781.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

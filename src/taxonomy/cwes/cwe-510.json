@@ -1,0 +1,16 @@
+{
+  "id": "CWE-510",
+  "name": "Trapdoor",
+  "status": "filled",
+  "description": "A hidden piece of code responds to special input to grant access to resources without passing through normal security enforcement mechanisms, bypassing authentication and authorization controls.",
+  "severity": "critical",
+  "category": "authentication",
+  "detection_pattern": "STRUCTURAL node contains hidden AUTH bypass that responds to special INGRESS input, allowing direct access to STORAGE or CONTROL without passing through normal AUTH chain",
+  "graph_query": "INGRESS(special_input)→STRUCTURAL(hidden_bypass)→CONTROL(privileged_access) without AUTH(normal_enforcement)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-506"],
+  "references": ["https://cwe.mitre.org/data/definitions/510.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:05:00Z"
+}

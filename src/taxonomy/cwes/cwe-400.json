@@ -1,0 +1,18 @@
+{
+  "id": "CWE-400",
+  "name": "Uncontrolled Resource Consumption",
+  "status": "implemented",
+  "description": "The product does not properly control the allocation and maintenance of a limited resource, allowing an attacker to exhaust available resources (memory, CPU, connections, file descriptors) and cause denial of service.",
+  "severity": "high",
+  "category": "reliability",
+  "detection_pattern": "INGRESS node triggers resource allocation at TRANSFORM or STORAGE nodes (thread creation, memory allocation, file handle opening, connection pooling) without a CONTROL node enforcing limits, quotas, throttling, or timeouts on the total resources consumed",
+  "graph_query": "INGRESS→TRANSFORM|STORAGE[resource_alloc] without CONTROL[resource_limit|throttle]",
+  "owasp_top10": null,
+  "sans_top25": true,
+  "related_cwes": ["CWE-664", "CWE-770", "CWE-771", "CWE-779", "CWE-405"],
+  "references": ["https://cwe.mitre.org/data/definitions/400.html"],
+  "implemented_in": ["verifier.ts"],
+  "verified_at": "2026-03-23T00:00:00Z",
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

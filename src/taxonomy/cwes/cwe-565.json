@@ -1,0 +1,16 @@
+{
+  "id": "CWE-565",
+  "name": "Reliance on Cookies without Validation and Integrity Checking",
+  "status": "filled",
+  "description": "The application relies on cookie values for security-critical operations without verifying their integrity or that the cookie belongs to the associated user. Attackers can easily manipulate cookies to escalate privileges or bypass access controls.",
+  "severity": "high",
+  "category": "authentication",
+  "detection_pattern": "INGRESS node (cookie data from client) flows directly to AUTH or CONTROL decision nodes without a TRANSFORM node that validates integrity (e.g., HMAC, digital signature). The application trusts client-supplied cookie values for authorization decisions.",
+  "graph_query": "INGRESS(cookie)→AUTH|CONTROL without TRANSFORM(integrity_check)",
+  "owasp_top10": "A08:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-602", "CWE-642", "CWE-669", "CWE-784"],
+  "references": ["https://cwe.mitre.org/data/definitions/565.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-688",
+  "name": "Function Call With Incorrect Variable or Reference as Argument",
+  "status": "filled",
+  "description": "The product calls a function but specifies an incorrect variable or reference as an argument, typically due to programmer typos or copy-paste mistakes. This can cause the function to operate on unintended data, leading to undefined behavior.",
+  "severity": "medium",
+  "category": "api",
+  "detection_pattern": "TRANSFORM[function_call] node passes an incorrect STORAGE[variable] reference to TRANSFORM[callee] or EXTERNAL node, where the wrong variable is used in place of the intended one due to naming similarity or scope confusion",
+  "graph_query": "TRANSFORM[function_call]→TRANSFORM[callee] without META[variable_reference_check]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-628"],
+  "references": ["https://cwe.mitre.org/data/definitions/688.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-477",
+  "name": "Use of Obsolete Function",
+  "status": "filled",
+  "description": "The code uses deprecated or obsolete functions that have been replaced by newer, more secure counterparts. This indicates the code has not been actively maintained and may inherit known vulnerabilities from the obsolete function's implementation.",
+  "severity": "medium",
+  "category": "api",
+  "detection_pattern": "A TRANSFORM node or EXTERNAL node invokes a function flagged as deprecated or obsolete in its API specification without a STRUCTURAL[updated_replacement] mediator indicating the function has been replaced with a current, secure alternative.",
+  "graph_query": "TRANSFORM[deprecated_call]→EXTERNAL[obsolete_function] without STRUCTURAL[updated_replacement]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-710"],
+  "references": ["https://cwe.mitre.org/data/definitions/477.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

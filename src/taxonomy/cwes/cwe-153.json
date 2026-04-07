@@ -1,0 +1,16 @@
+{
+  "id": "CWE-153",
+  "name": "Improper Neutralization of Substitution Characters",
+  "status": "filled",
+  "description": "The product does not properly neutralize substitution characters (e.g., $, %, {{}}, backtick) in user input that a downstream component interprets as variable or expression substitution triggers, allowing attackers to inject variable references or expressions.",
+  "severity": "high",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides user-controlled data containing substitution trigger characters ($, %, {{}}) that flows to EXTERNAL[template_engine|shell|interpreter] without a TRANSFORM[substitution_escape] that escapes or quotes the substitution characters",
+  "graph_query": "INGRESS[substitution_chars]→EXTERNAL[interpreter] without TRANSFORM[substitution_escape]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-138"],
+  "references": ["https://cwe.mitre.org/data/definitions/153.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

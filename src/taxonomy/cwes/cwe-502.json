@@ -1,0 +1,18 @@
+{
+  "id": "CWE-502",
+  "name": "Deserialization of Untrusted Data",
+  "status": "implemented",
+  "description": "The product deserializes untrusted data without sufficient validation, allowing attackers to craft malicious serialized objects that execute arbitrary code, modify application state, or trigger denial of service during the deserialization process.",
+  "severity": "critical",
+  "category": "input_output",
+  "detection_pattern": "INGRESS node provides serialized data that flows to a TRANSFORM[deserialization] node (readObject, pickle.loads, unserialize, JSON.parse with reviver, yaml.load) without passing through a CONTROL node that validates, allowlists, or restricts the types and structure of objects being deserialized",
+  "graph_query": "INGRESS→TRANSFORM[deserialization] without CONTROL[type_allowlist]",
+  "owasp_top10": "A08:2021",
+  "sans_top25": true,
+  "related_cwes": ["CWE-913", "CWE-915"],
+  "references": ["https://cwe.mitre.org/data/definitions/502.html"],
+  "implemented_in": ["verifier.ts"],
+  "verified_at": "2026-03-23T00:00:00Z",
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-383",
+  "name": "J2EE Bad Practices: Direct Use of Threads",
+  "status": "filled",
+  "description": "The J2EE web application directly creates and manages threads, violating the J2EE standard and introducing risks of deadlocks, race conditions, and synchronization errors that interfere with the container's thread management.",
+  "severity": "medium",
+  "category": "concurrency",
+  "detection_pattern": "TRANSFORM node in web application context directly instantiates Thread or implements Runnable without using container-managed STRUCTURAL concurrency utilities (ExecutorService, ManagedExecutorService)",
+  "graph_query": "TRANSFORM(direct_thread_creation) without STRUCTURAL(container_managed_concurrency)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-695"],
+  "references": ["https://cwe.mitre.org/data/definitions/383.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:05:00Z"
+}

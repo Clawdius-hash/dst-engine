@@ -1,0 +1,16 @@
+{
+  "id": "CWE-761",
+  "name": "Free of Pointer not at Start of Buffer",
+  "status": "filled",
+  "description": "The product calls free() on a pointer to heap-allocated memory where the pointer has been moved via arithmetic and no longer references the start of the buffer, causing memory corruption, crashes, or potential code execution.",
+  "severity": "high",
+  "category": "memory",
+  "detection_pattern": "TRANSFORM(pointer_arithmetic) modifies a pointer originally returned by TRANSFORM(malloc/allocation), then TRANSFORM(free) is called on the modified pointer without restoring it to the original buffer start. Look for pointer movement between allocation and deallocation.",
+  "graph_query": "TRANSFORM(allocation)→TRANSFORM(pointer_arithmetic)→TRANSFORM(free) without TRANSFORM(restore_original_pointer)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-763", "CWE-404"],
+  "references": ["https://cwe.mitre.org/data/definitions/761.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:15:00Z"
+}

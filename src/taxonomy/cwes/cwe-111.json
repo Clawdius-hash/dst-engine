@@ -1,0 +1,16 @@
+{
+  "id": "CWE-111",
+  "name": "Direct Use of Unsafe JNI",
+  "status": "filled",
+  "description": "A Java application directly uses JNI (Java Native Interface) to call native C/C++ code, bypassing Java's memory safety protections and exposing the application to buffer overflows, use-after-free, and other native code vulnerabilities.",
+  "severity": "high",
+  "category": "memory",
+  "detection_pattern": "STRUCTURAL[java_class] contains JNI native method declarations that bridge to EXTERNAL[native_code] written in C/C++ without memory safety guarantees, creating a path where INGRESS[java_data] crosses into unsafe native code that lacks bounds checking, type safety, or memory management protections",
+  "graph_query": "STRUCTURAL[jni_native_method]→EXTERNAL[native_c_code] without CONTROL[memory_safety]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-695", "CWE-119"],
+  "references": ["https://cwe.mitre.org/data/definitions/111.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

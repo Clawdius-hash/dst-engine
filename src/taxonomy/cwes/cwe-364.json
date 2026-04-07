@@ -1,0 +1,16 @@
+{
+  "id": "CWE-364",
+  "name": "Signal Handler Race Condition",
+  "status": "filled",
+  "description": "The product uses a signal handler that introduces a race condition by calling non-reentrant functions or performing state-sensitive operations that may be invoked asynchronously at unpredictable times, potentially corrupting state or enabling code execution.",
+  "severity": "high",
+  "category": "concurrency",
+  "detection_pattern": "CONTROL node registers a signal handler containing calls to non-reentrant TRANSFORM functions or shared STORAGE access, creating race condition when signal interrupts normal execution flow",
+  "graph_query": "CONTROL(signal_handler)→TRANSFORM(non_reentrant) without CONTROL(signal_masking)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-362", "CWE-432", "CWE-828", "CWE-123", "CWE-415", "CWE-416"],
+  "references": ["https://cwe.mitre.org/data/definitions/364.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:40:00Z"
+}

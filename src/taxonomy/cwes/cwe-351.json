@@ -1,0 +1,16 @@
+{
+  "id": "CWE-351",
+  "name": "Insufficient Type Distinction",
+  "status": "filled",
+  "description": "The product does not properly distinguish between different types of elements in a way that leads to insecure behavior, potentially treating dissimilar entities as equivalent and bypassing security controls.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "INGRESS node accepts multiple element types that flow to a CONTROL or AUTH node without a TRANSFORM node performing type validation or distinction between element categories",
+  "graph_query": "INGRESS(mixed_types)→CONTROL(action) without TRANSFORM(type_distinction)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-345", "CWE-434", "CWE-436"],
+  "references": ["https://cwe.mitre.org/data/definitions/351.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:25:00Z"
+}

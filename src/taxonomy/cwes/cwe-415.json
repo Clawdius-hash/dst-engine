@@ -1,0 +1,16 @@
+{
+  "id": "CWE-415",
+  "name": "Double Free",
+  "status": "filled",
+  "description": "The product calls free() twice on the same memory address, corrupting memory management data structures. This can allow attackers to overwrite arbitrary memory, execute arbitrary code, or crash the application.",
+  "severity": "high",
+  "category": "memory",
+  "detection_pattern": "TRANSFORM node performing memory deallocation (free, delete) on a pointer that has already been deallocated by a prior TRANSFORM node along any reachable code path, without a CONTROL node resetting or nullifying the pointer between the two operations",
+  "graph_query": "TRANSFORM[mem_free]→TRANSFORM[mem_free_same_ptr] without CONTROL[ptr_nullify]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-416", "CWE-123", "CWE-666", "CWE-825", "CWE-1341"],
+  "references": ["https://cwe.mitre.org/data/definitions/415.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:25:00Z"
+}

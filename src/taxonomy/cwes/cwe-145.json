@@ -1,0 +1,16 @@
+{
+  "id": "CWE-145",
+  "name": "Improper Neutralization of Section Delimiters",
+  "status": "filled",
+  "description": "The product does not properly neutralize characters that function as section delimiters (e.g., double newlines separating HTTP headers from body, blank lines between INI sections) in user input, allowing attackers to inject new sections or alter section boundaries.",
+  "severity": "high",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides user-controlled data containing section delimiter sequences that flows to TRANSFORM[section_oriented_output] without a TRANSFORM[section_delimiter_escape] that prevents the creation of unintended section boundaries in the output",
+  "graph_query": "INGRESS[section_delimiters]→TRANSFORM[section_output] without TRANSFORM[section_delimiter_escape]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-140", "CWE-93"],
+  "references": ["https://cwe.mitre.org/data/definitions/145.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

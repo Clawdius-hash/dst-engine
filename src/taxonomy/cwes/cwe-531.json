@@ -1,0 +1,16 @@
+{
+  "id": "CWE-531",
+  "name": "Inclusion of Sensitive Information in Test Code",
+  "status": "filled",
+  "description": "Test code deployed to production contains sensitive data including administrative functions, credentials, session identifiers, and system configuration details that developers assumed would only be accessed by authorized users.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "STRUCTURAL node deploys test code containing hardcoded STORAGE credentials or admin CONTROL functions to production EGRESS without META node enforcing test code removal before deployment",
+  "graph_query": "STRUCTURAL(test_code)→EGRESS(production) without META(test_code_removal)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-540"],
+  "references": ["https://cwe.mitre.org/data/definitions/531.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:25:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-757",
+  "name": "Selection of Less-Secure Algorithm During Negotiation ('Algorithm Downgrade')",
+  "status": "filled",
+  "description": "A system that negotiates security algorithms with another party selects a less-secure algorithm than the strongest mutually supported option, enabling attackers to exploit weaker cryptographic protections through protocol manipulation.",
+  "severity": "high",
+  "category": "cryptography",
+  "detection_pattern": "EXTERNAL(peer_system) negotiates with TRANSFORM(algorithm_selection) but CONTROL node does not enforce minimum algorithm strength. Look for INGRESS(negotiation_request) flowing to TRANSFORM(algorithm_select) without CONTROL(minimum_strength_check) before TRANSFORM(crypto_operation).",
+  "graph_query": "INGRESS(negotiation)→TRANSFORM(algorithm_selection) without CONTROL(minimum_algorithm_strength_enforcement)",
+  "owasp_top10": "A02:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-693", "CWE-1328", "CWE-300"],
+  "references": ["https://cwe.mitre.org/data/definitions/757.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:15:00Z"
+}

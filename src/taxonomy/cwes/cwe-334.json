@@ -1,0 +1,16 @@
+{
+  "id": "CWE-334",
+  "name": "Small Space of Random Values",
+  "status": "filled",
+  "description": "The number of possible random values is smaller than needed by the product, making it more susceptible to brute force attacks. An attacker could easily guess the values used, potentially leading to unauthorized access if the random values are used for authentication, session identifiers, or cryptographic operations.",
+  "severity": "high",
+  "category": "cryptography",
+  "detection_pattern": "Look for TRANSFORM[random_generation] or EXTERNAL[prng] nodes that produce values with insufficient bit-length or constrained output ranges, flowing into AUTH[session_id|token] or CONTROL[access_decision] nodes. The random value space is too small to resist brute-force enumeration, and no CONTROL[rate_limiting] or TRANSFORM[entropy_expansion] mediator exists to compensate.",
+  "graph_query": "TRANSFORM[small_random_space]→AUTH[token|session] without CONTROL[rate_limit|entropy_check]",
+  "owasp_top10": "A02:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-330", "CWE-6", "CWE-338"],
+  "references": ["https://cwe.mitre.org/data/definitions/334.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:20:00Z"
+}

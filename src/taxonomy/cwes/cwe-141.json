@@ -1,0 +1,16 @@
+{
+  "id": "CWE-141",
+  "name": "Improper Neutralization of Parameter/Argument Delimiters",
+  "status": "filled",
+  "description": "The product does not properly neutralize special characters that function as parameter or argument delimiters (e.g., '&', '=', ';' in query strings) in user input, allowing attackers to inject additional parameters or alter existing ones.",
+  "severity": "high",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides user-controlled data containing parameter delimiter characters that flows into TRANSFORM[parameter_construction] or EGRESS[query_string] without a TRANSFORM[delimiter_encode] node that URL-encodes or escapes the delimiter characters",
+  "graph_query": "INGRESS[param_delimiters]→TRANSFORM[param_construction] without TRANSFORM[delimiter_encode]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-140", "CWE-138"],
+  "references": ["https://cwe.mitre.org/data/definitions/141.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

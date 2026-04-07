@@ -1,0 +1,16 @@
+{
+  "id": "CWE-670",
+  "name": "Always-Incorrect Control Flow Implementation",
+  "status": "filled",
+  "description": "The code contains a control flow path that does not reflect the algorithm the path is intended to implement, leading to incorrect behavior any time this path is navigated. Examples include missing braces in conditionals or incorrect operator usage.",
+  "severity": "medium",
+  "category": "reliability",
+  "detection_pattern": "CONTROL node implements logic that always produces incorrect results regardless of input, such as missing CONTROL[branch] delimiters, wrong CONTROL[operator], or unreachable TRANSFORM nodes in conditional paths",
+  "graph_query": "CONTROL[conditional]→TRANSFORM[unintended_path] without CONTROL[correct_delimiter]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-691", "CWE-480", "CWE-483", "CWE-484", "CWE-698"],
+  "references": ["https://cwe.mitre.org/data/definitions/670.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:00:00Z"
+}

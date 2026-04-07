@@ -1,0 +1,16 @@
+{
+  "id": "CWE-339",
+  "name": "Small Seed Space in PRNG",
+  "status": "filled",
+  "description": "A Pseudo-Random Number Generator (PRNG) uses a relatively small seed space, making it susceptible to brute force attacks. Since PRNGs are deterministic once seeded, an attacker who collects outputs can test all possible seeds until finding a match, then predict all subsequent outputs.",
+  "severity": "medium",
+  "category": "cryptography",
+  "detection_pattern": "TRANSFORM[prng_seeding] receives a seed value from a source with limited entropy (e.g., EXTERNAL[time], STRUCTURAL[pid], or a small constant range), then feeds into EGRESS or AUTH nodes. The seed space is insufficiently large, allowing brute-force enumeration of all possible seed values to predict PRNG output used in security-sensitive contexts.",
+  "graph_query": "TRANSFORM[prng_seed]→EGRESS[token_or_key] without TRANSFORM[entropy_expansion]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-335", "CWE-341", "CWE-330"],
+  "references": ["https://cwe.mitre.org/data/definitions/339.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:20:00Z"
+}

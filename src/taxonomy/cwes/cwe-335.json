@@ -1,0 +1,16 @@
+{
+  "id": "CWE-335",
+  "name": "Incorrect Usage of Seeds in Pseudo-Random Number Generator (PRNG)",
+  "status": "filled",
+  "description": "The product uses a Pseudo-Random Number Generator (PRNG) but does not correctly manage seeds. PRNGs are deterministic, so if a seed is reused, predictable, or insufficiently protected, the entire output sequence becomes predictable, allowing attackers to bypass protection mechanisms.",
+  "severity": "high",
+  "category": "cryptography",
+  "detection_pattern": "Look for EXTERNAL[prng_init] or TRANSFORM[seed_generation] nodes where the seed value fed into a TRANSFORM[prng] is not sourced from a cryptographically secure EXTERNAL[csprng|entropy_source] node. The seed may come from a predictable INGRESS[system_time|process_id] or STORAGE[hardcoded_seed], flowing into AUTH[token_generation] or CONTROL[crypto_operation] without a TRANSFORM[secure_seed_derivation] mediator.",
+  "graph_query": "INGRESS|STORAGE[predictable_seed]→TRANSFORM[prng] without EXTERNAL[csprng|secure_entropy]",
+  "owasp_top10": "A02:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-330", "CWE-336", "CWE-337", "CWE-339"],
+  "references": ["https://cwe.mitre.org/data/definitions/335.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:20:00Z"
+}

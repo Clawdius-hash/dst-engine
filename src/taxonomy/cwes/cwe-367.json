@@ -1,0 +1,16 @@
+{
+  "id": "CWE-367",
+  "name": "Time-of-check Time-of-use (TOCTOU) Race Condition",
+  "status": "filled",
+  "description": "The product checks the state of a resource before using it, but the resource's state can change between the check and the use in a way that invalidates the results of the check, allowing attackers to manipulate resources after validation but before use.",
+  "severity": "medium",
+  "category": "concurrency",
+  "detection_pattern": "CONTROL node checks resource state then separate TRANSFORM or STORAGE node uses that resource, with a time gap between check and use that allows external modification",
+  "graph_query": "CONTROL(resource_check)→TRANSFORM(resource_use) without CONTROL(atomic_check_and_use)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-362", "CWE-363", "CWE-386"],
+  "references": ["https://cwe.mitre.org/data/definitions/367.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:45:00Z"
+}

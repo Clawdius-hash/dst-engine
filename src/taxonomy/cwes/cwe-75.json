@@ -1,0 +1,16 @@
+{
+  "id": "CWE-75",
+  "name": "Failure to Sanitize Special Elements into a Different Plane (Special Element Injection)",
+  "status": "filled",
+  "description": "The product does not adequately filter user-controlled input for special elements with control-plane implications, allowing attackers to inject elements that alter the intended processing of data in a downstream component.",
+  "severity": "high",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides data containing special elements (metacharacters, control characters, delimiters) that flows to EGRESS or EXTERNAL[downstream] without a TRANSFORM node that filters or encodes the special elements into the data plane before they reach the control plane of the downstream component",
+  "graph_query": "INGRESS[special_elements]→EGRESS|EXTERNAL[downstream] without TRANSFORM[plane_separation]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-74", "CWE-76"],
+  "references": ["https://cwe.mitre.org/data/definitions/75.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

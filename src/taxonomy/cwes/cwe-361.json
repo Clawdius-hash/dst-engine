@@ -1,0 +1,16 @@
+{
+  "id": "CWE-361",
+  "name": "7PK - Time and State",
+  "status": "needs_review",
+  "description": "Category-level CWE covering weaknesses related to improper time and state management in concurrent computing. This is an organizational grouping (Seven Pernicious Kingdoms), not a concrete weakness — vulnerability mapping is prohibited.",
+  "severity": "low",
+  "category": "concurrency",
+  "detection_pattern": "N/A — category CWE, not a concrete weakness",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-362", "CWE-364", "CWE-367", "CWE-377", "CWE-384"],
+  "references": ["https://cwe.mitre.org/data/definitions/361.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:40:00Z"
+}

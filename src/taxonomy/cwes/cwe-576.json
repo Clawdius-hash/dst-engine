@@ -1,0 +1,16 @@
+{
+  "id": "CWE-576",
+  "name": "EJB Bad Practices: Use of Java I/O",
+  "status": "filled",
+  "description": "An Enterprise JavaBean uses the java.io package to access the file system, violating the EJB specification. File system APIs are not well-suited for business components; resource manager APIs such as JDBC should be used instead for data access.",
+  "severity": "medium",
+  "category": "file_handling",
+  "detection_pattern": "STRUCTURAL node within an EJB context that performs file I/O operations via EXTERNAL calls to java.io classes. Look for STORAGE or EXTERNAL nodes accessing the file system directly from within bean code instead of using container-managed resource APIs.",
+  "graph_query": "STRUCTURAL[EJB]→EXTERNAL[java.io] without EXTERNAL[resource_manager_API]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-695"],
+  "references": ["https://cwe.mitre.org/data/definitions/576.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-379",
+  "name": "Creation of Temporary File in Directory with Insecure Permissions",
+  "status": "filled",
+  "description": "The product creates temporary files in a directory with overly permissive access controls, allowing unauthorized users to discover the file's existence, access its contents, or learn about user activities.",
+  "severity": "low",
+  "category": "file_handling",
+  "detection_pattern": "TRANSFORM node creates temporary file in a shared STORAGE directory (e.g., /tmp) without CONTROL node verifying directory permissions or using a private temporary directory",
+  "graph_query": "TRANSFORM(temp_file_create)→STORAGE(shared_directory) without CONTROL(directory_permission_check)",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-377"],
+  "references": ["https://cwe.mitre.org/data/definitions/379.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-457",
+  "name": "Use of Uninitialized Variable",
+  "status": "filled",
+  "description": "The code uses a variable that has not been initialized, leading to unpredictable or unintended results. In languages like C and C++, stack variables contain junk data by default, potentially allowing attackers to read sensitive memory contents or influence control flow.",
+  "severity": "high",
+  "category": "memory",
+  "detection_pattern": "STORAGE node (variable) flows to a TRANSFORM, CONTROL, or EGRESS node without a preceding TRANSFORM(assignment) node. In memory-unsafe languages, the STORAGE node may contain residual data from previous operations, creating paths to denial of service, information disclosure, or code execution.",
+  "graph_query": "STORAGE(uninitialized_var)→EGRESS(output) without TRANSFORM(assignment)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-908", "CWE-665", "CWE-456"],
+  "references": ["https://cwe.mitre.org/data/definitions/457.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

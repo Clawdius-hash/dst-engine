@@ -1,0 +1,16 @@
+{
+  "id": "CWE-363",
+  "name": "Race Condition Enabling Link Following",
+  "status": "filled",
+  "description": "The product checks a file's status and then accesses it, creating a race condition window where an attacker can replace the file with a symbolic link between the check and the use, redirecting access to an unintended target.",
+  "severity": "medium",
+  "category": "concurrency",
+  "detection_pattern": "CONTROL node performs file status check followed by a separate STORAGE or INGRESS node accessing the same file path, without atomic check-and-use operation, allowing TOCTOU window for symlink substitution",
+  "graph_query": "CONTROL(file_check)→STORAGE(file_access) without CONTROL(atomic_operation)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-367", "CWE-59"],
+  "references": ["https://cwe.mitre.org/data/definitions/363.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:40:00Z"
+}

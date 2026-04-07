@@ -1,0 +1,16 @@
+{
+  "id": "CWE-353",
+  "name": "Missing Support for Integrity Check",
+  "status": "filled",
+  "description": "The product's transmission protocol lacks mechanisms to verify data integrity such as checksums, making it impossible to detect if data has been corrupted or tampered with during transmission.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "INGRESS node receives data from EXTERNAL source that flows to TRANSFORM or STORAGE without a CONTROL node performing integrity verification (checksum, HMAC, digital signature)",
+  "graph_query": "EXTERNAL→INGRESS→STORAGE without CONTROL(integrity_check)",
+  "owasp_top10": "A08:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-345", "CWE-354"],
+  "references": ["https://cwe.mitre.org/data/definitions/353.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:30:00Z"
+}

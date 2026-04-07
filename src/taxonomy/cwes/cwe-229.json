@@ -1,0 +1,16 @@
+{
+  "id": "CWE-229",
+  "name": "Improper Handling of Values",
+  "status": "filled",
+  "description": "The product does not properly handle cases where the expected number of values for parameters, fields, or arguments differs from what is provided — values may be missing, extra, or undefined. This can lead to unexpected application state or integrity violations.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "Look for INGRESS nodes (request parameters, form fields, API arguments) flowing to CONTROL or TRANSFORM nodes (business logic, data processing) without a TRANSFORM mediator (value count validation, missing/extra value checks) that ensures the expected number and presence of values before processing.",
+  "graph_query": "INGRESS(parameters)→CONTROL(logic) without TRANSFORM(value_count_validation)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-228", "CWE-230", "CWE-231", "CWE-232"],
+  "references": ["https://cwe.mitre.org/data/definitions/229.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

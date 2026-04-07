@@ -1,0 +1,16 @@
+{
+  "id": "CWE-146",
+  "name": "Improper Neutralization of Expression/Command Delimiters",
+  "status": "filled",
+  "description": "The product does not properly neutralize characters that function as expression or command delimiters (e.g., semicolons, pipes, backticks in shells) in user input, allowing attackers to inject additional expressions or commands.",
+  "severity": "high",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides user-controlled data containing expression/command delimiter characters (;, |, &&, ||, backtick) that flows to EXTERNAL[command_interpreter] or TRANSFORM[expression_eval] without a TRANSFORM[command_delimiter_escape] that neutralizes the delimiters",
+  "graph_query": "INGRESS[command_delimiters]→EXTERNAL[interpreter] without TRANSFORM[command_delimiter_escape]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-140", "CWE-78", "CWE-77"],
+  "references": ["https://cwe.mitre.org/data/definitions/146.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

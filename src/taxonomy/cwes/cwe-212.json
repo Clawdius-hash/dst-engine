@@ -1,0 +1,16 @@
+{
+  "id": "CWE-212",
+  "name": "Improper Removal of Sensitive Information Before Storage or Transfer",
+  "status": "filled",
+  "description": "The product stores or transfers resources containing sensitive data (e.g., documents, packets, images) to unauthorized actors without first removing or redacting that sensitive information, such as metadata, internal addresses, reviewer comments, or EXIF data.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "Look for STORAGE or INGRESS nodes containing sensitive data flowing to EGRESS nodes (file transfer, HTTP response, database export) without a TRANSFORM node (scrubbing/redaction/sanitization) that strips sensitive metadata or fields before the data crosses a trust boundary.",
+  "graph_query": "STORAGE(sensitive_data)→EGRESS(transfer) without TRANSFORM(redact_sensitive)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-669", "CWE-226", "CWE-201", "CWE-1258"],
+  "references": ["https://cwe.mitre.org/data/definitions/212.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

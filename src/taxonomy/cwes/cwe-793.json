@@ -1,0 +1,16 @@
+{
+  "id": "CWE-793",
+  "name": "Only Filtering One Instance of a Special Element",
+  "status": "filled",
+  "description": "The product filters only a single instance of a special element from upstream data before passing it downstream. This incomplete filtering allows attackers to include multiple instances of dangerous patterns, with all but the first bypassing the filter.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "INGRESS node provides data with repeated special elements that flows through a CONTROL node (single-instance filter without global flag) to an EGRESS or TRANSFORM node where remaining unfiltered instances persist.",
+  "graph_query": "INGRESS→CONTROL[single_instance_filter]→EGRESS without CONTROL[all_instance_filter]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-792", "CWE-794"],
+  "references": ["https://cwe.mitre.org/data/definitions/793.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

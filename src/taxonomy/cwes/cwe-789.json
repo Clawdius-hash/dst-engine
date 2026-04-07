@@ -1,0 +1,16 @@
+{
+  "id": "CWE-789",
+  "name": "Memory Allocation with Excessive Size Value",
+  "status": "filled",
+  "description": "The product allocates memory based on an untrusted size value without ensuring it is within expected limits, allowing arbitrary amounts of memory to be allocated. This can lead to denial-of-service through resource exhaustion or subsequent NULL pointer dereferences.",
+  "severity": "high",
+  "category": "memory",
+  "detection_pattern": "INGRESS node provides a size value that flows to a TRANSFORM node (memory allocation function) without a CONTROL node validating the size is within acceptable bounds before allocation.",
+  "graph_query": "INGRESS[size_value]→TRANSFORM[memory_allocation] without CONTROL[size_limit_check]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-770", "CWE-1325", "CWE-129", "CWE-476"],
+  "references": ["https://cwe.mitre.org/data/definitions/789.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

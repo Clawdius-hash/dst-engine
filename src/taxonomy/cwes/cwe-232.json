@@ -1,0 +1,16 @@
+{
+  "id": "CWE-232",
+  "name": "Improper Handling of Undefined Values",
+  "status": "filled",
+  "description": "The product does not handle or incorrectly handles when a value is not defined or supported for the associated parameter, field, or argument. Processing undefined values without validation can lead to null pointer dereferences, crashes, or logic errors.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "Look for INGRESS nodes (parameters with potentially undefined or unsupported values) flowing to TRANSFORM or CONTROL nodes (business logic, method calls) without a CONTROL mediator (defined-value check, supported-value validation) that verifies the value is defined and within the expected domain before processing.",
+  "graph_query": "INGRESS(undefined_value)→TRANSFORM(processing) without CONTROL(defined_check)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-229", "CWE-476", "CWE-228"],
+  "references": ["https://cwe.mitre.org/data/definitions/232.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

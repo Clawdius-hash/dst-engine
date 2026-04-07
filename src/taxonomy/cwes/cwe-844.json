@@ -1,0 +1,34 @@
+{
+  "id": "CWE-844",
+  "name": "View: Weaknesses Addressed by The CERT Oracle Secure Coding Standard for Java (2011)",
+  "status": "needs_review",
+  "description": "This is an obsolete View that catalogs weaknesses addressed by the CERT Oracle Secure Coding Standard for Java (2011). It is no longer maintained as a newer version of the coding standard is available.",
+  "severity": "low",
+  "category": "configuration",
+  "detection_pattern": "N/A — view",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": [
+    "CWE-845",
+    "CWE-846",
+    "CWE-847",
+    "CWE-848",
+    "CWE-849",
+    "CWE-850",
+    "CWE-851",
+    "CWE-852",
+    "CWE-853",
+    "CWE-854",
+    "CWE-855",
+    "CWE-856",
+    "CWE-857",
+    "CWE-858",
+    "CWE-859"
+  ],
+  "references": [
+    "https://cwe.mitre.org/data/definitions/844.html"
+  ],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

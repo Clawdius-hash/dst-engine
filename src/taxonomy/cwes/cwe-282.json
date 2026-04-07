@@ -1,0 +1,16 @@
+{
+  "id": "CWE-282",
+  "name": "Improper Ownership Management",
+  "status": "filled",
+  "description": "The product assigns incorrect ownership or fails to properly verify ownership of an object or resource. This can allow unauthorized actors to gain privileges or assume identity through improper access control of owned resources.",
+  "severity": "high",
+  "category": "authorization",
+  "detection_pattern": "Look for STRUCTURAL nodes (resources, processes, objects) with AUTH ownership attributes that are accessed or modified by EXTERNAL nodes (users, processes, actors) without a CONTROL mediator (ownership verification, owner identity check, ownership assignment validation) that verifies the acting entity is the legitimate owner before granting access or control.",
+  "graph_query": "EXTERNAL(actor)→STRUCTURAL(owned_resource) without CONTROL(ownership_verification)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-284", "CWE-283", "CWE-708"],
+  "references": ["https://cwe.mitre.org/data/definitions/282.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

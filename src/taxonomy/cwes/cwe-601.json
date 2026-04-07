@@ -1,0 +1,18 @@
+{
+  "id": "CWE-601",
+  "name": "URL Redirection to Untrusted Site ('Open Redirect')",
+  "status": "implemented",
+  "description": "The web application accepts a user-controlled URL parameter and uses it to redirect users to an external site without validation, enabling phishing attacks where victims trust the original domain but land on a malicious page.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "INGRESS node provides a URL or redirect target that flows to an EGRESS[http_redirect] node (Location header, meta refresh, JavaScript redirect) without passing through a CONTROL node that validates the destination against an allowlist of trusted domains",
+  "graph_query": "INGRESS[url_param]→EGRESS[http_redirect] without CONTROL[url_allowlist]",
+  "owasp_top10": "A01:2021",
+  "sans_top25": true,
+  "related_cwes": ["CWE-610", "CWE-79"],
+  "references": ["https://cwe.mitre.org/data/definitions/601.html"],
+  "implemented_in": ["verifier.ts"],
+  "verified_at": "2026-03-23T00:00:00Z",
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-743",
+  "name": "Category: CERT C Secure Coding Standard (2008) Chapter 10 - Input Output (FIO)",
+  "status": "needs_review",
+  "description": "Category grouping weaknesses related to input/output handling rules from the CERT C Secure Coding Standard (2008). Covers path traversal, link following, format string vulnerabilities, TOCTOU race conditions, insecure temporary file creation, and file descriptor leaks.",
+  "severity": "low",
+  "category": "file_handling",
+  "detection_pattern": "N/A — category",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-734", "CWE-22", "CWE-59", "CWE-134", "CWE-367", "CWE-379", "CWE-403"],
+  "references": ["https://cwe.mitre.org/data/definitions/743.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:15:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-320",
+  "name": "Category: Key Management Errors",
+  "status": "needs_review",
+  "description": "This is a CWE Category (not a weakness) that groups weaknesses related to errors in the management of cryptographic keys, including key exchange, key reuse, and key lifecycle issues. It is marked obsolete and heavily overlaps other categories. Map to specific member weaknesses instead.",
+  "severity": "low",
+  "category": "cryptography",
+  "detection_pattern": "N/A — category",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-322", "CWE-323", "CWE-324", "CWE-798"],
+  "references": ["https://cwe.mitre.org/data/definitions/320.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

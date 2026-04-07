@@ -1,0 +1,16 @@
+{
+  "id": "CWE-780",
+  "name": "Use of RSA Algorithm without OAEP",
+  "status": "filled",
+  "description": "The product uses RSA encryption without Optimal Asymmetric Encryption Padding (OAEP), making it easier for attackers to decrypt data or infer patterns from ciphertext. Padding schemes make plaintext less predictable and complicate attack efforts.",
+  "severity": "high",
+  "category": "cryptography",
+  "detection_pattern": "TRANSFORM node performing RSA encryption flows data to EGRESS or STORAGE without a CONTROL node verifying OAEP padding mode is configured. Look for RSA operations using PKCS#1 v1.5 padding instead of OAEP.",
+  "graph_query": "TRANSFORM[rsa_encrypt]→EGRESS without CONTROL[oaep_padding]",
+  "owasp_top10": "A02:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-327", "CWE-261"],
+  "references": ["https://cwe.mitre.org/data/definitions/780.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

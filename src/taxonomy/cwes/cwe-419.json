@@ -1,0 +1,16 @@
+{
+  "id": "CWE-419",
+  "name": "Unprotected Primary Channel",
+  "status": "filled",
+  "description": "The product uses a primary communication channel for administration or restricted functionality but does not adequately protect that channel, allowing attackers to intercept, modify, or access sensitive operations transmitted over the unprotected channel.",
+  "severity": "high",
+  "category": "configuration",
+  "detection_pattern": "INGRESS or EGRESS node carrying administrative or privileged operations over a primary communication channel (HTTP, unencrypted socket) that reaches an AUTH or CONTROL node without a STRUCTURAL node enforcing channel-level protection (TLS, encryption, VPN)",
+  "graph_query": "INGRESS[admin_channel]→AUTH|CONTROL[privileged_op] without STRUCTURAL[channel_protection]",
+  "owasp_top10": "A04:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-923", "CWE-420"],
+  "references": ["https://cwe.mitre.org/data/definitions/419.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:25:00Z"
+}

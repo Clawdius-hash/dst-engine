@@ -1,0 +1,20 @@
+{
+  "id": "CWE-837",
+  "name": "Improper Enforcement of a Single, Unique Action",
+  "status": "filled",
+  "description": "The product requires that an actor should only be able to perform an action once or have only one unique action, but fails to enforce this restriction, allowing attackers to repeat actions like votes, refunds, or purchases to manipulate outcomes.",
+  "severity": "medium",
+  "category": "authorization",
+  "detection_pattern": "INGRESS[action_request] reaches TRANSFORM[business_action] (vote, purchase, refund) multiple times from the same actor without a CONTROL[uniqueness_enforcement] node (idempotency key, deduplication check, one-time token) preventing repeated execution",
+  "graph_query": "INGRESS[repeated_action]→TRANSFORM[business_action] without CONTROL[uniqueness_check]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": [
+    "CWE-799"
+  ],
+  "references": [
+    "https://cwe.mitre.org/data/definitions/837.html"
+  ],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

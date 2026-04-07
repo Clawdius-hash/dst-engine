@@ -1,0 +1,16 @@
+{
+  "id": "CWE-609",
+  "name": "Double-Checked Locking",
+  "status": "filled",
+  "description": "The product uses double-checked locking to access a resource without sufficient synchronization, where threads outside the synchronized block are not guaranteed to see operations in the correct order, leading to race conditions.",
+  "severity": "medium",
+  "category": "concurrency",
+  "detection_pattern": "CONTROL node checks resource initialization, acquires lock, checks again, then TRANSFORM initializes — but STORAGE visibility across threads is not guaranteed without volatile/memory barrier enforcement",
+  "graph_query": "CONTROL(double_check)→TRANSFORM(initialization)→STORAGE(shared_resource) without CONTROL(memory_barrier)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-667", "CWE-367"],
+  "references": ["https://cwe.mitre.org/data/definitions/609.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:45:00Z"
+}

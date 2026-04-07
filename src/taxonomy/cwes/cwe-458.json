@@ -1,0 +1,16 @@
+{
+  "id": "CWE-458",
+  "name": "DEPRECATED: Incorrect Initialization",
+  "status": "needs_review",
+  "description": "This CWE has been deprecated due to misalignment between its name and description. The original description duplicated CWE-454 content while the name suggested a broader initialization problem. Users should refer to CWE-665 (Improper Initialization) instead.",
+  "severity": "low",
+  "category": "reliability",
+  "detection_pattern": "N/A — deprecated, see CWE-665",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-665", "CWE-454"],
+  "references": ["https://cwe.mitre.org/data/definitions/458.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

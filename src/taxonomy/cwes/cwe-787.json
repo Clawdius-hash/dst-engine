@@ -1,0 +1,16 @@
+{
+  "id": "CWE-787",
+  "name": "Out-of-bounds Write",
+  "status": "filled",
+  "description": "The product writes data past the end or before the beginning of the intended buffer. This memory corruption weakness can lead to code execution, crashes, or data corruption and is one of the most dangerous and prevalent software weaknesses.",
+  "severity": "critical",
+  "category": "memory",
+  "detection_pattern": "INGRESS or TRANSFORM node provides data that flows to a STORAGE node (buffer write) where the write operation exceeds buffer boundaries, without a CONTROL node performing bounds checking on the write offset and length.",
+  "graph_query": "INGRESS→STORAGE[buffer_write] without CONTROL[bounds_check]",
+  "owasp_top10": null,
+  "sans_top25": true,
+  "related_cwes": ["CWE-119", "CWE-120", "CWE-121", "CWE-122", "CWE-123", "CWE-124", "CWE-786", "CWE-788"],
+  "references": ["https://cwe.mitre.org/data/definitions/787.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

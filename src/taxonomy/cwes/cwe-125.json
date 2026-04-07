@@ -1,0 +1,16 @@
+{
+  "id": "CWE-125",
+  "name": "Out-of-bounds Read",
+  "status": "filled",
+  "description": "The product reads data past the end or before the beginning of the intended buffer, potentially leaking sensitive information from adjacent memory or causing a crash.",
+  "severity": "high",
+  "category": "memory",
+  "detection_pattern": "TRANSFORM[index_or_length] provides a read offset or length that exceeds the buffer boundaries, causing a STORAGE[buffer_read] to access memory outside the allocated region without a CONTROL[bounds_check] validating the read stays within [0, buffer_size)",
+  "graph_query": "TRANSFORM[index]→STORAGE[buffer_read] without CONTROL[bounds_check]",
+  "owasp_top10": null,
+  "sans_top25": true,
+  "related_cwes": ["CWE-119", "CWE-126", "CWE-127"],
+  "references": ["https://cwe.mitre.org/data/definitions/125.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

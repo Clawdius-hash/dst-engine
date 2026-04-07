@@ -1,0 +1,16 @@
+{
+  "id": "CWE-733",
+  "name": "Compiler Optimization Removal or Modification of Security-critical Code",
+  "status": "filled",
+  "description": "The compiler optimizes away security-critical code (such as memory scrubbing or overflow checks) that appears unused from an optimization perspective but serves essential security purposes.",
+  "severity": "high",
+  "category": "configuration",
+  "detection_pattern": "STRUCTURAL(source_code) contains security-critical TRANSFORM (memory clearing, overflow check) that compiler removes during optimization, leaving STORAGE(sensitive_data) unprotected without META(volatile/optimization_barrier) preventing removal",
+  "graph_query": "STRUCTURAL(security_code)→TRANSFORM(optimized_away) without META(optimization_barrier)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-1038", "CWE-14"],
+  "references": ["https://cwe.mitre.org/data/definitions/733.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:10:00Z"
+}

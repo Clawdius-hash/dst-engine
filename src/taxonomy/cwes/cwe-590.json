@@ -1,0 +1,16 @@
+{
+  "id": "CWE-590",
+  "name": "Free of Memory not on the Heap",
+  "status": "filled",
+  "description": "The product calls free() on a pointer to memory that was not allocated on the heap via malloc(), calloc(), or realloc(). This corrupts the program's memory management data structures, potentially causing crashes or enabling attackers to modify critical program variables or execute arbitrary code.",
+  "severity": "high",
+  "category": "memory",
+  "detection_pattern": "EXTERNAL call to free() where the STORAGE pointer argument was not allocated by a heap allocation function. Look for free() calls on stack-allocated variables, static variables, or pointers obtained from non-heap sources.",
+  "graph_query": "STORAGE[non_heap_pointer]→EXTERNAL[free()] without TRANSFORM[heap_allocation]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-762", "CWE-123"],
+  "references": ["https://cwe.mitre.org/data/definitions/590.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

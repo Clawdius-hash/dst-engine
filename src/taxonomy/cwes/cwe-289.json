@@ -1,0 +1,16 @@
+{
+  "id": "CWE-289",
+  "name": "Authentication Bypass by Alternate Name",
+  "status": "filled",
+  "description": "The product performs authentication based on the name of a resource or actor but does not properly check all possible names for that resource or actor. Attackers can bypass authentication by using alternate naming conventions such as path traversal, URL encoding, or case variations.",
+  "severity": "high",
+  "category": "authentication",
+  "detection_pattern": "Look for AUTH nodes (name-based authentication, resource name check, actor identity validation) that validate against INGRESS nodes (resource names, file paths, user identifiers) without a TRANSFORM mediator (name canonicalization, path normalization, alias resolution) that normalizes all possible name representations before the authentication check.",
+  "graph_query": "INGRESS(alternate_name)→AUTH(name_based_auth) without TRANSFORM(name_canonicalization)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-1390", "CWE-46", "CWE-52", "CWE-173", "CWE-178"],
+  "references": ["https://cwe.mitre.org/data/definitions/289.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

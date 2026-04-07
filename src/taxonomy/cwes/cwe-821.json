@@ -1,0 +1,24 @@
+{
+  "id": "CWE-821",
+  "name": "Incorrect Synchronization",
+  "status": "filled",
+  "description": "The product utilizes a shared resource in a concurrent manner but does not correctly synchronize access to the resource, potentially leading to unexpected states and insecure behaviors when attackers influence the shared resource.",
+  "severity": "medium",
+  "category": "concurrency",
+  "detection_pattern": "STORAGE[shared_resource] or STRUCTURAL[shared_state] is accessed by multiple CONTROL[thread/process] paths concurrently without a CONTROL[synchronization] node (lock, mutex, semaphore) guarding the access, allowing race conditions on the shared resource",
+  "graph_query": "CONTROL[thread]→STORAGE[shared_resource] without CONTROL[synchronization]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": [
+    "CWE-662",
+    "CWE-572",
+    "CWE-574",
+    "CWE-1088",
+    "CWE-1264"
+  ],
+  "references": [
+    "https://cwe.mitre.org/data/definitions/821.html"
+  ],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

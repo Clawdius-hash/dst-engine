@@ -1,0 +1,16 @@
+{
+  "id": "CWE-651",
+  "name": "Exposure of WSDL File Containing Sensitive Information",
+  "status": "filled",
+  "description": "The product exposes a WSDL file that contains sensitive information about web service methods, endpoints, or internal structure. Attackers can use this information to guess private method names or discover hidden functionality.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "STRUCTURAL or META node exposing service definition (WSDL, API schema) via EGRESS without AUTH or CONTROL node restricting access to the definition resource",
+  "graph_query": "STRUCTURAL[service_definition]→EGRESS without AUTH|CONTROL[access_control]",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-538", "CWE-200"],
+  "references": ["https://cwe.mitre.org/data/definitions/651.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:00:00Z"
+}

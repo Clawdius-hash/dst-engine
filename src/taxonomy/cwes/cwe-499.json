@@ -1,0 +1,16 @@
+{
+  "id": "CWE-499",
+  "name": "Serializable Class Containing Sensitive Data",
+  "status": "filled",
+  "description": "A class contains sensitive data but does not explicitly prevent serialization. Serializable classes are effectively open classes since data cannot be hidden in them. Attackers can serialize objects to extract private fields, even those marked as private in source code.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "STRUCTURAL(class) implementing Serializable that contains STORAGE(sensitive_data) without a custom writeObject that prevents serialization. Look for EXTERNAL(attacker)→TRANSFORM(serialize)→EGRESS(serialized_output) paths that expose STORAGE(sensitive_field) without AUTH(serialization_guard).",
+  "graph_query": "STORAGE(sensitive_field)→TRANSFORM(serialize)→EGRESS(output) without AUTH(writeObject_guard)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-668", "CWE-200"],
+  "references": ["https://cwe.mitre.org/data/definitions/499.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-205",
+  "name": "Observable Behavioral Discrepancy",
+  "status": "filled",
+  "description": "The product's behaviors indicate important differences that can be observed by unauthorized actors, revealing internal state, decision processes, or differences from functionally equivalent products. This enables fingerprinting and targeted attacks.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "Look for CONTROL or STRUCTURAL nodes (decision logic, routing, feature flags) that produce observably different behavior patterns at EGRESS nodes (response timing, content, headers) that correlate with internal state, without a TRANSFORM node (behavior normalization) ensuring externally uniform behavior regardless of internal path taken.",
+  "graph_query": "CONTROL(internal_decision)→EGRESS(observable_behavior) without TRANSFORM(behavior_normalization)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-203", "CWE-206", "CWE-207", "CWE-514"],
+  "references": ["https://cwe.mitre.org/data/definitions/205.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-607",
+  "name": "Public Static Final Field References Mutable Object",
+  "status": "filled",
+  "description": "A public or protected static final field holds a reference to a mutable object, allowing external code to modify the supposedly-immutable data and violate integrity assumptions.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "STRUCTURAL node declares static final reference to mutable STORAGE object accessible to EXTERNAL code without CONTROL node enforcing immutability through defensive copying or unmodifiable wrappers",
+  "graph_query": "STRUCTURAL(static_final_ref)→STORAGE(mutable_object)→EXTERNAL(modifier) without CONTROL(immutability_enforcement)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-471"],
+  "references": ["https://cwe.mitre.org/data/definitions/607.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:40:00Z"
+}

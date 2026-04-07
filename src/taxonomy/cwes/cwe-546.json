@@ -1,0 +1,16 @@
+{
+  "id": "CWE-546",
+  "name": "Suspicious Comment",
+  "status": "filled",
+  "description": "The source code contains comments suggesting incomplete functionality, known bugs, or security weaknesses (e.g., BUG, HACK, FIXME, TODO). These comments may indicate areas where security controls are missing or improperly implemented, and can guide attackers if source code is exposed.",
+  "severity": "low",
+  "category": "configuration",
+  "detection_pattern": "META[comment] nodes within STRUCTURAL[source_code] containing keywords like BUG, HACK, FIXME, TODO that indicate incomplete security controls. These META nodes may be adjacent to CONTROL or AUTH nodes that are missing or placeholder implementations.",
+  "graph_query": "META[suspicious_comment]→STRUCTURAL[source_code] without CONTROL[complete_implementation]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-1078", "CWE-615"],
+  "references": ["https://cwe.mitre.org/data/definitions/546.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

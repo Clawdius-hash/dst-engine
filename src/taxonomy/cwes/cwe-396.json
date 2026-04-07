@@ -1,0 +1,16 @@
+{
+  "id": "CWE-396",
+  "name": "Declaration of Catch for Generic Exception",
+  "status": "filled",
+  "description": "The product catches overly broad exception classes (e.g., Exception, Throwable), obscuring specific exceptions that require different handling and potentially suppressing important runtime errors that indicate security issues.",
+  "severity": "low",
+  "category": "error_handling",
+  "detection_pattern": "CONTROL node catches generic Exception class around TRANSFORM operations instead of catching specific exception types, losing error specificity needed for proper security response",
+  "graph_query": "CONTROL(catch_generic_exception)→TRANSFORM(continue) without CONTROL(specific_exception_handling)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-221", "CWE-705", "CWE-755"],
+  "references": ["https://cwe.mitre.org/data/definitions/396.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:20:00Z"
+}

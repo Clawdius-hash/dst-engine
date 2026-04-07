@@ -1,0 +1,16 @@
+{
+  "id": "CWE-490",
+  "name": "DEPRECATED: Mobile Code Issues",
+  "status": "needs_review",
+  "description": "This entry is a deprecated category that was previously used for organizing mobile code issues in the CWE Development View. It was removed due to introducing unnecessary complexity. Using categories for mapping has been discouraged since 2019.",
+  "severity": "low",
+  "category": "reliability",
+  "detection_pattern": "N/A — deprecated category",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-699"],
+  "references": ["https://cwe.mitre.org/data/definitions/490.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

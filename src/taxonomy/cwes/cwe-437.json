@@ -1,0 +1,16 @@
+{
+  "id": "CWE-437",
+  "name": "Incomplete Model of Endpoint Features",
+  "status": "filled",
+  "description": "A product acting as an intermediary or monitor lacks a complete understanding of endpoint features, causing incorrect security decisions such as allowing HTTP request smuggling or treating executable content as safe.",
+  "severity": "high",
+  "category": "input_output",
+  "detection_pattern": "TRANSFORM node (intermediary/proxy) makes security decisions based on incomplete model of EXTERNAL endpoint behavior, allowing data through CONTROL that the endpoint will interpret differently",
+  "graph_query": "TRANSFORM(intermediary)→EXTERNAL(endpoint) without CONTROL(complete_endpoint_model)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-436"],
+  "references": ["https://cwe.mitre.org/data/definitions/437.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:40:00Z"
+}

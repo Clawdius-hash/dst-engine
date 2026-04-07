@@ -1,0 +1,16 @@
+{
+  "id": "CWE-756",
+  "name": "Missing Custom Error Page",
+  "status": "filled",
+  "description": "The product does not return custom error pages to the user, possibly exposing sensitive information such as stack traces, framework details, or database information through default error pages.",
+  "severity": "medium",
+  "category": "error_handling",
+  "detection_pattern": "CONTROL node triggers error condition but EGRESS node returns default server error page without TRANSFORM node to sanitize or replace the error content. Look for error paths where EXTERNAL(web_server) sends raw error details to EGRESS without a TRANSFORM(error_page_template) mediator.",
+  "graph_query": "CONTROL(error_condition)→EGRESS(error_response) without TRANSFORM(custom_error_page)",
+  "owasp_top10": "A05:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-755", "CWE-7", "CWE-12", "CWE-209"],
+  "references": ["https://cwe.mitre.org/data/definitions/756.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:15:00Z"
+}

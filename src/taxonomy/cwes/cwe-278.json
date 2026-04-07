@@ -1,0 +1,16 @@
+{
+  "id": "CWE-278",
+  "name": "Insecure Preserved Inherited Permissions",
+  "status": "filled",
+  "description": "A product inherits a set of insecure permissions for an object, for example when copying from an archive file, without user awareness or involvement. The copied resource retains the overly permissive settings from the source rather than applying the destination's security policy.",
+  "severity": "medium",
+  "category": "authorization",
+  "detection_pattern": "Look for EXTERNAL nodes (archive files, remote sources, copied resources) whose permissions flow through TRANSFORM nodes (extraction, copy, restore operations) to STORAGE nodes (destination files, restored objects) without a CONTROL mediator (permission reset, destination policy enforcement, permission sanitization) that strips or overrides the source permissions with appropriate destination permissions.",
+  "graph_query": "EXTERNAL(source_archive)→STORAGE(extracted_resource) without CONTROL(permission_sanitization)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-732", "CWE-277", "CWE-281"],
+  "references": ["https://cwe.mitre.org/data/definitions/278.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

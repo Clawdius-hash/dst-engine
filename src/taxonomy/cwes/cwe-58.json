@@ -1,0 +1,16 @@
+{
+  "id": "CWE-58",
+  "name": "Path Equivalence: Windows 8.3 Filename",
+  "status": "filled",
+  "description": "The product restricts access to a file using its long filename but does not account for the equivalent Windows 8.3 short filename (e.g., 'PROGRA~1' for 'Program Files'), allowing attackers to access the restricted file via its short name alias.",
+  "severity": "medium",
+  "category": "file_handling",
+  "detection_pattern": "CONTROL[path_check] validates against long filenames but the Windows filesystem also accepts 8.3 short name equivalents at STORAGE[file_access], creating a bypass where INGRESS provides the short name form that the check doesn't recognize as equivalent",
+  "graph_query": "INGRESS[path '8.3_shortname']→CONTROL[path_check]→STORAGE[file_access] without TRANSFORM[resolve_8.3_names]",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-41"],
+  "references": ["https://cwe.mitre.org/data/definitions/58.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

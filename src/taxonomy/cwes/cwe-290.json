@@ -1,0 +1,18 @@
+{
+  "id": "CWE-290",
+  "name": "Authentication Bypass by Spoofing",
+  "status": "implemented",
+  "description": "The product performs authentication based on easily-spoofable attributes such as IP addresses, DNS names, or HTTP headers rather than cryptographic verification, allowing attackers to forge identifiers and bypass authentication controls.",
+  "severity": "high",
+  "category": "authentication",
+  "detection_pattern": "INGRESS node provides spoofable identity data (IP address, DNS hostname, Referer header) that flows to an AUTH node which accepts it as proof of identity without cryptographic verification, granting access to protected STORAGE or EXTERNAL nodes",
+  "graph_query": "INGRESS[spoofable_identity]→AUTH[weak_check]→STORAGE|EXTERNAL without AUTH[cryptographic_verification]",
+  "owasp_top10": "A07:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-1390", "CWE-287", "CWE-291", "CWE-293", "CWE-350", "CWE-602"],
+  "references": ["https://cwe.mitre.org/data/definitions/290.html"],
+  "implemented_in": ["verifier.ts"],
+  "verified_at": "2026-03-23T00:00:00Z",
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

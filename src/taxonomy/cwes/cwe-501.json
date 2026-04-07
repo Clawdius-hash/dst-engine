@@ -1,0 +1,16 @@
+{
+  "id": "CWE-501",
+  "name": "Trust Boundary Violation",
+  "status": "filled",
+  "description": "The product mixes trusted and untrusted data in the same data structure or message, causing developers to mistakenly trust data that hasn't been properly validated when it crosses trust boundaries.",
+  "severity": "high",
+  "category": "data_protection",
+  "detection_pattern": "INGRESS node introduces untrusted data that is stored in the same STORAGE structure as trusted data, without CONTROL node enforcing trust boundary separation or TRANSFORM node validating before mixing",
+  "graph_query": "INGRESS(untrusted)→STORAGE(mixed_trust_data) without CONTROL(trust_boundary_enforcement)",
+  "owasp_top10": "A04:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-664", "CWE-349"],
+  "references": ["https://cwe.mitre.org/data/definitions/501.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:55:00Z"
+}

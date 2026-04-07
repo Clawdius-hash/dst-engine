@@ -1,0 +1,16 @@
+{
+  "id": "CWE-469",
+  "name": "Use of Pointer Subtraction to Determine Size",
+  "status": "filled",
+  "description": "The code subtracts one pointer from another to calculate a size or length without verifying that both pointers reference the same memory region. This can produce incorrect size calculations leading to buffer overflows or other memory corruption.",
+  "severity": "high",
+  "category": "memory",
+  "detection_pattern": "A TRANSFORM[pointer_subtraction] node computes a size by subtracting two pointer values, and the result flows into a TRANSFORM[allocation] or TRANSFORM[copy] node without a CONTROL[same_region_check] mediator verifying both pointers belong to the same memory object.",
+  "graph_query": "TRANSFORM[pointer_subtraction]→TRANSFORM[allocation|copy] without CONTROL[same_region_check]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-682", "CWE-465"],
+  "references": ["https://cwe.mitre.org/data/definitions/469.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

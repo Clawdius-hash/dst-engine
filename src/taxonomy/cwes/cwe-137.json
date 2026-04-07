@@ -1,0 +1,16 @@
+{
+  "id": "CWE-137",
+  "name": "Data Neutralization Issues",
+  "status": "needs_review",
+  "description": "Active category for data neutralization weaknesses (incorrect format creation or neutralization). Not an actual weakness — mapping is prohibited. Member weaknesses include CWE-76, CWE-78, CWE-79, CWE-89.",
+  "severity": "low",
+  "category": "input_output",
+  "detection_pattern": "N/A — category, not a scannable weakness",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-76", "CWE-78", "CWE-79", "CWE-89"],
+  "references": ["https://cwe.mitre.org/data/definitions/137.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

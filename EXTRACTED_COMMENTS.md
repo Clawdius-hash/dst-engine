@@ -1,0 +1,992 @@
+# Extracted Comments from DST Engine Source
+
+Comments removed during code cleanup. Preserved here for reference.
+
+---
+
+## src/mapper.ts
+
+- `src/mapper.ts:328` -- // module: ${this.neuralMap.source_file}`,
+- `src/mapper.ts:329` -- // module: ${this.neuralMap.source_file}`,
+- `src/mapper.ts:576` -- // PASS 2a: For local calls and passthrough nodes that were conservatively tainted
+- `src/mapper.ts:577` -- // during the walk (because tainted args were passed), check if the function is now
+- `src/mapper.ts:578` -- // known to NOT return tainted data. If so, remove the conservative taint.
+- `src/mapper.ts:579` -- // This handles the case where a function receives a tainted argument
+- `src/mapper.ts:580` -- // (e.g., HttpServletRequest) but does not propagate that taint through its return.
+- `src/mapper.ts:581` -- // NOTE: passthrough nodes are created for forward-referenced functions that weren't
+- `src/mapper.ts:582` -- // yet in functionRegistry during the walk. They need the same treatment as local_calls.
+- `src/mapper.ts:590` -- // Skip overloaded variants (name:count) to avoid double-processing
+- `src/mapper.ts:596` -- // If the function was analyzed AND explicitly returns clean data, remove
+- `src/mapper.ts:597` -- // the conservative taint. Three-valued: true=tainted, false=clean, undefined=unanalyzed.
+- `src/mapper.ts:599` -- // GUARD: Before removing taint, check if the function is a potential
+- `src/mapper.ts:600` -- // passthrough — a non-request parameter flows through to the return.
+- `src/mapper.ts:601` -- // The mapper doesn't propagate call-site argument taint into function
+- `src/mapper.ts:602` -- // parameter scopes (only HttpServletRequest/Response types are auto-tainted).
+- `src/mapper.ts:603` -- // So functionReturnTaint may be false even when the function passes tainted
+- `src/mapper.ts:604` -- // data through. Check if the function body returns a value derived from a
+- `src/mapper.ts:605` -- // non-request formal parameter. If so, preserve conservative taint.
+- `src/mapper.ts:611` -- // Identify non-request params (those that aren't HttpServletRequest/Response)
+- `src/mapper.ts:613` -- // Extract param declarations from the function signature
+- `src/mapper.ts:618` -- // Check if this parameter's type in the signature is a request type
+- `src/mapper.ts:626` -- // Check if the return statement references any non-request param
+- `src/mapper.ts:627` -- // (directly or transitively via simple assignment chains).
+- `src/mapper.ts:628` -- // Look for: return <expr containing paramName>
+- `src/mapper.ts:629` -- // Also handle: bar = param; return bar;
+- `src/mapper.ts:636` -- // Track simple assignments: bar = param; or bar = someFunc(param);
+- `src/mapper.ts:640` -- // Handle multi-line expressions: if the RHS doesn't end with ';',
+- `src/mapper.ts:641` -- // concatenate subsequent lines until we find a semicolon.
+- `src/mapper.ts:642` -- // This catches patterns like: bar = \n new String(\n B64.decode(\n ... param.getBytes()));
+- `src/mapper.ts:657` -- // Track if/else inline assignments: if (cond) bar = param; or else bar = param;
+- `src/mapper.ts:658` -- // These don't match the standard assignment regex because the line starts with if/else.
+- `src/mapper.ts:659` -- // Use a broader pattern that finds any "word = expr" within the line, even after
+- `src/mapper.ts:660` -- // complex if conditions with nested parentheses.
+- `src/mapper.ts:662` -- // Find the last assignment pattern in the line: look for word = word/expr ;
+- `src/mapper.ts:675` -- // Track ternary: bar = cond ? "safe" : param;
+- `src/mapper.ts:687` -- // Track map.put("key", param) + bar = map.get("key")
+- `src/mapper.ts:692` -- // Mark the map+key as an alias source
+- `src/mapper.ts:703` -- // Now check return statements
+- `src/mapper.ts:706` -- // The function textually passes a non-request param to return.
+- `src/mapper.ts:707` -- // But we also need to check: is the actual call-site argument
+- `src/mapper.ts:708` -- // corresponding to that param tainted? If not, this passthrough
+- `src/mapper.ts:709` -- // is safe (the non-request param carries safe data at this call site).
+- `src/mapper.ts:710` -- // Extract arg names from the call-site code and match by position.
+- `src/mapper.ts:715` -- // Find which passthrough params (that alias to the return) have
+- `src/mapper.ts:716` -- // tainted call-site arguments.
+- `src/mapper.ts:721` -- // this param doesn't flow to return
+- `src/mapper.ts:722` -- // Get the corresponding call-site argument
+- `src/mapper.ts:725` -- // Check if this argument is tainted in the call node's data_in
+- `src/mapper.ts:736` -- // Can't parse call-site args — conservatively treat as passthrough
+- `src/mapper.ts:752` -- // PASS 2a cleanup: propagate un-tainting to downstream nodes.
+- `src/mapper.ts:753` -- // When a local call's taint is removed:
+- `src/mapper.ts:754` -- // 1. Un-taint data_in entries sourced from the local call
+- `src/mapper.ts:755` -- // 2. Remove DATA_FLOW edges from the local call to downstream nodes
+- `src/mapper.ts:756` -- // 3. Remove DATA_FLOW edges from the global edges list
+- `src/mapper.ts:759` -- // Clean data_in entries sourced from un-tainted local calls
+- `src/mapper.ts:766` -- // Clean data_out entries sourced from un-tainted local calls
+- `src/mapper.ts:773` -- // Remove outgoing DATA_FLOW edges from un-tainted local calls
+- `src/mapper.ts:774` -- // (these edges represent incorrect taint propagation paths)
+- `src/mapper.ts:784` -- // Also clean the global edges list
+- `src/mapper.ts:790` -- // PASS 2b: For local calls that are NOT yet tainted, add taint if the function
+- `src/mapper.ts:791` -- // is now known to return tainted data (forward-referenced functions).
+- `src/mapper.ts:799` -- // Only mark the call as tainted if postVisitFunction explicitly set the
+- `src/mapper.ts:800` -- // functionReturnTaint flag (meaning a return statement referenced tainted data).
+- `src/mapper.ts:801` -- // Previously we also checked funcNode.data_out.some(d => d.tainted), which
+- `src/mapper.ts:802` -- // fired whenever the STRUCTURAL node had ANY tainted data_out — including from
+- `src/mapper.ts:803` -- // parameter processing or containment, not just return taint. This caused excess
+- `src/mapper.ts:804` -- // taint propagation and noise (e.g., 17 extra FPs on CWE-526 servlet files).
+- `src/mapper.ts:807` -- // Extra guard: verify the function's code has a return statement referencing
+- `src/mapper.ts:808` -- // a tainted variable name. This prevents tainting when the return doesn't
+- `src/mapper.ts:809` -- // actually propagate tainted data (e.g., returns a constant or unrelated var).
+- `src/mapper.ts:838` -- /** Step 5: Connect tainted local_call return values to consumer sinks. */
+- `src/mapper.ts:864` -- /** Step 6: Propagate taint through event emitter .emit() / .on() pairs. */
+- `src/mapper.ts:903` -- /**
+- `src/mapper.ts:903` -- * Post-walk: resolve pending calls against the function registry
+- `src/mapper.ts:903` -- * and emit CALLS edges.
+- `src/mapper.ts:903` -- */
+- `src/mapper.ts:917` -- /**
+- `src/mapper.ts:917` -- * Find the nearest function or module scope for 'var' hoisting.
+- `src/mapper.ts:917` -- */
+- `src/mapper.ts:931` -- // ---------------------------------------------------------------------------
+- `src/mapper.ts:932` -- // Main entry point
+- `src/mapper.ts:933` -- // ---------------------------------------------------------------------------
+- `src/mapper.ts:935` -- /**
+- `src/mapper.ts:935` -- * Detect data sensitivity from a variable or parameter name.
+- `src/mapper.ts:935` -- * Returns the highest sensitivity classification that matches.
+- `src/mapper.ts:935` -- *
+- `src/mapper.ts:935` -- * Priority: SECRET > PII > AUTH > FINANCIAL > NONE
+- `src/mapper.ts:935` -- */
+- `src/mapper.ts:944` -- // SECRET: passwords, tokens, API keys, secrets
+- `src/mapper.ts:954` -- // PII: personally identifiable information
+- `src/mapper.ts:965` -- // AUTH: authentication/authorization data
+- `src/mapper.ts:974` -- // FINANCIAL: money/payment data
+- `src/mapper.ts:987` -- /**
+- `src/mapper.ts:987` -- * Post-processing pass: initialize taint markers on all DataFlow entries.
+- `src/mapper.ts:987` -- *
+- `src/mapper.ts:987` -- * Rules:
+- `src/mapper.ts:987` -- * - INGRESS nodes: all data_out is tainted (user-controlled input)
+- `src/mapper.ts:987` -- * - EXTERNAL nodes: all data_out is tainted (external data, untrusted)
+- `src/mapper.ts:987` -- * - TRANSFORM/sanitize: data_out is NOT tainted (sanitizer clears taint)
+- `src/mapper.ts:987` -- * - TRANSFORM/encrypt: data_out is NOT tainted (encryption transforms data)
+- `src/mapper.ts:987` -- * - All other nodes: data_out taint is unchanged (preserves whatever was set during construction)
+- `src/mapper.ts:987` -- *
+- `src/mapper.ts:987` -- * Also applies sensitivity detection to all DataFlow entries based on their name.
+- `src/mapper.ts:987` -- */
+- `src/mapper.ts:1001` -- // INGRESS: all output data is tainted
+- `src/mapper.ts:1008` -- // EXTERNAL: return data is tainted (came from outside the system)
+- `src/mapper.ts:1015` -- // TRANSFORM/sanitize: sanitizer clears taint
+- `src/mapper.ts:1022` -- // TRANSFORM/encrypt: encryption clears taint (data is no longer raw user input)
+- `src/mapper.ts:1029` -- // Apply sensitivity detection to ALL data flows (both in and out)
+- `src/mapper.ts:1069` -- // Push module-level scope
+- `src/mapper.ts:1072` -- // We need to handle scope push/pop manually during walk because
+- `src/mapper.ts:1073` -- // walkTree doesn't give us a post-visit hook. Instead, we use
+- `src/mapper.ts:1074` -- // the tree cursor for a proper enter/leave traversal.
+- `src/mapper.ts:1079` -- // NOTE: We intentionally do NOT pop the module scope here.
+- `src/mapper.ts:1080` -- // The module scope remains on ctx.scopeStack so that callers can use
+- `src/mapper.ts:1081` -- // ctx.resolveVariable() on the returned context (e.g., for constant-folding tests).
+- `src/mapper.ts:1083` -- // Post-processing: build node index for O(1) lookups in post-walk passes
+- `src/mapper.ts:1086` -- // Post-processing: initialize taint markers and detect sensitivity
+- `src/mapper.ts:1089` -- // Post-processing: resolve CALLS edges
+- `src/mapper.ts:1092` -- // Post-processing: build DATA_FLOW edges from data_in references
+- `src/mapper.ts:1095` -- // Post-processing: PASS 2 -- inter-procedural taint propagation
+- `src/mapper.ts:1098` -- // Post-processing: build READS, WRITES, DEPENDS edges
+- `src/mapper.ts:1103` -- // V2: Resolve PENDING taint in sentences using inter-procedural analysis results
+- `src/mapper.ts:1106` -- // V2: Assemble story from accumulated sentences, sorted by line number
+- `src/mapper.ts:1119` -- /** Extract constant value from a switch case label */
+- `src/mapper.ts:1127` -- /** Check if a switch group ends with break/return/throw */
+- `src/mapper.ts:1138` -- /**
+- `src/mapper.ts:1138` -- * Walk the tree with proper scope push/pop on enter and leave.
+- `src/mapper.ts:1138` -- * This is a recursive walk that gives us both pre-order and post-order hooks.
+- `src/mapper.ts:1138` -- * The LanguageProfile drives all language-specific decisions.
+- `src/mapper.ts:1138` -- */
+- `src/mapper.ts:1147` -- // Enter: push scope if this node creates one
+- `src/mapper.ts:1152` -- // If this is a function scope, declare its parameters
+- `src/mapper.ts:1157` -- // If this is a class, declare the class name in the OUTER scope
+- `src/mapper.ts:1158` -- // (it was already pushed, so we need to declare in parent)
+- `src/mapper.ts:1174` -- // ── Pre-visit iteration hook (for-of/for-in loop variable taint) ──
+- `src/mapper.ts:1179` -- // ── VALUE-FIRST WALKING for variable declarations ──
+- `src/mapper.ts:1188` -- // children already walked
+- `src/mapper.ts:1191` -- // ── Node classification — delegated to the language profile ──
+- `src/mapper.ts:1192` -- // Track call expression classification for diagnostics
+- `src/mapper.ts:1199` -- // If this was a call node and classifyNode didn't produce a new typed node,
+- `src/mapper.ts:1200` -- // it means the callee couldn't be resolved — count it as unmapped.
+- `src/mapper.ts:1205` -- // ── Dead-branch elimination for if_statement / if_expression ──
+- `src/mapper.ts:1206` -- // When the profile provides tryEvalCondition and the node is an if-statement,
+- `src/mapper.ts:1207` -- // evaluate the condition statically. If the result is known (true/false),
+- `src/mapper.ts:1208` -- // skip the dead branch to prevent it from clobbering taint set by the live branch.
+- `src/mapper.ts:1209` -- // This handles patterns like: if ((500/42)+num > 200) bar = param; else bar = "safe";
+- `src/mapper.ts:1217` -- // condition always true: skip else
+- `src/mapper.ts:1218` -- // condition always false: skip then
+- `src/mapper.ts:1231` -- // Recurse into children
+- `src/mapper.ts:1234` -- // ── Dead-branch elimination for switch blocks ──
+- `src/mapper.ts:1235` -- // NOTE: tree-sitter creates new JS wrapper objects on each node access, so
+- `src/mapper.ts:1236` -- // Set<SyntaxNode> identity comparisons do NOT work. Use Set<number> (node.id) instead.
+- `src/mapper.ts:1244` -- // Find which groups are live vs dead
+- `src/mapper.ts:1273` -- // Determine live group(s)
+- `src/mapper.ts:1278` -- // Handle fall-through
+- `src/mapper.ts:1285` -- // Mark dead groups by their node ID
+- `src/mapper.ts:1289` -- // Tag container for diagnostics
+- `src/mapper.ts:1302` -- // ── Inner class pre-walk: for class_body nodes, walk class_declaration children FIRST ──
+- `src/mapper.ts:1303` -- // This ensures inner class methods are fully resolved before outer methods can reference them.
+- `src/mapper.ts:1314` -- // Now walk non-class-declaration children (methods, fields, etc.)
+- `src/mapper.ts:1319` -- // already walked above
+- `src/mapper.ts:1323` -- // Post-visit hooks
+- `src/mapper.ts:1332` -- // skip the normal single-pass iteration below
+- `src/mapper.ts:1341` -- // Dead-branch skip: if the child is the consequence or alternative of an if-statement
+- `src/mapper.ts:1342` -- // and we determined that branch is dead, don't walk it.
+- `src/mapper.ts:1348` -- // Dead-branch skip: if the child is a dead switch group, skip it.
+- `src/mapper.ts:1354` -- // Post-visit hooks — delegated to the language profile
+- `src/mapper.ts:1362` -- // Leave: pop scope if we pushed one
+
+## src/cross-file.ts
+
+- `src/cross-file.ts:1` -- /**
+- `src/cross-file.ts:1` -- * Cross-file analysis for DST — resolves imports between files and merges
+- `src/cross-file.ts:1` -- * NeuralMaps so taint flows across module boundaries.
+- `src/cross-file.ts:1` -- *
+- `src/cross-file.ts:1` -- * Phase 5 of the phoneme mapper: the biggest detection rate multiplier remaining.
+- `src/cross-file.ts:1` -- *
+- `src/cross-file.ts:1` -- * What this does:
+- `src/cross-file.ts:1` -- *   1. Import Resolver — parses require() and import statements to build a
+- `src/cross-file.ts:1` -- *      dependency graph between files in a scanned directory.
+- `src/cross-file.ts:1` -- *   2. NeuralMap Merger — takes per-file NeuralMaps and merges them into a
+- `src/cross-file.ts:1` -- *      single combined map with cross-file CALLS and DATA_FLOW edges.
+- `src/cross-file.ts:1` -- *   3. Cross-file taint propagation — when File A exports a function that
+- `src/cross-file.ts:1` -- *      takes user input, and File B imports and calls it, the taint propagates.
+- `src/cross-file.ts:1` -- *
+- `src/cross-file.ts:1` -- * The merged map is ADDITIONAL to per-file maps, not a replacement.
+- `src/cross-file.ts:1` -- */
+- `src/cross-file.ts:23` -- // ---------------------------------------------------------------------------
+- `src/cross-file.ts:24` -- // Import Resolver — find what each file requires/imports
+- `src/cross-file.ts:25` -- // ---------------------------------------------------------------------------
+- `src/cross-file.ts:28` -- /** The raw import specifier as written in code (e.g., '../core/appHandler') */
+- `src/cross-file.ts:30` -- /** Resolved absolute file path on disk (null if external/npm package) */
+- `src/cross-file.ts:32` -- /** What names are imported (e.g., ['userSearch', 'ping'] or ['*'] for whole module) */
+- `src/cross-file.ts:34` -- /** The local binding name (e.g., 'appHandler' for `var appHandler = require(...)`) */
+- `src/cross-file.ts:36` -- /** Line number where the import appears */
+- `src/cross-file.ts:41` -- /** Absolute path of the importing file */
+- `src/cross-file.ts:43` -- /** All imports found in this file */
+- `src/cross-file.ts:48` -- /** Name of the exported symbol (e.g., 'userSearch', 'default') */
+- `src/cross-file.ts:50` -- /** Node IDs in the NeuralMap that correspond to this export */
+- `src/cross-file.ts:52` -- /** Whether this is a module.exports assignment vs named export */
+- `src/cross-file.ts:57` -- /** Absolute path of the exporting file */
+- `src/cross-file.ts:59` -- /** All exports found in this file */
+- `src/cross-file.ts:64` -- /** Importing file (absolute path) */
+- `src/cross-file.ts:66` -- /** Imported file (absolute path) */
+- `src/cross-file.ts:68` -- /** Import details */
+- `src/cross-file.ts:73` -- /** All files in the graph */
+- `src/cross-file.ts:75` -- /** Edges: from imports to */
+- `src/cross-file.ts:77` -- /** Quick lookup: file -> files it imports */
+- `src/cross-file.ts:79` -- /** Quick lookup: file -> files that import it */
+- `src/cross-file.ts:83` -- // ---------------------------------------------------------------------------
+- `src/cross-file.ts:84` -- // Regex-based import extraction (works on raw source, no AST needed)
+- `src/cross-file.ts:85` -- // ---------------------------------------------------------------------------
+- `src/cross-file.ts:99` -- // Destructured require MUST be checked before simple require
+- `src/cross-file.ts:100` -- // const { X, Y } = require('...')
+- `src/cross-file.ts:116` -- // CommonJS: var/let/const X = require('...')
+- `src/cross-file.ts:117` -- // Also handles: var X = require('..').Y (e.g., require('express').Router())
+- `src/cross-file.ts:124` -- // resolved later
+- `src/cross-file.ts:132` -- // CommonJS: require('..') without assignment (side-effect require)
+- `src/cross-file.ts:133` -- // e.g., require('./core/passport')(passport)
+- `src/cross-file.ts:148` -- // ES Module: import X from '...'
+- `src/cross-file.ts:163` -- // ES Module: import { X, Y } from '...'
+- `src/cross-file.ts:182` -- // ES Module: import * as X from '...'
+- `src/cross-file.ts:197` -- // (destructured require is handled at top of loop)
+- `src/cross-file.ts:212` -- // module.exports.name = function
+- `src/cross-file.ts:219` -- // exports.name = function
+- `src/cross-file.ts:226` -- // ES Module: export function name
+- `src/cross-file.ts:233` -- // ES Module: export const/let/var name
+- `src/cross-file.ts:240` -- // module.exports = { ... } (object literal)
+- `src/cross-file.ts:243` -- // Grab the whole object (may span lines, simplified: grab until closing brace)
+- `src/cross-file.ts:260` -- // ---------------------------------------------------------------------------
+- `src/cross-file.ts:261` -- // File path resolution — require('./db') -> /abs/path/to/db.js
+- `src/cross-file.ts:262` -- // ---------------------------------------------------------------------------
+- `src/cross-file.ts:275` -- /** Pre-built set of normalized file paths — pass this from the caller to
+- `src/cross-file.ts:275` -- *  avoid rebuilding it on every call. When omitted, built on the fly. */
+- `src/cross-file.ts:279` -- // Skip npm packages
+- `src/cross-file.ts:284` -- // Normalize everything to forward slashes for cross-platform consistency
+- `src/cross-file.ts:293` -- // Try exact match first
+- `src/cross-file.ts:298` -- // Try with extensions
+- `src/cross-file.ts:306` -- // Try as directory with index file
+- `src/cross-file.ts:317` -- // ---------------------------------------------------------------------------
+- `src/cross-file.ts:318` -- // Dependency Graph Builder
+- `src/cross-file.ts:319` -- // ---------------------------------------------------------------------------
+- `src/cross-file.ts:330` -- // Build the normalized file set ONCE for all resolveImportPath calls
+- `src/cross-file.ts:368` -- // ---------------------------------------------------------------------------
+- `src/cross-file.ts:369` -- // NeuralMap Merger — combine per-file maps into a cross-file map
+- `src/cross-file.ts:370` -- // ---------------------------------------------------------------------------
+- `src/cross-file.ts:373` -- /** The merged NeuralMap containing all nodes + cross-file edges */
+- `src/cross-file.ts:375` -- /** Number of cross-file edges added */
+- `src/cross-file.ts:377` -- /** Import relationships that were resolved */
+- `src/cross-file.ts:403` -- // Track node ID mappings: original ID -> prefixed ID (per file)
+- `src/cross-file.ts:406` -- // Step 1: Collect all nodes, prefixing IDs to avoid collision
+- `src/cross-file.ts:409` -- // === ${filePath} ===\n${map.source_code}`);
+- `src/cross-file.ts:419` -- // Remap edge targets
+- `src/cross-file.ts:424` -- // Remap data flow sources
+- `src/cross-file.ts:439` -- // Also remap top-level edges
+- `src/cross-file.ts:448` -- // Perf: build a lookup map for O(1) node access by ID (replaces O(N) .find() calls)
+- `src/cross-file.ts:454` -- // Step 2: Build export registry
+- `src/cross-file.ts:455` -- // For each file, find which nodes are exported functions
+- `src/cross-file.ts:465` -- // Find nodes in this file's map whose label contains this export name
+- `src/cross-file.ts:469` -- // Match STRUCTURAL nodes (function declarations) by label
+- `src/cross-file.ts:476` -- // If no structural match, look for any node referencing the export name
+- `src/cross-file.ts:493` -- // Step 3: Create cross-file edges based on dependency graph
+- `src/cross-file.ts:505` -- // Whole-module import (e.g., var appHandler = require('../core/appHandler'))
+- `src/cross-file.ts:506` -- // Look for usages of appHandler.X in the importing file's source
+- `src/cross-file.ts:511` -- // Check if the importing file references localName.exportName
+- `src/cross-file.ts:514` -- // Find nodes in the importing file that reference this usage
+- `src/cross-file.ts:518` -- // Create CALLS edge from the usage site to the exported function
+- `src/cross-file.ts:537` -- // Named imports — match imported names to exports
+- `src/cross-file.ts:542` -- // Find where this name is used in the importing file
+- `src/cross-file.ts:576` -- // Step 3b: Create cross-file edges for Java same-package references
+- `src/cross-file.ts:577` -- // Java edges bypass the JS export registry — they use class name matching
+- `src/cross-file.ts:597` -- // Step 4: Propagate taint across file boundaries
+- `src/cross-file.ts:598` -- // When a function in file A has tainted data_in, and file B calls it,
+- `src/cross-file.ts:599` -- // propagate the taint to connected nodes
+- `src/cross-file.ts:602` -- // Build the merged map
+- `src/cross-file.ts:615` -- // ---------------------------------------------------------------------------
+- `src/cross-file.ts:616` -- // Cross-file taint propagation
+- `src/cross-file.ts:617` -- // ---------------------------------------------------------------------------
+- `src/cross-file.ts:619` -- /**
+- `src/cross-file.ts:619` -- * Propagate taint across CALLS edges in the merged graph.
+- `src/cross-file.ts:619` -- * If node A calls node B, and A has tainted data_out, then B's data_in
+- `src/cross-file.ts:619` -- * should be marked tainted too.
+- `src/cross-file.ts:619` -- */
+- `src/cross-file.ts:630` -- // BFS taint propagation
+- `src/cross-file.ts:633` -- // prevent infinite loops
+- `src/cross-file.ts:640` -- // If this node has tainted data, propagate through its edges
+- `src/cross-file.ts:652` -- // Propagate taint to target's data_in
+- `src/cross-file.ts:656` -- // Mark existing data_in as tainted
+- `src/cross-file.ts:664` -- // Add a tainted data_in entry
+- `src/cross-file.ts:675` -- // Also mark attack surface if target is a sink
+- `src/cross-file.ts:688` -- // ---------------------------------------------------------------------------
+- `src/cross-file.ts:689` -- // Helpers
+- `src/cross-file.ts:690` -- // ---------------------------------------------------------------------------
+- `src/cross-file.ts:692` -- /**
+- `src/cross-file.ts:692` -- * Create a short prefix from a file path for namespacing node IDs.
+- `src/cross-file.ts:692` -- * e.g., /home/user/project/core/appHandler.js -> core_appHandler
+- `src/cross-file.ts:692` -- */
+- `src/cross-file.ts:702` -- // Sanitize: only alphanumeric and underscore
+- `src/cross-file.ts:706` -- // ---------------------------------------------------------------------------
+- `src/cross-file.ts:707` -- // Java cross-file support — same-package resolution
+- `src/cross-file.ts:708` -- // ---------------------------------------------------------------------------
+- `src/cross-file.ts:719` -- /**
+- `src/cross-file.ts:719` -- * Escape special regex characters in a string so it can be used as a literal
+- `src/cross-file.ts:719` -- * pattern inside a RegExp constructor.
+- `src/cross-file.ts:719` -- */
+- `src/cross-file.ts:749` -- // Extract package + class name for each Java file
+- `src/cross-file.ts:762` -- // Java class name = filename without extension
+- `src/cross-file.ts:768` -- // Group files by package
+- `src/cross-file.ts:780` -- // For each package group, scan for cross-file references
+- `src/cross-file.ts:786` -- // skip self
+- `src/cross-file.ts:788` -- // Check if fromFile's source references toFile's class name
+- `src/cross-file.ts:790` -- // Match: new ClassName(  \|  ClassName.something  \|  ClassName<
+- `src/cross-file.ts:815` -- // ---------------------------------------------------------------------------
+- `src/cross-file.ts:816` -- // Java cross-file support — cross-package import resolution
+- `src/cross-file.ts:817` -- // ---------------------------------------------------------------------------
+- `src/cross-file.ts:819` -- /** Standard library prefixes that will never resolve to scanned files. */
+- `src/cross-file.ts:839` -- // import static com.example.Utils.method;
+- `src/cross-file.ts:844` -- // method name or '*'
+- `src/cross-file.ts:845` -- // The class is the part before the member
+- `src/cross-file.ts:858` -- // import com.example.*;  (wildcard package import)
+- `src/cross-file.ts:864` -- // package name for wildcard resolution
+- `src/cross-file.ts:873` -- // import com.example.Class;  (explicit class import)
+- `src/cross-file.ts:932` -- // Inner class fallback: try stripping trailing segments
+- `src/cross-file.ts:933` -- // e.g., com.example.Outer.Inner -> com/example/Outer.java
+- `src/cross-file.ts:961` -- // Direct child only: after prefix, no more slashes
+- `src/cross-file.ts:1008` -- // Wildcard import: resolve package, throttle by reference check
+- `src/cross-file.ts:1011` -- // skip self
+- `src/cross-file.ts:1013` -- // Throttle: only create edge if source actually references the class name
+- `src/cross-file.ts:1034` -- // Explicit import: resolve directly
+- `src/cross-file.ts:1035` -- // Reconstruct FQCN for path resolution from the original import line
+- `src/cross-file.ts:1036` -- // The specifier is the simple class name; we need the full line to get FQCN
+- `src/cross-file.ts:1037` -- // Re-parse the line to get the FQCN
+- `src/cross-file.ts:1071` -- // Also scan for FQCN usage: new org.example.ClassName(
+- `src/cross-file.ts:1097` -- /**
+- `src/cross-file.ts:1097` -- * Create cross-file CALLS edges for Java same-package references.
+- `src/cross-file.ts:1097` -- *
+- `src/cross-file.ts:1097` -- * Unlike JS (which uses an export registry), Java edges are resolved by
+- `src/cross-file.ts:1097` -- * scanning the FROM file's nodes for code_snapshot references to the
+- `src/cross-file.ts:1097` -- * target class, and matching them to STRUCTURAL nodes in the TO file.
+- `src/cross-file.ts:1097` -- */
+- `src/cross-file.ts:1118` -- // Extract target class name from the edge specifier (= filename sans .java)
+- `src/cross-file.ts:1122` -- // Find STRUCTURAL nodes in the TO file (methods that could be call targets)
+- `src/cross-file.ts:1130` -- // Scan FROM file nodes for references to the target class
+- `src/cross-file.ts:1134` -- // Check if this node references the target class
+- `src/cross-file.ts:1144` -- // Create CALLS edges to target structural nodes
+- `src/cross-file.ts:1147` -- // Only connect if the target node exists in merged map
+- `src/cross-file.ts:1163` -- // ---------------------------------------------------------------------------
+- `src/cross-file.ts:1164` -- // Public API for CLI integration
+- `src/cross-file.ts:1165` -- // ---------------------------------------------------------------------------
+- `src/cross-file.ts:1168` -- /** The merged NeuralMap */
+- `src/cross-file.ts:1170` -- /** Dependency graph */
+- `src/cross-file.ts:1172` -- /** Number of cross-file edges */
+- `src/cross-file.ts:1174` -- /** Resolved import relationships */
+- `src/cross-file.ts:1189` -- // Build dependency graph (JS import/require resolution)
+- `src/cross-file.ts:1192` -- // Add Java same-package edges (does NOT modify buildDependencyGraph's signature)
+- `src/cross-file.ts:1197` -- // Update quick-lookup maps
+- `src/cross-file.ts:1204` -- // Add Java cross-package import edges (deduplicated against same-package edges)
+- `src/cross-file.ts:1209` -- // skip duplicates with same-package
+- `src/cross-file.ts:1218` -- // Merge maps
+
+## src/payload-gen.ts
+
+- `src/payload-gen.ts:1` -- /**
+- `src/payload-gen.ts:1` -- * DST Reverse Mapper -- Deterministic Payload Generator
+- `src/payload-gen.ts:1` -- *
+- `src/payload-gen.ts:1` -- * The fourth direction. DST maps code forward into a security graph.
+- `src/payload-gen.ts:1` -- * This module maps backward: given a finding (source -> sink vulnerability),
+- `src/payload-gen.ts:1` -- * generate a concrete proof payload that demonstrates the exploit.
+- `src/payload-gen.ts:1` -- *
+- `src/payload-gen.ts:1` -- * Not a fuzzer. Not a scanner. A deterministic function:
+- `src/payload-gen.ts:1` -- *   (NeuralMap, Finding, CWE) -> ProofCertificate \| null
+- `src/payload-gen.ts:1` -- *
+- `src/payload-gen.ts:1` -- * The payload dictionary is DATA. The path analysis is GRAPH QUERY.
+- `src/payload-gen.ts:1` -- * The safety validation is ALLOWLIST. Nothing here is heuristic.
+- `src/payload-gen.ts:1` -- */
+- `src/payload-gen.ts:38` -- // ---------------------------------------------------------------------------
+- `src/payload-gen.ts:39` -- // Edge types for BFS -- mirrors _helpers.ts FLOW_EDGE_TYPES
+- `src/payload-gen.ts:40` -- // ---------------------------------------------------------------------------
+- `src/payload-gen.ts:46` -- // ---------------------------------------------------------------------------
+- `src/payload-gen.ts:47` -- // Node lookup -- handles real IDs, prefixed IDs, and synthetic srcline-N
+- `src/payload-gen.ts:48` -- // ---------------------------------------------------------------------------
+- `src/payload-gen.ts:61` -- // Case 1: direct ID match
+- `src/payload-gen.ts:65` -- // Case 3: synthetic srcline-N -- find nearest node by line number
+- `src/payload-gen.ts:68` -- // FIX #4: when line_end === 0, fall back to exact line_start match
+- `src/payload-gen.ts:75` -- // Return the most specific (smallest span) node
+- `src/payload-gen.ts:87` -- // ---------------------------------------------------------------------------
+- `src/payload-gen.ts:88` -- // Path tracing -- BFS returning the actual path as node IDs
+- `src/payload-gen.ts:89` -- // ---------------------------------------------------------------------------
+- `src/payload-gen.ts:129` -- // ---------------------------------------------------------------------------
+- `src/payload-gen.ts:130` -- // SQL context extraction
+- `src/payload-gen.ts:131` -- // ---------------------------------------------------------------------------
+- `src/payload-gen.ts:145` -- // String context: quote-wrapped concatenation
+- `src/payload-gen.ts:146` -- //   Pattern: ...'" + var + "'...  or  ...' + var + '...
+- `src/payload-gen.ts:147` -- //   The key indicator is a SQL single-quote adjacent to the concatenation operator
+- `src/payload-gen.ts:151` -- // Also match: "...'" + var (string opened with single-quote before concat)
+- `src/payload-gen.ts:153` -- // But only if there's no numeric indicator
+- `src/payload-gen.ts:156` -- // Numeric context: SQL string closes with = or operator, then " + var (no SQL quote)
+- `src/payload-gen.ts:157` -- //   Pattern: ...id=" + var  (the SQL string ends at =, no wrapping quote for the value)
+- `src/payload-gen.ts:161` -- // Default to string context (more common, safer assumption)
+- `src/payload-gen.ts:165` -- // ---------------------------------------------------------------------------
+- `src/payload-gen.ts:166` -- // Canary generation -- deterministic per payload class
+- `src/payload-gen.ts:167` -- // ---------------------------------------------------------------------------
+- `src/payload-gen.ts:187` -- // ---------------------------------------------------------------------------
+- `src/payload-gen.ts:188` -- // Payload selection
+- `src/payload-gen.ts:189` -- // ---------------------------------------------------------------------------
+- `src/payload-gen.ts:205` -- // Stub for other classes -- return generic canary payload
+- `src/payload-gen.ts:221` -- // Determine context from sink node or ref
+- `src/payload-gen.ts:226` -- // Fallback: check the code snippet in the NodeRef
+- `src/payload-gen.ts:231` -- // Check if path has type coercion (numeric only)
+- `src/payload-gen.ts:238` -- // Primary: union-based canary (most diagnostic)
+- `src/payload-gen.ts:249` -- // Variants: tautology + time-based
+- `src/payload-gen.ts:262` -- // Time-based variants (execution_safe: false per FIX #3)
+- `src/payload-gen.ts:278` -- // ---------------------------------------------------------------------------
+- `src/payload-gen.ts:279` -- // Transform analysis -- walk path and classify each TRANSFORM node
+- `src/payload-gen.ts:280` -- // ---------------------------------------------------------------------------
+- `src/payload-gen.ts:303` -- // ---------------------------------------------------------------------------
+- `src/payload-gen.ts:304` -- // Delivery spec construction
+- `src/payload-gen.ts:305` -- // ---------------------------------------------------------------------------
+- `src/payload-gen.ts:307` -- /**
+- `src/payload-gen.ts:307` -- * Walk the NeuralMap to find a STRUCTURAL node whose line range contains
+- `src/payload-gen.ts:307` -- * the source node and has metadata.route_path set.
+- `src/payload-gen.ts:307` -- * Returns the route path, or '/' as fallback.
+- `src/payload-gen.ts:307` -- */
+- `src/payload-gen.ts:320` -- // Check if this structural node's line range contains the source node
+- `src/payload-gen.ts:328` -- // Prefer the most specific (smallest span) containing node
+- `src/payload-gen.ts:386` -- // Check code snapshot for HTTP patterns
+- `src/payload-gen.ts:398` -- // Apply encoding transforms
+- `src/payload-gen.ts:414` -- // ---------------------------------------------------------------------------
+- `src/payload-gen.ts:415` -- // Oracle construction
+- `src/payload-gen.ts:416` -- // ---------------------------------------------------------------------------
+- `src/payload-gen.ts:423` -- // Static proof: logical argument for why the payload reaches the sink
+- `src/payload-gen.ts:445` -- // Dynamic signal based on payload class
+- `src/payload-gen.ts:469` -- // ---------------------------------------------------------------------------
+- `src/payload-gen.ts:470` -- // Safety validation -- allowlist gate
+- `src/payload-gen.ts:471` -- // ---------------------------------------------------------------------------
+- `src/payload-gen.ts:483` -- // Must NOT contain destructive SQL
+- `src/payload-gen.ts:489` -- // Must be from allowlist
+- `src/payload-gen.ts:494` -- // Other classes: pass through for MVP
+- `src/payload-gen.ts:498` -- // ---------------------------------------------------------------------------
+- `src/payload-gen.ts:499` -- // The orchestrator: generateProof
+- `src/payload-gen.ts:500` -- // ---------------------------------------------------------------------------
+- `src/payload-gen.ts:520` -- // Step 1: Resolve sink and source nodes
+- `src/payload-gen.ts:526` -- // Step 2: Determine payload class
+- `src/payload-gen.ts:530` -- // Try exact then fuzzy sink subtype match
+- `src/payload-gen.ts:535` -- // Fallback: infer from CWE number
+- `src/payload-gen.ts:539` -- // Not payload-generatable
+- `src/payload-gen.ts:541` -- // Step 3: Trace the path (skip for synthetic findings)
+- `src/payload-gen.ts:557` -- // Step 4: Select payload
+- `src/payload-gen.ts:565` -- // Step 5: Build delivery spec
+- `src/payload-gen.ts:574` -- // Step 6: Build oracle
+- `src/payload-gen.ts:577` -- // Step 7: Determine proof strength
+- `src/payload-gen.ts:587` -- // Step 8: Safety validation
+- `src/payload-gen.ts:589` -- // Defense in depth -- should never trigger with allowlisted payloads
+
+## src/payload-dictionary.ts
+
+- `src/payload-dictionary.ts:1` -- /**
+- `src/payload-dictionary.ts:1` -- * DST Payload Dictionary -- Static data for the reverse mapper.
+- `src/payload-dictionary.ts:1` -- *
+- `src/payload-dictionary.ts:1` -- * This module contains:
+- `src/payload-dictionary.ts:1` -- * - Sink subtype -> payload class mapping (SINK_CLASS_MAP)
+- `src/payload-dictionary.ts:1` -- * - CWE -> payload class inference (for fallback when sink lookup fails)
+- `src/payload-dictionary.ts:1` -- * - Payload templates per class (SQL injection MVP, stubs for future classes)
+- `src/payload-dictionary.ts:1` -- * - Transform effect classification map
+- `src/payload-dictionary.ts:1` -- * - Safe command allowlist for command injection proofs
+- `src/payload-dictionary.ts:1` -- *
+- `src/payload-dictionary.ts:1` -- * This is DATA, not logic. Adding a CWE is adding a line.
+- `src/payload-dictionary.ts:1` -- */
+- `src/payload-dictionary.ts:16` -- // ---------------------------------------------------------------------------
+- `src/payload-dictionary.ts:17` -- // Payload class -- what family of payload to generate
+- `src/payload-dictionary.ts:18` -- // ---------------------------------------------------------------------------
+- `src/payload-dictionary.ts:33` -- // ---------------------------------------------------------------------------
+- `src/payload-dictionary.ts:34` -- // Sink subtype -> payload class mapping
+- `src/payload-dictionary.ts:35` -- // ---------------------------------------------------------------------------
+- `src/payload-dictionary.ts:38` -- // SQL Injection
+- `src/payload-dictionary.ts:43` -- // Command Injection
+- `src/payload-dictionary.ts:45` -- // XSS
+- `src/payload-dictionary.ts:47` -- // Open Redirect
+- `src/payload-dictionary.ts:49` -- // LDAP Injection
+- `src/payload-dictionary.ts:51` -- // XPath Injection
+- `src/payload-dictionary.ts:53` -- // XXE
+- `src/payload-dictionary.ts:55` -- // Path Traversal
+- `src/payload-dictionary.ts:59` -- // Deserialization
+- `src/payload-dictionary.ts:62` -- // Log Injection
+- `src/payload-dictionary.ts:64` -- // SSTI
+- `src/payload-dictionary.ts:73` -- // Exact match
+- `src/payload-dictionary.ts:77` -- // Fuzzy fallback -- check if any known key is contained in the subtype
+- `src/payload-dictionary.ts:87` -- // ---------------------------------------------------------------------------
+- `src/payload-dictionary.ts:88` -- // CWE -> payload class inference (fallback for synthetic findings)
+- `src/payload-dictionary.ts:89` -- // ---------------------------------------------------------------------------
+- `src/payload-dictionary.ts:114` -- // ---------------------------------------------------------------------------
+- `src/payload-dictionary.ts:115` -- // SQL Injection payloads
+- `src/payload-dictionary.ts:116` -- // ---------------------------------------------------------------------------
+- `src/payload-dictionary.ts:126` -- // String context (single-quote delimited)
+- `src/payload-dictionary.ts:145` -- // Numeric context (no quotes)
+- `src/payload-dictionary.ts:158` -- // Time-based blind -- CRITICAL FIX #3: execution_safe = false
+- `src/payload-dictionary.ts:163` -- // SLEEP can DOS connection pools
+- `src/payload-dictionary.ts:179` -- // ---------------------------------------------------------------------------
+- `src/payload-dictionary.ts:180` -- // Transform effects -- what a TRANSFORM node does to a payload in transit
+- `src/payload-dictionary.ts:181` -- // ---------------------------------------------------------------------------
+- `src/payload-dictionary.ts:210` -- // Primary: subtype-based classification
+- `src/payload-dictionary.ts:214` -- // Fallback: code_snapshot analysis
+- `src/payload-dictionary.ts:217` -- // FIX #2: sanitize/escape = destruction. These DESTROY the payload.
+- `src/payload-dictionary.ts:221` -- // General encoding (URL, Base64) -- payload survives but must be pre-encoded
+- `src/payload-dictionary.ts:232` -- // Unknown transform
+- `src/payload-dictionary.ts:236` -- // ---------------------------------------------------------------------------
+- `src/payload-dictionary.ts:237` -- // Safe command allowlist (for command injection proofs)
+- `src/payload-dictionary.ts:238` -- // ---------------------------------------------------------------------------
+- `src/payload-dictionary.ts:250` -- // ---------------------------------------------------------------------------
+- `src/payload-dictionary.ts:251` -- // Safety validation constants
+- `src/payload-dictionary.ts:252` -- // ---------------------------------------------------------------------------
+
+## src/dedup.ts
+
+- `src/dedup.ts:1` -- /**
+- `src/dedup.ts:1` -- * CWE Deduplication — Layer 2 (Source-Sink) + Layer 3 (Family)
+- `src/dedup.ts:1` -- *
+- `src/dedup.ts:1` -- * LAYER 2 — Source-Sink Dedup:
+- `src/dedup.ts:1` -- * Problem: A single CWE verifier can fire on the same (source, sink) pair
+- `src/dedup.ts:1` -- * multiple times via different traversal paths, producing duplicate findings.
+- `src/dedup.ts:1` -- *
+- `src/dedup.ts:1` -- * Solution: Group findings by (CWE, source.id, sink.id, missingCategory).
+- `src/dedup.ts:1` -- * Within each group, keep the finding with highest severity. The CWE is part
+- `src/dedup.ts:1` -- * of the key so that different CWEs are never collapsed into each other --
+- `src/dedup.ts:1` -- * CWE-336 (Same Seed) and CWE-338 (Weak PRNG) are distinct vulnerabilities
+- `src/dedup.ts:1` -- * even when they fire on the same source/sink pair. Cross-CWE collapsing
+- `src/dedup.ts:1` -- * was causing false-negative regressions on NIST Juliet benchmarks.
+- `src/dedup.ts:1` -- *
+- `src/dedup.ts:1` -- * LAYER 3 — Family Dedup:
+- `src/dedup.ts:1` -- * Problem: CWE families (e.g., CWE-22 through CWE-38 for path traversal)
+- `src/dedup.ts:1` -- * share identical detection logic. One real finding produces 10-20 duplicate
+- `src/dedup.ts:1` -- * findings from sibling CWEs in the same family.
+- `src/dedup.ts:1` -- *
+- `src/dedup.ts:1` -- * Solution: When multiple members of a CWE family fire on the SAME
+- `src/dedup.ts:1` -- * (source.id, sink.id, missingCategory), keep only the parent CWE (or the
+- `src/dedup.ts:1` -- * lowest-numbered child if the parent didn't fire). Suppressed siblings are
+- `src/dedup.ts:1` -- * recorded in collapsed_cwes on the surviving finding.
+- `src/dedup.ts:1` -- *
+- `src/dedup.ts:1` -- * CRITICAL: If only one family member fires, it is always preserved. Family
+- `src/dedup.ts:1` -- * dedup only collapses when 2+ family members fire on the same evidence.
+- `src/dedup.ts:1` -- *
+- `src/dedup.ts:1` -- * Exclusions:
+- `src/dedup.ts:1` -- *   - EFFECTIVE_CONTROL findings (second-pass) are never collapsed
+- `src/dedup.ts:1` -- *   - Different missing categories are never collapsed (CONTROL vs TRANSFORM vs AUTH)
+- `src/dedup.ts:1` -- *
+- `src/dedup.ts:1` -- * Deterministic: same input always produces the same output.
+- `src/dedup.ts:1` -- */
+- `src/dedup.ts:37` -- // ---------------------------------------------------------------------------
+- `src/dedup.ts:38` -- // Severity ordering — higher number = higher severity
+- `src/dedup.ts:39` -- // ---------------------------------------------------------------------------
+- `src/dedup.ts:48` -- // ---------------------------------------------------------------------------
+- `src/dedup.ts:49` -- // Missing category extraction
+- `src/dedup.ts:50` -- // ---------------------------------------------------------------------------
+- `src/dedup.ts:68` -- // ---------------------------------------------------------------------------
+- `src/dedup.ts:69` -- // Dedup key
+- `src/dedup.ts:70` -- // ---------------------------------------------------------------------------
+- `src/dedup.ts:72` -- /**
+- `src/dedup.ts:72` -- * Build a deterministic grouping key for a finding within a CWE result.
+- `src/dedup.ts:72` -- * Findings with the same key are candidates for collapse.
+- `src/dedup.ts:72` -- *
+- `src/dedup.ts:72` -- * The CWE is included in the key so that different CWEs are NEVER collapsed
+- `src/dedup.ts:72` -- * into each other. Only duplicate findings of the SAME CWE on the SAME
+- `src/dedup.ts:72` -- * source/sink/category are collapsed. This prevents cross-CWE absorption
+- `src/dedup.ts:72` -- * that caused 7 false-negative regressions on NIST Juliet (CWE-338 absorbed
+- `src/dedup.ts:72` -- * by CWE-336, CWE-397 by CWE-248, CWE-470 by CWE-88, etc.).
+- `src/dedup.ts:72` -- */
+- `src/dedup.ts:87` -- // ---------------------------------------------------------------------------
+- `src/dedup.ts:88` -- // CWE number extraction (for tie-breaking)
+- `src/dedup.ts:89` -- // ---------------------------------------------------------------------------
+- `src/dedup.ts:96` -- // ---------------------------------------------------------------------------
+- `src/dedup.ts:97` -- // Main dedup function
+- `src/dedup.ts:98` -- // ---------------------------------------------------------------------------
+- `src/dedup.ts:101` -- /** Number of findings before dedup */
+- `src/dedup.ts:103` -- /** Number of findings after dedup */
+- `src/dedup.ts:105` -- /** Number of distinct dedup groups that had collapses */
+- `src/dedup.ts:125` -- // Deep-clone results so we never mutate the input
+- `src/dedup.ts:133` -- // Step 1: Collect all (cwe, finding) pairs from failed results
+- `src/dedup.ts:148` -- // Exclude EFFECTIVE_CONTROL findings from dedup
+- `src/dedup.ts:162` -- // Step 2: Group by dedup key (includes CWE — no cross-CWE collapse)
+- `src/dedup.ts:174` -- // Step 3: Within each group, pick the winner
+- `src/dedup.ts:175` -- // Winner = highest severity, then lowest CWE number (deterministic)
+- `src/dedup.ts:176` -- // CWEs whose findings were absorbed
+- `src/dedup.ts:179` -- // Track which (resultIndex, findingIndex) pairs to remove
+- `src/dedup.ts:181` -- // Track which winners get collapsed_cwes
+- `src/dedup.ts:182` -- // "ri:fi" -> collapsed CWE list
+- `src/dedup.ts:185` -- // nothing to collapse
+- `src/dedup.ts:189` -- // Sort: highest severity first, then lowest CWE number
+- `src/dedup.ts:204` -- // Mark this finding for removal
+- `src/dedup.ts:208` -- // Sort collapsed CWEs for determinism
+- `src/dedup.ts:211` -- // Merge with any existing collapsed_cwes on the winner
+- `src/dedup.ts:216` -- // Step 4: Apply collapsed_cwes to winners
+- `src/dedup.ts:224` -- // Step 5: Remove collapsed findings (iterate in reverse to preserve indices)
+- `src/dedup.ts:225` -- // First, group removals by resultIndex
+- `src/dedup.ts:240` -- // If all findings in this result were collapsed, mark holds=true
+- `src/dedup.ts:251` -- // Also count EFFECTIVE_CONTROL findings that we skipped
+- `src/dedup.ts:267` -- // ===========================================================================
+- `src/dedup.ts:268` -- // LAYER 3 — CWE Family Dedup
+- `src/dedup.ts:269` -- // ===========================================================================
+- `src/dedup.ts:271` -- /**
+- `src/dedup.ts:271` -- * CWE family definitions.
+- `src/dedup.ts:271` -- *
+- `src/dedup.ts:271` -- * Each family has a parent CWE and a set of children. When multiple members
+- `src/dedup.ts:271` -- * of the same family fire on the same (source, sink, missingCategory), only
+- `src/dedup.ts:271` -- * the parent survives. If the parent didn't fire, the lowest-numbered child
+- `src/dedup.ts:271` -- * is kept.
+- `src/dedup.ts:271` -- *
+- `src/dedup.ts:271` -- * Families are derived from MITRE CWE hierarchy:
+- `src/dedup.ts:271` -- * - Path Traversal: CWE-22 is the parent, CWE-23..38 + filesystem variants
+- `src/dedup.ts:271` -- * - XSS: CWE-79 is the parent, CWE-80..87 are output-context variants
+- `src/dedup.ts:271` -- * - Input Handling: CWE-20 is the parent, CWE-228..240 are structural variants
+- `src/dedup.ts:271` -- * - Filtering: CWE-790 is the parent, CWE-791..797 are filtering-mode variants
+- `src/dedup.ts:271` -- * - Link Following: CWE-59 is the parent, CWE-61/62/64/65 are OS-specific variants
+- `src/dedup.ts:271` -- */
+- `src/dedup.ts:290` -- /** All members (parent + children) for fast lookup */
+- `src/dedup.ts:302` -- // Path Traversal family: CWE-22 parent, CWE-23..40 + filesystem variants
+- `src/dedup.ts:305` -- // Windows drive letter / UNC variants
+- `src/dedup.ts:306` -- // Path Equivalence wildcard
+- `src/dedup.ts:307` -- // Virtual resource handling
+- `src/dedup.ts:308` -- // Windows device names
+- `src/dedup.ts:309` -- // Windows ::DATA ADS
+- `src/dedup.ts:310` -- // Apple HFS+ ADS
+- `src/dedup.ts:311` -- // External control of file name or path
+- `src/dedup.ts:314` -- // Link Following family: CWE-59 parent, OS-specific link variants
+- `src/dedup.ts:317` -- // XSS family: CWE-79 parent, CWE-80..87 are context variants
+- `src/dedup.ts:320` -- // Input Handling family: CWE-20 parent, structural/value handling children
+- `src/dedup.ts:325` -- // Filtering family: CWE-790 parent, filtering-mode variants
+- `src/dedup.ts:328` -- // Build a reverse-lookup: CWE -> family it belongs to
+- `src/dedup.ts:348` -- /** Number of CWE results before family dedup */
+- `src/dedup.ts:350` -- /** Number of CWE results after family dedup */
+- `src/dedup.ts:352` -- /** Number of family groups that had collapses */
+- `src/dedup.ts:375` -- // Deep-clone
+- `src/dedup.ts:385` -- // Step 1: For each finding across all failed results, build family groups
+- `src/dedup.ts:386` -- // Key: "familyParent :: source.id :: sink.id :: missingCategory"
+- `src/dedup.ts:387` -- // Value: list of (resultIndex, findingIndex, cwe)
+- `src/dedup.ts:403` -- // Not in any family — skip
+- `src/dedup.ts:407` -- // Exclude EFFECTIVE_CONTROL from family dedup too
+- `src/dedup.ts:422` -- // Step 2: For each family group with 2+ members, pick the winner
+- `src/dedup.ts:423` -- // "ri:fi" pairs to remove
+- `src/dedup.ts:424` -- // "ri:fi" -> collapsed CWE list
+- `src/dedup.ts:428` -- // Need at least 2 different CWEs to collapse
+- `src/dedup.ts:434` -- // Sort: parent first, then by CWE number ascending (deterministic)
+- `src/dedup.ts:437` -- // Parent always wins
+- `src/dedup.ts:440` -- // Then by severity (highest first)
+- `src/dedup.ts:443` -- // Then by CWE number (lowest first)
+- `src/dedup.ts:451` -- // Track which CWEs have already contributed a winner — only collapse
+- `src/dedup.ts:452` -- // findings from the SAME CWE that the winner already covers
+- `src/dedup.ts:458` -- // Only suppress if this CWE is different from the winner
+- `src/dedup.ts:459` -- // (same-CWE duplicates were handled by Layer 2)
+- `src/dedup.ts:469` -- // Sort for determinism
+- `src/dedup.ts:476` -- // Step 3: Apply collapsed_cwes to winners
+- `src/dedup.ts:481` -- // Deduplicate: some CWEs may already be in collapsed_cwes from Layer 2
+- `src/dedup.ts:487` -- // Step 4: Remove suppressed findings
+
+## src/cwe-filter.ts
+
+- `src/cwe-filter.ts:1` -- /**
+- `src/cwe-filter.ts:1` -- * CWE Platform Filter — MITRE-sourced language/platform filtering
+- `src/cwe-filter.ts:1` -- *
+- `src/cwe-filter.ts:1` -- * Replaces the broken WEB_LANGUAGES + PLATFORM_SPECIFIC_CWES gate that was
+- `src/cwe-filter.ts:1` -- * incorrectly filtering J2EE CWEs from Java, .NET CWEs from C#, and Android
+- `src/cwe-filter.ts:1` -- * CWEs from Kotlin.
+- `src/cwe-filter.ts:1` -- *
+- `src/cwe-filter.ts:1` -- * Data source: MITRE CWE XML (cwec_v4.19.1.xml), parsed into cwe-platforms.json.
+- `src/cwe-filter.ts:1` -- * Logic: A CWE is skipped for a language only when there is ZERO platform overlap
+- `src/cwe-filter.ts:1` -- * between the CWE's applicable platforms and the language's target platforms.
+- `src/cwe-filter.ts:1` -- *
+- `src/cwe-filter.ts:1` -- * Recovery: 26 Java CWEs, 22 Kotlin CWEs, 15 C# CWEs restored from incorrect filtering.
+- `src/cwe-filter.ts:1` -- */
+- `src/cwe-filter.ts:19` -- // ---------------------------------------------------------------------------
+- `src/cwe-filter.ts:20` -- // Types
+- `src/cwe-filter.ts:21` -- // ---------------------------------------------------------------------------
+- `src/cwe-filter.ts:30` -- // ---------------------------------------------------------------------------
+- `src/cwe-filter.ts:31` -- // Load MITRE platform data (lazy singleton)
+- `src/cwe-filter.ts:32` -- // ---------------------------------------------------------------------------
+- `src/cwe-filter.ts:45` -- // If JSON file not found, Tier 2 filtering is disabled (Tier 1 still works)
+- `src/cwe-filter.ts:51` -- // ---------------------------------------------------------------------------
+- `src/cwe-filter.ts:52` -- // Platform tag mapping
+- `src/cwe-filter.ts:53` -- // ---------------------------------------------------------------------------
+- `src/cwe-filter.ts:55` -- /**
+- `src/cwe-filter.ts:55` -- * Platform tags for each CWE that was previously in PLATFORM_SPECIFIC_CWES.
+- `src/cwe-filter.ts:55` -- * Derived from MITRE CWE XML data + manual enrichment for CWEs where MITRE
+- `src/cwe-filter.ts:55` -- * says "Not Language-Specific" but the CWE name clearly indicates a platform
+- `src/cwe-filter.ts:55` -- * (e.g., "Windows Shortcut Following" or "Android Application Components").
+- `src/cwe-filter.ts:55` -- *
+- `src/cwe-filter.ts:55` -- * Tags: jvm, dotnet, windows, windows-kernel, android, activex
+- `src/cwe-filter.ts:55` -- */
+- `src/cwe-filter.ts:64` -- // --- Windows kernel ---
+- `src/cwe-filter.ts:65` -- // Unprotected Windows Messaging Channel (Shatter)
+- `src/cwe-filter.ts:66` -- // Exposed IOCTL (MITRE: C/C++)
+- `src/cwe-filter.ts:67` -- // Improper Address Validation in IOCTL (MITRE: C/C++)
+- `src/cwe-filter.ts:69` -- // --- Windows general ---
+- `src/cwe-filter.ts:70` -- // Path Traversal: Windows UNC
+- `src/cwe-filter.ts:71` -- // Path Traversal: 'C:dirname'
+- `src/cwe-filter.ts:72` -- // Path Equivalence: Windows 8.3 Filename
+- `src/cwe-filter.ts:73` -- // Windows Shortcut Following (.LNK)
+- `src/cwe-filter.ts:74` -- // Windows Hard Link
+- `src/cwe-filter.ts:75` -- // Improper Handling of Windows Device Names
+- `src/cwe-filter.ts:76` -- // Improper Handling of Windows ::DATA ADS
+- `src/cwe-filter.ts:78` -- // --- Android ---
+- `src/cwe-filter.ts:79` -- // Improper Verification of Intent by Broadcast Receiver
+- `src/cwe-filter.ts:80` -- // Improper Export of Android Application Components
+- `src/cwe-filter.ts:82` -- // --- .NET / ASP.NET ---
+- `src/cwe-filter.ts:83` -- // ASP.NET Misconfiguration: Creating Debug Binary
+- `src/cwe-filter.ts:84` -- // ASP.NET Misconfiguration: Missing Custom Error Page
+- `src/cwe-filter.ts:85` -- // ASP.NET Misconfiguration: Password in Configuration File
+- `src/cwe-filter.ts:86` -- // .NET Misconfiguration: Use of Impersonation
+- `src/cwe-filter.ts:87` -- // ASP.NET Misconfiguration: Not Using Input Validation Framework
+- `src/cwe-filter.ts:88` -- // ASP.NET Misconfiguration: Use of Identity Impersonation
+- `src/cwe-filter.ts:90` -- // --- J2EE / Struts / EJB / Servlet (all MITRE-tagged as Java) ---
+- `src/cwe-filter.ts:91` -- // J2EE Misconfiguration: Data Transmission Without Encryption
+- `src/cwe-filter.ts:92` -- // J2EE Misconfiguration: Insufficient Session-ID Length
+- `src/cwe-filter.ts:93` -- // J2EE Misconfiguration: Missing Custom Error Handling
+- `src/cwe-filter.ts:94` -- // J2EE Misconfiguration: Entity Bean Declared Remote
+- `src/cwe-filter.ts:95` -- // J2EE Misconfiguration: Weak Access Permissions for EJB Methods
+- `src/cwe-filter.ts:96` -- // Struts: Duplicate Validation Forms
+- `src/cwe-filter.ts:97` -- // Struts: Incomplete validate() Method Definition
+- `src/cwe-filter.ts:98` -- // Struts: Form Bean Does Not Extend Validation Class
+- `src/cwe-filter.ts:99` -- // Struts: Form Field Without Validator
+- `src/cwe-filter.ts:100` -- // Struts: Plug-in Framework Not In Use
+- `src/cwe-filter.ts:101` -- // Struts: Unused Validation Form
+- `src/cwe-filter.ts:102` -- // Struts: Unverified Action Form
+- `src/cwe-filter.ts:103` -- // Struts: Validator Turned Off
+- `src/cwe-filter.ts:104` -- // Struts: Validator Without Form Field
+- `src/cwe-filter.ts:105` -- // Direct Use of Unsafe JNI
+- `src/cwe-filter.ts:106` -- // J2EE Bad Practices: Direct Management of Connections
+- `src/cwe-filter.ts:107` -- // J2EE Bad Practices: Direct Use of Sockets
+- `src/cwe-filter.ts:108` -- // J2EE Bad Practices: Use of System.exit()
+- `src/cwe-filter.ts:109` -- // J2EE Bad Practices: Direct Use of Threads
+- `src/cwe-filter.ts:110` -- // J2EE Misconfiguration: Plaintext Password in Configuration File
+- `src/cwe-filter.ts:111` -- // EJB Bad Practices: Use of Synchronization Primitives
+- `src/cwe-filter.ts:112` -- // EJB Bad Practices: Use of AWT Swing
+- `src/cwe-filter.ts:113` -- // EJB Bad Practices: Use of Java I/O
+- `src/cwe-filter.ts:114` -- // EJB Bad Practices: Use of Sockets
+- `src/cwe-filter.ts:115` -- // EJB Bad Practices: Use of Class Loader
+- `src/cwe-filter.ts:116` -- // J2EE Bad Practices: Non-serializable Object Stored in Session
+- `src/cwe-filter.ts:117` -- // J2EE Framework: Saving Unserializable Objects to Disk
+- `src/cwe-filter.ts:118` -- // Uncaught Exception in Servlet
+- `src/cwe-filter.ts:119` -- // Struts: Non-private Field in ActionForm Class
+- `src/cwe-filter.ts:120` -- // Servlet Runtime Error Message
+- `src/cwe-filter.ts:122` -- // --- ActiveX / COM ---
+- `src/cwe-filter.ts:123` -- // Exposed Unsafe ActiveX Method
+- `src/cwe-filter.ts:124` -- // Unsafe ActiveX Control Marked Safe For Scripting
+- `src/cwe-filter.ts:126` -- // --- SQL-through-app CWEs (MITRE lists "SQL" but these are app-level vulns) ---
+- `src/cwe-filter.ts:127` -- // Auth Bypass Through SQL Primary Key — any language that queries a DB
+- `src/cwe-filter.ts:130` -- /**
+- `src/cwe-filter.ts:130` -- * Platforms each scan language can target.
+- `src/cwe-filter.ts:130` -- * Used for overlap check: if a CWE's platform tags have ZERO overlap with
+- `src/cwe-filter.ts:130` -- * the language's platforms, the CWE is skipped for that language.
+- `src/cwe-filter.ts:130` -- */
+- `src/cwe-filter.ts:152` -- // ---------------------------------------------------------------------------
+- `src/cwe-filter.ts:153` -- // MITRE-sourced language filter (for CWEs NOT in CWE_PLATFORM_TAGS)
+- `src/cwe-filter.ts:154` -- // ---------------------------------------------------------------------------
+- `src/cwe-filter.ts:156` -- /**
+- `src/cwe-filter.ts:156` -- * Map from DST scan language names to MITRE language names.
+- `src/cwe-filter.ts:156` -- * MITRE uses "Java", "C++", etc. DST uses "java", "cpp", etc.
+- `src/cwe-filter.ts:156` -- */
+- `src/cwe-filter.ts:162` -- // TS compiles to JS
+- `src/cwe-filter.ts:168` -- // Kotlin runs on JVM, inherits Java APIs
+- `src/cwe-filter.ts:169` -- // C# is the .NET language
+- `src/cwe-filter.ts:177` -- // ---------------------------------------------------------------------------
+- `src/cwe-filter.ts:178` -- // Public API
+- `src/cwe-filter.ts:179` -- // ---------------------------------------------------------------------------
+- `src/cwe-filter.ts:195` -- // --- Tier 1: Platform-tag overlap for known platform-specific CWEs ---
+- `src/cwe-filter.ts:199` -- // Unknown language = don't skip
+- `src/cwe-filter.ts:201` -- // Skip only when there is ZERO overlap between CWE platforms and language platforms
+- `src/cwe-filter.ts:206` -- // --- Tier 2: MITRE language data for all other CWEs ---
+- `src/cwe-filter.ts:209` -- // Unknown CWE = don't skip
+- `src/cwe-filter.ts:211` -- // If MITRE says "Not Language-Specific", never skip
+- `src/cwe-filter.ts:214` -- // If MITRE lists specific named languages, check if ours is among them
+- `src/cwe-filter.ts:218` -- // Unknown language mapping = don't skip
+- `src/cwe-filter.ts:220` -- // Skip if current language has no match in MITRE's list
+- `src/cwe-filter.ts:225` -- // No language data at all = don't skip (conservative)
+- `src/cwe-filter.ts:234` -- // No language = no filtering
+- `src/cwe-filter.ts:238` -- // ---------------------------------------------------------------------------
+- `src/cwe-filter.ts:239` -- // Exports for testing
+- `src/cwe-filter.ts:240` -- // ---------------------------------------------------------------------------
+
+## src/dst-cli.ts
+
+- `src/dst-cli.ts:1` -- /**
+- `src/dst-cli.ts:1` -- * DST Verification CLI — point at code, get a deterministic security report.
+- `src/dst-cli.ts:1` -- *
+- `src/dst-cli.ts:1` -- * This is the real pipeline: tree-sitter parse → Neural Map → CWE verifiers.
+- `src/dst-cli.ts:1` -- * No regex shortcuts. No confidence scores. Pass or fail.
+- `src/dst-cli.ts:1` -- *
+- `src/dst-cli.ts:1` -- * Usage:
+- `src/dst-cli.ts:1` -- *   npx tsx src/services/dst/dst-cli.ts <file.js>             # scan a file (deduped)
+- `src/dst-cli.ts:1` -- *   npx tsx src/services/dst/dst-cli.ts --demo                # run against built-in vulnerable app
+- `src/dst-cli.ts:1` -- *   npx tsx src/services/dst/dst-cli.ts --demo --json         # output as JSON
+- `src/dst-cli.ts:1` -- *   npx tsx src/services/dst/dst-cli.ts <file.js> --json      # scan file, output JSON
+- `src/dst-cli.ts:1` -- *   npx tsx src/services/dst/dst-cli.ts <file.js> --no-dedup  # raw output, no CWE dedup
+- `src/dst-cli.ts:1` -- *   npx tsx src/services/dst/dst-cli.ts <file.js> --pedantic  # include code-quality CWEs
+- `src/dst-cli.ts:1` -- */
+
+## src/types.ts
+
+- `src/types.ts:46` -- /** Lower bound (inclusive). -Infinity if unknown/unbounded below. */
+- `src/types.ts:48` -- /** Upper bound (inclusive). Infinity if unknown/unbounded above. */
+- `src/types.ts:50` -- /** True when BOTH min and max are finite — the variable is fully bounded. */
+- `src/types.ts:52` -- /** Where the range was established — the CONTROL node ID that set it. */
+- `src/types.ts:108` -- /** Filled template text — the human-readable sentence */
+- `src/types.ts:110` -- /** Template key used to generate this sentence */
+- `src/types.ts:112` -- /** Slot values interpolated into the template */
+- `src/types.ts:114` -- /** Line number in source (1-based) */
+- `src/types.ts:116` -- /** ID of the NeuralMapNode that generated this sentence */
+- `src/types.ts:118` -- /** Taint classification */
+- `src/types.ts:135` -- /** Name of the data element (e.g. "userId", "req.body") */
+- `src/types.ts:137` -- /** Node ID where data originates, or "EXTERNAL" for user input */
+- `src/types.ts:139` -- /** Node ID where data flows to (used in data_out for dedup) */
+- `src/types.ts:141` -- /** Type of data (e.g. "string", "object", "Buffer") */
+- `src/types.ts:143` -- /** Whether this data is user-controlled (taint tracking) */
+- `src/types.ts:145` -- /** Classification of data sensitivity */
+- `src/types.ts:147` -- /** Numeric range constraint on this data element, if known from CONTROL gates. */
+- `src/types.ts:152` -- /** Source node ID this edge originates from (set on top-level map.edges) */
+- `src/types.ts:154` -- /** Target node ID this edge points to */
+- `src/types.ts:156` -- /** Type of relationship */
+- `src/types.ts:158` -- /** Whether this edge is conditionally taken (inside if/switch) */
+- `src/types.ts:160` -- /** Whether this edge crosses an async boundary (await, .then) */
+- `src/types.ts:165` -- /** Unique identifier for this node */
+- `src/types.ts:167` -- /** Human-readable label (e.g. "app.get('/users/:id')") */
+- `src/types.ts:169` -- /** Execution sequence number (order in which nodes appear) */
+- `src/types.ts:171` -- /** Primary classification */
+- `src/types.ts:173` -- /** Finer classification (e.g. "http_handler", "sql_query", "file_read") */
+- `src/types.ts:175` -- /** Source language */
+- `src/types.ts:177` -- /** Source file path */
+- `src/types.ts:179` -- /** Start line in source (1-indexed) */
+- `src/types.ts:181` -- /** End line in source (1-indexed) */
+- `src/types.ts:183` -- /** Verbatim code snippet for this node (truncated to ~200 chars for human display) */
+- `src/types.ts:185` -- /** Full code context for machine analysis (up to 2000 chars, no truncation) */
+- `src/types.ts:187` -- /** Extracted parameter names from the AST walk (avoids post-hoc string parsing) */
+- `src/types.ts:189` -- /** Resolved call chain for this node (e.g. ["db", "query"]) */
+- `src/types.ts:191` -- /** The actual algorithm string for crypto verifiers (e.g. "md5", "sha256") */
+- `src/types.ts:193` -- /** Data flowing into this node */
+- `src/types.ts:195` -- /** Data flowing out of this node */
+- `src/types.ts:197` -- /** Edges from this node to other nodes */
+- `src/types.ts:199` -- /** Security-relevant surface indicators (e.g. "user_input", "sql_sink") */
+- `src/types.ts:201` -- /** Trust boundary this node belongs to (e.g. "public", "authenticated", "internal") */
+- `src/types.ts:203` -- /** Free-form tags for filtering */
+- `src/types.ts:205` -- /** Arbitrary key-value metadata */
+- `src/types.ts:207` -- /** Semantic sentences generated for this node during classification */
+- `src/types.ts:212` -- /** All classified nodes in the map */
+- `src/types.ts:214` -- /** Top-level edges (cross-node relationships not captured in node.edges) */
+- `src/types.ts:216` -- /** Path of the source file that was analyzed */
+- `src/types.ts:218` -- /** The raw source code that was parsed */
+- `src/types.ts:220` -- /** ISO timestamp when this map was created */
+- `src/types.ts:222` -- /** Version of the parser/mapper that produced this map */
+- `src/types.ts:224` -- /** The complete semantic story — all sentences in execution order */
+
+## src/languageProfile.ts
+
+- `src/languageProfile.ts:30` -- /** Language identifier — 'javascript', 'python', 'go', etc. */
+- `src/languageProfile.ts:33` -- /** File extensions this profile handles */
+- `src/languageProfile.ts:36` -- /** Node types that create a function scope */
+- `src/languageProfile.ts:39` -- /** Node types that create a block scope */
+- `src/languageProfile.ts:42` -- /** Node types that create a class scope */
+- `src/languageProfile.ts:45` -- /**
+- `src/languageProfile.ts:45` -- * Determine the scope type for a given AST node.
+- `src/languageProfile.ts:45` -- * Returns null if the node doesn't create a new scope.
+- `src/languageProfile.ts:45` -- */
+- `src/languageProfile.ts:51` -- /**
+- `src/languageProfile.ts:51` -- * Node types that represent variable declarations.
+- `src/languageProfile.ts:51` -- * JS: ['lexical_declaration', 'variable_declaration']
+- `src/languageProfile.ts:51` -- * Python: ['assignment', 'augmented_assignment']
+- `src/languageProfile.ts:51` -- * Go: ['short_var_declaration', 'var_declaration']
+- `src/languageProfile.ts:51` -- */
+- `src/languageProfile.ts:59` -- /**
+- `src/languageProfile.ts:59` -- * Node types that represent function declarations (for hoisting/registration).
+- `src/languageProfile.ts:59` -- * JS: ['function_declaration']
+- `src/languageProfile.ts:59` -- * Python: ['function_definition']
+- `src/languageProfile.ts:59` -- * Go: ['function_declaration', 'method_declaration']
+- `src/languageProfile.ts:59` -- */
+- `src/languageProfile.ts:67` -- /**
+- `src/languageProfile.ts:67` -- * Process a variable declaration node: extract and declare variables
+- `src/languageProfile.ts:67` -- * in the current scope with taint and producing node info.
+- `src/languageProfile.ts:67` -- * This replaces processVariableDeclaration() in the mapper.
+- `src/languageProfile.ts:67` -- */
+- `src/languageProfile.ts:74` -- /**
+- `src/languageProfile.ts:74` -- * Process function parameters: declare params in the current scope.
+- `src/languageProfile.ts:74` -- * This replaces processFunctionParams() in the mapper.
+- `src/languageProfile.ts:74` -- */
+- `src/languageProfile.ts:80` -- /**
+- `src/languageProfile.ts:80` -- * Extract variable names from destructuring patterns.
+- `src/languageProfile.ts:80` -- * This replaces extractPatternNames() in the mapper.
+- `src/languageProfile.ts:80` -- */
+- `src/languageProfile.ts:86` -- /**
+- `src/languageProfile.ts:86` -- * Resolve a call expression node to a NeuralMap node type.
+- `src/languageProfile.ts:86` -- * Wraps resolveCallee() — chain extraction + pattern lookup.
+- `src/languageProfile.ts:86` -- */
+- `src/languageProfile.ts:92` -- /**
+- `src/languageProfile.ts:92` -- * Resolve a property access (member_expression) to a NeuralMap node type.
+- `src/languageProfile.ts:92` -- * For standalone property access like req.body, process.env.
+- `src/languageProfile.ts:92` -- */
+- `src/languageProfile.ts:98` -- /**
+- `src/languageProfile.ts:98` -- * Look up a callee chain in the phoneme dictionary.
+- `src/languageProfile.ts:98` -- * This is the raw lookup — profile.resolveCallee uses this internally
+- `src/languageProfile.ts:98` -- * but the mapper also needs it for computed property resolution and alias chains.
+- `src/languageProfile.ts:98` -- */
+- `src/languageProfile.ts:105` -- /**
+- `src/languageProfile.ts:105` -- * Analyze structural patterns (middleware chains, route definitions).
+- `src/languageProfile.ts:105` -- * Returns null if no structural pattern matches.
+- `src/languageProfile.ts:105` -- */
+- `src/languageProfile.ts:111` -- /**
+- `src/languageProfile.ts:111` -- * Inline taint source pattern — matches code snapshots that contain
+- `src/languageProfile.ts:111` -- * known tainted property accesses (req.body, req.query, etc.)
+- `src/languageProfile.ts:111` -- * Used for inter-procedural taint detection in code_snapshot strings.
+- `src/languageProfile.ts:111` -- */
+- `src/languageProfile.ts:118` -- /**
+- `src/languageProfile.ts:118` -- * Tainted object paths that indicate HTTP request data.
+- `src/languageProfile.ts:118` -- * Used by resolvePropertyAccess to classify member expressions.
+- `src/languageProfile.ts:118` -- */
+- `src/languageProfile.ts:124` -- /**
+- `src/languageProfile.ts:124` -- * The walker classification — the heart of the switch statement.
+- `src/languageProfile.ts:124` -- * Given an AST node, returns classification info or null if unrecognized.
+- `src/languageProfile.ts:124` -- *
+- `src/languageProfile.ts:124` -- * This method handles all node types that the main walkWithScopes switch
+- `src/languageProfile.ts:124` -- * would match: call_expression, function_declaration, if_statement, etc.
+- `src/languageProfile.ts:124` -- *
+- `src/languageProfile.ts:124` -- * It does NOT handle:
+- `src/languageProfile.ts:124` -- * - Scope push/pop (the mapper does that via getScopeType)
+- `src/languageProfile.ts:124` -- * - Variable declarations (the mapper does that via processVariableDeclaration)
+- `src/languageProfile.ts:124` -- * - Recursive child walking (the mapper does that)
+- `src/languageProfile.ts:124` -- * - Post-walk taint propagation (the mapper does that)
+- `src/languageProfile.ts:124` -- *
+- `src/languageProfile.ts:124` -- * It DOES handle:
+- `src/languageProfile.ts:124` -- * - Creating NeuralMapNodes for classified node types
+- `src/languageProfile.ts:124` -- * - Setting up data flow edges for call arguments
+- `src/languageProfile.ts:124` -- * - Registering functions in the function registry
+- `src/languageProfile.ts:124` -- * - Registering pending calls
+- `src/languageProfile.ts:124` -- * - Callback parameter taint setup
+- `src/languageProfile.ts:124` -- */
+- `src/languageProfile.ts:146` -- /**
+- `src/languageProfile.ts:146` -- * Extract taint sources from an expression tree.
+- `src/languageProfile.ts:146` -- * Replaces extractTaintSources() — walks expression nodes recursively
+- `src/languageProfile.ts:146` -- * to find every tainted leaf.
+- `src/languageProfile.ts:146` -- */
+- `src/languageProfile.ts:153` -- /**
+- `src/languageProfile.ts:153` -- * Post-visit hook for functions — check if return expression is tainted.
+- `src/languageProfile.ts:153` -- * Called after walking a function's body.
+- `src/languageProfile.ts:153` -- */
+- `src/languageProfile.ts:159` -- /**
+- `src/languageProfile.ts:159` -- * Pre-visit hook for iteration statements — set up loop variable taint.
+- `src/languageProfile.ts:159` -- * Called before walking a for-of/for-in body.
+- `src/languageProfile.ts:159` -- */
+- `src/languageProfile.ts:165` -- /**
+- `src/languageProfile.ts:165` -- * Post-visit hook for iteration — re-mark loop variable taint.
+- `src/languageProfile.ts:165` -- */
+- `src/languageProfile.ts:170` -- /**
+- `src/languageProfile.ts:170` -- * Check if a node type is a "value-first" declaration that needs
+- `src/languageProfile.ts:170` -- * children walked before the declaration is processed.
+- `src/languageProfile.ts:170` -- * JS: lexical_declaration, variable_declaration
+- `src/languageProfile.ts:170` -- */
+- `src/languageProfile.ts:177` -- /**
+- `src/languageProfile.ts:177` -- * Check if a node is a statement container (for lastCreatedNodeId clearing).
+- `src/languageProfile.ts:177` -- * JS: 'program', 'statement_block'
+- `src/languageProfile.ts:177` -- */
+- `src/languageProfile.ts:183` -- /**
+- `src/languageProfile.ts:183` -- * Optional regex to extract function parameter strings from code_snapshot.
+- `src/languageProfile.ts:183` -- * Used by propagateInterproceduralTaint to find param names from
+- `src/languageProfile.ts:183` -- * STRUCTURAL node code_snapshots in a language-agnostic way.
+- `src/languageProfile.ts:183` -- *
+- `src/languageProfile.ts:183` -- * The regex should capture the full parameter list in group 1.
+- `src/languageProfile.ts:183` -- * The mapper splits on commas and strips type annotations, defaults, and
+- `src/languageProfile.ts:183` -- * splat prefixes (*, **, ...) to get plain param names.
+- `src/languageProfile.ts:183` -- *
+- `src/languageProfile.ts:183` -- * JS default (built-in): function name(params) \| (params) => \| name(params) {
+- `src/languageProfile.ts:183` -- * Python: def name(params):
+- `src/languageProfile.ts:183` -- */
+- `src/languageProfile.ts:197` -- /**
+- `src/languageProfile.ts:197` -- * Optional: evaluate a condition expression for dead-branch elimination.
+- `src/languageProfile.ts:197` -- * Returns true/false if the condition can be statically resolved, or null if unknown.
+- `src/languageProfile.ts:197` -- * Used by walkWithScopes to skip dead branches in if_statement nodes.
+- `src/languageProfile.ts:197` -- */
+- `src/languageProfile.ts:204` -- /** Evaluate a switch expression's target to a constant string value.
+- `src/languageProfile.ts:204` -- *  Returns the resolved constant (e.g., 'B' for a char) or null if unresolvable. */
+
+## src/sentence-generator.ts
+
+- `src/sentence-generator.ts:4` -- /**
+- `src/sentence-generator.ts:4` -- * Map (nodeType, subtype) pairs to sentence template keys.
+- `src/sentence-generator.ts:4` -- * This is how phoneme classification connects to sentence generation.
+- `src/sentence-generator.ts:4` -- */
+

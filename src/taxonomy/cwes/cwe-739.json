@@ -1,0 +1,16 @@
+{
+  "id": "CWE-739",
+  "name": "Category: CERT C Secure Coding Standard (2008) Chapter 6 - Floating Point (FLP)",
+  "status": "needs_review",
+  "description": "Category grouping weaknesses related to floating point handling rules from the CERT C Secure Coding Standard (2008). Covers divide by zero, incorrect numeric type conversions, incorrect calculations, and wrong function argument types in floating-point operations.",
+  "severity": "low",
+  "category": "reliability",
+  "detection_pattern": "N/A — category",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-734", "CWE-369", "CWE-681", "CWE-682", "CWE-686"],
+  "references": ["https://cwe.mitre.org/data/definitions/739.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:15:00Z"
+}

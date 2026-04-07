@@ -1,0 +1,16 @@
+{
+  "id": "CWE-592",
+  "name": "DEPRECATED: Authentication Bypass Issues",
+  "status": "needs_review",
+  "description": "This CWE has been deprecated because it covered redundant concepts already described in CWE-287 (Improper Authentication). It should not be used for vulnerability mapping.",
+  "severity": "low",
+  "category": "authentication",
+  "detection_pattern": "N/A — deprecated",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-287"],
+  "references": ["https://cwe.mitre.org/data/definitions/592.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

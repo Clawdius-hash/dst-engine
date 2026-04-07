@@ -1,0 +1,8 @@
+{
+  "id": "CWE-664",
+  "name": "Improper Control of a Resource Through its Lifetime",
+  "status": "needs_review",
+  "description": "This is a CWE Pillar representing the most abstract level of resource lifecycle management weaknesses. The product does not maintain or incorrectly maintains control over a resource throughout its creation, use, and release. Too abstract for direct vulnerability mapping.",
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:00:00Z"
+}

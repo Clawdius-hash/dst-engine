@@ -1,0 +1,16 @@
+{
+  "id": "CWE-173",
+  "name": "Improper Handling of Alternate Encoding",
+  "status": "filled",
+  "description": "The product does not properly handle input that uses an alternate encoding valid on the destination system (e.g., UTF-8 overlong sequences, URL encoding, HTML entity encoding), allowing attackers to bypass security filters that only check one encoding form.",
+  "severity": "high",
+  "category": "input_output",
+  "detection_pattern": "INGRESS node provides data in an alternate encoding that bypasses CONTROL[input_filter] checking the canonical form, while the downstream EXTERNAL or TRANSFORM decodes the alternate encoding and processes the dangerous content without a TRANSFORM[decode_then_validate] that normalizes encoding before security checks",
+  "graph_query": "INGRESS[alternate_encoding]→CONTROL[filter]→EXTERNAL without TRANSFORM[decode_before_filter]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-172", "CWE-76"],
+  "references": ["https://cwe.mitre.org/data/definitions/173.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

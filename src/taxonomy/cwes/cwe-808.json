@@ -1,0 +1,16 @@
+{
+  "id": "CWE-808",
+  "name": "Category: 2010 Top 25 - Weaknesses On the Cusp",
+  "status": "needs_review",
+  "description": "This is a Category grouping weaknesses that were on the nominee list but not in the main 2010 CWE/SANS Top 25. Includes CWE-59, CWE-134, CWE-212, CWE-416, CWE-476, CWE-772 and others. Cannot be used for vulnerability mapping.",
+  "severity": "low",
+  "category": "reliability",
+  "detection_pattern": "N/A — category, not a weakness",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-800", "CWE-59", "CWE-134", "CWE-416", "CWE-476", "CWE-772"],
+  "references": ["https://cwe.mitre.org/data/definitions/808.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

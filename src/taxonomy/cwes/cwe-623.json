@@ -1,0 +1,16 @@
+{
+  "id": "CWE-623",
+  "name": "Unsafe ActiveX Control Marked Safe For Scripting",
+  "status": "filled",
+  "description": "An ActiveX control designed for restricted use is marked as safe-for-scripting, allowing attackers to access dangerous functionality through web pages that invoke the control's unsafe methods.",
+  "severity": "high",
+  "category": "configuration",
+  "detection_pattern": "STRUCTURAL(ActiveX_control) has META(safe-for-scripting) flag set despite containing TRANSFORM methods that perform privileged CONTROL operations, accessible from untrusted EXTERNAL(web_page)",
+  "graph_query": "EXTERNAL(web_page)→STRUCTURAL(marked_safe_activex)→TRANSFORM(dangerous_method) without CONTROL(privilege_restriction)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-267", "CWE-618"],
+  "references": ["https://cwe.mitre.org/data/definitions/623.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:55:00Z"
+}

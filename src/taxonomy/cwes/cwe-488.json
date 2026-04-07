@@ -1,0 +1,16 @@
+{
+  "id": "CWE-488",
+  "name": "Exposure of Data Element to Wrong Session",
+  "status": "filled",
+  "description": "The product does not properly enforce boundaries between data belonging to different user sessions, allowing data from one session to leak into another. This commonly occurs when shared singleton objects like Servlets store user-specific data in member variables that are accessible across concurrent requests.",
+  "severity": "high",
+  "category": "data_protection",
+  "detection_pattern": "STORAGE node (shared/singleton member variable) that receives data from one INGRESS(session) and is readable by a different INGRESS(session). Look for INGRESS→STORAGE(shared_state) paths where the storage is not scoped to the originating session and lacks CONTROL(synchronization).",
+  "graph_query": "INGRESS(session_A)→STORAGE(shared_state)→EGRESS(session_B) without CONTROL(session_isolation)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-668", "CWE-567"],
+  "references": ["https://cwe.mitre.org/data/definitions/488.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

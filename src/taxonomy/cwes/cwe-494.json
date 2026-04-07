@@ -1,0 +1,16 @@
+{
+  "id": "CWE-494",
+  "name": "Download of Code Without Integrity Check",
+  "status": "filled",
+  "description": "The product downloads source code or an executable from a remote location and executes it without verifying the origin and integrity of the code. An attacker can compromise the host server, perform DNS spoofing, or modify the code in transit to execute arbitrary malicious code.",
+  "severity": "critical",
+  "category": "data_protection",
+  "detection_pattern": "EXTERNAL(remote_source)→INGRESS(download) leading to TRANSFORM(execute) without AUTH(integrity_check). Look for code that fetches resources from EXTERNAL nodes and passes them to execution without a CONTROL(signature_verification) or CONTROL(hash_check) mediator.",
+  "graph_query": "EXTERNAL(remote)→INGRESS(download)→TRANSFORM(execute) without AUTH(integrity_verification)",
+  "owasp_top10": "A08:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-345", "CWE-669", "CWE-295", "CWE-347"],
+  "references": ["https://cwe.mitre.org/data/definitions/494.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

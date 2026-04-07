@@ -1,0 +1,11 @@
+{
+  "id": "CWE-933",
+  "name": "OWASP Top Ten 2013 Category A5 - Security Misconfiguration",
+  "status": "needs_review",
+  "description": "Category: Organizational grouping of weaknesses related to security misconfiguration from the OWASP Top Ten 2013. Not a weakness itself.",
+  "category_type": "category",
+  "related_cwes": ["CWE-928", "CWE-2", "CWE-16", "CWE-209", "CWE-215", "CWE-548"],
+  "references": ["https://cwe.mitre.org/data/definitions/933.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

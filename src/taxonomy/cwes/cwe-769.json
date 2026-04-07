@@ -1,0 +1,16 @@
+{
+  "id": "CWE-769",
+  "name": "DEPRECATED: Uncontrolled File Descriptor Consumption",
+  "status": "needs_review",
+  "description": "This entry has been deprecated because it was a duplicate of CWE-774 (Allocation of File Descriptors or Handles Without Limits or Throttling). Previously described uncontrolled file descriptor consumption leading to resource exhaustion.",
+  "severity": "low",
+  "category": "reliability",
+  "detection_pattern": "N/A — deprecated, see CWE-774",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-774"],
+  "references": ["https://cwe.mitre.org/data/definitions/769.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:15:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-525",
+  "name": "Use of Web Browser Cache Containing Sensitive Information",
+  "status": "filled",
+  "description": "The web application does not use appropriate caching policies to prevent browsers from storing sensitive data like passwords or credit card numbers in client-side caches accessible to other users.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "EGRESS node sends HTTP response containing sensitive form data without Cache-Control headers, allowing browser STORAGE to cache sensitive content accessible to subsequent users",
+  "graph_query": "EGRESS(sensitive_response) without CONTROL(cache_control_headers)",
+  "owasp_top10": "A04:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-524"],
+  "references": ["https://cwe.mitre.org/data/definitions/525.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:20:00Z"
+}

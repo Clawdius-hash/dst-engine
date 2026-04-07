@@ -1,0 +1,16 @@
+{
+  "id": "CWE-391",
+  "name": "Unchecked Error Condition",
+  "status": "needs_review",
+  "description": "The product ignores exceptions and error conditions, allowing attackers to trigger unexpected behavior without detection. Slated for deprecation — use CWE-252, CWE-1069, or CWE-248 instead.",
+  "severity": "medium",
+  "category": "error_handling",
+  "detection_pattern": "TRANSFORM node performs operation that may fail but CONTROL node does not check return value or catch exception, allowing execution to continue on error path",
+  "graph_query": "TRANSFORM(fallible_operation)→TRANSFORM(continue) without CONTROL(error_check)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-754", "CWE-252", "CWE-1069", "CWE-248"],
+  "references": ["https://cwe.mitre.org/data/definitions/391.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:15:00Z"
+}

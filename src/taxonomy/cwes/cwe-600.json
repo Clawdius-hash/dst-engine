@@ -1,0 +1,16 @@
+{
+  "id": "CWE-600",
+  "name": "Uncaught Exception in Servlet",
+  "status": "filled",
+  "description": "A servlet fails to catch all exceptions, causing stack traces and debugging information to be exposed to users. This reveals sensitive details such as database types, container versions, and internal query structures that help attackers target known vulnerabilities.",
+  "severity": "medium",
+  "category": "error_handling",
+  "detection_pattern": "STRUCTURAL(servlet) node processes INGRESS requests but lacks CONTROL(exception_handler) wrapping the processing logic. Uncaught exceptions propagate from TRANSFORM or EXTERNAL nodes directly to EGRESS(http_response), exposing internal META(stack_trace) information to the client.",
+  "graph_query": "TRANSFORM(servlet_logic)→EGRESS(error_response) without CONTROL(exception_handler)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-248", "CWE-390", "CWE-209"],
+  "references": ["https://cwe.mitre.org/data/definitions/600.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

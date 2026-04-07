@@ -1,0 +1,16 @@
+{
+  "id": "CWE-242",
+  "name": "Use of Inherently Dangerous Function",
+  "status": "filled",
+  "description": "The product calls a function that can never be guaranteed to work safely, such as gets() which performs no bounds checking on input size. These functions enable buffer overflow attacks regardless of how carefully they are used.",
+  "severity": "high",
+  "category": "memory",
+  "detection_pattern": "Look for INGRESS nodes (user input, external data) flowing through STRUCTURAL nodes (calls to inherently dangerous functions like gets(), strcpy() without bounds) to STORAGE nodes (buffers, memory) without a CONTROL mediator (bounds check, use of safe alternative function) that prevents unbounded writes.",
+  "graph_query": "INGRESS(external_data)→STRUCTURAL(dangerous_function) without CONTROL(bounds_check)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-1177", "CWE-120", "CWE-676"],
+  "references": ["https://cwe.mitre.org/data/definitions/242.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

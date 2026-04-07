@@ -1,0 +1,16 @@
+{
+  "id": "CWE-130",
+  "name": "Improper Handling of Length Parameter Inconsistency",
+  "status": "filled",
+  "description": "The product parses structured data containing a declared length field but does not validate that the declared length is consistent with the actual data length, potentially enabling buffer overflows when the declared length exceeds the actual available data.",
+  "severity": "high",
+  "category": "memory",
+  "detection_pattern": "INGRESS[structured_data] contains a length field that flows to TRANSFORM[data_parser] which uses the declared length for STORAGE[buffer_access] without a CONTROL[length_consistency_check] that validates the declared length matches the actual data size and doesn't exceed buffer capacity",
+  "graph_query": "INGRESS[length_field]→TRANSFORM[parser]→STORAGE[buffer] without CONTROL[length_consistency_check]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-240", "CWE-119"],
+  "references": ["https://cwe.mitre.org/data/definitions/130.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

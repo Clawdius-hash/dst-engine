@@ -1,0 +1,16 @@
+{
+  "id": "CWE-210",
+  "name": "Self-generated Error Message Containing Sensitive Information",
+  "status": "filled",
+  "description": "The product identifies an error condition and creates its own diagnostic or error message that contains sensitive information such as file paths, database details, or internal system configuration.",
+  "severity": "medium",
+  "category": "error_handling",
+  "detection_pattern": "Look for EGRESS nodes (error responses, log output) that carry data from STRUCTURAL nodes (file paths, config values, internal state) without a TRANSFORM mediator that sanitizes or generalizes the error message before it reaches the user.",
+  "graph_query": "STRUCTURAL→EGRESS without TRANSFORM(sanitize_error)",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-209", "CWE-200", "CWE-211"],
+  "references": ["https://cwe.mitre.org/data/definitions/210.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

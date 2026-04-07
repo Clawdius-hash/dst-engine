@@ -1,0 +1,16 @@
+{
+  "id": "CWE-5",
+  "name": "J2EE Misconfiguration: Data Transmission Without Encryption",
+  "status": "filled",
+  "description": "A J2EE application is configured to transmit data without encryption, allowing attackers to intercept and read or modify sensitive information in transit over the network.",
+  "severity": "high",
+  "category": "cryptography",
+  "detection_pattern": "EGRESS[network] or EXTERNAL[http] node transmits sensitive data from a J2EE/web application context without an EXTERNAL[tls/ssl] wrapper, or configuration lacks transport-guarantee CONFIDENTIAL in web.xml security constraints",
+  "graph_query": "STORAGE|TRANSFORM[sensitive_data]→EGRESS[http] without EXTERNAL[tls]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-319"],
+  "references": ["https://cwe.mitre.org/data/definitions/5.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

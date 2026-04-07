@@ -1,0 +1,16 @@
+{
+  "id": "CWE-583",
+  "name": "finalize() Method Declared Public",
+  "status": "filled",
+  "description": "A finalize() method is declared with public access in Java code. This allows external code to invoke the finalizer directly, potentially causing resource cleanup to execute prematurely or allowing attackers to manipulate object lifecycle and access sensitive resources during finalization.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "STRUCTURAL node representing a class with a public finalize() method. Look for method declarations where finalize() has public visibility, exposing resource cleanup logic as an unexpected access point.",
+  "graph_query": "STRUCTURAL[class]→EGRESS[public_finalize()] without CONTROL[access_restriction]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-668"],
+  "references": ["https://cwe.mitre.org/data/definitions/583.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

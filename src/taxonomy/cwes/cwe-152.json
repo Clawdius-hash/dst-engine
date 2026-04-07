@@ -1,0 +1,16 @@
+{
+  "id": "CWE-152",
+  "name": "Improper Neutralization of Macro Symbols",
+  "status": "filled",
+  "description": "The product does not properly neutralize macro-related symbols in user input before passing it to a downstream component that interprets macros, allowing attackers to inject executable macro commands (e.g., in spreadsheets, document templates, or preprocessors).",
+  "severity": "high",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides user-controlled data containing macro trigger characters (=, $, %, {{}}) that flows to EXTERNAL[macro_interpreter] or STORAGE[macro_enabled_doc] without a TRANSFORM[macro_escape] that strips or escapes macro-significant symbols",
+  "graph_query": "INGRESS[macro_symbols]→EXTERNAL[macro_interpreter] without TRANSFORM[macro_escape]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-138"],
+  "references": ["https://cwe.mitre.org/data/definitions/152.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-406",
+  "name": "Insufficient Control of Network Message Volume (Network Amplification)",
+  "status": "filled",
+  "description": "The product does not sufficiently monitor or control transmitted network traffic volume, allowing an attacker to cause the product to transmit disproportionately more traffic than the attacker sends, enabling network amplification attacks such as DNS or NTP reflection.",
+  "severity": "high",
+  "category": "reliability",
+  "detection_pattern": "INGRESS node receives a small network request (e.g., spoofed UDP packet) that causes an EGRESS node to emit a much larger response to a target address, without a CONTROL node validating source identity or enforcing response-to-request size ratios",
+  "graph_query": "INGRESS[network_request]→EGRESS[amplified_response] without CONTROL[source_validation|size_ratio_limit]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-405", "CWE-941"],
+  "references": ["https://cwe.mitre.org/data/definitions/406.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:25:00Z"
+}

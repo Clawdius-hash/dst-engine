@@ -1,0 +1,16 @@
+{
+  "id": "CWE-584",
+  "name": "Return Inside Finally Block",
+  "status": "filled",
+  "description": "The code contains a return statement inside a finally block, which causes any thrown exception from the try block to be silently discarded. This can mask errors, hide security-relevant exceptions, and lead to incorrect program state.",
+  "severity": "medium",
+  "category": "error_handling",
+  "detection_pattern": "CONTROL node representing a try-finally block where the finally block contains a return statement. Look for EGRESS (return) nodes within finally CONTROL blocks that would suppress exceptions from the corresponding try block.",
+  "graph_query": "CONTROL[finally]→EGRESS[return] without CONTROL[exception_propagation]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-705"],
+  "references": ["https://cwe.mitre.org/data/definitions/584.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

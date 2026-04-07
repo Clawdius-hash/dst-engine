@@ -1,0 +1,16 @@
+{
+  "id": "CWE-321",
+  "name": "Use of Hard-coded Cryptographic Key",
+  "status": "filled",
+  "description": "The product uses a hard-coded cryptographic key embedded directly in the source code or binary. If the key is discovered through reverse engineering or source code exposure, all data encrypted with that key is compromised, and the key cannot be changed without updating the software.",
+  "severity": "high",
+  "category": "cryptography",
+  "detection_pattern": "Look for META nodes (hardcoded constant, embedded key literal) flowing into TRANSFORM nodes (encryption, decryption, signing) as the cryptographic key, without a STORAGE or EXTERNAL mediator (key management service, secure key store, configuration-based key) that provides the key dynamically and allows rotation.",
+  "graph_query": "META(hardcoded_key)→TRANSFORM(crypto_operation) without EXTERNAL(key_management)",
+  "owasp_top10": "A02:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-798", "CWE-259", "CWE-656"],
+  "references": ["https://cwe.mitre.org/data/definitions/321.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

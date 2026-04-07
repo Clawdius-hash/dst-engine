@@ -1,0 +1,16 @@
+{
+  "id": "CWE-170",
+  "name": "Improper Null Termination",
+  "status": "filled",
+  "description": "The product does not terminate or incorrectly terminates a string or array with a null character, causing subsequent string operations to read past the intended boundary, potentially leaking adjacent memory contents or causing buffer overflows.",
+  "severity": "high",
+  "category": "memory",
+  "detection_pattern": "TRANSFORM[string_operation] (strncpy, snprintf, read) writes to STORAGE[buffer] but does not ensure the result is null-terminated when the source data fills the entire buffer, causing downstream TRANSFORM[strlen|strcpy|printf] to read past the buffer end without a CONTROL[null_termination_check]",
+  "graph_query": "TRANSFORM[write]→STORAGE[buffer]→TRANSFORM[string_read] without CONTROL[null_termination_guarantee]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-707", "CWE-20", "CWE-119", "CWE-125"],
+  "references": ["https://cwe.mitre.org/data/definitions/170.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

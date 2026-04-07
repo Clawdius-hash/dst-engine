@@ -1,0 +1,16 @@
+{
+  "id": "CWE-277",
+  "name": "Insecure Inherited Permissions",
+  "status": "filled",
+  "description": "A product defines insecure permissions for a parent object, and objects created within it automatically inherit those overly permissive settings. This can allow unintended access or modification of sensitive child resources.",
+  "severity": "medium",
+  "category": "authorization",
+  "detection_pattern": "Look for STRUCTURAL nodes (parent directories, container objects, namespaces) with permissive AUTH settings that propagate to child STORAGE nodes (created files, subdirectories, child objects) without a CONTROL mediator (explicit child permission override, inheritance restriction, permission mask) that ensures child objects receive appropriately restrictive permissions independent of the parent.",
+  "graph_query": "STRUCTURAL(parent_object)→STORAGE(child_object) without CONTROL(permission_inheritance_restriction)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-732", "CWE-276", "CWE-278"],
+  "references": ["https://cwe.mitre.org/data/definitions/277.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

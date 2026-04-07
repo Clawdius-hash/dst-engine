@@ -1,0 +1,16 @@
+{
+  "id": "CWE-220",
+  "name": "Storage of File With Sensitive Data Under FTP Root",
+  "status": "filled",
+  "description": "The product stores sensitive information beneath an FTP server's root directory with inadequate access restrictions, potentially exposing it to unauthorized parties who can access the FTP service.",
+  "severity": "high",
+  "category": "file_handling",
+  "detection_pattern": "Look for STORAGE nodes (file write operations) placing sensitive data in paths under an EXTERNAL node (FTP root directory) without an AUTH node (access control, permission restriction) mediating. The sensitive file becomes reachable from the FTP service without proper authorization checks.",
+  "graph_query": "STORAGE(sensitive_file)→EXTERNAL(ftp_root) without AUTH(access_control)",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-552", "CWE-219"],
+  "references": ["https://cwe.mitre.org/data/definitions/220.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

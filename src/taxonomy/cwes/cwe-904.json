@@ -1,0 +1,11 @@
+{
+  "id": "CWE-904",
+  "name": "SFP Primary Cluster: Malware",
+  "status": "needs_review",
+  "description": "Category: Organizes Software Fault Patterns related to malware. An organizational grouping, not a weakness itself.",
+  "category_type": "category",
+  "related_cwes": ["CWE-888", "CWE-506", "CWE-507", "CWE-508", "CWE-509", "CWE-510", "CWE-511", "CWE-512", "CWE-968"],
+  "references": ["https://cwe.mitre.org/data/definitions/904.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

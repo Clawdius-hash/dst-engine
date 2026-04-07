@@ -1,0 +1,16 @@
+{
+  "id": "CWE-369",
+  "name": "Divide By Zero",
+  "status": "filled",
+  "description": "The product divides a value by zero, typically due to unexpected input or undetected error conditions, commonly occurring in calculations involving physical dimensions and causing crashes or denial of service.",
+  "severity": "medium",
+  "category": "reliability",
+  "detection_pattern": "INGRESS node provides numeric value that flows to TRANSFORM node performing division without CONTROL node validating the divisor is non-zero",
+  "graph_query": "INGRESS(numeric)→TRANSFORM(division) without CONTROL(zero_check)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-682"],
+  "references": ["https://cwe.mitre.org/data/definitions/369.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:45:00Z"
+}

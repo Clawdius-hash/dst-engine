@@ -1,0 +1,16 @@
+{
+  "id": "CWE-577",
+  "name": "EJB Bad Practices: Use of Sockets",
+  "status": "filled",
+  "description": "An Enterprise JavaBean uses sockets to listen for, accept, or multicast connections, violating the EJB specification. Beans are designed to serve clients through the container and must not act as network servers themselves.",
+  "severity": "medium",
+  "category": "api",
+  "detection_pattern": "STRUCTURAL node within an EJB context that creates socket connections via EXTERNAL calls. Look for INGRESS or EGRESS nodes representing direct socket operations (ServerSocket, Socket, DatagramSocket) within bean code bypassing the container.",
+  "graph_query": "STRUCTURAL[EJB]→EXTERNAL[Socket] without CONTROL[container_managed_networking]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-573"],
+  "references": ["https://cwe.mitre.org/data/definitions/577.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

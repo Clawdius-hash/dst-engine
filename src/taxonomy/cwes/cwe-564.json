@@ -1,0 +1,16 @@
+{
+  "id": "CWE-564",
+  "name": "SQL Injection: Hibernate",
+  "status": "filled",
+  "description": "The application uses Hibernate to execute dynamic SQL or HQL statements built with unsanitized user-controlled input, allowing attackers to modify query logic or execute arbitrary SQL commands.",
+  "severity": "critical",
+  "category": "injection",
+  "detection_pattern": "INGRESS node carrying user input flows through TRANSFORM (string concatenation) into an EXTERNAL node (Hibernate query execution) without a CONTROL node performing parameterized query binding or input sanitization.",
+  "graph_query": "INGRESS→TRANSFORM(concat)→EXTERNAL(hibernate_query) without CONTROL(parameterize)",
+  "owasp_top10": "A03:2021",
+  "sans_top25": true,
+  "related_cwes": ["CWE-89"],
+  "references": ["https://cwe.mitre.org/data/definitions/564.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

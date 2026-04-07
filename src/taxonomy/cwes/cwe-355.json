@@ -1,0 +1,16 @@
+{
+  "id": "CWE-355",
+  "name": "User Interface Security Issues",
+  "status": "needs_review",
+  "description": "Category-level CWE covering weaknesses related to user interface security. This is an organizational grouping, not a concrete weakness — vulnerability mapping is prohibited.",
+  "severity": "low",
+  "category": "input_output",
+  "detection_pattern": "N/A — category CWE, not a concrete weakness",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-356", "CWE-357", "CWE-1021"],
+  "references": ["https://cwe.mitre.org/data/definitions/355.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:30:00Z"
+}

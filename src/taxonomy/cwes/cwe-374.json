@@ -1,0 +1,16 @@
+{
+  "id": "CWE-374",
+  "name": "Passing Mutable Objects to an Untrusted Method",
+  "status": "filled",
+  "description": "The product passes non-cloned mutable data as an argument to an external or untrusted method, which can alter or delete the mutable data and violate the caller's assumptions about program state.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "STORAGE node holding mutable object is passed by reference to EXTERNAL or untrusted TRANSFORM node without a TRANSFORM node cloning the data first",
+  "graph_query": "STORAGE(mutable_object)→EXTERNAL(untrusted_method) without TRANSFORM(defensive_copy)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-668"],
+  "references": ["https://cwe.mitre.org/data/definitions/374.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:55:00Z"
+}

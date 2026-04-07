@@ -1,0 +1,16 @@
+{
+  "id": "CWE-530",
+  "name": "Exposure of Backup File to an Unauthorized Control Sphere",
+  "status": "filled",
+  "description": "Backup files (often renamed with extensions like .bk or .old) are stored in web-accessible directories, potentially exposing database calls, credentials, and architectural details to unauthorized actors.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "STORAGE node contains backup files with predictable extensions under web-accessible STRUCTURAL path, allowing EXTERNAL actors to access via INGRESS without AUTH restriction",
+  "graph_query": "INGRESS(http_request)→STORAGE(backup_file) without AUTH(access_restriction)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-552"],
+  "references": ["https://cwe.mitre.org/data/definitions/530.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:25:00Z"
+}

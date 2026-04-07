@@ -1,0 +1,16 @@
+{
+  "id": "CWE-279",
+  "name": "Incorrect Execution-Assigned Permissions",
+  "status": "filled",
+  "description": "While executing, the product sets the permissions of an object in a way that violates the intended permissions specified by the user. Runtime permission assignments override or contradict the user's intended security policy.",
+  "severity": "medium",
+  "category": "authorization",
+  "detection_pattern": "Look for CONTROL nodes (runtime permission assignment, chmod, setACL calls during execution) that modify AUTH settings on STORAGE nodes (files, objects, resources) without a CONTROL mediator (user-intent validation, permission policy check, specification compliance verification) that ensures the assigned permissions match the user's intended security specifications.",
+  "graph_query": "CONTROL(runtime_permission_set)→STORAGE(resource) without CONTROL(user_intent_validation)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-732", "CWE-276"],
+  "references": ["https://cwe.mitre.org/data/definitions/279.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

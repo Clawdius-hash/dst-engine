@@ -1,0 +1,8 @@
+{
+  "id": "CWE-679",
+  "name": "DEPRECATED: Chain Elements",
+  "status": "needs_review",
+  "description": "This CWE View has been deprecated because it has limited utility for stakeholders since all weaknesses can be links in a chain. Deprecated and should not be used for vulnerability mapping.",
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-348",
+  "name": "Use of Less Trusted Source",
+  "status": "filled",
+  "description": "The product has two or more sources of the same data but uses the source that has less support for verification, is less trusted, or is more susceptible to attacker manipulation. For example, trusting a user-controlled HTTP_X_FORWARDED_FOR header over the server-determined REMOTE_ADDR for IP-based access decisions.",
+  "severity": "medium",
+  "category": "authentication",
+  "detection_pattern": "INGRESS node provides user-controlled data (e.g., spoofable headers, client-supplied metadata) that flows to AUTH or CONTROL nodes for access decisions, when a more trusted INGRESS or META source providing the same information exists but is not used. Look for AUTH or CONTROL nodes that read from an attacker-controllable INGRESS path instead of a server-authoritative META or STRUCTURAL source for the same data point.",
+  "graph_query": "INGRESS[user_controlled]→AUTH|CONTROL[access_decision] without META[trusted_source]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-345", "CWE-1214"],
+  "references": ["https://cwe.mitre.org/data/definitions/348.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:20:00Z"
+}

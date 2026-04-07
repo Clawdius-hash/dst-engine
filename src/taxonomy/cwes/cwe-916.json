@@ -1,0 +1,16 @@
+{
+  "id": "CWE-916",
+  "name": "Use of Password Hash With Insufficient Computational Effort",
+  "status": "filled",
+  "description": "The product generates a hash for a password but uses a scheme that does not provide sufficient computational effort to resist brute-force attacks. Fast hashing algorithms allow attackers with access to password hashes to crack them through offline computing, especially with GPU or cloud resources.",
+  "severity": "high",
+  "category": "cryptography",
+  "detection_pattern": "INGRESS[password] flows to a TRANSFORM[hash] node using a fast algorithm (MD5, SHA-1, SHA-256 without key stretching) before reaching STORAGE[credential_store], without a TRANSFORM[key_stretching] node (bcrypt, scrypt, PBKDF2, argon2) providing computational hardness",
+  "graph_query": "INGRESS[password]→TRANSFORM[hash_fast]→STORAGE[credential] without TRANSFORM[key_stretching]",
+  "owasp_top10": "A02:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-328", "CWE-327", "CWE-759", "CWE-760"],
+  "references": ["https://cwe.mitre.org/data/definitions/916.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

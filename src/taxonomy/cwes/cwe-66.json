@@ -1,0 +1,16 @@
+{
+  "id": "CWE-66",
+  "name": "Improper Handling of File Names that Identify Virtual Resources",
+  "status": "filled",
+  "description": "The product does not properly handle filenames that identify virtual resources rather than actual files, such as device names or special filesystem entries, leading to unintended operations on non-file entities.",
+  "severity": "medium",
+  "category": "file_handling",
+  "detection_pattern": "INGRESS node provides a filename that maps to a virtual resource (device, pipe, special filesystem entry) rather than a regular file, which flows to STORAGE[file_access] without a CONTROL node that validates the filename refers to an actual file and not a virtual resource",
+  "graph_query": "INGRESS[virtual_filename]→STORAGE[file_access] without CONTROL[virtual_resource_check]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-706", "CWE-67"],
+  "references": ["https://cwe.mitre.org/data/definitions/66.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,11 @@
+{
+  "id": "CWE-883",
+  "name": "CERT C++ Secure Coding Section 49 - Miscellaneous (MSC)",
+  "status": "needs_review",
+  "description": "Category: Organizational grouping of miscellaneous weaknesses from the CERT C++ Secure Coding Standard. Not a weakness itself.",
+  "category_type": "category",
+  "related_cwes": ["CWE-868", "CWE-14", "CWE-20", "CWE-327", "CWE-330", "CWE-480", "CWE-561", "CWE-563"],
+  "references": ["https://cwe.mitre.org/data/definitions/883.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

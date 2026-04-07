@@ -1,0 +1,16 @@
+{
+  "id": "CWE-774",
+  "name": "Allocation of File Descriptors or Handles Without Limits or Throttling",
+  "status": "filled",
+  "description": "The product allocates file descriptors or handles without enforcing limits on allocation quantities, allowing consumption of all available descriptors and preventing other processes from critical file operations.",
+  "severity": "medium",
+  "category": "file_handling",
+  "detection_pattern": "INGRESS triggers TRANSFORM to allocate file descriptors in STORAGE without CONTROL node enforcing maximum allocation limits or throttling per-actor descriptor consumption",
+  "graph_query": "INGRESS→TRANSFORM(fd_allocation)→STORAGE(fd_pool) without CONTROL(allocation_limit)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-770"],
+  "references": ["https://cwe.mitre.org/data/definitions/774.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:20:00Z"
+}

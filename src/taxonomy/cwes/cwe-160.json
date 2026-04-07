@@ -1,0 +1,16 @@
+{
+  "id": "CWE-160",
+  "name": "Improper Neutralization of Leading Special Elements",
+  "status": "filled",
+  "description": "The product does not properly neutralize leading special characters in user input (e.g., leading dashes interpreted as command flags, leading dots in filenames, leading slashes), allowing attackers to alter how the input is interpreted by downstream components.",
+  "severity": "medium",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides data with leading special characters that flows to EXTERNAL[command|interpreter] or STORAGE[file_access] without a TRANSFORM[leading_element_strip] that removes or escapes leading special characters before the data is used",
+  "graph_query": "INGRESS[leading_special]→EXTERNAL|STORAGE without TRANSFORM[leading_element_neutralize]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-138", "CWE-88"],
+  "references": ["https://cwe.mitre.org/data/definitions/160.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-254",
+  "name": "Category: 7PK - Security Features",
+  "status": "needs_review",
+  "description": "This is a CWE Category (not an actual weakness) grouping security feature-related weaknesses under the Seven Pernicious Kingdoms taxonomy. Covers authentication, access control, confidentiality, cryptography, and privilege management. Prohibited for vulnerability mapping since 2019 — map to specific member CWEs instead.",
+  "severity": "low",
+  "category": "authentication",
+  "detection_pattern": "N/A — category",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-256", "CWE-259", "CWE-284", "CWE-285", "CWE-330", "CWE-798"],
+  "references": ["https://cwe.mitre.org/data/definitions/254.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

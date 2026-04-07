@@ -1,0 +1,16 @@
+{
+  "id": "CWE-474",
+  "name": "Use of Function with Inconsistent Implementations",
+  "status": "filled",
+  "description": "The code uses functions whose behavior varies across different operating systems or platform versions. These inconsistencies in parameter interpretation, return values, or security properties can introduce unexpected vulnerabilities when the software is deployed on different platforms.",
+  "severity": "medium",
+  "category": "api",
+  "detection_pattern": "A TRANSFORM node or EXTERNAL node calls a function known to have platform-dependent behavior without a CONTROL[platform_check] or STRUCTURAL[abstraction_layer] mediator that normalizes the function's behavior across implementations.",
+  "graph_query": "TRANSFORM[platform_dependent_call]→EGRESS|STORAGE without CONTROL[platform_check]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-758", "CWE-589"],
+  "references": ["https://cwe.mitre.org/data/definitions/474.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

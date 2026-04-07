@@ -1,0 +1,16 @@
+{
+  "id": "CWE-596",
+  "name": "DEPRECATED: Incorrect Semantic Object Comparison",
+  "status": "needs_review",
+  "description": "This CWE has been deprecated because it was poorly described and difficult to distinguish from other entries. CWE-1023 (Incomplete Comparison with Missing Factors) is the closest equivalent replacement.",
+  "severity": "low",
+  "category": "reliability",
+  "detection_pattern": "N/A — deprecated",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-1023"],
+  "references": ["https://cwe.mitre.org/data/definitions/596.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

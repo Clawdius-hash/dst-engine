@@ -1,0 +1,16 @@
+{
+  "id": "CWE-643",
+  "name": "Improper Neutralization of Data within XPath Expressions ('XPath Injection')",
+  "status": "filled",
+  "description": "The product uses external input to dynamically construct XPath queries without proper neutralization of special elements. This allows attackers to control the structure of the query, potentially bypassing authentication or accessing unauthorized data from XML data stores.",
+  "severity": "high",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides user input that flows into a TRANSFORM node constructing XPath expressions, which then queries an EXTERNAL or STORAGE node containing XML data, without a CONTROL node performing proper escaping or parameterization of XPath special characters.",
+  "graph_query": "INGRESS→TRANSFORM(xpath_construction)→STORAGE(xml_data) without CONTROL(xpath_sanitization)",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-91", "CWE-943"],
+  "references": ["https://cwe.mitre.org/data/definitions/643.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-772",
+  "name": "Missing Release of Resource after Effective Lifetime",
+  "status": "filled",
+  "description": "The product does not release resources (memory, file descriptors, connections, CPU) after their effective lifetime has ended, leading to resource exhaustion and denial of service.",
+  "severity": "high",
+  "category": "memory",
+  "detection_pattern": "TRANSFORM node acquires resource from STORAGE but no CONTROL node releases it after use completes, causing resource accumulation over time",
+  "graph_query": "TRANSFORM(acquire_resource)→STORAGE(held_resource) without CONTROL(release_after_use)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-404", "CWE-401", "CWE-775"],
+  "references": ["https://cwe.mitre.org/data/definitions/772.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:20:00Z"
+}

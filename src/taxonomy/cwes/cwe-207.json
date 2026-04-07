@@ -1,0 +1,16 @@
+{
+  "id": "CWE-207",
+  "name": "Observable Behavioral Discrepancy With Equivalent Products",
+  "status": "filled",
+  "description": "The product operates in an environment where its specific identity should not be known, but it behaves differently from other products with equivalent functionality, enabling fingerprinting. Attackers use these behavioral differences to identify the vendor, version, or configuration.",
+  "severity": "low",
+  "category": "data_protection",
+  "detection_pattern": "Look for EGRESS nodes (HTTP headers, error responses, protocol behaviors) that contain product-specific signatures or behavioral patterns originating from STRUCTURAL nodes (server configuration, default settings) without a TRANSFORM node (response standardization/header stripping) that removes identifying behavioral differences.",
+  "graph_query": "STRUCTURAL(product_config)→EGRESS(identifiable_behavior) without TRANSFORM(fingerprint_removal)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-205", "CWE-203"],
+  "references": ["https://cwe.mitre.org/data/definitions/207.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

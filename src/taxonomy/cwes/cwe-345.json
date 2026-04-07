@@ -1,0 +1,16 @@
+{
+  "id": "CWE-345",
+  "name": "Insufficient Verification of Data Authenticity",
+  "status": "filled",
+  "description": "The product does not sufficiently verify the origin or authenticity of data, causing it to accept invalid or tampered data. This is an abstract class-level weakness; concrete instances include missing signature verification, origin validation errors, and CSRF.",
+  "severity": "high",
+  "category": "data_protection",
+  "detection_pattern": "INGRESS or EXTERNAL node provides data that flows to TRANSFORM, STORAGE, or EGRESS nodes for processing or persistence without passing through an AUTH node that verifies the data's authenticity, integrity, or origin. The absence of any AUTH[verify_authenticity] or AUTH[signature_verification] mediator between untrusted input and trusted processing indicates this weakness.",
+  "graph_query": "INGRESS|EXTERNAL→TRANSFORM|STORAGE|EGRESS without AUTH[verify_authenticity]",
+  "owasp_top10": "A08:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-346", "CWE-347", "CWE-352", "CWE-693"],
+  "references": ["https://cwe.mitre.org/data/definitions/345.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:20:00Z"
+}

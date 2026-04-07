@@ -1,0 +1,16 @@
+{
+  "id": "CWE-403",
+  "name": "Exposure of File Descriptor to Unintended Control Sphere ('File Descriptor Leak')",
+  "status": "filled",
+  "description": "A process does not close sensitive file descriptors before spawning a child process, allowing the child to perform unauthorized I/O operations using inherited descriptors that should have been restricted.",
+  "severity": "medium",
+  "category": "file_handling",
+  "detection_pattern": "STORAGE node holding an open file descriptor flows through a TRANSFORM node that forks or executes a child process (EXTERNAL node) without a CONTROL node closing or setting close-on-exec for the descriptor before the spawn",
+  "graph_query": "STORAGE[file_descriptor]→EXTERNAL[child_process] without CONTROL[close_fd|close_on_exec]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-402", "CWE-668"],
+  "references": ["https://cwe.mitre.org/data/definitions/403.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:25:00Z"
+}

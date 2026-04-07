@@ -1,0 +1,16 @@
+{
+  "id": "CWE-155",
+  "name": "Improper Neutralization of Wildcards or Matching Symbols",
+  "status": "filled",
+  "description": "The product does not properly neutralize wildcard or matching symbols (*, ?, [], regex metacharacters) in user input, allowing attackers to expand file globs, match unintended patterns, or cause excessive resource consumption through pathological regex patterns.",
+  "severity": "medium",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides user-controlled data containing wildcard or regex metacharacters that flows to TRANSFORM[pattern_match] or STORAGE[file_glob] without a TRANSFORM[wildcard_escape] that escapes or quotes the matching symbols before they reach the pattern engine",
+  "graph_query": "INGRESS[wildcards]→TRANSFORM[pattern_match]|STORAGE[file_glob] without TRANSFORM[wildcard_escape]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-138", "CWE-56"],
+  "references": ["https://cwe.mitre.org/data/definitions/155.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

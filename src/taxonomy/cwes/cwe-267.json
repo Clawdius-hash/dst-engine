@@ -1,0 +1,16 @@
+{
+  "id": "CWE-267",
+  "name": "Privilege Defined With Unsafe Actions",
+  "status": "filled",
+  "description": "A privilege is defined in a way that allows it to be used to perform unintended unsafe actions, even when assigned to the correct entity. For example, a USER role inadvertently granted access to debug endpoints or administrative operations that should be restricted to ADMIN only.",
+  "severity": "high",
+  "category": "authorization",
+  "detection_pattern": "Look for AUTH nodes (role definitions, privilege specifications) that grant access to CONTROL or TRANSFORM nodes (dangerous operations, debug endpoints, system configuration, data deletion) without a CONTROL mediator (fine-grained permission check, action-level authorization) that restricts which specific actions each privilege level can perform.",
+  "graph_query": "AUTH(privilege_definition)→CONTROL(unsafe_action) without CONTROL(action_level_authz)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-269", "CWE-623", "CWE-266"],
+  "references": ["https://cwe.mitre.org/data/definitions/267.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

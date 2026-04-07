@@ -1,0 +1,16 @@
+{
+  "id": "CWE-15",
+  "name": "External Control of System or Configuration Setting",
+  "status": "filled",
+  "description": "The product allows externally-controlled input to specify or influence system settings or configuration values, enabling attackers to disrupt service or cause the application to behave in unexpected and potentially malicious ways.",
+  "severity": "high",
+  "category": "input_output",
+  "detection_pattern": "INGRESS node provides user-controlled data that flows directly to META[system_config] or TRANSFORM[config_setting] nodes that modify system behavior (connection strings, log paths, feature flags, host addresses) without a CONTROL[validation|allowlist] node restricting the configurable values",
+  "graph_query": "INGRESS→META[system_config] without CONTROL[config_validation]",
+  "owasp_top10": "A05:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-610", "CWE-642", "CWE-20"],
+  "references": ["https://cwe.mitre.org/data/definitions/15.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

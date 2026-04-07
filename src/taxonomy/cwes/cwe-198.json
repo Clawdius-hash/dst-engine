@@ -1,0 +1,16 @@
+{
+  "id": "CWE-198",
+  "name": "Use of Incorrect Byte Ordering",
+  "status": "filled",
+  "description": "The product receives input from an upstream component but does not account for byte ordering (e.g., big-endian vs little-endian) when processing the input, causing an incorrect number or value to be used. This leads to integrity violations and unexpected state.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "Look for INGRESS nodes (network data, file reads) containing multi-byte numeric values flowing to TRANSFORM or STORAGE nodes without a TRANSFORM node (byte-order conversion/normalization) mediating the flow. The absence of endianness handling between cross-platform data exchange points indicates this weakness.",
+  "graph_query": "INGRESS(multi_byte_data)→STORAGE|TRANSFORM(use_as_numeric) without TRANSFORM(byte_order_conversion)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-188"],
+  "references": ["https://cwe.mitre.org/data/definitions/198.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

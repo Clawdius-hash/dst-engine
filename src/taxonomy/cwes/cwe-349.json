@@ -1,0 +1,16 @@
+{
+  "id": "CWE-349",
+  "name": "Acceptance of Extraneous Untrusted Data With Trusted Data",
+  "status": "filled",
+  "description": "The product, when processing trusted data, accepts any untrusted data that is also bundled with it and treats the untrusted data as if it were trusted. Attackers can bypass protection mechanisms by packaging malicious data alongside legitimate information, such as injecting extra fields into signed payloads or appending data to trusted certificates.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "INGRESS or EXTERNAL node provides a composite payload containing both trusted and untrusted data that passes through an AUTH[verify] node which only validates part of the payload. The remaining unverified portion flows to TRANSFORM or STORAGE nodes and is treated as trusted. Look for AUTH nodes that perform partial validation on a compound data structure, allowing extraneous fields to pass through unchecked to downstream processing.",
+  "graph_query": "INGRESS|EXTERNAL[composite_payload]→AUTH[partial_verify]→TRANSFORM|STORAGE without TRANSFORM[strip_extraneous]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-345", "CWE-501", "CWE-1214"],
+  "references": ["https://cwe.mitre.org/data/definitions/349.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:20:00Z"
+}

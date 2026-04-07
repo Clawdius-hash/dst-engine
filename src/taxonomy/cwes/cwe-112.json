@@ -1,0 +1,16 @@
+{
+  "id": "CWE-112",
+  "name": "Missing XML Validation",
+  "status": "filled",
+  "description": "The product accepts XML input from untrusted sources without validating it against a proper schema (DTD, XSD), allowing malformed or malicious XML structures to reach application logic and potentially trigger parsing errors, injection, or logic flaws.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "INGRESS[xml_input] flows to TRANSFORM[xml_parser] without a CONTROL[schema_validation] node that validates the XML structure against a defined schema (DTD, XSD, RELAX NG) before the parsed data is used in application logic",
+  "graph_query": "INGRESS[xml]→TRANSFORM[xml_parser] without CONTROL[schema_validation]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-1286", "CWE-20"],
+  "references": ["https://cwe.mitre.org/data/definitions/112.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

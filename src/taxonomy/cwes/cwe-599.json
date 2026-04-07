@@ -1,0 +1,16 @@
+{
+  "id": "CWE-599",
+  "name": "Missing Validation of OpenSSL Certificate",
+  "status": "filled",
+  "description": "The product uses OpenSSL to establish SSL/TLS connections but fails to call SSL_get_verify_result() to validate the server certificate. This allows attackers to present invalid, expired, or mismatched certificates to impersonate trusted hosts via man-in-the-middle attacks.",
+  "severity": "high",
+  "category": "cryptography",
+  "detection_pattern": "EXTERNAL(ssl_connection) node establishes a connection via OpenSSL but the data flow proceeds to INGRESS or EGRESS without passing through an AUTH(certificate_validation) node that calls SSL_get_verify_result(). The trust chain is assumed without verification.",
+  "graph_query": "EXTERNAL(ssl_connect)→INGRESS(data_receive) without AUTH(certificate_verify)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-295"],
+  "references": ["https://cwe.mitre.org/data/definitions/599.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

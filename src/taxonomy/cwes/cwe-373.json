@@ -1,0 +1,16 @@
+{
+  "id": "CWE-373",
+  "name": "DEPRECATED: State Synchronization Error",
+  "status": "needs_review",
+  "description": "Deprecated CWE — overlaps with CWE-362 (Race Condition) and CWE-662 (Improper Synchronization). Mapping is prohibited.",
+  "severity": "low",
+  "category": "concurrency",
+  "detection_pattern": "N/A — deprecated CWE",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-362", "CWE-662"],
+  "references": ["https://cwe.mitre.org/data/definitions/373.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:50:00Z"
+}

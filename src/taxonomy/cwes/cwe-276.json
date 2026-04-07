@@ -1,0 +1,16 @@
+{
+  "id": "CWE-276",
+  "name": "Incorrect Default Permissions",
+  "status": "filled",
+  "description": "During installation or resource creation, file or object permissions are set to allow anyone to modify those files. The default permission settings fail to restrict access appropriately, potentially compromising both confidentiality and integrity of protected resources.",
+  "severity": "high",
+  "category": "configuration",
+  "detection_pattern": "Look for STRUCTURAL nodes (file creation, resource installation, directory setup) that produce STORAGE nodes (files, directories, configuration objects) without a CONTROL mediator (restrictive permission assignment, umask enforcement, ACL configuration) that sets appropriately restrictive default permissions on newly created resources.",
+  "graph_query": "STRUCTURAL(resource_creation)→STORAGE(file_or_object) without CONTROL(restrictive_default_permissions)",
+  "owasp_top10": "A01:2021",
+  "sans_top25": true,
+  "related_cwes": ["CWE-732", "CWE-277", "CWE-281"],
+  "references": ["https://cwe.mitre.org/data/definitions/276.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

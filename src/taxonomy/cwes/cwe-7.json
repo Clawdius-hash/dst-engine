@@ -1,0 +1,16 @@
+{
+  "id": "CWE-7",
+  "name": "J2EE Misconfiguration: Missing Custom Error Page",
+  "status": "filled",
+  "description": "A J2EE web application does not define custom error pages, causing the default container error handler to expose stack traces and sensitive system information such as database types, application server versions, and internal paths to attackers.",
+  "severity": "medium",
+  "category": "error_handling",
+  "detection_pattern": "META[web_xml_config] node lacks error-page definitions for HTTP 4xx/5xx codes, allowing CONTROL[error_handler] to fall through to default container EGRESS[error_response] that includes stack traces and internal details without a TRANSFORM[redaction] node",
+  "graph_query": "CONTROL[exception]→EGRESS[error_response] without META[custom_error_page]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-756"],
+  "references": ["https://cwe.mitre.org/data/definitions/7.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

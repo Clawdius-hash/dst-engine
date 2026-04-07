@@ -1,0 +1,16 @@
+{
+  "id": "CWE-740",
+  "name": "Category: CERT C Secure Coding Standard (2008) Chapter 7 - Arrays (ARR)",
+  "status": "needs_review",
+  "description": "Category grouping weaknesses related to array handling rules from the CERT C Secure Coding Standard (2008). Covers buffer overflows, array index validation, sizeof on pointer types, and improper initialization of array structures.",
+  "severity": "low",
+  "category": "memory",
+  "detection_pattern": "N/A — category",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-734", "CWE-119", "CWE-129", "CWE-467", "CWE-469", "CWE-665", "CWE-805"],
+  "references": ["https://cwe.mitre.org/data/definitions/740.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:15:00Z"
+}

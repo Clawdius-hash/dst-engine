@@ -1,0 +1,16 @@
+{
+  "id": "CWE-485",
+  "name": "Category: 7PK - Encapsulation",
+  "status": "needs_review",
+  "description": "This is a category from the Seven Pernicious Kingdoms taxonomy covering weaknesses related to insufficient boundary protection around critical data or functionality. It is not a mappable weakness itself but organizes encapsulation-related CWEs.",
+  "severity": "low",
+  "category": "data_protection",
+  "detection_pattern": "N/A — category",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-486", "CWE-488", "CWE-489", "CWE-491", "CWE-492", "CWE-493", "CWE-495", "CWE-496", "CWE-497", "CWE-501"],
+  "references": ["https://cwe.mitre.org/data/definitions/485.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-387",
+  "name": "Signal Errors",
+  "status": "needs_review",
+  "description": "Category-level CWE covering weaknesses related to improper signal handling. Vulnerability mapping is prohibited — this is an organizational grouping, not a concrete weakness.",
+  "severity": "low",
+  "category": "error_handling",
+  "detection_pattern": "N/A — category CWE, not a concrete weakness",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-364"],
+  "references": ["https://cwe.mitre.org/data/definitions/387.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:10:00Z"
+}

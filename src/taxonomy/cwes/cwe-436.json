@@ -1,0 +1,16 @@
+{
+  "id": "CWE-436",
+  "name": "Interpretation Conflict",
+  "status": "filled",
+  "description": "Product A handles inputs or steps differently than Product B, causing A to perform incorrect actions based on its perception of B's state. Common in intermediary systems like proxies and firewalls monitoring traffic patterns.",
+  "severity": "high",
+  "category": "input_output",
+  "detection_pattern": "INGRESS data passes through multiple TRANSFORM nodes (e.g., proxy and backend) that interpret the same input differently, without CONTROL node enforcing consistent interpretation across components",
+  "graph_query": "INGRESS→TRANSFORM(interpreter_a)→TRANSFORM(interpreter_b) without CONTROL(consistent_interpretation)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-435", "CWE-351", "CWE-434", "CWE-444"],
+  "references": ["https://cwe.mitre.org/data/definitions/436.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:40:00Z"
+}

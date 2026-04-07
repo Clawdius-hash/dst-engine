@@ -1,0 +1,16 @@
+{
+  "id": "CWE-782",
+  "name": "Exposed IOCTL with Insufficient Access Control",
+  "status": "filled",
+  "description": "The product exposes an IOCTL interface that provides restricted functionality but does not properly enforce access controls. This allows untrusted actors to invoke privileged IOCTL operations, potentially leading to code execution, denial-of-service, or data theft.",
+  "severity": "high",
+  "category": "authorization",
+  "detection_pattern": "INGRESS node (IOCTL interface) allows requests from untrusted callers to reach a TRANSFORM or CONTROL node performing privileged operations without an AUTH node enforcing access control checks.",
+  "graph_query": "INGRESS[ioctl_interface]→TRANSFORM[privileged_operation] without AUTH[access_control]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-749", "CWE-781"],
+  "references": ["https://cwe.mitre.org/data/definitions/782.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

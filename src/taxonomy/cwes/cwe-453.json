@@ -1,0 +1,16 @@
+{
+  "id": "CWE-453",
+  "name": "Insecure Default Variable Initialization",
+  "status": "filled",
+  "description": "The product, by default, initializes an internal variable with an insecure or less secure value than is possible. An attacker could gain access to and modify sensitive data or system information by exploiting the insecure default, such as PHP's register_globals allowing external setting of uninitialized variables.",
+  "severity": "medium",
+  "category": "configuration",
+  "detection_pattern": "STORAGE node (variable) is initialized with a default value from a META or STRUCTURAL configuration source that is less secure than the most restrictive option. Look for INGRESS paths that can influence variable values before proper AUTH or CONTROL nodes validate them, especially when TRANSFORM nodes that set secure defaults are missing.",
+  "graph_query": "STORAGE(variable)→CONTROL(usage) without TRANSFORM(secure_default_init)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-1188"],
+  "references": ["https://cwe.mitre.org/data/definitions/453.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

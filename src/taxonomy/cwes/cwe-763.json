@@ -1,0 +1,16 @@
+{
+  "id": "CWE-763",
+  "name": "Release of Invalid Pointer or Reference",
+  "status": "filled",
+  "description": "The product attempts to release a resource using an invalid pointer or reference, such as freeing memory that was not dynamically allocated, freeing an already-freed pointer, or using a mismatched deallocation function, leading to memory corruption or code execution.",
+  "severity": "high",
+  "category": "memory",
+  "detection_pattern": "TRANSFORM(free/release) is called on a pointer or reference that is invalid: either not originally allocated by a matching TRANSFORM(allocation), already freed, or pointing to an incorrect address. Look for deallocation without prior valid allocation in the same scope.",
+  "graph_query": "TRANSFORM(release_resource)→STORAGE(heap) without TRANSFORM(valid_allocation_origin)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-404", "CWE-761", "CWE-762"],
+  "references": ["https://cwe.mitre.org/data/definitions/763.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:15:00Z"
+}

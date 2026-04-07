@@ -1,0 +1,16 @@
+{
+  "id": "CWE-104",
+  "name": "Struts: Form Bean Does Not Extend Validation Class",
+  "status": "filled",
+  "description": "A Struts form bean does not extend a Validator framework class (ValidatorForm or DynaValidatorForm), so the framework's built-in input validation is never invoked and form data passes through unvalidated.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "STRUCTURAL[form_bean] node extends ActionForm instead of ValidatorForm, causing CONTROL[struts_validator] to never activate so INGRESS[form_data] flows to TRANSFORM or STORAGE without framework validation",
+  "graph_query": "INGRESS[form_data]→TRANSFORM|STORAGE without CONTROL[struts_validator] due to wrong parent class",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-573", "CWE-20"],
+  "references": ["https://cwe.mitre.org/data/definitions/104.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-206",
+  "name": "Observable Internal Behavioral Discrepancy",
+  "status": "filled",
+  "description": "The product performs multiple internal operations to produce a single result, but individual operation outcomes are separately observable, allowing attackers to decompose composite operations. For example, a login system revealing whether the username exists separately from password validity.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "Look for a sequence of CONTROL or AUTH nodes (username lookup then password check) where each step produces a distinct observable EGRESS signal (different error message, different timing) without a TRANSFORM node (atomic response composition) that combines all sub-operation results into a single indistinguishable output.",
+  "graph_query": "AUTH(sub_operation_1)→AUTH(sub_operation_2)→EGRESS(distinct_signals) without TRANSFORM(atomic_response)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-205", "CWE-203"],
+  "references": ["https://cwe.mitre.org/data/definitions/206.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

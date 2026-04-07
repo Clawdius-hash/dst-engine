@@ -1,0 +1,16 @@
+{
+  "id": "CWE-617",
+  "name": "Reachable Assertion",
+  "status": "filled",
+  "description": "An assert() statement can be triggered by attacker-controlled input, causing application exit or denial of service, especially dangerous in server environments where one failed assertion crashes all connections.",
+  "severity": "medium",
+  "category": "error_handling",
+  "detection_pattern": "INGRESS data flows to CONTROL(assert) statement that terminates the process on failure, without TRANSFORM node sanitizing input before assertion or CONTROL node using graceful error handling instead of assert",
+  "graph_query": "INGRESS(attacker_input)→CONTROL(assert_failure)→TRANSFORM(process_exit) without CONTROL(graceful_error_handling)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-705", "CWE-670"],
+  "references": ["https://cwe.mitre.org/data/definitions/617.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:50:00Z"
+}

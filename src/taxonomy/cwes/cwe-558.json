@@ -1,0 +1,16 @@
+{
+  "id": "CWE-558",
+  "name": "Use of getlogin() in Multithreaded Application",
+  "status": "filled",
+  "description": "The application uses the non-reentrant getlogin() function in a multithreaded context, where concurrent threads can modify the returned username string, making it unreliable for security decisions such as authentication.",
+  "severity": "medium",
+  "category": "concurrency",
+  "detection_pattern": "CONTROL node in a multithreaded context calls a non-reentrant AUTH-related function (getlogin). Multiple threads share the returned value from EXTERNAL without synchronization, allowing one thread to corrupt data used by another for authentication decisions.",
+  "graph_query": "EXTERNAL(getlogin)→AUTH without CONTROL(synchronization)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-663"],
+  "references": ["https://cwe.mitre.org/data/definitions/558.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

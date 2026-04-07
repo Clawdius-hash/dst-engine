@@ -1,0 +1,16 @@
+{
+  "id": "CWE-266",
+  "name": "Incorrect Privilege Assignment",
+  "status": "filled",
+  "description": "The product incorrectly assigns a privilege to a particular actor, creating an unintended sphere of control. This allows the actor to perform actions beyond their intended authorization level, potentially accessing sensitive functionality or administrative capabilities.",
+  "severity": "high",
+  "category": "authorization",
+  "detection_pattern": "Look for AUTH nodes (privilege assignment, role mapping, permission grants) that assign elevated privileges to EXTERNAL or STRUCTURAL nodes (user accounts, service accounts, processes) without a CONTROL mediator (least privilege enforcement, privilege audit, role validation) that verifies the assigned privileges match the actor's intended authorization scope.",
+  "graph_query": "AUTH(privilege_assignment)→EXTERNAL(actor) without CONTROL(privilege_scope_validation)",
+  "owasp_top10": "A04:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-269", "CWE-286", "CWE-250"],
+  "references": ["https://cwe.mitre.org/data/definitions/266.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

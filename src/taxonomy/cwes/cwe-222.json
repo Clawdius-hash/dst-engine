@@ -1,0 +1,16 @@
+{
+  "id": "CWE-222",
+  "name": "Truncation of Security-relevant Information",
+  "status": "filled",
+  "description": "The product truncates the display, recording, or processing of security-relevant information in a way that can obscure the source or nature of an attack. When log entries or security data are cut short, the attack source becomes difficult or impossible to determine.",
+  "severity": "medium",
+  "category": "logging",
+  "detection_pattern": "Look for INGRESS or CONTROL nodes (security events, log data) flowing through a TRANSFORM node (truncation, length limit) before reaching a STORAGE node (log file, audit record) without a CONTROL node (completeness check) ensuring critical fields are preserved. The truncation removes attack-relevant details.",
+  "graph_query": "INGRESS|CONTROL(security_data)→TRANSFORM(truncation)→STORAGE(log) without CONTROL(completeness_validation)",
+  "owasp_top10": "A09:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-221", "CWE-223"],
+  "references": ["https://cwe.mitre.org/data/definitions/222.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

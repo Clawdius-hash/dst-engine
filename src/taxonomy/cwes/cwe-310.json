@@ -1,0 +1,16 @@
+{
+  "id": "CWE-310",
+  "name": "Category: Cryptographic Issues",
+  "status": "needs_review",
+  "description": "This is a CWE Category (not a weakness) that groups weaknesses related to the design and implementation of data confidentiality and integrity, including encryption, hashing, and encoding. It cannot be used for mapping real-world vulnerabilities. Weakness-oriented alternatives can be found under CWE-327.",
+  "severity": "low",
+  "category": "cryptography",
+  "detection_pattern": "N/A — category",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-327", "CWE-261", "CWE-324", "CWE-325", "CWE-328", "CWE-331"],
+  "references": ["https://cwe.mitre.org/data/definitions/310.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

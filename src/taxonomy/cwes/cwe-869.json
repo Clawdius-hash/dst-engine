@@ -1,0 +1,20 @@
+{
+  "id": "CWE-869",
+  "name": "Category: CERT C++ Secure Coding Section 01 - Preprocessor (PRE)",
+  "status": "needs_review",
+  "description": "This is a category grouping weaknesses related to C++ preprocessor usage from the SEI CERT C++ Secure Coding Standard. Categories cannot be used for vulnerability mapping.",
+  "severity": "low",
+  "category": "configuration",
+  "detection_pattern": "N/A — category",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": [
+    "CWE-868"
+  ],
+  "references": [
+    "https://cwe.mitre.org/data/definitions/869.html"
+  ],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

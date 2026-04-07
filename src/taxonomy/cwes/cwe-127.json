@@ -1,0 +1,16 @@
+{
+  "id": "CWE-127",
+  "name": "Buffer Under-read",
+  "status": "filled",
+  "description": "The product reads from a buffer using indexes or pointers that reference memory locations before the start of the targeted buffer, potentially leaking data from adjacent lower memory addresses.",
+  "severity": "high",
+  "category": "memory",
+  "detection_pattern": "TRANSFORM[read_index] is negative or references before the buffer start, causing a read before STORAGE[buffer]'s beginning without a CONTROL[lower_bounds_check] validating the index is >= 0 before the read operation",
+  "graph_query": "TRANSFORM[negative_index]→STORAGE[buffer_read] without CONTROL[lower_bounds_check]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-125", "CWE-786"],
+  "references": ["https://cwe.mitre.org/data/definitions/127.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

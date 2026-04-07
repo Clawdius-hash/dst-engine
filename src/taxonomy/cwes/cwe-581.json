@@ -1,0 +1,16 @@
+{
+  "id": "CWE-581",
+  "name": "Object Model Violation: Just One of Equals and Hashcode Defined",
+  "status": "filled",
+  "description": "The product defines either equals() or hashCode() but not both, violating the Java object model contract that equal objects must have equal hash codes. This causes incorrect behavior when objects are used in hash-based collections like HashMap, HashSet, or Hashtable.",
+  "severity": "medium",
+  "category": "reliability",
+  "detection_pattern": "STRUCTURAL node representing a Java class that defines equals() without hashCode() or vice versa. Look for class definitions where only one of the two contract methods is overridden.",
+  "graph_query": "STRUCTURAL[class]→TRANSFORM[equals()|hashCode()] without TRANSFORM[hashCode()|equals()]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-573", "CWE-697"],
+  "references": ["https://cwe.mitre.org/data/definitions/581.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

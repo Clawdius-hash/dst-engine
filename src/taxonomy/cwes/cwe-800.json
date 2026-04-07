@@ -1,0 +1,16 @@
+{
+  "id": "CWE-800",
+  "name": "View: Weaknesses in the 2010 CWE/SANS Top 25 Most Dangerous Programming Errors",
+  "status": "needs_review",
+  "description": "This is a View (not a weakness) representing an archival collection of the 2010 CWE/SANS Top 25 programming errors. It is considered obsolete as newer versions of the Top 25 are available. Cannot be used to map real-world vulnerabilities.",
+  "severity": "low",
+  "category": "configuration",
+  "detection_pattern": "N/A — view, not a weakness",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-801", "CWE-802", "CWE-803", "CWE-808"],
+  "references": ["https://cwe.mitre.org/data/definitions/800.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

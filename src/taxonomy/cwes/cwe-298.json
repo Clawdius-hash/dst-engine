@@ -1,0 +1,16 @@
+{
+  "id": "CWE-298",
+  "name": "Improper Validation of Certificate Expiration",
+  "status": "filled",
+  "description": "A certificate expiration is not validated or is incorrectly validated, so the product continues to trust expired certificates. An expired certificate's validity cannot be guaranteed, as the private key may have been compromised after the intended validity period.",
+  "severity": "medium",
+  "category": "cryptography",
+  "detection_pattern": "Look for EXTERNAL nodes (presented certificate, TLS peer cert) that flow to AUTH nodes (trust decision, connection establishment) without a CONTROL mediator (expiration date check, validity period validation, current time comparison) that verifies the certificate has not expired before granting trust.",
+  "graph_query": "EXTERNAL(certificate)→AUTH(trust_decision) without CONTROL(expiration_validation)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-295", "CWE-672", "CWE-324", "CWE-370"],
+  "references": ["https://cwe.mitre.org/data/definitions/298.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

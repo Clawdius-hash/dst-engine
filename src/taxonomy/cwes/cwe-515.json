@@ -1,0 +1,16 @@
+{
+  "id": "CWE-515",
+  "name": "Covert Storage Channel",
+  "status": "filled",
+  "description": "Information is transferred covertly by setting and reading bits across programs, using out-of-band data stored in messages for memory reuse, such as hiding data in audit files or using steganography.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "TRANSFORM node encodes secret data into STORAGE structures (file metadata, message headers, resource attributes) readable by EXTERNAL observer without CONTROL node detecting the covert information flow",
+  "graph_query": "TRANSFORM(covert_encode)→STORAGE(shared_resource)→EGRESS(covert_read) without CONTROL(storage_channel_detection)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-514"],
+  "references": ["https://cwe.mitre.org/data/definitions/515.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:10:00Z"
+}

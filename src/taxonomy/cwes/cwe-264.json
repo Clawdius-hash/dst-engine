@@ -1,0 +1,16 @@
+{
+  "id": "CWE-264",
+  "name": "Category: Permissions, Privileges, and Access Controls",
+  "status": "needs_review",
+  "description": "This is a category (not a specific weakness) that groups weaknesses related to the management of permissions, privileges, and access control features. Mapping to this CWE is now prohibited; users should reference more specific entries like CWE-284 (Improper Access Control) instead.",
+  "severity": "low",
+  "category": "authorization",
+  "detection_pattern": "N/A — category",
+  "graph_query": "N/A",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-284", "CWE-269", "CWE-285"],
+  "references": ["https://cwe.mitre.org/data/definitions/264.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

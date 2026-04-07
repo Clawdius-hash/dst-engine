@@ -1,0 +1,16 @@
+{
+  "id": "CWE-568",
+  "name": "finalize() Method Without super.finalize()",
+  "status": "filled",
+  "description": "A Java class overrides finalize() without calling super.finalize(), preventing proper cleanup of parent class resources. This violates the Java Language Specification recommendation and can lead to resource leaks.",
+  "severity": "low",
+  "category": "reliability",
+  "detection_pattern": "STRUCTURAL node (Java class) overrides finalize() method with a CONTROL node that does not include a call to STRUCTURAL(super.finalize). The parent class cleanup chain is broken.",
+  "graph_query": "STRUCTURAL(finalize)→EGRESS without CONTROL(super.finalize)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-459", "CWE-573"],
+  "references": ["https://cwe.mitre.org/data/definitions/568.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-256",
+  "name": "Plaintext Storage of a Password",
+  "status": "filled",
+  "description": "The product stores a password in plaintext in an accessible resource such as a configuration file, registry entry, or memory. Anyone with access to these resources can read the unencrypted password and gain unauthorized access to the protected system.",
+  "severity": "high",
+  "category": "data_protection",
+  "detection_pattern": "Look for AUTH nodes (passwords, credentials) flowing to STORAGE nodes (configuration files, databases, registry, memory) without a TRANSFORM mediator (hashing function, key derivation function like bcrypt/scrypt/argon2) that converts the password to an irreversible hash before storage.",
+  "graph_query": "AUTH(password)→STORAGE(file_or_db) without TRANSFORM(password_hash)",
+  "owasp_top10": "A04:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-522", "CWE-257", "CWE-312"],
+  "references": ["https://cwe.mitre.org/data/definitions/256.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

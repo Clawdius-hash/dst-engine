@@ -1,0 +1,16 @@
+{
+  "id": "CWE-595",
+  "name": "Comparison of Object References Instead of Object Contents",
+  "status": "filled",
+  "description": "The product compares object references (memory addresses) instead of object contents, preventing detection of logically equivalent objects. This commonly manifests in Java when using == instead of .equals() for String or boxed primitive comparisons.",
+  "severity": "medium",
+  "category": "reliability",
+  "detection_pattern": "CONTROL(comparison) node uses reference equality on objects flowing from INGRESS or STORAGE nodes. The comparison lacks a TRANSFORM(content_extraction) step that would compare actual values rather than references, leading to incorrect branching in CONTROL flow.",
+  "graph_query": "INGRESS(object)→CONTROL(reference_compare) without TRANSFORM(content_equals)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-1025", "CWE-597", "CWE-1097"],
+  "references": ["https://cwe.mitre.org/data/definitions/595.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

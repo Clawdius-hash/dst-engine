@@ -1,0 +1,16 @@
+{
+  "id": "CWE-84",
+  "name": "Improper Neutralization of Encoded URI Schemes in a Web Page",
+  "status": "filled",
+  "description": "The product does not neutralize user-controlled input containing URI-encoded script payloads (e.g., '%6a%61%76%61%73%63%72%69%70%74%3a' for 'javascript:'), allowing attackers to bypass XSS filters by encoding malicious URIs.",
+  "severity": "high",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides URI-encoded input that bypasses a CONTROL[xss_filter] checking for literal 'javascript:' strings, but the browser decodes the URI before execution at EGRESS[html_output], enabling script injection",
+  "graph_query": "INGRESS[uri_encoded_script]→CONTROL[xss_filter]→EGRESS[html_output] without TRANSFORM[decode_before_filter]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-79"],
+  "references": ["https://cwe.mitre.org/data/definitions/84.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

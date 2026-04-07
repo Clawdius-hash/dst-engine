@@ -1,0 +1,16 @@
+{
+  "id": "CWE-395",
+  "name": "Use of NullPointerException Catch to Detect NULL Pointer Dereference",
+  "status": "filled",
+  "description": "The product catches NullPointerException as a substitute for proper null checks, masking underlying programming errors and degrading performance instead of preventing the dereference at the source.",
+  "severity": "low",
+  "category": "error_handling",
+  "detection_pattern": "CONTROL node catches NullPointerException around TRANSFORM operations instead of performing explicit null checks on INGRESS or STORAGE data before use",
+  "graph_query": "CONTROL(catch_npe)→TRANSFORM(operation) without CONTROL(null_check_before_use)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-705", "CWE-755"],
+  "references": ["https://cwe.mitre.org/data/definitions/395.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:20:00Z"
+}

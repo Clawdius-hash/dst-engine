@@ -1,0 +1,16 @@
+{
+  "id": "CWE-67",
+  "name": "Improper Handling of Windows Device Names",
+  "status": "filled",
+  "description": "The product does not properly handle reserved Windows device names (AUX, CON, PRN, NUL, COM1-9, LPT1-9) in user-supplied pathnames, which Windows treats as device references regardless of directory or extension, potentially causing denial of service or unintended device access.",
+  "severity": "medium",
+  "category": "file_handling",
+  "detection_pattern": "INGRESS node provides a path containing reserved Windows device names that flows to STORAGE[file_access] without a CONTROL node that rejects or sanitizes reserved device names (AUX, CON, PRN, NUL, COM[1-9], LPT[1-9]) before file operations",
+  "graph_query": "INGRESS[path 'CON|AUX|PRN|NUL']→STORAGE[file_access] without CONTROL[reject_device_names]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-66"],
+  "references": ["https://cwe.mitre.org/data/definitions/67.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

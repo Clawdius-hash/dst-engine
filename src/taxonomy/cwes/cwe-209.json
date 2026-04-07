@@ -1,0 +1,18 @@
+{
+  "id": "CWE-209",
+  "name": "Generation of Error Message Containing Sensitive Information",
+  "status": "implemented",
+  "description": "The product generates error messages that include sensitive information about its environment, users, or associated data, providing attackers with reconnaissance details such as file paths, SQL queries, credentials, or internal configuration.",
+  "severity": "medium",
+  "category": "error_handling",
+  "detection_pattern": "An error-handling CONTROL node or catch block flows sensitive data (stack traces, SQL queries, file paths, credentials) to an EGRESS node that is accessible to end users without passing through a TRANSFORM[redaction] node that strips internal details",
+  "graph_query": "CONTROL[error_handler]→EGRESS[user_facing] without TRANSFORM[redaction]",
+  "owasp_top10": "A04:2021",
+  "sans_top25": true,
+  "related_cwes": ["CWE-200", "CWE-755", "CWE-210", "CWE-211", "CWE-550", "CWE-1295"],
+  "references": ["https://cwe.mitre.org/data/definitions/209.html"],
+  "implemented_in": ["verifier.ts"],
+  "verified_at": "2026-03-23T00:00:00Z",
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

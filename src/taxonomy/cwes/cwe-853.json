@@ -1,0 +1,26 @@
+{
+  "id": "CWE-853",
+  "name": "Category: CERT Oracle Secure Coding Standard for Java (2011) Chapter 10 - Locking (LCK)",
+  "status": "needs_review",
+  "description": "This is a category grouping weaknesses related to locking mechanisms from the CERT Oracle Secure Coding Standard for Java (2011). Categories cannot be used for vulnerability mapping.",
+  "severity": "low",
+  "category": "concurrency",
+  "detection_pattern": "N/A — category",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": [
+    "CWE-844",
+    "CWE-412",
+    "CWE-413",
+    "CWE-609",
+    "CWE-667",
+    "CWE-820",
+    "CWE-833"
+  ],
+  "references": [
+    "https://cwe.mitre.org/data/definitions/853.html"
+  ],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

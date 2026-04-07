@@ -1,0 +1,16 @@
+{
+  "id": "CWE-544",
+  "name": "Missing Standardized Error Handling Mechanism",
+  "status": "filled",
+  "description": "The product lacks a standardized approach to error handling, handling errors individually on a case-by-case basis. This leads to inconsistent behavior, potential loss of error context, and unintentional exposure of sensitive information to users.",
+  "severity": "medium",
+  "category": "error_handling",
+  "detection_pattern": "Multiple STRUCTURAL[exception_handler] or CONTROL[error_handler] nodes across the application that lack a common STRUCTURAL[error_framework] mediator. Error paths from different modules flow to EGRESS with inconsistent TRANSFORM patterns, indicating ad-hoc rather than standardized handling.",
+  "graph_query": "CONTROL[error_path]→EGRESS without STRUCTURAL[standardized_error_handler]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-755", "CWE-209"],
+  "references": ["https://cwe.mitre.org/data/definitions/544.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

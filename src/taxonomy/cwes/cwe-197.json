@@ -1,0 +1,16 @@
+{
+  "id": "CWE-197",
+  "name": "Numeric Truncation Error",
+  "status": "filled",
+  "description": "When a primitive is cast to a smaller primitive, high-order bits are lost, potentially resulting in unexpected values. This data loss can corrupt critical values used for array indexing, size calculations, or state management, leading to integrity violations.",
+  "severity": "medium",
+  "category": "memory",
+  "detection_pattern": "Look for INGRESS or STORAGE nodes containing a numeric value flowing through a TRANSFORM node (narrowing cast to smaller type) without a CONTROL node (range/bounds validation) ensuring the value fits in the target type. The truncated result may cause incorrect indexing or logic errors downstream.",
+  "graph_query": "INGRESS|STORAGE(wider_numeric)→TRANSFORM(narrowing_cast)→STORAGE|EGRESS without CONTROL(range_validation)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-681", "CWE-192", "CWE-194", "CWE-195", "CWE-196"],
+  "references": ["https://cwe.mitre.org/data/definitions/197.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

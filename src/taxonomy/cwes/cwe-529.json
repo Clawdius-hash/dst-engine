@@ -1,0 +1,16 @@
+{
+  "id": "CWE-529",
+  "name": "Exposure of Access Control List Files to an Unauthorized Control Sphere",
+  "status": "filled",
+  "description": "Access control list files are stored in locations accessible to unauthorized parties, revealing system configuration details and security policies that attackers can use to bypass protections.",
+  "severity": "medium",
+  "category": "authorization",
+  "detection_pattern": "STORAGE node contains ACL/security configuration files accessible to unauthorized EXTERNAL actors via INGRESS without AUTH node restricting access to configuration data",
+  "graph_query": "INGRESS(request)→STORAGE(acl_files) without AUTH(access_restriction)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-552"],
+  "references": ["https://cwe.mitre.org/data/definitions/529.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:25:00Z"
+}

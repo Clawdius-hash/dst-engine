@@ -1,0 +1,16 @@
+{
+  "id": "CWE-214",
+  "name": "Invocation of Process Using Visible Sensitive Information",
+  "status": "filled",
+  "description": "The product invokes a process with sensitive arguments (passwords, tokens, keys) passed via command-line parameters or environment variables that are visible to other local users through process listing tools such as ps or /proc.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "Look for INGRESS nodes (credentials, secrets, tokens) flowing into EXTERNAL nodes (process invocation, exec calls) via command-line arguments or environment variables without a TRANSFORM mediator (secret store lookup, stdin piping, temp file with restricted permissions) that prevents the sensitive data from appearing in the process table.",
+  "graph_query": "INGRESS(secret)→EXTERNAL(process_exec) without TRANSFORM(hide_from_proclist)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-497", "CWE-526", "CWE-200"],
+  "references": ["https://cwe.mitre.org/data/definitions/214.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

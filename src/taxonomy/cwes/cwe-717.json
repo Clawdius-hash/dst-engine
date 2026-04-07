@@ -1,0 +1,16 @@
+{
+  "id": "CWE-717",
+  "name": "Category: OWASP Top Ten 2007 Category A6 - Information Leakage and Improper Error Handling",
+  "status": "needs_review",
+  "description": "This is a category grouping weaknesses related to the A6 category in the OWASP Top Ten 2007, covering information leakage and improper error handling including sensitive information exposure and error messages containing sensitive data. Categories are informal organizational groupings and are prohibited for vulnerability mapping since 2019.",
+  "severity": "low",
+  "category": "error_handling",
+  "detection_pattern": "N/A — category, not a weakness",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-629", "CWE-200", "CWE-203", "CWE-209", "CWE-215"],
+  "references": ["https://cwe.mitre.org/data/definitions/717.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:15:00Z"
+}

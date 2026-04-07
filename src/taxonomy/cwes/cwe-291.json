@@ -1,0 +1,16 @@
+{
+  "id": "CWE-291",
+  "name": "Reliance on IP Address for Authentication",
+  "status": "filled",
+  "description": "The product uses an IP address for authentication. IP addresses can be easily spoofed by attackers, making them unreliable as a sole authentication mechanism and allowing unauthorized access through forged source addresses.",
+  "severity": "high",
+  "category": "authentication",
+  "detection_pattern": "Look for AUTH nodes (authentication decision, access control check) that rely solely on INGRESS metadata (source IP address, remote address) without a secondary AUTH mediator (cryptographic authentication, credential verification, multi-factor check) that provides a stronger, non-spoofable form of identity verification.",
+  "graph_query": "INGRESS(ip_address)→AUTH(authentication_decision) without AUTH(cryptographic_verification)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-290", "CWE-923"],
+  "references": ["https://cwe.mitre.org/data/definitions/291.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

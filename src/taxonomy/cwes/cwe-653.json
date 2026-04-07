@@ -1,0 +1,16 @@
+{
+  "id": "CWE-653",
+  "name": "Improper Isolation or Compartmentalization",
+  "status": "filled",
+  "description": "The product does not properly compartmentalize or isolate functionality, processes, or resources that require different privilege levels. When weaknesses exist in lower-privileged areas, attackers can leverage them to access higher-privileged functions without additional barriers.",
+  "severity": "high",
+  "category": "authorization",
+  "detection_pattern": "STRUCTURAL nodes representing different privilege zones share resources or paths without CONTROL[boundary] or AUTH[privilege_check] nodes enforcing separation between zones of different trust levels",
+  "graph_query": "STRUCTURAL[low_privilege]→STRUCTURAL[high_privilege] without CONTROL[boundary]|AUTH[privilege_check]",
+  "owasp_top10": "A04:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-657", "CWE-693", "CWE-250"],
+  "references": ["https://cwe.mitre.org/data/definitions/653.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:00:00Z"
+}

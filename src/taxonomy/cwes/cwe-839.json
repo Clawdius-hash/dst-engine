@@ -1,0 +1,23 @@
+{
+  "id": "CWE-839",
+  "name": "Numeric Range Comparison Without Minimum Check",
+  "status": "filled",
+  "description": "The product checks that a numeric value does not exceed a maximum but fails to verify it meets a minimum, allowing negative or unexpectedly small values (especially with signed integers) to bypass validation and cause buffer underflows or incorrect calculations.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "INGRESS[numeric_input] passes through CONTROL[max_check] that validates upper bound but lacks a CONTROL[min_check] for the lower bound, allowing negative or underflow values to reach STORAGE[buffer] or TRANSFORM[calculation] and cause out-of-bounds access",
+  "graph_query": "INGRESS[numeric_input]→CONTROL[max_only_check]→STORAGE[buffer]|TRANSFORM[calc] without CONTROL[min_check]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": [
+    "CWE-1023",
+    "CWE-119",
+    "CWE-124",
+    "CWE-195"
+  ],
+  "references": [
+    "https://cwe.mitre.org/data/definitions/839.html"
+  ],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

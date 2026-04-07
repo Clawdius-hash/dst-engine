@@ -1,0 +1,16 @@
+{
+  "id": "CWE-561",
+  "name": "Dead Code",
+  "status": "filled",
+  "description": "The product contains code that can never be executed because surrounding code makes it unreachable. Dead code increases maintenance burden and may indicate logic errors or incomplete refactoring.",
+  "severity": "low",
+  "category": "reliability",
+  "detection_pattern": "STRUCTURAL node contains code paths that are unreachable due to CONTROL nodes with conditions that always prevent execution (e.g., following a return statement or within an always-false branch). No INGRESS or data flow can trigger the dead code path.",
+  "graph_query": "CONTROL(always_blocked)→STRUCTURAL(dead_code) without INGRESS",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-1164", "CWE-570", "CWE-571"],
+  "references": ["https://cwe.mitre.org/data/definitions/561.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

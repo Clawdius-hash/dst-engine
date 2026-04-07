@@ -1,0 +1,16 @@
+{
+  "id": "CWE-283",
+  "name": "Unverified Ownership",
+  "status": "filled",
+  "description": "The product does not properly verify that a critical resource is owned by the proper entity. This allows attackers to gain unauthorized access to system resources by bypassing ownership checks, potentially enabling privilege escalation.",
+  "severity": "high",
+  "category": "authorization",
+  "detection_pattern": "Look for EXTERNAL nodes (user requests, API calls, process operations) that access or modify STORAGE or STRUCTURAL nodes (critical resources, processes, files) without a CONTROL mediator (ownership verification check, resource-to-owner mapping validation) that confirms the requesting entity is the legitimate owner of the target resource before permitting the operation.",
+  "graph_query": "EXTERNAL(request)→STRUCTURAL(critical_resource) without CONTROL(ownership_check)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-282", "CWE-284"],
+  "references": ["https://cwe.mitre.org/data/definitions/283.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

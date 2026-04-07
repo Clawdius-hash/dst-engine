@@ -1,0 +1,16 @@
+{
+  "id": "CWE-342",
+  "name": "Predictable Exact Value from Previous Values",
+  "status": "filled",
+  "description": "An exact value or random number can be precisely predicted by observing previous values. An attacker who can see prior outputs of the generator can determine the next output exactly, completely defeating the purpose of randomness in security contexts.",
+  "severity": "high",
+  "category": "cryptography",
+  "detection_pattern": "TRANSFORM[rng_output] produces a sequence of values where each subsequent value is deterministically derivable from previously observed EGRESS outputs. Look for PRNG or sequential generators whose output flows to AUTH[token], EGRESS[identifier], or STORAGE[secret] where prior outputs are visible to an attacker via EGRESS or INGRESS nodes.",
+  "graph_query": "TRANSFORM[predictable_sequence]→EGRESS[observable_output]→AUTH[security_value] without TRANSFORM[csprng]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-340", "CWE-343", "CWE-330"],
+  "references": ["https://cwe.mitre.org/data/definitions/342.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:20:00Z"
+}

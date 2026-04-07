@@ -1,0 +1,11 @@
+{
+  "id": "CWE-901",
+  "name": "SFP Primary Cluster: Privilege",
+  "status": "needs_review",
+  "description": "Category: Organizes Software Fault Patterns related to privilege-based vulnerabilities. An organizational grouping, not a weakness itself.",
+  "category_type": "category",
+  "related_cwes": ["CWE-888", "CWE-250", "CWE-266", "CWE-269", "CWE-271", "CWE-272", "CWE-274"],
+  "references": ["https://cwe.mitre.org/data/definitions/901.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

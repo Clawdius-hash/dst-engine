@@ -1,0 +1,16 @@
+{
+  "id": "CWE-44",
+  "name": "Path Equivalence: 'file.name' (Internal Dot)",
+  "status": "filled",
+  "description": "The product does not properly handle paths containing internal dots that create ambiguous path resolution, where the dot could be interpreted as a file extension separator or a directory traversal component depending on the platform.",
+  "severity": "medium",
+  "category": "file_handling",
+  "detection_pattern": "INGRESS node provides a path with internal dot patterns that the CONTROL[path_check] interprets differently from the OS filesystem resolution at STORAGE[file_access], creating a mismatch between what is checked and what is accessed",
+  "graph_query": "INGRESS[path 'file.name']→CONTROL[path_check]→STORAGE[file_access] without TRANSFORM[canonicalize]",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-41"],
+  "references": ["https://cwe.mitre.org/data/definitions/44.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

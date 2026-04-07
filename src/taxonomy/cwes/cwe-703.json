@@ -1,0 +1,16 @@
+{
+  "id": "CWE-703",
+  "name": "Improper Check or Handling of Exceptional Conditions",
+  "status": "needs_review",
+  "description": "Pillar-level CWE. Software fails to properly anticipate or handle exceptional conditions that rarely occur during normal operation. Mapping discouraged — use specific descendants like CWE-754 or CWE-755 instead.",
+  "severity": "medium",
+  "category": "error_handling",
+  "detection_pattern": "TRANSFORM node encounters exceptional condition but CONTROL node does not properly check or handle it, allowing system to enter unexpected state",
+  "graph_query": "TRANSFORM(exceptional_condition)→CONTROL(missing_handler) without CONTROL(proper_exception_handling)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-754", "CWE-755", "CWE-248", "CWE-391"],
+  "references": ["https://cwe.mitre.org/data/definitions/703.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:00:00Z"
+}

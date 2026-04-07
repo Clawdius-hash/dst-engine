@@ -1,0 +1,16 @@
+{
+  "id": "CWE-337",
+  "name": "Predictable Seed in Pseudo-Random Number Generator (PRNG)",
+  "status": "filled",
+  "description": "A Pseudo-Random Number Generator (PRNG) is initialized from a predictable seed, such as the process ID or system time. Predictable seeds dramatically reduce the search space an attacker must explore, allowing them to reconstruct the PRNG output and compromise session tokens, cryptographic keys, or other security-critical random values.",
+  "severity": "high",
+  "category": "cryptography",
+  "detection_pattern": "Look for INGRESS[system_time|process_id|timestamp] or EXTERNAL[predictable_source] nodes whose output flows directly into TRANSFORM[prng_seed] without passing through a TRANSFORM[entropy_mixing|key_derivation] node. The predictable seed initializes a TRANSFORM[prng] whose output feeds AUTH[token|session] or CONTROL[crypto_operation] nodes, making all downstream random values reconstructible by an attacker who knows the seeding strategy.",
+  "graph_query": "INGRESS[predictable_value]→TRANSFORM[prng_seed] without TRANSFORM[entropy_mixing|csprng]",
+  "owasp_top10": "A02:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-335", "CWE-330", "CWE-336", "CWE-339"],
+  "references": ["https://cwe.mitre.org/data/definitions/337.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:20:00Z"
+}

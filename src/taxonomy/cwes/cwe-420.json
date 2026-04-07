@@ -1,0 +1,16 @@
+{
+  "id": "CWE-420",
+  "name": "Unprotected Alternate Channel",
+  "status": "filled",
+  "description": "The product protects a primary channel but does not apply the same level of protection to an alternate channel, allowing attackers to bypass security controls by accessing the alternate channel directly.",
+  "severity": "high",
+  "category": "authorization",
+  "detection_pattern": "INGRESS node representing an alternate access path (secondary API, debug endpoint, alternate port) that reaches STORAGE or TRANSFORM nodes holding sensitive resources without the AUTH or CONTROL protections that are enforced on the primary INGRESS path",
+  "graph_query": "INGRESS[alternate_channel]→STORAGE|TRANSFORM[sensitive_resource] without AUTH[channel_auth]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-923", "CWE-288", "CWE-421", "CWE-422", "CWE-1299"],
+  "references": ["https://cwe.mitre.org/data/definitions/420.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:25:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-10",
+  "name": "DEPRECATED: ASP.NET Environment Issues",
+  "status": "needs_review",
+  "description": "Deprecated category for ASP.NET environment issues. Not an actual weakness — mapping to real-world vulnerabilities is prohibited.",
+  "severity": "low",
+  "category": "configuration",
+  "detection_pattern": "N/A — deprecated category, not a scannable weakness",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": [],
+  "references": ["https://cwe.mitre.org/data/definitions/10.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-318",
+  "name": "Cleartext Storage of Sensitive Information in Executable",
+  "status": "filled",
+  "description": "The product stores sensitive information in cleartext within an executable file. Attackers can reverse engineer the binary to extract secret data such as cryptographic keys, passwords, or API tokens.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "Look for STORAGE nodes (compiled binary, executable resource section) receiving sensitive data from INGRESS or META nodes (hardcoded secrets, embedded credentials) without a TRANSFORM mediator (encryption, key vault retrieval, obfuscation) that protects the sensitive data from static analysis of the executable.",
+  "graph_query": "META(hardcoded_secret)→STORAGE(executable) without TRANSFORM(encryption)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-312", "CWE-798", "CWE-311"],
+  "references": ["https://cwe.mitre.org/data/definitions/318.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

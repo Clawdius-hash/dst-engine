@@ -1,0 +1,16 @@
+{
+  "id": "CWE-23",
+  "name": "Relative Path Traversal",
+  "status": "filled",
+  "description": "The product uses external input to construct a pathname that should be within a restricted directory, but does not properly neutralize '../' sequences that can resolve to a location outside of that directory.",
+  "severity": "high",
+  "category": "file_handling",
+  "detection_pattern": "INGRESS node provides path data containing '../' sequences that flows to STORAGE[file_system] operations (open, read, write, include) without passing through a CONTROL node that canonicalizes the path and validates it remains within the intended restricted directory",
+  "graph_query": "INGRESS[path_with_dotdot]→STORAGE[file_access] without CONTROL[path_canonicalization|directory_jail]",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-22", "CWE-36", "CWE-59", "CWE-434"],
+  "references": ["https://cwe.mitre.org/data/definitions/23.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

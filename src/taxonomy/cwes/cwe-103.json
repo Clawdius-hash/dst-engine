@@ -1,0 +1,16 @@
+{
+  "id": "CWE-103",
+  "name": "Struts: Incomplete validate() Method Definition",
+  "status": "filled",
+  "description": "A Struts ActionForm subclass either does not define a validate() method or defines one that does not call super.validate(), causing the Struts Validator framework's rules to be silently skipped and leaving form input unvalidated.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "STRUCTURAL[ActionForm_subclass] node overrides or omits validate() without calling super.validate(), causing CONTROL[struts_validator] to be bypassed so INGRESS[form_data] flows to TRANSFORM or STORAGE nodes without framework-level validation",
+  "graph_query": "INGRESS[form_data]→TRANSFORM|STORAGE without CONTROL[struts_validator] due to missing super.validate()",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-573", "CWE-20"],
+  "references": ["https://cwe.mitre.org/data/definitions/103.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-143",
+  "name": "Improper Neutralization of Record Delimiters",
+  "status": "filled",
+  "description": "The product does not properly neutralize characters that function as record delimiters (e.g., newlines in CSV, record separators in fixed-format data) in user input, allowing attackers to inject, remove, or manipulate record boundaries.",
+  "severity": "high",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides user-controlled data containing record delimiter characters (newlines, record separators) that flows into TRANSFORM[record_output] or STORAGE[record_data] without a TRANSFORM[record_delimiter_escape] that escapes or strips record-boundary characters",
+  "graph_query": "INGRESS[record_delimiters]→TRANSFORM[record_output] without TRANSFORM[record_delimiter_escape]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-140", "CWE-138"],
+  "references": ["https://cwe.mitre.org/data/definitions/143.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

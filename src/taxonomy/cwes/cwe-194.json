@@ -1,0 +1,16 @@
+{
+  "id": "CWE-194",
+  "name": "Unexpected Sign Extension",
+  "status": "filled",
+  "description": "The product performs an operation on a number that causes it to be sign-extended when transformed into a larger data type. When the original number is negative, sign extension fills the upper bits with 1s, producing unexpectedly large positive values (when interpreted as unsigned) that can lead to buffer overflows or out-of-bounds reads.",
+  "severity": "high",
+  "category": "memory",
+  "detection_pattern": "Look for INGRESS or TRANSFORM nodes where a small signed integer (e.g., char, short) is implicitly cast to a larger type (e.g., int, size_t) and then used at STORAGE or STRUCTURAL nodes for buffer sizing or indexing, without a CONTROL node that checks for negative values before the widening conversion.",
+  "graph_query": "INGRESS→TRANSFORM(sign_extend)→STORAGE|STRUCTURAL without CONTROL(negative_check)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-681", "CWE-195", "CWE-119", "CWE-125", "CWE-190"],
+  "references": ["https://cwe.mitre.org/data/definitions/194.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

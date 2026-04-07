@@ -1,0 +1,18 @@
+{
+  "id": "CWE-79",
+  "name": "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')",
+  "status": "implemented",
+  "description": "The product does not neutralize or incorrectly neutralizes user-controllable input before it is placed in output used as a web page served to other users, allowing attackers to inject executable scripts that run in victims' browsers.",
+  "severity": "high",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides user-controlled data that flows to an EGRESS node generating HTML/web output without passing through a CONTROL node that performs context-appropriate output encoding (HTML entity, JavaScript, URL encoding)",
+  "graph_query": "INGRESS→EGRESS[html_output] without CONTROL[output_encoding]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": true,
+  "related_cwes": ["CWE-74", "CWE-80", "CWE-81", "CWE-83", "CWE-84", "CWE-352"],
+  "references": ["https://cwe.mitre.org/data/definitions/79.html"],
+  "implemented_in": ["verifier.ts"],
+  "verified_at": "2026-03-23T00:00:00Z",
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

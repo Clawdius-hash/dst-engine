@@ -1,0 +1,16 @@
+{
+  "id": "CWE-487",
+  "name": "Reliance on Package-level Scope",
+  "status": "filled",
+  "description": "The product relies on Java package-level scope as a security boundary, but Java packages are not access-control mechanisms. Any code placed in the same package can access package-scoped members, making this an ease-of-development feature rather than a security control.",
+  "severity": "medium",
+  "category": "authorization",
+  "detection_pattern": "STORAGE node with package-level (default) visibility containing sensitive data or security-critical operations, without explicit AUTH (access control) enforcement. Look for STRUCTURAL(class) with package-scoped members that are accessed from EXTERNAL contexts.",
+  "graph_query": "STORAGE(package_scoped)→EXTERNAL(untrusted_class) without AUTH(access_control)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-664"],
+  "references": ["https://cwe.mitre.org/data/definitions/487.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

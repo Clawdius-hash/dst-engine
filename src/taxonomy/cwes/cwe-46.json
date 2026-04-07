@@ -1,0 +1,16 @@
+{
+  "id": "CWE-46",
+  "name": "Path Equivalence: 'filename ' (Trailing Space)",
+  "status": "filled",
+  "description": "The product does not properly handle filenames with trailing spaces, which some operating systems (Windows) silently strip during resolution, allowing attackers to bypass access controls that check the space-suffixed form.",
+  "severity": "medium",
+  "category": "file_handling",
+  "detection_pattern": "INGRESS node provides a filename with trailing spaces that bypasses CONTROL[path_check] because the check matches the spaced form while the OS strips spaces during resolution at STORAGE[file_access], creating a check-vs-use mismatch",
+  "graph_query": "INGRESS[path 'file ']→CONTROL[path_check]→STORAGE[file_access] without TRANSFORM[trim_whitespace]",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-41", "CWE-162"],
+  "references": ["https://cwe.mitre.org/data/definitions/46.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

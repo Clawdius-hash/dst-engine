@@ -1,0 +1,16 @@
+{
+  "id": "CWE-186",
+  "name": "Overly Restrictive Regular Expression",
+  "status": "filled",
+  "description": "A regular expression is overly restrictive, which prevents dangerous values from being detected. This can cause security-relevant inputs to bypass validation when the regex fails to match all intended malicious patterns.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "Look for INGRESS nodes where user input passes through a CONTROL node (regex validation/filter) that is too narrow in its matching pattern, allowing dangerous values to reach TRANSFORM or STORAGE nodes unfiltered. The mediator (regex check) exists but is insufficient.",
+  "graph_query": "INGRESS→TRANSFORM|STORAGE where CONTROL(regex) is present but incomplete",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-185", "CWE-183", "CWE-184"],
+  "references": ["https://cwe.mitre.org/data/definitions/186.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-102",
+  "name": "Struts: Duplicate Validation Forms",
+  "status": "filled",
+  "description": "The Struts application defines multiple validation forms with the same name, causing the Validator framework to arbitrarily select one and ignore the others, potentially leaving some form fields unvalidated.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "META[struts_validation_config] contains multiple validation form definitions with identical name attributes, causing a CONTROL[validation_framework] node to non-deterministically select which validation rules apply, potentially leaving INGRESS[form_data] unvalidated before reaching TRANSFORM or STORAGE nodes",
+  "graph_query": "META[validation_config duplicate_names]→CONTROL[validator]→INGRESS[form] without CONTROL[deterministic_validation]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-694", "CWE-1173", "CWE-20"],
+  "references": ["https://cwe.mitre.org/data/definitions/102.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

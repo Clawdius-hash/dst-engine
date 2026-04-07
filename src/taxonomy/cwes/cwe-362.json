@@ -1,0 +1,18 @@
+{
+  "id": "CWE-362",
+  "name": "Concurrent Execution using Shared Resource with Improper Synchronization ('Race Condition')",
+  "status": "implemented",
+  "description": "The product contains code sequences that can run concurrently and access a shared resource without proper synchronization, creating a race condition where the timing of operations can lead to data corruption, privilege escalation, or denial of service.",
+  "severity": "high",
+  "category": "concurrency",
+  "detection_pattern": "Multiple TRANSFORM or CONTROL nodes access the same STORAGE[shared_resource] node across concurrent execution paths without a CONTROL[synchronization] node (mutex, lock, atomic operation, transaction) mediating exclusive access between the read and write operations",
+  "graph_query": "TRANSFORM→STORAGE[shared]→TRANSFORM without CONTROL[synchronization]",
+  "owasp_top10": null,
+  "sans_top25": true,
+  "related_cwes": ["CWE-662", "CWE-364", "CWE-366", "CWE-367", "CWE-368", "CWE-416", "CWE-476"],
+  "references": ["https://cwe.mitre.org/data/definitions/362.html"],
+  "implemented_in": ["verifier.ts"],
+  "verified_at": "2026-03-23T00:00:00Z",
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

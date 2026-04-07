@@ -1,0 +1,11 @@
+{
+  "id": "CWE-919",
+  "name": "Weaknesses in Mobile Applications",
+  "status": "needs_review",
+  "description": "View: A curated collection organizing commonly observed security weaknesses specific to mobile application development. Serves as a navigational tool, not a weakness itself.",
+  "category_type": "view",
+  "related_cwes": ["CWE-200", "CWE-295", "CWE-312", "CWE-319", "CWE-798", "CWE-926", "CWE-927"],
+  "references": ["https://cwe.mitre.org/data/definitions/919.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

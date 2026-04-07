@@ -1,0 +1,16 @@
+{
+  "id": "CWE-572",
+  "name": "Call to Thread run() instead of start()",
+  "status": "filled",
+  "description": "The product calls a thread's run() method directly instead of start(), causing the code to execute in the caller's thread rather than spawning a new thread. This defeats the purpose of multithreading and can cause concurrency-related reliability and security issues.",
+  "severity": "medium",
+  "category": "concurrency",
+  "detection_pattern": "STRUCTURAL node representing a Thread object where an EXTERNAL call invokes run() directly instead of start(). Look for method invocation patterns on Thread-typed objects where the call target is run() rather than start().",
+  "graph_query": "STRUCTURAL[Thread]→EXTERNAL[run()] without EXTERNAL[start()]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-821"],
+  "references": ["https://cwe.mitre.org/data/definitions/572.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

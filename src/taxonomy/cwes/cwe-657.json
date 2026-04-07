@@ -1,0 +1,16 @@
+{
+  "id": "CWE-657",
+  "name": "Violation of Secure Design Principles",
+  "status": "filled",
+  "description": "The product violates well-established principles for secure design, which can introduce resultant weaknesses or make it easier for developers to introduce related weaknesses during implementation. Design flaws are resource-intensive to fix.",
+  "severity": "medium",
+  "category": "configuration",
+  "detection_pattern": "STRUCTURAL nodes representing system architecture lack standard security patterns such as defense-in-depth, least privilege, or fail-secure defaults. META nodes indicate missing security design requirements.",
+  "graph_query": "STRUCTURAL[architecture]→EGRESS|STORAGE without CONTROL[defense_in_depth]|AUTH[least_privilege]",
+  "owasp_top10": "A04:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-250", "CWE-636", "CWE-637", "CWE-638", "CWE-653", "CWE-654", "CWE-655", "CWE-656"],
+  "references": ["https://cwe.mitre.org/data/definitions/657.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:00:00Z"
+}

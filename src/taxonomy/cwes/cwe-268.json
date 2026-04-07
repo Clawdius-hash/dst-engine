@@ -1,0 +1,16 @@
+{
+  "id": "CWE-268",
+  "name": "Privilege Chaining",
+  "status": "filled",
+  "description": "Two distinct privileges, roles, capabilities, or rights can be combined in a way that allows an entity to perform unsafe actions that would not be allowed with either privilege alone. For example, an operator who can reset passwords could reset an admin password and then log in as admin.",
+  "severity": "high",
+  "category": "authorization",
+  "detection_pattern": "Look for multiple AUTH nodes (separate privilege grants, role assignments) that individually appear safe but when combined at an EXTERNAL or STRUCTURAL node (user, process, service) create a path to CONTROL nodes (privileged operations, admin actions) without a CONTROL mediator (privilege combination analysis, separation of duties enforcement) that detects and prevents dangerous privilege combinations.",
+  "graph_query": "AUTH(privilege_A)+AUTH(privilege_B)→CONTROL(escalated_action) without CONTROL(separation_of_duties)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-269", "CWE-266", "CWE-267"],
+  "references": ["https://cwe.mitre.org/data/definitions/268.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

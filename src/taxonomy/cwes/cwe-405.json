@@ -1,0 +1,16 @@
+{
+  "id": "CWE-405",
+  "name": "Asymmetric Resource Consumption (Amplification)",
+  "status": "filled",
+  "description": "The product does not properly control situations in which an adversary can cause the product to consume or produce excessive resources without requiring the adversary to invest equivalent work or effort, enabling amplification-based denial of service.",
+  "severity": "high",
+  "category": "reliability",
+  "detection_pattern": "INGRESS node accepts a small or low-cost request that triggers disproportionately large resource consumption at TRANSFORM or STORAGE nodes (CPU cycles, memory, network bandwidth, disk I/O) without a CONTROL node enforcing proportional cost limits or rate throttling",
+  "graph_query": "INGRESS[low_cost_request]→TRANSFORM|STORAGE[high_cost_operation] without CONTROL[rate_limit|cost_check]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-400", "CWE-404", "CWE-406", "CWE-407", "CWE-408", "CWE-409"],
+  "references": ["https://cwe.mitre.org/data/definitions/405.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:25:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-324",
+  "name": "Use of a Key Past its Expiration Date",
+  "status": "filled",
+  "description": "The product uses a cryptographic key or password past its expiration date. Prolonged key usage increases the window for cryptanalytic attacks and diminishes the safety guarantees the key was designed to provide.",
+  "severity": "medium",
+  "category": "cryptography",
+  "detection_pattern": "Look for TRANSFORM nodes (encryption, decryption, signing) that consume key material from STORAGE nodes (key store, credential store) without a CONTROL mediator (expiration check, key rotation policy, validity period enforcement) that verifies the key has not exceeded its intended lifetime before use.",
+  "graph_query": "STORAGE(expired_key)→TRANSFORM(crypto_operation) without CONTROL(expiration_check)",
+  "owasp_top10": "A02:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-672", "CWE-262", "CWE-298"],
+  "references": ["https://cwe.mitre.org/data/definitions/324.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

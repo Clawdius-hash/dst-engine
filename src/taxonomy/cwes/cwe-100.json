@@ -1,0 +1,16 @@
+{
+  "id": "CWE-100",
+  "name": "DEPRECATED: Technology-Specific Input Validation Problems",
+  "status": "needs_review",
+  "description": "Deprecated category for technology-specific input validation issues. Not an actual weakness — mapping is prohibited.",
+  "severity": "low",
+  "category": "input_output",
+  "detection_pattern": "N/A — deprecated category, not a scannable weakness",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": [],
+  "references": ["https://cwe.mitre.org/data/definitions/100.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

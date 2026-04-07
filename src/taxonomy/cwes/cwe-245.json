@@ -1,0 +1,16 @@
+{
+  "id": "CWE-245",
+  "name": "J2EE Bad Practices: Direct Management of Connections",
+  "status": "filled",
+  "description": "A J2EE application directly manages database connections using DriverManager.getConnection() instead of using the container-provided connection pool via DataSource. This bypasses container resource management, leading to connection leaks, poor scalability, and quality degradation.",
+  "severity": "low",
+  "category": "api",
+  "detection_pattern": "Look for STRUCTURAL nodes (J2EE application code) making EXTERNAL calls (DriverManager.getConnection(), direct JDBC connections) to STORAGE nodes (database) without using the proper AUTH/STRUCTURAL mediator (container DataSource, JNDI lookup, connection pool) that provides managed connection lifecycle.",
+  "graph_query": "STRUCTURAL(app_code)→EXTERNAL(direct_db_connection) without STRUCTURAL(container_datasource)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-695", "CWE-246"],
+  "references": ["https://cwe.mitre.org/data/definitions/245.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

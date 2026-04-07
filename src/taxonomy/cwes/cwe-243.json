@@ -1,0 +1,16 @@
+{
+  "id": "CWE-243",
+  "name": "Creation of chroot Jail Without Changing Working Directory",
+  "status": "filled",
+  "description": "The product uses chroot() to create a restricted jail but fails to change the working directory afterward, allowing attackers to escape the jail using relative paths. The chroot() call does not change the current working directory, so relative paths can still reference resources outside the jail.",
+  "severity": "high",
+  "category": "authorization",
+  "detection_pattern": "Look for STRUCTURAL nodes (chroot() calls) that establish a restricted filesystem boundary without a subsequent CONTROL mediator (chdir('/') call, working directory change) that anchors the process inside the jail. The absence of chdir after chroot means INGRESS paths (relative file access) can reach STORAGE nodes (files outside the jail).",
+  "graph_query": "STRUCTURAL(chroot)→STORAGE(filesystem) without CONTROL(chdir_to_root)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-573", "CWE-669", "CWE-250"],
+  "references": ["https://cwe.mitre.org/data/definitions/243.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

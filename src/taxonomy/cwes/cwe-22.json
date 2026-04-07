@@ -1,0 +1,18 @@
+{
+  "id": "CWE-22",
+  "name": "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')",
+  "status": "implemented",
+  "description": "The product uses external input to construct a pathname for a restricted directory but fails to properly neutralize special elements like '../' sequences, allowing attackers to access files and directories outside the intended boundary.",
+  "severity": "high",
+  "category": "file_handling",
+  "detection_pattern": "INGRESS node provides path-like data that flows to STORAGE or EXTERNAL file-access node without passing through a CONTROL node that canonicalizes or allowlist-validates the path",
+  "graph_query": "INGRESS→STORAGE[file_access] without CONTROL[path_canonicalization]",
+  "owasp_top10": "A01:2021",
+  "sans_top25": true,
+  "related_cwes": ["CWE-23", "CWE-36", "CWE-73", "CWE-20", "CWE-706"],
+  "references": ["https://cwe.mitre.org/data/definitions/22.html"],
+  "implemented_in": ["verifier.ts"],
+  "verified_at": "2026-03-22T00:00:00Z",
+  "filled_by": "atreus",
+  "filled_at": "2026-03-22T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-804",
+  "name": "Guessable CAPTCHA",
+  "status": "filled",
+  "description": "The product uses a CAPTCHA challenge that can be guessed or automatically recognized by a non-human actor. Common causes include insufficiently distorted images, mathematically solvable questions, limited answer sets, trivia with accessible answers, or metadata hints about CAPTCHA contents.",
+  "severity": "medium",
+  "category": "authentication",
+  "detection_pattern": "INGRESS node presents a CAPTCHA challenge where the AUTH node accepts responses without a CONTROL node ensuring sufficient entropy, distortion, or resistance to automated solving. Look for CAPTCHA implementations with predictable answer spaces.",
+  "graph_query": "INGRESS[captcha_challenge]→AUTH[verification] without CONTROL[anti_automation_strength]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-863", "CWE-1390", "CWE-330"],
+  "references": ["https://cwe.mitre.org/data/definitions/804.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

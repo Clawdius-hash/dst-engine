@@ -1,0 +1,16 @@
+{
+  "id": "CWE-233",
+  "name": "Improper Handling of Parameters",
+  "status": "filled",
+  "description": "The product does not properly handle when expected parameters, fields, or arguments are missing, extra, or undefined in input. Failure to validate parameter presence and correctness can lead to crashes, unexpected behavior, or security bypasses.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "Look for INGRESS nodes (HTTP parameters, function arguments, API fields) flowing to CONTROL or TRANSFORM nodes (request handlers, business logic) without a CONTROL mediator (parameter presence check, parameter schema validation) that ensures expected parameters exist and unexpected parameters are rejected.",
+  "graph_query": "INGRESS(parameters)→CONTROL(handler) without CONTROL(parameter_validation)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-228", "CWE-234", "CWE-235", "CWE-236"],
+  "references": ["https://cwe.mitre.org/data/definitions/233.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

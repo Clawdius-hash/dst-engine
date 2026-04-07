@@ -1,0 +1,16 @@
+{
+  "id": "CWE-61",
+  "name": "UNIX Symbolic Link (Symlink) Following",
+  "status": "filled",
+  "description": "The product opens a file or directory without sufficiently accounting for the possibility that it is a symbolic link resolving to a target outside the intended control sphere, allowing attackers to read, write, or delete unintended files.",
+  "severity": "high",
+  "category": "file_handling",
+  "detection_pattern": "INGRESS or TRANSFORM node provides a filename that may be a symlink, which flows to STORAGE[file_open] without a CONTROL node that uses lstat() to detect symlinks, O_NOFOLLOW to prevent following, or realpath() to validate the resolved target remains within the restricted directory",
+  "graph_query": "INGRESS[filename]→STORAGE[file_open] without CONTROL[symlink_check|O_NOFOLLOW|realpath]",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-59", "CWE-362"],
+  "references": ["https://cwe.mitre.org/data/definitions/61.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

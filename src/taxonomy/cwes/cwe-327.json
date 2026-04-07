@@ -1,0 +1,18 @@
+{
+  "id": "CWE-327",
+  "name": "Use of a Broken or Risky Cryptographic Algorithm",
+  "status": "implemented",
+  "description": "The product uses a broken or risky cryptographic algorithm or protocol (e.g., MD5, SHA1, DES, RC4) for which well-known attacks exist, undermining the confidentiality, integrity, or authenticity guarantees the cryptography was meant to provide.",
+  "severity": "high",
+  "category": "cryptography",
+  "detection_pattern": "A TRANSFORM[encryption|hashing] node uses a known-weak algorithm (MD5, SHA1, DES, RC4, ECB mode) to protect sensitive data flowing to STORAGE or EGRESS nodes, rather than using a strong algorithm (AES-256, SHA-256+, bcrypt, Argon2)",
+  "graph_query": "TRANSFORM[weak_crypto]→STORAGE|EGRESS without TRANSFORM[strong_crypto]",
+  "owasp_top10": "A02:2021",
+  "sans_top25": true,
+  "related_cwes": ["CWE-693", "CWE-328", "CWE-780", "CWE-1240", "CWE-311"],
+  "references": ["https://cwe.mitre.org/data/definitions/327.html"],
+  "implemented_in": ["verifier.ts"],
+  "verified_at": "2026-03-23T00:00:00Z",
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

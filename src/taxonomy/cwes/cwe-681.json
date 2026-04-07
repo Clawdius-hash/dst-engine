@@ -1,0 +1,16 @@
+{
+  "id": "CWE-681",
+  "name": "Incorrect Conversion between Numeric Types",
+  "status": "filled",
+  "description": "When converting from one numeric data type to another, data can be omitted or translated in a way that produces unexpected values. If the resulting values are used in a sensitive context such as memory allocation or access control, dangerous behaviors may occur.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "TRANSFORM[type_conversion] node converts numeric data between incompatible types (e.g., long to int, signed to unsigned) flowing into CONTROL[security_decision] or TRANSFORM[allocate] without CONTROL[range_check] validating the conversion result",
+  "graph_query": "TRANSFORM[type_conversion]→CONTROL[security_decision]|TRANSFORM[allocate] without CONTROL[range_check]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-704", "CWE-192", "CWE-194", "CWE-195", "CWE-196", "CWE-197"],
+  "references": ["https://cwe.mitre.org/data/definitions/681.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:00:00Z"
+}

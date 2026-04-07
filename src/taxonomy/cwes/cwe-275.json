@@ -1,0 +1,16 @@
+{
+  "id": "CWE-275",
+  "name": "Category: Permission Issues",
+  "status": "needs_review",
+  "description": "This is a CWE Category (not a Base or Variant weakness) that groups weaknesses related to improper assignment or handling of permissions. It encompasses CWE-276 through CWE-281 and other permission-related weaknesses. Categories cannot be mapped to real-world vulnerabilities.",
+  "severity": "low",
+  "category": "authorization",
+  "detection_pattern": "N/A — category",
+  "graph_query": "N/A",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-276", "CWE-277", "CWE-278", "CWE-279", "CWE-280", "CWE-281"],
+  "references": ["https://cwe.mitre.org/data/definitions/275.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

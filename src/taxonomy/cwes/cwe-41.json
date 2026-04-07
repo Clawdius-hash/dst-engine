@@ -1,0 +1,16 @@
+{
+  "id": "CWE-41",
+  "name": "Improper Resolution of Path Equivalence",
+  "status": "filled",
+  "description": "The product does not properly handle alternative representations of the same file path (trailing dots, spaces, slashes, URL encoding, 8.3 short names), allowing attackers to bypass access controls by using equivalent path representations the security checks don't recognize.",
+  "severity": "high",
+  "category": "file_handling",
+  "detection_pattern": "INGRESS node provides path data using alternative encoding or representation (trailing dot/space, URL-encoded separators, 8.3 names, mixed separators) that bypasses a CONTROL[path_check] node because the check does not canonicalize the path before comparison, allowing access to STORAGE[file_access] nodes that should be restricted",
+  "graph_query": "INGRESS[encoded_path]→CONTROL[path_check]→STORAGE[file_access] without TRANSFORM[path_canonicalization] before CONTROL",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-706", "CWE-863", "CWE-1390"],
+  "references": ["https://cwe.mitre.org/data/definitions/41.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

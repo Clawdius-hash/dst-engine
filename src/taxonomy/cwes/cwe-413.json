@@ -1,0 +1,16 @@
+{
+  "id": "CWE-413",
+  "name": "Improper Resource Locking",
+  "status": "filled",
+  "description": "The product does not lock or does not correctly lock a resource when it must have exclusive access, allowing concurrent actors to modify the resource during critical operations and causing data corruption, instability, or crashes.",
+  "severity": "medium",
+  "category": "concurrency",
+  "detection_pattern": "STORAGE or TRANSFORM node performing read-modify-write or multi-step operations on a shared resource without a CONTROL node enforcing a lock or mutex, allowing concurrent access from multiple INGRESS or STRUCTURAL paths",
+  "graph_query": "INGRESS|STRUCTURAL[concurrent_access]→STORAGE|TRANSFORM[shared_resource] without CONTROL[lock_acquire]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-667", "CWE-591", "CWE-411"],
+  "references": ["https://cwe.mitre.org/data/definitions/413.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:25:00Z"
+}

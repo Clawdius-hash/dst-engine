@@ -1,0 +1,16 @@
+{
+  "id": "CWE-616",
+  "name": "Incomplete Identification of Uploaded File Variables (PHP)",
+  "status": "filled",
+  "description": "PHP applications use outdated global variable methods for file uploads that attackers can overwrite through POST requests or cookies, enabling processing of unauthorized files and arbitrary file access.",
+  "severity": "high",
+  "category": "input_output",
+  "detection_pattern": "INGRESS(file_upload) flows to TRANSFORM using global variables that EXTERNAL actor can overwrite via INGRESS(POST/cookie), without CONTROL node using PHP superglobals ($_FILES) for upload verification",
+  "graph_query": "INGRESS(upload)→TRANSFORM(global_var_access) without CONTROL(superglobal_verification)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-345", "CWE-473"],
+  "references": ["https://cwe.mitre.org/data/definitions/616.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:50:00Z"
+}

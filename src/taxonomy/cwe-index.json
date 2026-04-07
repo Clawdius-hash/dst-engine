@@ -1,0 +1,125 @@
+{
+  "version": "1.0.0",
+  "generated": "2026-03-22",
+  "total_mitre_cwes": 933,
+  "implemented": 44,
+  "categories": {
+    "injection": {
+      "description": "Improper neutralization of special elements in input",
+      "cwes": {
+        "CWE-89":   { "name": "SQL Injection", "severity": "critical", "implemented_in": ["verifier.ts", "detection-engine.js", "scanner.ts"], "status": "complete" },
+        "CWE-79":   { "name": "Cross-Site Scripting (XSS)", "severity": "high", "implemented_in": ["verifier.ts", "detection-engine.js", "scanner.ts"], "status": "complete" },
+        "CWE-78":   { "name": "OS Command Injection", "severity": "critical", "implemented_in": ["verifier.ts", "detection-engine.js", "scanner.ts"], "status": "complete" },
+        "CWE-94":   { "name": "Code Injection", "severity": "critical", "implemented_in": ["verifier.ts"], "status": "complete" },
+        "CWE-611":  { "name": "XML External Entity (XXE)", "severity": "high", "implemented_in": ["verifier.ts", "detection-engine.js"], "status": "complete" },
+        "CWE-943":  { "name": "NoSQL Injection", "severity": "critical", "implemented_in": ["detection-engine.js"], "status": "detection_only" },
+        "CWE-917":  { "name": "Server-Side Template Injection", "severity": "critical", "implemented_in": [], "status": "missing" },
+        "CWE-90":   { "name": "LDAP Injection", "severity": "high", "implemented_in": [], "status": "missing" },
+        "CWE-91":   { "name": "XML Injection", "severity": "high", "implemented_in": [], "status": "missing" },
+        "CWE-93":   { "name": "CRLF Injection", "severity": "medium", "implemented_in": [], "status": "missing" },
+        "CWE-74":   { "name": "Injection (General)", "severity": "high", "implemented_in": [], "status": "missing" },
+        "CWE-77":   { "name": "Command Injection (General)", "severity": "critical", "implemented_in": [], "status": "missing" },
+        "CWE-564":  { "name": "SQL Injection via Hibernate", "severity": "high", "implemented_in": [], "status": "missing" }
+      }
+    },
+    "authentication": {
+      "description": "Weaknesses in identity verification mechanisms",
+      "cwes": {
+        "CWE-306":  { "name": "Missing Authentication for Critical Function", "severity": "critical", "implemented_in": ["verifier.ts"], "status": "complete" },
+        "CWE-287":  { "name": "Improper Authentication", "severity": "critical", "implemented_in": ["verifier.ts", "detection-engine.js"], "status": "complete" },
+        "CWE-290":  { "name": "Authentication Bypass by Spoofing", "severity": "high", "implemented_in": ["verifier.ts"], "status": "complete" },
+        "CWE-384":  { "name": "Session Fixation", "severity": "high", "implemented_in": ["verifier.ts"], "status": "complete" },
+        "CWE-613":  { "name": "Insufficient Session Expiration", "severity": "medium", "implemented_in": ["verifier.ts"], "status": "complete" },
+        "CWE-307":  { "name": "Missing Rate Limiting (Brute Force)", "severity": "medium", "implemented_in": ["detection-engine.js"], "status": "detection_only" },
+        "CWE-347":  { "name": "Improper Verification of Cryptographic Signature", "severity": "high", "implemented_in": ["verifier.ts"], "status": "complete" },
+        "CWE-295":  { "name": "Improper Certificate Validation", "severity": "high", "implemented_in": ["verifier.ts"], "status": "complete" },
+        "CWE-521":  { "name": "Weak Password Requirements", "severity": "medium", "implemented_in": [], "status": "missing" },
+        "CWE-640":  { "name": "Weak Password Recovery", "severity": "high", "implemented_in": [], "status": "missing" },
+        "CWE-304":  { "name": "Missing Critical Step in Authentication", "severity": "high", "implemented_in": [], "status": "missing" },
+        "CWE-308":  { "name": "Use of Single-factor Authentication", "severity": "medium", "implemented_in": [], "status": "missing" }
+      }
+    },
+    "authorization": {
+      "description": "Weaknesses in access control and privilege management",
+      "cwes": {
+        "CWE-862":  { "name": "Missing Authorization", "severity": "high", "implemented_in": ["verifier.ts", "scanner.ts"], "status": "complete" },
+        "CWE-269":  { "name": "Improper Privilege Management", "severity": "high", "implemented_in": ["verifier.ts"], "status": "complete" },
+        "CWE-250":  { "name": "Execution with Unnecessary Privileges", "severity": "medium", "implemented_in": ["verifier.ts"], "status": "complete" },
+        "CWE-863":  { "name": "Incorrect Authorization", "severity": "high", "implemented_in": [], "status": "missing" },
+        "CWE-639":  { "name": "Authorization Bypass via User-Controlled Key", "severity": "high", "implemented_in": [], "status": "missing" },
+        "CWE-284":  { "name": "Improper Access Control", "severity": "high", "implemented_in": [], "status": "missing" }
+      }
+    },
+    "data_protection": {
+      "description": "Weaknesses in protecting sensitive data",
+      "cwes": {
+        "CWE-798":  { "name": "Hardcoded Credentials", "severity": "high", "implemented_in": ["verifier.ts", "detection-engine.js"], "status": "complete" },
+        "CWE-312":  { "name": "Cleartext Storage of Sensitive Information", "severity": "high", "implemented_in": ["verifier.ts"], "status": "complete" },
+        "CWE-319":  { "name": "Cleartext Transmission of Sensitive Information", "severity": "high", "implemented_in": ["verifier.ts"], "status": "complete" },
+        "CWE-200":  { "name": "Exposure of Sensitive Information", "severity": "medium", "implemented_in": ["verifier.ts", "detection-engine.js", "scanner.ts"], "status": "complete" },
+        "CWE-209":  { "name": "Error Message Information Leak", "severity": "medium", "implemented_in": ["verifier.ts", "scanner.ts"], "status": "complete" },
+        "CWE-522":  { "name": "Insufficiently Protected Credentials", "severity": "high", "implemented_in": ["verifier.ts"], "status": "complete" },
+        "CWE-668":  { "name": "Exposure of Resource to Wrong Sphere", "severity": "medium", "implemented_in": ["verifier.ts"], "status": "complete" },
+        "CWE-532":  { "name": "Insertion of Sensitive Info into Log File", "severity": "medium", "implemented_in": [], "status": "missing" },
+        "CWE-311":  { "name": "Missing Encryption of Sensitive Data", "severity": "high", "implemented_in": [], "status": "missing" },
+        "CWE-359":  { "name": "Exposure of Private Personal Information", "severity": "high", "implemented_in": [], "status": "missing" }
+      }
+    },
+    "input_output": {
+      "description": "Weaknesses in data handling at system boundaries",
+      "cwes": {
+        "CWE-22":   { "name": "Path Traversal", "severity": "high", "implemented_in": ["verifier.ts", "detection-engine.js", "scanner.ts"], "status": "complete" },
+        "CWE-502":  { "name": "Deserialization of Untrusted Data", "severity": "critical", "implemented_in": ["verifier.ts", "detection-engine.js"], "status": "complete" },
+        "CWE-918":  { "name": "Server-Side Request Forgery (SSRF)", "severity": "high", "implemented_in": ["verifier.ts", "detection-engine.js", "scanner.ts"], "status": "complete" },
+        "CWE-352":  { "name": "Cross-Site Request Forgery (CSRF)", "severity": "high", "implemented_in": ["verifier.ts"], "status": "complete" },
+        "CWE-601":  { "name": "Open Redirect", "severity": "medium", "implemented_in": ["verifier.ts", "detection-engine.js"], "status": "complete" },
+        "CWE-434":  { "name": "Unrestricted File Upload", "severity": "critical", "implemented_in": ["verifier.ts"], "status": "complete" },
+        "CWE-116":  { "name": "Improper Encoding or Escaping of Output", "severity": "high", "implemented_in": ["verifier.ts", "scanner.ts"], "status": "complete" },
+        "CWE-915":  { "name": "Mass Assignment", "severity": "high", "implemented_in": ["verifier.ts", "detection-engine.js"], "status": "complete" },
+        "CWE-1321": { "name": "Prototype Pollution", "severity": "high", "implemented_in": ["detection-engine.js"], "status": "detection_only" },
+        "CWE-20":   { "name": "Improper Input Validation", "severity": "medium", "implemented_in": ["scanner.ts"], "status": "scanner_only" },
+        "CWE-838":  { "name": "Inappropriate Encoding for Output", "severity": "medium", "implemented_in": [], "status": "missing" },
+        "CWE-1236": { "name": "CSV Injection", "severity": "medium", "implemented_in": [], "status": "missing" }
+      }
+    },
+    "configuration": {
+      "description": "Weaknesses in security configuration and deployment",
+      "cwes": {
+        "CWE-614":  { "name": "Missing Secure Cookie Flag", "severity": "medium", "implemented_in": ["verifier.ts"], "status": "complete" },
+        "CWE-942":  { "name": "Permissive CORS Policy", "severity": "medium", "implemented_in": ["verifier.ts"], "status": "complete" },
+        "CWE-1021": { "name": "Clickjacking (UI Layers)", "severity": "medium", "implemented_in": ["verifier.ts"], "status": "complete" },
+        "CWE-327":  { "name": "Broken Cryptography", "severity": "high", "implemented_in": ["verifier.ts"], "status": "complete" },
+        "CWE-732":  { "name": "Incorrect Permission Assignment", "severity": "high", "implemented_in": ["verifier.ts"], "status": "complete" },
+        "CWE-1004": { "name": "Missing HttpOnly Cookie Flag", "severity": "medium", "implemented_in": [], "status": "missing" },
+        "CWE-16":   { "name": "Configuration", "severity": "medium", "implemented_in": [], "status": "missing" },
+        "CWE-1275": { "name": "Sensitive Cookie with Improper SameSite", "severity": "medium", "implemented_in": [], "status": "missing" }
+      }
+    },
+    "reliability": {
+      "description": "Weaknesses affecting system stability and resource management",
+      "cwes": {
+        "CWE-476":  { "name": "NULL Pointer Dereference", "severity": "medium", "implemented_in": ["verifier.ts"], "status": "complete" },
+        "CWE-400":  { "name": "Uncontrolled Resource Consumption (DoS)", "severity": "high", "implemented_in": ["verifier.ts"], "status": "complete" },
+        "CWE-770":  { "name": "Allocation Without Limits", "severity": "medium", "implemented_in": ["verifier.ts"], "status": "complete" },
+        "CWE-362":  { "name": "Race Condition (TOCTOU)", "severity": "medium", "implemented_in": ["verifier.ts"], "status": "complete" },
+        "CWE-119":  { "name": "Buffer Overflow", "severity": "critical", "implemented_in": ["verifier.ts"], "status": "complete" },
+        "CWE-190":  { "name": "Integer Overflow", "severity": "high", "implemented_in": [], "status": "missing" },
+        "CWE-835":  { "name": "Infinite Loop", "severity": "high", "implemented_in": [], "status": "missing" },
+        "CWE-674":  { "name": "Uncontrolled Recursion", "severity": "medium", "implemented_in": [], "status": "missing" },
+        "CWE-755":  { "name": "Improper Handling of Exceptional Conditions", "severity": "medium", "implemented_in": [], "status": "missing" }
+      }
+    }
+  },
+  "duplication_map": {
+    "triple_implemented": ["CWE-89", "CWE-79", "CWE-78", "CWE-22", "CWE-918", "CWE-200"],
+    "double_implemented": ["CWE-287", "CWE-502", "CWE-798", "CWE-601", "CWE-611", "CWE-915", "CWE-862", "CWE-209", "CWE-116"],
+    "verifier_only": ["CWE-306", "CWE-352", "CWE-434", "CWE-94", "CWE-732", "CWE-327", "CWE-319", "CWE-614", "CWE-312", "CWE-476", "CWE-400", "CWE-770", "CWE-942", "CWE-1021", "CWE-290", "CWE-347", "CWE-295", "CWE-384", "CWE-613", "CWE-668", "CWE-269", "CWE-250", "CWE-522", "CWE-362", "CWE-119"],
+    "detection_engine_only": ["CWE-307", "CWE-1321", "CWE-943"],
+    "scanner_only": ["CWE-20"]
+  },
+  "sources": {
+    "verifier": { "file": "verifier.ts", "location": "generic-api-wrapper/src/services/dst/", "count": 40, "type": "graph_traversal" },
+    "detection_engine": { "file": "dst-detection-engine.js", "location": "Downloads/", "count": 15, "type": "taint_flow" },
+    "scanner": { "file": "scanner.ts", "location": "generic-api-wrapper/src/services/dst/", "count": 10, "type": "gap_pattern" }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "id": "CWE-78",
+  "name": "Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')",
+  "status": "implemented",
+  "description": "The product constructs OS commands using externally-influenced input without properly neutralizing special elements like shell metacharacters, allowing attackers to inject and execute arbitrary operating system commands.",
+  "severity": "critical",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides data that flows to an EXTERNAL node executing OS commands (system, exec, spawn, popen) without passing through a CONTROL node that sanitizes shell metacharacters or uses parameterized command APIs",
+  "graph_query": "INGRESS→EXTERNAL[os_command] without CONTROL[command_sanitization]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": true,
+  "related_cwes": ["CWE-77", "CWE-74", "CWE-88", "CWE-184"],
+  "references": ["https://cwe.mitre.org/data/definitions/78.html"],
+  "implemented_in": ["verifier.ts"],
+  "verified_at": "2026-03-23T00:00:00Z",
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

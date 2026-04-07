@@ -1,0 +1,16 @@
+{
+  "id": "CWE-684",
+  "name": "Incorrect Provision of Specified Functionality",
+  "status": "filled",
+  "description": "The code does not function according to its published specifications, potentially leading to incorrect usage by external parties who rely on documented behavior. Deviations from spec can create exploitable states.",
+  "severity": "medium",
+  "category": "api",
+  "detection_pattern": "TRANSFORM or CONTROL node behavior deviates from META[specification] or META[contract] definitions, causing EGRESS or STORAGE nodes to produce results inconsistent with the documented API contract",
+  "graph_query": "TRANSFORM[implementation]→EGRESS without META[specification_compliance]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-710", "CWE-392", "CWE-393", "CWE-440", "CWE-912"],
+  "references": ["https://cwe.mitre.org/data/definitions/684.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:00:00Z"
+}

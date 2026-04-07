@@ -1,0 +1,16 @@
+{
+  "id": "CWE-204",
+  "name": "Observable Response Discrepancy",
+  "status": "filled",
+  "description": "The product provides different responses to incoming requests in a way that reveals internal state information to an unauthorized actor. For example, a login form that returns 'invalid username' vs 'invalid password' allows user enumeration.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "Look for AUTH or CONTROL nodes (login, authentication, lookup) that produce distinct EGRESS responses (different error messages, HTTP status codes) depending on which internal check failed, without a TRANSFORM node (generic error mapping) that normalizes all failure responses into a single uniform output.",
+  "graph_query": "AUTH|CONTROL(validation_step)→EGRESS(error_response) without TRANSFORM(generic_error_mapping)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-203", "CWE-200"],
+  "references": ["https://cwe.mitre.org/data/definitions/204.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

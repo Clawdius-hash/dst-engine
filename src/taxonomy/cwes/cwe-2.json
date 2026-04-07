@@ -1,0 +1,16 @@
+{
+  "id": "CWE-2",
+  "name": "7PK - Environment",
+  "status": "needs_review",
+  "description": "Category from Seven Pernicious Kingdoms taxonomy covering environmental misconfigurations. Not an actual weakness — mapping to real-world vulnerabilities is prohibited.",
+  "severity": "low",
+  "category": "configuration",
+  "detection_pattern": "N/A — category, not a scannable weakness",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-5", "CWE-6", "CWE-7", "CWE-8", "CWE-9", "CWE-11", "CWE-12", "CWE-13", "CWE-14"],
+  "references": ["https://cwe.mitre.org/data/definitions/2.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-139",
+  "name": "DEPRECATED: General Special Element Problems",
+  "status": "needs_review",
+  "description": "Deprecated category — use CWE-138 instead.",
+  "severity": "low",
+  "category": "injection",
+  "detection_pattern": "N/A — deprecated, use CWE-138",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-138"],
+  "references": ["https://cwe.mitre.org/data/definitions/139.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

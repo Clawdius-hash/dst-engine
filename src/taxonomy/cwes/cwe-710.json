@@ -1,0 +1,16 @@
+{
+  "id": "CWE-710",
+  "name": "Improper Adherence to Coding Standards",
+  "status": "needs_review",
+  "description": "Pillar-level CWE. Product does not follow coding standards, leading to resultant weaknesses. Mapping discouraged — use specific descendants instead.",
+  "severity": "low",
+  "category": "reliability",
+  "detection_pattern": "STRUCTURAL code violates coding standards without META(code_review) catching violations that lead to downstream vulnerabilities",
+  "graph_query": "STRUCTURAL(non_compliant_code)→TRANSFORM(resultant_weakness) without META(standards_enforcement)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-476", "CWE-477", "CWE-484"],
+  "references": ["https://cwe.mitre.org/data/definitions/710.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:05:00Z"
+}

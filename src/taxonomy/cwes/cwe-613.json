@@ -1,0 +1,18 @@
+{
+  "id": "CWE-613",
+  "name": "Insufficient Session Expiration",
+  "status": "implemented",
+  "description": "The product does not sufficiently expire or invalidate session identifiers, allowing attackers to reuse old session credentials or tokens to gain unauthorized access after the legitimate user's session should have ended.",
+  "severity": "medium",
+  "category": "authentication",
+  "detection_pattern": "STORAGE[session] node holds session tokens that persist indefinitely without a CONTROL[session_expiration] node enforcing idle timeout, absolute timeout, or server-side invalidation on logout, allowing stale sessions to remain valid for AUTH checks",
+  "graph_query": "STORAGE[session]→AUTH[session_check] without CONTROL[session_expiration|timeout]",
+  "owasp_top10": "A07:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-672", "CWE-287"],
+  "references": ["https://cwe.mitre.org/data/definitions/613.html"],
+  "implemented_in": ["verifier.ts"],
+  "verified_at": "2026-03-23T00:00:00Z",
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

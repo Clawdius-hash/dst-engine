@@ -1,0 +1,16 @@
+{
+  "id": "CWE-64",
+  "name": "Windows Shortcut Following (.LNK)",
+  "status": "filled",
+  "description": "The product opens a file or directory without properly handling that it may be a Windows shortcut (.LNK) file whose target resolves to a location outside the intended control sphere, allowing attackers to access unauthorized files.",
+  "severity": "medium",
+  "category": "file_handling",
+  "detection_pattern": "INGRESS node provides a filename that may be a .LNK shortcut file, which flows to STORAGE[file_access] where the OS resolves the shortcut target outside the intended directory, without a CONTROL node that detects .LNK files and validates or rejects shortcut resolution",
+  "graph_query": "INGRESS[filename.lnk]→STORAGE[file_access] without CONTROL[shortcut_resolution_check]",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-59"],
+  "references": ["https://cwe.mitre.org/data/definitions/64.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

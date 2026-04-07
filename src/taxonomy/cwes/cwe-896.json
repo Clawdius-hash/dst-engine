@@ -1,0 +1,11 @@
+{
+  "id": "CWE-896",
+  "name": "SFP Primary Cluster: Tainted Input",
+  "status": "needs_review",
+  "description": "Category: Organizes Software Fault Patterns related to tainted input vulnerabilities. An organizational grouping, not a weakness itself.",
+  "category_type": "category",
+  "related_cwes": ["CWE-888", "CWE-990", "CWE-991", "CWE-992", "CWE-993", "CWE-994"],
+  "references": ["https://cwe.mitre.org/data/definitions/896.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-386",
+  "name": "Symbolic Name not Mapping to Correct Object",
+  "status": "filled",
+  "description": "A constant symbolic reference to an object is used, but the reference can resolve to a different object over time, potentially causing the wrong resource to be accessed when the binding changes between resolution and use.",
+  "severity": "medium",
+  "category": "concurrency",
+  "detection_pattern": "CONTROL node resolves symbolic name to object reference at one point, but TRANSFORM or STORAGE node uses the reference later when the binding may have changed, without re-verification",
+  "graph_query": "CONTROL(name_resolution)→TRANSFORM(object_use) without CONTROL(binding_verification)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-706", "CWE-367", "CWE-486", "CWE-610"],
+  "references": ["https://cwe.mitre.org/data/definitions/386.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:05:00Z"
+}

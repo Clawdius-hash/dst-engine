@@ -1,0 +1,16 @@
+{
+  "id": "CWE-764",
+  "name": "Multiple Locks of a Critical Resource",
+  "status": "filled",
+  "description": "The product locks a critical resource more times than intended, potentially causing deadlocks with binary locks or resource pool depletion with counting semaphores, leading to denial of service or unexpected system states.",
+  "severity": "medium",
+  "category": "concurrency",
+  "detection_pattern": "CONTROL(lock_acquire) is called multiple times on the same STORAGE(shared_resource) without intervening CONTROL(lock_release). Look for re-entrant lock acquisition paths where a thread already holding a lock attempts to acquire it again.",
+  "graph_query": "CONTROL(lock_acquire)→CONTROL(lock_acquire_same_resource) without CONTROL(lock_release)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-667", "CWE-675", "CWE-765"],
+  "references": ["https://cwe.mitre.org/data/definitions/764.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:15:00Z"
+}

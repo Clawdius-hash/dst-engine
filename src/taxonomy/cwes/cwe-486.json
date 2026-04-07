@@ -1,0 +1,16 @@
+{
+  "id": "CWE-486",
+  "name": "Comparison of Classes by Name",
+  "status": "filled",
+  "description": "The product compares classes by name rather than by reference equality, allowing an attacker to supply a malicious class with the same name as a trusted class. Since multiple classes can share the same name across different class loaders, name-based comparison can be spoofed to execute unintended code.",
+  "severity": "medium",
+  "category": "authorization",
+  "detection_pattern": "CONTROL node performing class identity check using TRANSFORM(string comparison) on class names rather than direct object reference comparison. Look for EXTERNAL(class)→TRANSFORM(getName)→CONTROL(equals) without AUTH(reference equality check).",
+  "graph_query": "EXTERNAL(class)→TRANSFORM(getName)→CONTROL(comparison) without AUTH(reference_check)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-1025", "CWE-386"],
+  "references": ["https://cwe.mitre.org/data/definitions/486.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

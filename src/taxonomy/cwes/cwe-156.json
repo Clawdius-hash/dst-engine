@@ -1,0 +1,16 @@
+{
+  "id": "CWE-156",
+  "name": "Improper Neutralization of Whitespace",
+  "status": "filled",
+  "description": "The product does not properly neutralize whitespace characters (spaces, tabs, vertical tabs, form feeds) in user input that could be misinterpreted by downstream components, allowing attackers to bypass filters, alter tokenization, or inject hidden content.",
+  "severity": "medium",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides user-controlled data containing whitespace characters that flows to TRANSFORM[parser|tokenizer] or EXTERNAL[interpreter] without a TRANSFORM[whitespace_normalize] that strips or normalizes whitespace before processing",
+  "graph_query": "INGRESS[whitespace]→TRANSFORM[parser] without TRANSFORM[whitespace_normalize]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-138"],
+  "references": ["https://cwe.mitre.org/data/definitions/156.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

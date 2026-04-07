@@ -1,0 +1,16 @@
+{
+  "id": "CWE-182",
+  "name": "Collapse of Data into Unsafe Value",
+  "status": "filled",
+  "description": "The product filters data in a way that causes it to be reduced or collapsed into an unsafe value, such as stripping dangerous characters from input and leaving behind a new dangerous sequence that wasn't present in the original (e.g., removing 'script' from '<<script>script>' leaves '<script>').",
+  "severity": "high",
+  "category": "input_output",
+  "detection_pattern": "TRANSFORM[filter_strip] removes or replaces characters in INGRESS data, but the remaining characters collapse into a new dangerous value that wasn't checked by CONTROL[input_validation], without a CONTROL[post_filter_revalidation] that re-checks the filtered output for new dangerous patterns",
+  "graph_query": "INGRESS→TRANSFORM[filter]→EGRESS without CONTROL[post_filter_revalidation]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-707", "CWE-85"],
+  "references": ["https://cwe.mitre.org/data/definitions/182.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

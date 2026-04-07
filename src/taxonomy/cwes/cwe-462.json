@@ -1,0 +1,16 @@
+{
+  "id": "CWE-462",
+  "name": "Duplicate Key in Associative List (Alist)",
+  "status": "filled",
+  "description": "Duplicate keys in an associative list create ambiguity where lookups may return unexpected values. Unintentional duplicate entries can cause logic errors and quality degradation when the wrong value is retrieved for a given key.",
+  "severity": "medium",
+  "category": "reliability",
+  "detection_pattern": "A STORAGE node representing an associative data structure receives multiple TRANSFORM[insert] operations with the same key value without a CONTROL[duplicate_check] mediator that validates key uniqueness before insertion.",
+  "graph_query": "TRANSFORM[insert]→STORAGE[associative_list] without CONTROL[duplicate_check]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-694"],
+  "references": ["https://cwe.mitre.org/data/definitions/462.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

@@ -1,0 +1,27 @@
+{
+  "id": "CWE-850",
+  "name": "Category: CERT Oracle Secure Coding Standard for Java (2011) Chapter 7 - Methods (MET)",
+  "status": "needs_review",
+  "description": "This is a category grouping weaknesses related to method handling from the CERT Oracle Secure Coding Standard for Java (2011). Categories cannot be used for vulnerability mapping.",
+  "severity": "low",
+  "category": "api",
+  "detection_pattern": "N/A — category",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": [
+    "CWE-844",
+    "CWE-487",
+    "CWE-568",
+    "CWE-573",
+    "CWE-581",
+    "CWE-583",
+    "CWE-586",
+    "CWE-617"
+  ],
+  "references": [
+    "https://cwe.mitre.org/data/definitions/850.html"
+  ],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

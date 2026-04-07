@@ -1,0 +1,16 @@
+{
+  "id": "CWE-285",
+  "name": "Improper Authorization",
+  "status": "filled",
+  "description": "The product does not perform or incorrectly performs an authorization check when an actor attempts to access a resource or perform an action. This allows unauthorized users to access restricted functionality or data by bypassing or exploiting flawed authorization logic.",
+  "severity": "high",
+  "category": "authorization",
+  "detection_pattern": "Look for INGRESS nodes (user request, API call, action trigger) that reach STORAGE or EXTERNAL nodes (protected resource, restricted action, sensitive data) without an AUTH mediator (authorization check, permission verification, role-based access control) that validates the requesting actor has the required permissions for the target resource.",
+  "graph_query": "INGRESS(user_request)→STORAGE(protected_resource) without AUTH(authorization_check)",
+  "owasp_top10": "A01:2021",
+  "sans_top25": true,
+  "related_cwes": ["CWE-284", "CWE-862", "CWE-863", "CWE-732"],
+  "references": ["https://cwe.mitre.org/data/definitions/285.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,11 @@
+{
+  "id": "CWE-891",
+  "name": "SFP Primary Cluster: Memory Management",
+  "status": "needs_review",
+  "description": "Category: Identifies Software Fault Patterns within the Memory Management cluster. An organizational grouping, not a weakness itself.",
+  "category_type": "category",
+  "related_cwes": ["CWE-888", "CWE-969"],
+  "references": ["https://cwe.mitre.org/data/definitions/891.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-73",
+  "name": "External Control of File Name or Path",
+  "status": "filled",
+  "description": "The product allows user input to control or influence the file name or path used in filesystem operations, potentially enabling attackers to access or modify arbitrary files by specifying paths to unintended resources.",
+  "severity": "high",
+  "category": "file_handling",
+  "detection_pattern": "INGRESS node provides user-controlled data that is used to construct a filename or path flowing to STORAGE[file_access] operations (open, read, write, delete, include) without a CONTROL node that restricts the path to an allowlist, validates against a base directory, or rejects dangerous path components",
+  "graph_query": "INGRESS[user_controlled]→STORAGE[file_access] without CONTROL[path_allowlist|base_dir_validation]",
+  "owasp_top10": "A04:2021",
+  "sans_top25": true,
+  "related_cwes": ["CWE-610", "CWE-642", "CWE-20", "CWE-22"],
+  "references": ["https://cwe.mitre.org/data/definitions/73.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

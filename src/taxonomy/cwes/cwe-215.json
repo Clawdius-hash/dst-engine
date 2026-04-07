@@ -1,0 +1,16 @@
+{
+  "id": "CWE-215",
+  "name": "Insertion of Sensitive Information Into Debugging Code",
+  "status": "filled",
+  "description": "The product inserts sensitive information (credentials, internal paths, PII) into debugging code such as log statements or debug print calls, which could expose the information if debug mode is not disabled in production.",
+  "severity": "medium",
+  "category": "logging",
+  "detection_pattern": "Look for INGRESS or STORAGE nodes containing sensitive data (credentials, PII, keys) flowing into META nodes (debug/logging statements) that reach EGRESS nodes (log files, console output, debug endpoints) without a CONTROL mediator (debug-mode gate, production-mode check) that disables the debug output in production.",
+  "graph_query": "STORAGE(sensitive)→META(debug_output)→EGRESS without CONTROL(production_gate)",
+  "owasp_top10": "A05:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-200", "CWE-489", "CWE-532"],
+  "references": ["https://cwe.mitre.org/data/definitions/215.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

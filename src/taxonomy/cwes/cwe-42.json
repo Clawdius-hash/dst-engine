@@ -1,0 +1,16 @@
+{
+  "id": "CWE-42",
+  "name": "Path Equivalence: 'filename.' (Trailing Dot)",
+  "status": "filled",
+  "description": "The product does not properly handle filenames with trailing dots, which on some operating systems (Windows) are silently stripped, allowing attackers to bypass access controls by appending a dot to restricted filenames.",
+  "severity": "medium",
+  "category": "file_handling",
+  "detection_pattern": "INGRESS node provides a filename with trailing dot that bypasses a CONTROL[path_check] because the check matches against the dotted form while the OS resolves to the canonical form without the dot, granting access to STORAGE[file_access] that should be restricted",
+  "graph_query": "INGRESS[path 'file.']→CONTROL[path_check]→STORAGE[file_access] without TRANSFORM[strip_trailing_dots]",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-41", "CWE-162"],
+  "references": ["https://cwe.mitre.org/data/definitions/42.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,26 @@
+{
+  "id": "CWE-865",
+  "name": "Category: 2011 Top 25 - Risky Resource Management",
+  "status": "needs_review",
+  "description": "This is a category from the 2011 CWE/SANS Top 25 grouping weaknesses related to risky resource management including buffer overflows, path traversal, integer overflows, and unsafe code downloads.",
+  "severity": "low",
+  "category": "memory",
+  "detection_pattern": "N/A — category",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": true,
+  "related_cwes": [
+    "CWE-22",
+    "CWE-120",
+    "CWE-131",
+    "CWE-134",
+    "CWE-190",
+    "CWE-494",
+    "CWE-676"
+  ],
+  "references": [
+    "https://cwe.mitre.org/data/definitions/865.html"
+  ],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

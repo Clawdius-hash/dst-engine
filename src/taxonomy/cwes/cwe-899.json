@@ -1,0 +1,11 @@
+{
+  "id": "CWE-899",
+  "name": "SFP Primary Cluster: Access Control",
+  "status": "needs_review",
+  "description": "Category: Organizes Software Fault Patterns within the Access Control cluster. An organizational grouping, not a weakness itself.",
+  "category_type": "category",
+  "related_cwes": ["CWE-888", "CWE-944", "CWE-945", "CWE-946"],
+  "references": ["https://cwe.mitre.org/data/definitions/899.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

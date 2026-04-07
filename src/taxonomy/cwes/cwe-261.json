@@ -1,0 +1,16 @@
+{
+  "id": "CWE-261",
+  "name": "Weak Encoding for Password",
+  "status": "filled",
+  "description": "The product obscures a password with a trivial encoding (such as Base64 or ROT13) instead of using cryptographic hashing. Trivial encoding is easily reversible and provides no meaningful protection against an attacker who obtains the encoded value.",
+  "severity": "high",
+  "category": "cryptography",
+  "detection_pattern": "Look for AUTH data (passwords, credentials) flowing through TRANSFORM nodes (Base64 encode, ROT13, XOR obfuscation, simple encoding) to STORAGE nodes (databases, files, configuration) without a CONTROL mediator (cryptographic hash function, bcrypt/scrypt/argon2, proper key derivation) that applies irreversible cryptographic protection before storage.",
+  "graph_query": "AUTH(password)→TRANSFORM(weak_encoding)→STORAGE without CONTROL(cryptographic_hash)",
+  "owasp_top10": "A02:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-522", "CWE-256", "CWE-328"],
+  "references": ["https://cwe.mitre.org/data/definitions/261.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

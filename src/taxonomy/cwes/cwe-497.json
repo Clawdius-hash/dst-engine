@@ -1,0 +1,16 @@
+{
+  "id": "CWE-497",
+  "name": "Exposure of Sensitive System Information to an Unauthorized Control Sphere",
+  "status": "filled",
+  "description": "The product exposes sensitive system-level information such as file paths, OS details, installed packages, or environment configurations to unauthorized actors. Error messages, stack traces, and diagnostic output can reveal implementation details that help adversaries plan attacks.",
+  "severity": "medium",
+  "category": "logging",
+  "detection_pattern": "STORAGE(system_info) or META(environment_config) flowing to EGRESS(user_facing_output) without CONTROL(information_filter). Look for error handlers or debug outputs that send internal system details through EGRESS nodes to untrusted recipients.",
+  "graph_query": "STORAGE(system_info)→EGRESS(response) without CONTROL(sanitization)",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-200", "CWE-214", "CWE-548"],
+  "references": ["https://cwe.mitre.org/data/definitions/497.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

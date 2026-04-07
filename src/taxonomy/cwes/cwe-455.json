@@ -1,0 +1,16 @@
+{
+  "id": "CWE-455",
+  "name": "Non-exit on Failed Initialization",
+  "status": "filled",
+  "description": "The product does not exit or otherwise modify its operation when security-relevant errors occur during initialization, such as configuration file format errors or hardware security module activation failures. This can cause the application to execute in a less secure mode than intended.",
+  "severity": "medium",
+  "category": "error_handling",
+  "detection_pattern": "STRUCTURAL initialization node encounters an error condition but the CONTROL flow continues to normal operation instead of terminating or entering a safe state. Look for initialization paths where a CONTROL(error_check) node is missing or does not route to an EGRESS(exit) or CONTROL(safe_mode) node on failure.",
+  "graph_query": "STRUCTURAL(init)→CONTROL(normal_operation) without CONTROL(fail_exit_check)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-636", "CWE-665", "CWE-705", "CWE-452"],
+  "references": ["https://cwe.mitre.org/data/definitions/455.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

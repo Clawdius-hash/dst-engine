@@ -1,0 +1,16 @@
+{
+  "id": "CWE-816",
+  "name": "Category: OWASP Top Ten 2010 Category A7 - Insecure Cryptographic Storage",
+  "status": "needs_review",
+  "description": "This is a Category grouping weaknesses related to OWASP Top Ten 2010 A7 (Insecure Cryptographic Storage). Includes CWE-311, CWE-312, CWE-326, CWE-327, CWE-759. Prohibited for vulnerability mapping.",
+  "severity": "low",
+  "category": "cryptography",
+  "detection_pattern": "N/A — category, not a weakness",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-809", "CWE-311", "CWE-312", "CWE-326", "CWE-327", "CWE-759"],
+  "references": ["https://cwe.mitre.org/data/definitions/816.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-332",
+  "name": "Insufficient Entropy in PRNG",
+  "status": "filled",
+  "description": "The lack of entropy available for, or used by, a Pseudo-Random Number Generator (PRNG) can be a stability and security threat. When a PRNG has insufficient entropy, its outputs become predictable and may cause denial-of-service or enable cryptographic attacks.",
+  "severity": "high",
+  "category": "cryptography",
+  "detection_pattern": "TRANSFORM node seeding or operating a PRNG draws from a low-entropy EXTERNAL or STORAGE source, and the PRNG output feeds into AUTH, TRANSFORM(crypto), or EGRESS nodes without a CONTROL node enforcing minimum seed entropy or reseeding intervals",
+  "graph_query": "EXTERNAL(low_entropy_source)→TRANSFORM(prng)→AUTH|EGRESS without CONTROL(prng_entropy_policy)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-331", "CWE-330", "CWE-338"],
+  "references": ["https://cwe.mitre.org/data/definitions/332.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:20:00Z"
+}

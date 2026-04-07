@@ -1,0 +1,16 @@
+{
+  "id": "CWE-624",
+  "name": "Executable Regular Expression Error",
+  "status": "filled",
+  "description": "The product uses a regular expression that either contains executable components with user-controlled input or allows users to enable execution via pattern modifiers. This is exploitable in languages like PHP (preg_replace with /e modifier) where regex evaluation can lead to arbitrary code execution.",
+  "severity": "critical",
+  "category": "injection",
+  "detection_pattern": "INGRESS node providing user input flows into a TRANSFORM node performing regex evaluation without a CONTROL node sanitizing or restricting executable regex modifiers. Look for regex operations where the pattern or replacement string is user-influenced.",
+  "graph_query": "INGRESS→TRANSFORM(regex_eval) without CONTROL(pattern_sanitization)",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-77", "CWE-95"],
+  "references": ["https://cwe.mitre.org/data/definitions/624.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:00:00Z"
+}

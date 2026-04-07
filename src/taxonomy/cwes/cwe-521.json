@@ -1,0 +1,16 @@
+{
+  "id": "CWE-521",
+  "name": "Weak Password Requirements",
+  "status": "filled",
+  "description": "The product does not require strong passwords, failing to enforce adequate complexity, length, or other security requirements, making user accounts vulnerable to credential-based attacks like brute force or dictionary attacks.",
+  "severity": "high",
+  "category": "authentication",
+  "detection_pattern": "AUTH node accepts password from INGRESS without CONTROL node enforcing minimum complexity requirements (length, character classes, entropy) before storing in STORAGE",
+  "graph_query": "INGRESS(password)→AUTH(acceptance) without CONTROL(password_policy_enforcement)",
+  "owasp_top10": "A07:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-1391", "CWE-258", "CWE-287"],
+  "references": ["https://cwe.mitre.org/data/definitions/521.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:15:00Z"
+}

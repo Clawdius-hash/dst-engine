@@ -1,0 +1,16 @@
+{
+  "id": "CWE-316",
+  "name": "Cleartext Storage of Sensitive Information in Memory",
+  "status": "filled",
+  "description": "The product stores sensitive information in cleartext in memory, where it may be exposed through core dumps, crash logs, swapping to disk, or memory inspection by privileged users or other vulnerabilities.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "Look for STORAGE nodes (memory buffer, heap allocation, process memory) holding sensitive data from INGRESS nodes without a TRANSFORM mediator (encryption, secure memory allocation, memory zeroing) that protects the data while in memory and ensures cleanup after use.",
+  "graph_query": "INGRESS(sensitive_data)→STORAGE(memory) without TRANSFORM(memory_protection)",
+  "owasp_top10": "A04:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-312", "CWE-311"],
+  "references": ["https://cwe.mitre.org/data/definitions/316.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

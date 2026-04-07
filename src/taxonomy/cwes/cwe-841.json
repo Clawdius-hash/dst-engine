@@ -1,0 +1,20 @@
+{
+  "id": "CWE-841",
+  "name": "Improper Enforcement of Behavioral Workflow",
+  "status": "filled",
+  "description": "The product does not properly enforce that users follow a required sequence of steps or behavioral workflow, allowing attackers to skip steps, perform actions out of order, or omit required operations to bypass security controls or manipulate business logic.",
+  "severity": "medium",
+  "category": "authorization",
+  "detection_pattern": "INGRESS[action_request] reaches TRANSFORM[privileged_operation] or STORAGE[protected_resource] without passing through the required sequence of CONTROL[workflow_step] nodes (e.g., authentication before file access, checkout before payment), allowing step-skipping attacks",
+  "graph_query": "INGRESS[action]→TRANSFORM[privileged_op] without CONTROL[required_workflow_steps]",
+  "owasp_top10": "A04:2021",
+  "sans_top25": false,
+  "related_cwes": [
+    "CWE-691"
+  ],
+  "references": [
+    "https://cwe.mitre.org/data/definitions/841.html"
+  ],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-388",
+  "name": "7PK - Errors",
+  "status": "needs_review",
+  "description": "Category-level CWE covering weaknesses involving improper error handling (Seven Pernicious Kingdoms). Vulnerability mapping is prohibited.",
+  "severity": "low",
+  "category": "error_handling",
+  "detection_pattern": "N/A — category CWE, not a concrete weakness",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-391", "CWE-395", "CWE-396", "CWE-397"],
+  "references": ["https://cwe.mitre.org/data/definitions/388.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:10:00Z"
+}

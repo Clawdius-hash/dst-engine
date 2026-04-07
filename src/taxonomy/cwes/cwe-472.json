@@ -1,0 +1,16 @@
+{
+  "id": "CWE-472",
+  "name": "External Control of Assumed-Immutable Web Parameter",
+  "status": "filled",
+  "description": "A web application assumes that parameters passed to the client (via hidden fields, cookies, or URLs) cannot be modified, but an attacker can intercept and alter these values. This can lead to authentication bypass, privilege escalation, or data tampering.",
+  "severity": "high",
+  "category": "input_output",
+  "detection_pattern": "An INGRESS[web_parameter] node carries a value from a hidden field, cookie, or URL parameter that the application treats as trustworthy, flowing into a CONTROL[authorization] or TRANSFORM[business_logic] node without a CONTROL[server_side_validation] mediator that independently verifies the parameter's integrity.",
+  "graph_query": "INGRESS[web_parameter]→CONTROL[authorization]|TRANSFORM[business_logic] without CONTROL[server_side_validation]",
+  "owasp_top10": "A04:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-471", "CWE-642", "CWE-656"],
+  "references": ["https://cwe.mitre.org/data/definitions/472.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

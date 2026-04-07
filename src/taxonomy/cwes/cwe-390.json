@@ -1,0 +1,16 @@
+{
+  "id": "CWE-390",
+  "name": "Detection of Error Condition Without Action",
+  "status": "filled",
+  "description": "The product detects an error condition but fails to take any action to address it, leaving the system in an unexpected state and enabling unintended execution paths that may be exploitable.",
+  "severity": "medium",
+  "category": "error_handling",
+  "detection_pattern": "CONTROL node detects error condition but no TRANSFORM or EGRESS node handles the error (no cleanup, logging, user notification, or recovery), allowing execution to continue on unexpected path",
+  "graph_query": "CONTROL(error_detection)→TRANSFORM(continue_execution) without CONTROL(error_handling)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-755", "CWE-600", "CWE-401"],
+  "references": ["https://cwe.mitre.org/data/definitions/390.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:10:00Z"
+}

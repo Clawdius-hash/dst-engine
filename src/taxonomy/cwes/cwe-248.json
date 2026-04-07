@@ -1,0 +1,16 @@
+{
+  "id": "CWE-248",
+  "name": "Uncaught Exception",
+  "status": "filled",
+  "description": "An exception is thrown from a function but is not caught by any handler, causing the program to crash, terminate unexpectedly, or expose sensitive internal information such as stack traces. This affects availability through denial of service and may leak confidential data.",
+  "severity": "medium",
+  "category": "error_handling",
+  "detection_pattern": "Look for TRANSFORM or EXTERNAL nodes (function calls, I/O operations, parsing) that can throw exceptions flowing to EGRESS nodes (program output, crash handlers, error responses) without a CONTROL mediator (try-catch block, exception handler, error boundary) that catches and properly handles the exception before it propagates to the top level.",
+  "graph_query": "TRANSFORM(throwing_operation)→EGRESS(crash_or_leak) without CONTROL(exception_handler)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-705", "CWE-755", "CWE-703", "CWE-600"],
+  "references": ["https://cwe.mitre.org/data/definitions/248.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

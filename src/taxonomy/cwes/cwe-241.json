@@ -1,0 +1,16 @@
+{
+  "id": "CWE-241",
+  "name": "Improper Handling of Unexpected Data Type",
+  "status": "filled",
+  "description": "The product does not properly handle when input data is of a different type than expected, such as receiving alphabetic characters when numeric input is required. Lack of type validation or error handling for type mismatches leads to unexpected application behavior or state corruption.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "Look for INGRESS nodes (user input, API parameters, file data) flowing to TRANSFORM or CONTROL nodes (arithmetic operations, type-dependent logic, database queries) without a TRANSFORM mediator (type validation, type coercion check, schema enforcement) that verifies the data matches the expected type before processing.",
+  "graph_query": "INGRESS(untyped_input)→TRANSFORM(type_dependent_op) without TRANSFORM(type_validation)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-228", "CWE-20", "CWE-704"],
+  "references": ["https://cwe.mitre.org/data/definitions/241.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-482",
+  "name": "Comparing instead of Assigning",
+  "status": "filled",
+  "description": "The code uses a comparison operator (==) where an assignment operator (=) was intended. This results in the assignment never taking place, leaving variables in their previous state and causing unexpected program behavior.",
+  "severity": "medium",
+  "category": "reliability",
+  "detection_pattern": "CONTROL node containing a comparison expression where the intent was to perform a TRANSFORM (assignment). Look for a comparison operator in a context where the result is discarded and no actual state change occurs.",
+  "graph_query": "CONTROL(comparison)→STORAGE(variable) without TRANSFORM(assignment)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-480"],
+  "references": ["https://cwe.mitre.org/data/definitions/482.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

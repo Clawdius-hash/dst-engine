@@ -1,0 +1,16 @@
+{
+  "id": "CWE-165",
+  "name": "Improper Neutralization of Multiple Internal Special Elements",
+  "status": "filled",
+  "description": "The product does not properly neutralize multiple consecutive internal special characters in user input, where the repetition may have different semantics than a single instance, allowing attackers to bypass filters or alter downstream parsing.",
+  "severity": "medium",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides data with multiple consecutive internal special characters that flows to TRANSFORM[parser] without a TRANSFORM[normalize_internal] that collapses or escapes repeated internal special elements before parsing",
+  "graph_query": "INGRESS[multiple_internal_special]→TRANSFORM[parser] without TRANSFORM[normalize_internal]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-164", "CWE-45", "CWE-53"],
+  "references": ["https://cwe.mitre.org/data/definitions/165.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

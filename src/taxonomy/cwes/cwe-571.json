@@ -1,0 +1,16 @@
+{
+  "id": "CWE-571",
+  "name": "Expression is Always True",
+  "status": "filled",
+  "description": "The product contains an expression that will always evaluate to true, indicating a logic error that may lead to dead code or unintended control flow. This can mask security checks or make conditional branches unreachable.",
+  "severity": "low",
+  "category": "reliability",
+  "detection_pattern": "CONTROL node with a conditional expression where static analysis determines the condition is invariantly true. Look for CONTROL nodes whose branching logic never activates the false path, potentially bypassing TRANSFORM or AUTH mediators.",
+  "graph_query": "CONTROL→STRUCTURAL without dynamic_evaluation",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-710", "CWE-561", "CWE-569"],
+  "references": ["https://cwe.mitre.org/data/definitions/571.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

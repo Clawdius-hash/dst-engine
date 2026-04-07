@@ -1,0 +1,18 @@
+{
+  "id": "CWE-476",
+  "name": "NULL Pointer Dereference",
+  "status": "implemented",
+  "description": "The product dereferences a pointer that it expects to be valid but is actually NULL, typically causing a crash or exit that results in denial of service, or in rare privileged contexts enabling unauthorized memory access.",
+  "severity": "medium",
+  "category": "memory",
+  "detection_pattern": "A TRANSFORM or EXTERNAL node returns a potentially-null value that flows to another TRANSFORM node performing a dereference (member access, method call, array index) without passing through a CONTROL[null_check] node that validates the value is non-null",
+  "graph_query": "TRANSFORM|EXTERNAL[nullable_return]→TRANSFORM[dereference] without CONTROL[null_check]",
+  "owasp_top10": null,
+  "sans_top25": true,
+  "related_cwes": ["CWE-710", "CWE-754", "CWE-252", "CWE-362"],
+  "references": ["https://cwe.mitre.org/data/definitions/476.html"],
+  "implemented_in": ["verifier.ts"],
+  "verified_at": "2026-03-23T00:00:00Z",
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

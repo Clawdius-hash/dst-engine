@@ -1,0 +1,16 @@
+{
+  "id": "CWE-299",
+  "name": "Improper Check for Certificate Revocation",
+  "status": "filled",
+  "description": "The product does not check or incorrectly checks the revocation status of a certificate, which may cause it to use a certificate that has been compromised. Revoked certificates are particularly dangerous because revocation typically indicates active compromise.",
+  "severity": "medium",
+  "category": "cryptography",
+  "detection_pattern": "Look for EXTERNAL nodes (presented certificate, peer certificate) that flow to AUTH nodes (trust decision, connection authentication) without a CONTROL mediator (CRL check, OCSP validation, revocation status query) that verifies the certificate has not been revoked before granting trust.",
+  "graph_query": "EXTERNAL(certificate)→AUTH(trust_decision) without CONTROL(revocation_check)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-295", "CWE-404", "CWE-370"],
+  "references": ["https://cwe.mitre.org/data/definitions/299.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

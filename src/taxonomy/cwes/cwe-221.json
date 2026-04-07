@@ -1,0 +1,16 @@
+{
+  "id": "CWE-221",
+  "name": "Information Loss or Omission",
+  "status": "filled",
+  "description": "The product does not record, or improperly records, security-relevant information that leads to an incorrect decision or hampers later forensic analysis. This enables attackers to hide their activities and evade detection.",
+  "severity": "medium",
+  "category": "logging",
+  "detection_pattern": "Look for CONTROL nodes (security decisions, error handlers, authentication events) that do not flow to a STORAGE node (audit log, event recorder). The absence of a logging path from security-relevant events means attacks cannot be detected or traced after the fact.",
+  "graph_query": "CONTROL(security_event)→EGRESS without STORAGE(audit_log)",
+  "owasp_top10": "A09:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-664", "CWE-222", "CWE-223", "CWE-224"],
+  "references": ["https://cwe.mitre.org/data/definitions/221.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

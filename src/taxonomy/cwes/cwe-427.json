@@ -1,0 +1,16 @@
+{
+  "id": "CWE-427",
+  "name": "Uncontrolled Search Path Element",
+  "status": "filled",
+  "description": "The product uses a fixed search path to find resources, but one or more locations in that path can be under the control of unintended actors, such as writable directories like /tmp or the current working directory.",
+  "severity": "high",
+  "category": "file_handling",
+  "detection_pattern": "TRANSFORM node loads executable or library via search path that includes STORAGE locations writable by untrusted actors, without CONTROL node verifying resource integrity or restricting search order",
+  "graph_query": "TRANSFORM(search_path_load)→STORAGE(writable_directory) without CONTROL(path_integrity_check)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-668", "CWE-426", "CWE-428"],
+  "references": ["https://cwe.mitre.org/data/definitions/427.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:30:00Z"
+}

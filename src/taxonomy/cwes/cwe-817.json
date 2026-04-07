@@ -1,0 +1,16 @@
+{
+  "id": "CWE-817",
+  "name": "Category: OWASP Top Ten 2010 Category A8 - Failure to Restrict URL Access",
+  "status": "needs_review",
+  "description": "This is a Category grouping weaknesses related to OWASP Top Ten 2010 A8 (Failure to Restrict URL Access). Includes CWE-285, CWE-862, CWE-863. Prohibited for vulnerability mapping; map to specific member weaknesses instead.",
+  "severity": "low",
+  "category": "authorization",
+  "detection_pattern": "N/A — category, not a weakness",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-809", "CWE-285", "CWE-862", "CWE-863"],
+  "references": ["https://cwe.mitre.org/data/definitions/817.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

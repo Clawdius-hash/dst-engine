@@ -1,0 +1,16 @@
+{
+  "id": "CWE-175",
+  "name": "Improper Handling of Mixed Encoding",
+  "status": "filled",
+  "description": "The product does not properly handle input that uses multiple different encodings simultaneously (e.g., mixing URL encoding with UTF-8, or combining HTML entities with percent encoding), allowing partial decoding to bypass security filters.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "INGRESS node provides data using mixed encoding schemes that flows to CONTROL[security_filter] which only decodes one encoding type, while the downstream TRANSFORM or EXTERNAL decodes the remaining encoding and reveals malicious content, without a TRANSFORM[full_mixed_decode] normalizing all encodings before the filter",
+  "graph_query": "INGRESS[mixed_encoding]→CONTROL[filter]→EXTERNAL without TRANSFORM[normalize_all_encodings]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-172"],
+  "references": ["https://cwe.mitre.org/data/definitions/175.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

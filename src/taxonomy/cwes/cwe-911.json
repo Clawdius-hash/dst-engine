@@ -1,0 +1,16 @@
+{
+  "id": "CWE-911",
+  "name": "Improper Update of Reference Count",
+  "status": "filled",
+  "description": "The product does not properly maintain reference counts for a resource, causing premature release while still in use or resource leaks when counts never reach zero. This can lead to use-after-free conditions, denial of service through resource exhaustion, or data corruption.",
+  "severity": "high",
+  "category": "memory",
+  "detection_pattern": "STORAGE[resource] node has TRANSFORM[ref_increment] and TRANSFORM[ref_decrement] operations where the count logic is imbalanced, leading to TRANSFORM[release] occurring while other TRANSFORM or EGRESS nodes still reference the STORAGE node",
+  "graph_query": "STORAGE[resource]→TRANSFORM[ref_decrement]→TRANSFORM[release] without CONTROL[ref_count_check]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-664", "CWE-672", "CWE-772"],
+  "references": ["https://cwe.mitre.org/data/definitions/911.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-216",
+  "name": "DEPRECATED: Containment Errors (Container Errors)",
+  "status": "needs_review",
+  "description": "This CWE has been deprecated because it was an ineffective category that conflated multiple distinct concepts. The terminology was interpreted differently by developers than originally intended by PLOVER. Mapping to this CWE is prohibited.",
+  "severity": "low",
+  "category": "configuration",
+  "detection_pattern": "N/A — deprecated",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": [],
+  "references": ["https://cwe.mitre.org/data/definitions/216.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

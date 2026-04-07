@@ -1,0 +1,16 @@
+{
+  "id": "CWE-93",
+  "name": "Improper Neutralization of CRLF Sequences ('CRLF Injection')",
+  "status": "filled",
+  "description": "The product does not properly neutralize CRLF (carriage return, line feed) characters in user input before using it in line-delimited data structures like HTTP headers or log entries, allowing attackers to inject new lines and manipulate the output structure.",
+  "severity": "high",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides user-controlled data containing \\r\\n sequences that flows to EGRESS[http_headers] or STORAGE[log_file] or other line-delimited output without a TRANSFORM[crlf_strip] node that removes or encodes CR/LF characters",
+  "graph_query": "INGRESS[crlf_data]→EGRESS[line_delimited_output] without TRANSFORM[crlf_neutralization]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-74", "CWE-113"],
+  "references": ["https://cwe.mitre.org/data/definitions/93.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

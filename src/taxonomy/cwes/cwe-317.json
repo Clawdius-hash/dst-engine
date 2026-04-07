@@ -1,0 +1,16 @@
+{
+  "id": "CWE-317",
+  "name": "Cleartext Storage of Sensitive Information in GUI",
+  "status": "filled",
+  "description": "The product stores sensitive information in cleartext within GUI elements. Attackers can access this data through GUI inspection APIs or accessibility tools, even when the information is not visually displayed to the user.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "Look for EGRESS nodes (GUI widget, form field, display element) holding sensitive data from INGRESS or STORAGE nodes without a TRANSFORM mediator (masking, encryption, secure widget) that prevents the cleartext value from being accessible through GUI inspection APIs.",
+  "graph_query": "INGRESS(sensitive_data)→EGRESS(gui_element) without TRANSFORM(masking)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-312", "CWE-311"],
+  "references": ["https://cwe.mitre.org/data/definitions/317.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

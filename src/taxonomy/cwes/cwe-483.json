@@ -1,0 +1,16 @@
+{
+  "id": "CWE-483",
+  "name": "Incorrect Block Delimitation",
+  "status": "filled",
+  "description": "The code does not explicitly delimit a block that is intended to contain multiple statements, causing only the first statement to be governed by the control structure while subsequent statements execute unconditionally. This can lead to security-critical code executing outside its intended conditional context.",
+  "severity": "medium",
+  "category": "reliability",
+  "detection_pattern": "CONTROL node (if/else/loop) with a STRUCTURAL block that contains fewer statements than intended. Look for CONTROL→single statement where additional statements follow outside the block scope but appear to be logically related.",
+  "graph_query": "CONTROL(conditional)→STRUCTURAL(block) without STRUCTURAL(delimiter)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-670"],
+  "references": ["https://cwe.mitre.org/data/definitions/483.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

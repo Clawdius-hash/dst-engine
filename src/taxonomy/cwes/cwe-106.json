@@ -1,0 +1,16 @@
+{
+  "id": "CWE-106",
+  "name": "Struts: Plug-in Framework not in Use",
+  "status": "filled",
+  "description": "The Struts application does not use the Struts Validator plug-in framework at all, meaning no automated input validation is applied and all form data passes through unchecked to application logic.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "META[struts_config] lacks the Validator plug-in declaration, so no CONTROL[struts_validator] node exists in the data flow and all INGRESS[form_data] flows directly to TRANSFORM or STORAGE without framework-level input validation",
+  "graph_query": "INGRESS[form_data]→TRANSFORM|STORAGE without CONTROL[validation_framework]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-1173", "CWE-20"],
+  "references": ["https://cwe.mitre.org/data/definitions/106.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

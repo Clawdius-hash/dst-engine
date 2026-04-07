@@ -1,0 +1,16 @@
+{
+  "id": "CWE-225",
+  "name": "DEPRECATED: General Information Management Problems",
+  "status": "needs_review",
+  "description": "This CWE is deprecated as a duplicate. It has been superseded by CWE-199 (Information Management Errors). The entry is prohibited for vulnerability mapping.",
+  "severity": "low",
+  "category": "data_protection",
+  "detection_pattern": "N/A — deprecated",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-199"],
+  "references": ["https://cwe.mitre.org/data/definitions/225.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

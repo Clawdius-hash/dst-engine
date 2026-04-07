@@ -1,0 +1,16 @@
+{
+  "id": "CWE-193",
+  "name": "Off-by-one Error",
+  "status": "filled",
+  "description": "A product calculates or uses an incorrect maximum or minimum value that is 1 more or 1 less than the correct value. This commonly leads to buffer overflows, incorrect loop bounds, or improper null termination when the off-by-one value is used for memory operations.",
+  "severity": "high",
+  "category": "memory",
+  "detection_pattern": "Look for TRANSFORM nodes computing loop bounds, buffer sizes, or array indices where the calculation is off by one (using <= instead of <, or forgetting null terminator space), allowing writes past STORAGE boundaries. The missing mediator is correct boundary calculation with proper fence-post accounting.",
+  "graph_query": "TRANSFORM(index_calc)→STORAGE(buffer) without CONTROL(correct_boundary_check)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-682", "CWE-119", "CWE-170", "CWE-617"],
+  "references": ["https://cwe.mitre.org/data/definitions/193.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-798",
+  "name": "Use of Hard-coded Credentials",
+  "status": "filled",
+  "description": "The product contains hard-coded credentials such as passwords or cryptographic keys. This manifests as inbound credentials (default admin accounts with unchangeable passwords) or outbound credentials (front-end systems connecting to back-end services with embedded credentials), both enabling unauthorized access.",
+  "severity": "critical",
+  "category": "authentication",
+  "detection_pattern": "STRUCTURAL or META node contains literal credential values (passwords, keys, tokens) that flow to an AUTH node or EXTERNAL node for authentication, without a STORAGE node (secure credential store, environment variable, vault) providing the credential dynamically.",
+  "graph_query": "STRUCTURAL[hardcoded_credential]→AUTH[authentication] without STORAGE[secure_credential_store]",
+  "owasp_top10": "A07:2021",
+  "sans_top25": true,
+  "related_cwes": ["CWE-259", "CWE-321", "CWE-344", "CWE-671", "CWE-1391"],
+  "references": ["https://cwe.mitre.org/data/definitions/798.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

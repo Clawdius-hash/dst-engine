@@ -1,0 +1,16 @@
+{
+  "id": "CWE-621",
+  "name": "Variable Extraction Error",
+  "status": "filled",
+  "description": "The product uses external input to determine variable names for extraction (e.g., PHP extract()) without validating them, allowing attackers to overwrite internal variables and modify application behavior.",
+  "severity": "high",
+  "category": "input_output",
+  "detection_pattern": "INGRESS provides variable names to TRANSFORM(extract/import) that overwrites STORAGE(internal_variables) without CONTROL node validating variable names against an allowlist",
+  "graph_query": "INGRESS(variable_names)→TRANSFORM(extract)→STORAGE(overwrite) without CONTROL(variable_name_validation)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-914", "CWE-471"],
+  "references": ["https://cwe.mitre.org/data/definitions/621.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:55:00Z"
+}

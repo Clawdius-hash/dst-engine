@@ -1,0 +1,16 @@
+{
+  "id": "CWE-52",
+  "name": "Path Equivalence: '/multiple/trailing/slash//'",
+  "status": "filled",
+  "description": "The product does not properly handle paths with multiple trailing slashes, which filesystems typically strip during resolution, allowing attackers to bypass access controls that check the slash-suffixed form differently from the canonical form.",
+  "severity": "medium",
+  "category": "file_handling",
+  "detection_pattern": "INGRESS node provides a path with multiple trailing slashes that bypasses CONTROL[path_check] because the check doesn't strip trailing slashes before comparison, while the OS normalizes them at STORAGE[file_access]",
+  "graph_query": "INGRESS[path 'file//']→CONTROL[path_check]→STORAGE[file_access] without TRANSFORM[strip_trailing_slashes]",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-41", "CWE-163"],
+  "references": ["https://cwe.mitre.org/data/definitions/52.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

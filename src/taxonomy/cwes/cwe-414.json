@@ -1,0 +1,16 @@
+{
+  "id": "CWE-414",
+  "name": "Missing Lock Check",
+  "status": "filled",
+  "description": "The product does not check whether a lock is present before performing sensitive operations on a resource, allowing concurrent modification of data and potentially leading to data corruption, denial of service, or system crashes.",
+  "severity": "medium",
+  "category": "concurrency",
+  "detection_pattern": "TRANSFORM or STORAGE node performing a sensitive write or modification operation on a shared resource without a preceding CONTROL node that verifies lock acquisition status before proceeding",
+  "graph_query": "STRUCTURAL[entry_point]→TRANSFORM|STORAGE[sensitive_write] without CONTROL[lock_check]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-667", "CWE-411"],
+  "references": ["https://cwe.mitre.org/data/definitions/414.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:25:00Z"
+}

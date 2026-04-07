@@ -1,0 +1,16 @@
+{
+  "id": "CWE-754",
+  "name": "Improper Check for Unusual or Exceptional Conditions",
+  "status": "filled",
+  "description": "The product does not properly check for unusual conditions that are not expected during normal operation, allowing attackers to intentionally trigger these conditions and cause instability or exploitable vulnerabilities.",
+  "severity": "medium",
+  "category": "error_handling",
+  "detection_pattern": "TRANSFORM node performs operation that may produce unusual result (null, error, overflow) but CONTROL node does not check for the exceptional condition before subsequent TRANSFORM uses the result",
+  "graph_query": "TRANSFORM(fallible_operation)→TRANSFORM(use_result) without CONTROL(exceptional_condition_check)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-703", "CWE-252", "CWE-253", "CWE-476"],
+  "references": ["https://cwe.mitre.org/data/definitions/754.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:10:00Z"
+}

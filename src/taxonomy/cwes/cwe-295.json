@@ -1,0 +1,18 @@
+{
+  "id": "CWE-295",
+  "name": "Improper Certificate Validation",
+  "status": "implemented",
+  "description": "The product does not validate or incorrectly validates a certificate when establishing a secure connection, allowing attackers to spoof trusted servers via man-in-the-middle attacks and intercept or modify sensitive communications.",
+  "severity": "high",
+  "category": "cryptography",
+  "detection_pattern": "EXTERNAL[tls_connection] node establishes secure communication without passing through an AUTH node that validates the certificate chain of trust, hostname match, expiration, and revocation status before allowing data to flow through the connection",
+  "graph_query": "INGRESS→EXTERNAL[tls_connection] without AUTH[certificate_validation]",
+  "owasp_top10": "A07:2021",
+  "sans_top25": true,
+  "related_cwes": ["CWE-287", "CWE-296", "CWE-297", "CWE-298", "CWE-299", "CWE-599", "CWE-322"],
+  "references": ["https://cwe.mitre.org/data/definitions/295.html"],
+  "implemented_in": ["verifier.ts"],
+  "verified_at": "2026-03-23T00:00:00Z",
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

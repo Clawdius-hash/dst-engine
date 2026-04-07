@@ -1,0 +1,16 @@
+{
+  "id": "CWE-620",
+  "name": "Unverified Password Change",
+  "status": "filled",
+  "description": "The system allows password changes without verifying the user's identity through the original password or alternative authentication, enabling attackers to change other users' passwords and gain unauthorized access.",
+  "severity": "high",
+  "category": "authentication",
+  "detection_pattern": "AUTH node processes password change from INGRESS without requiring current password or alternative identity verification, allowing EXTERNAL actor to modify STORAGE(credentials) for another user",
+  "graph_query": "INGRESS(password_change)→AUTH(update_credential) without CONTROL(identity_reverification)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-1390"],
+  "references": ["https://cwe.mitre.org/data/definitions/620.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:55:00Z"
+}

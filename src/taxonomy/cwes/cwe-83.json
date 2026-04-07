@@ -1,0 +1,16 @@
+{
+  "id": "CWE-83",
+  "name": "Improper Neutralization of Script in Attributes in a Web Page",
+  "status": "filled",
+  "description": "The product does not neutralize javascript: URIs or event handler attributes (onmouseover, onload, onerror, style) in user-controlled input placed into HTML attributes, allowing script execution when the attribute is processed by the browser.",
+  "severity": "high",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides user input containing javascript: URIs or event handler names that is placed into HTML tag attributes in EGRESS[html_output] without a TRANSFORM[attribute_sanitization] node that strips event handlers and dangerous URI schemes",
+  "graph_query": "INGRESS→EGRESS[html_attribute] without TRANSFORM[attribute_sanitization]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-79", "CWE-82"],
+  "references": ["https://cwe.mitre.org/data/definitions/83.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

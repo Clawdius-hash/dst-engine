@@ -1,0 +1,16 @@
+{
+  "id": "CWE-464",
+  "name": "Addition of Data Structure Sentinel",
+  "status": "filled",
+  "description": "The product allows the accidental addition of a sentinel value (such as a null terminator) into a data structure, corrupting its boundaries. This can cause serious logic problems including premature data truncation or incorrect parsing.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "An INGRESS node provides user-controlled data containing sentinel characters that flows into a STORAGE node or TRANSFORM node operating on sentinel-delimited data without a TRANSFORM[sanitize] mediator that strips or escapes sentinel values.",
+  "graph_query": "INGRESS→STORAGE[sentinel_data] without TRANSFORM[sanitize_sentinel]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-138", "CWE-170", "CWE-463"],
+  "references": ["https://cwe.mitre.org/data/definitions/464.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-372",
+  "name": "Incomplete Internal State Distinction",
+  "status": "needs_review",
+  "description": "The product does not properly distinguish or track its internal state, leading it to assume it operates in one state when it actually occupies another. Mapping discouraged — potential future deprecation due to CWE overlap.",
+  "severity": "medium",
+  "category": "reliability",
+  "detection_pattern": "CONTROL node makes security decisions based on assumed internal state without STORAGE node accurately tracking current state, leading to incorrect branch execution",
+  "graph_query": "CONTROL(state_dependent_decision) without STORAGE(accurate_state_tracking)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-664"],
+  "references": ["https://cwe.mitre.org/data/definitions/372.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:50:00Z"
+}

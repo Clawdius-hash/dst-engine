@@ -1,0 +1,16 @@
+{
+  "id": "CWE-707",
+  "name": "Improper Neutralization",
+  "status": "needs_review",
+  "description": "Pillar-level CWE. Failure to ensure structured messages or data are well-formed before processing. Mapping discouraged — use specific descendants like CWE-20, CWE-74, CWE-116 instead.",
+  "severity": "high",
+  "category": "input_output",
+  "detection_pattern": "INGRESS data flows to TRANSFORM or EGRESS without proper neutralization (validation, encoding, filtering) by CONTROL node",
+  "graph_query": "INGRESS(untrusted)→TRANSFORM(processing) without CONTROL(neutralization)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-20", "CWE-74", "CWE-116", "CWE-138"],
+  "references": ["https://cwe.mitre.org/data/definitions/707.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:05:00Z"
+}

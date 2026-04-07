@@ -1,0 +1,16 @@
+{
+  "id": "CWE-807",
+  "name": "Reliance on Untrusted Inputs in a Security Decision",
+  "status": "filled",
+  "description": "The product uses a protection mechanism that relies on input values (cookies, environment variables, hidden form fields) that an untrusted actor can modify. Developers often assume these values are immutable, but attackers can alter them using customized clients to bypass security decisions.",
+  "severity": "high",
+  "category": "authorization",
+  "detection_pattern": "INGRESS node provides attacker-modifiable data (cookies, hidden fields, environment variables, HTTP headers) that flows directly to an AUTH or CONTROL node making security decisions without a TRANSFORM node performing integrity verification or server-side validation.",
+  "graph_query": "INGRESS[untrusted_input]→AUTH[security_decision] without TRANSFORM[integrity_verification]",
+  "owasp_top10": "A04:2021",
+  "sans_top25": true,
+  "related_cwes": ["CWE-693", "CWE-302", "CWE-350", "CWE-784"],
+  "references": ["https://cwe.mitre.org/data/definitions/807.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-554",
+  "name": "ASP.NET Misconfiguration: Not Using Input Validation Framework",
+  "status": "filled",
+  "description": "The ASP.NET application does not use an input validation framework, leaving user input unchecked and enabling injection attacks such as XSS and SQL injection.",
+  "severity": "high",
+  "category": "input_output",
+  "detection_pattern": "INGRESS node receiving user input flows to TRANSFORM, STORAGE, or EGRESS nodes without passing through a CONTROL node performing validation. The ASP.NET validation framework is absent from the configuration.",
+  "graph_query": "INGRESS→TRANSFORM|STORAGE|EGRESS without CONTROL(validation)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-1173"],
+  "references": ["https://cwe.mitre.org/data/definitions/554.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

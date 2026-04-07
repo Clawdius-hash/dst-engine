@@ -1,0 +1,18 @@
+{
+  "id": "CWE-269",
+  "name": "Improper Privilege Management",
+  "status": "implemented",
+  "description": "The product does not properly assign, modify, track, or check privileges for actors, creating an unintended sphere of control that allows users or processes to perform actions beyond their intended authorization level.",
+  "severity": "high",
+  "category": "authorization",
+  "detection_pattern": "AUTH node assigns or checks privileges but lacks proper enforcement — either privileges are not verified before EXTERNAL or STORAGE operations, or elevated privileges persist across CONTROL boundaries without being revoked or narrowed",
+  "graph_query": "AUTH[privilege_assign]→EXTERNAL|STORAGE without CONTROL[privilege_verify]",
+  "owasp_top10": "A04:2021",
+  "sans_top25": true,
+  "related_cwes": ["CWE-284", "CWE-250", "CWE-266", "CWE-267", "CWE-268", "CWE-270", "CWE-271"],
+  "references": ["https://cwe.mitre.org/data/definitions/269.html"],
+  "implemented_in": ["verifier.ts"],
+  "verified_at": "2026-03-23T00:00:00Z",
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

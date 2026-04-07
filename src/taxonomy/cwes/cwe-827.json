@@ -1,0 +1,22 @@
+{
+  "id": "CWE-827",
+  "name": "Improper Control of Document Type Definition",
+  "status": "filled",
+  "description": "The product does not restrict Document Type Definition (DTD) references within its intended control sphere, allowing attackers to reference arbitrary DTDs that can expose files, consume excessive resources, or trigger unauthorized HTTP requests.",
+  "severity": "high",
+  "category": "input_output",
+  "detection_pattern": "INGRESS[xml_input] containing DTD references flows to TRANSFORM[xml_parser] which resolves EXTERNAL[dtd_reference] without a CONTROL[dtd_restriction] node limiting DTD sources to trusted locations, enabling XXE-style attacks",
+  "graph_query": "INGRESS[xml_with_dtd]→TRANSFORM[xml_parser]→EXTERNAL[arbitrary_dtd] without CONTROL[dtd_restriction]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": [
+    "CWE-706",
+    "CWE-829",
+    "CWE-776"
+  ],
+  "references": [
+    "https://cwe.mitre.org/data/definitions/827.html"
+  ],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

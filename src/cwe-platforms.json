@@ -1,0 +1,8960 @@
+{
+  "CWE-1004": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-1007": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific",
+      "Web Based"
+    ]
+  },
+  "CWE-102": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1021": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific",
+      "Web Based"
+    ]
+  },
+  "CWE-1022": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "JavaScript"
+    ],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-1023": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1024": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "JavaScript",
+      "PHP"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1025": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-103": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1037": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Processor Hardware"
+    ],
+    "technology_classes": []
+  },
+  "CWE-1038": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1039": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "AI/ML"
+    ],
+    "technology_classes": []
+  },
+  "CWE-104": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1041": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1042": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1043": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1044": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1045": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1046": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1047": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1048": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1049": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-105": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1050": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1051": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1052": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1053": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1054": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1055": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1056": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1057": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1058": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1059": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "ICS/OT",
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-106": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1060": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1061": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1062": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1063": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1064": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1065": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1066": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1067": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1068": {
+    "language_classes": [],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "ICS/OT",
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1069": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-107": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1070": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1071": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1072": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1073": {
+    "language_classes": [],
+    "languages": [
+      "SQL"
+    ],
+    "technologies": [
+      "Database Server"
+    ],
+    "technology_classes": []
+  },
+  "CWE-1074": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1075": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1076": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1077": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1078": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1079": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-108": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1080": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1082": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1083": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1084": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1085": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1086": {
+    "language_classes": [
+      "Object-Oriented"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1087": {
+    "language_classes": [
+      "Object-Oriented"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1088": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1089": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-109": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1090": {
+    "language_classes": [
+      "Object-Oriented"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1091": {
+    "language_classes": [
+      "Object-Oriented"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1092": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1093": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1094": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1095": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1096": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1097": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1098": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1099": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-11": {
+    "language_classes": [],
+    "languages": [
+      "ASP.NET"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-110": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1100": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1101": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1102": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1103": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1104": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "ICS/OT",
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1105": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1106": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1107": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1108": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1109": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-111": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1110": {
+    "language_classes": [],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "ICS/OT",
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1111": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1112": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1113": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1114": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1115": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1116": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1117": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1118": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1119": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-112": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1120": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1121": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1122": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1123": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1124": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1125": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1126": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1127": {
+    "language_classes": [
+      "Compiled",
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-113": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-114": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-115": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-116": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "AI/ML",
+      "Database Server",
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1164": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-117": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1173": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1174": {
+    "language_classes": [],
+    "languages": [
+      "ASP.NET"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1176": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1177": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-118": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1188": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1189": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "System on Chip"
+    ]
+  },
+  "CWE-119": {
+    "language_classes": [
+      "Assembly",
+      "Memory-Unsafe"
+    ],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1190": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "System on Chip"
+    ]
+  },
+  "CWE-1191": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1192": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "System on Chip"
+    ]
+  },
+  "CWE-1193": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "System on Chip"
+    ]
+  },
+  "CWE-12": {
+    "language_classes": [],
+    "languages": [
+      "ASP.NET"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-120": {
+    "language_classes": [
+      "Assembly",
+      "Memory-Unsafe"
+    ],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1204": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1209": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "System on Chip"
+    ]
+  },
+  "CWE-121": {
+    "language_classes": [
+      "Memory-Unsafe"
+    ],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-122": {
+    "language_classes": [
+      "Memory-Unsafe"
+    ],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1220": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1221": {
+    "language_classes": [],
+    "languages": [
+      "VHDL",
+      "Verilog"
+    ],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1222": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "System on Chip"
+    ]
+  },
+  "CWE-1223": {
+    "language_classes": [],
+    "languages": [
+      "VHDL",
+      "Verilog"
+    ],
+    "technologies": [],
+    "technology_classes": [
+      "System on Chip"
+    ]
+  },
+  "CWE-1224": {
+    "language_classes": [],
+    "languages": [
+      "VHDL",
+      "Verilog"
+    ],
+    "technologies": [],
+    "technology_classes": [
+      "System on Chip"
+    ]
+  },
+  "CWE-1229": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-123": {
+    "language_classes": [
+      "Memory-Unsafe"
+    ],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1230": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1231": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1232": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1233": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1234": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1235": {
+    "language_classes": [],
+    "languages": [
+      "C#",
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1236": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Other"
+    ],
+    "technology_classes": []
+  },
+  "CWE-1239": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "System on Chip"
+    ]
+  },
+  "CWE-124": {
+    "language_classes": [
+      "Memory-Unsafe"
+    ],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1240": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "System on Chip"
+    ]
+  },
+  "CWE-1241": {
+    "language_classes": [],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "System on Chip"
+    ]
+  },
+  "CWE-1242": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "ICS/OT",
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1243": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1244": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "System on Chip"
+    ]
+  },
+  "CWE-1245": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "System on Chip"
+    ]
+  },
+  "CWE-1246": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Memory Hardware",
+      "Storage Hardware"
+    ],
+    "technology_classes": [
+      "System on Chip"
+    ]
+  },
+  "CWE-1247": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Clock/Counter Hardware",
+      "Power Management Hardware",
+      "Sensor Hardware"
+    ],
+    "technology_classes": [
+      "ICS/OT",
+      "System on Chip"
+    ]
+  },
+  "CWE-1248": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1249": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-125": {
+    "language_classes": [
+      "Memory-Unsafe"
+    ],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": [
+      "ICS/OT"
+    ]
+  },
+  "CWE-1250": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Security Hardware"
+    ],
+    "technology_classes": [
+      "Cloud Computing"
+    ]
+  },
+  "CWE-1251": {
+    "language_classes": [],
+    "languages": [
+      "VHDL",
+      "Verilog"
+    ],
+    "technologies": [],
+    "technology_classes": [
+      "System on Chip"
+    ]
+  },
+  "CWE-1252": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Microcontroller Hardware",
+      "Processor Hardware"
+    ],
+    "technology_classes": []
+  },
+  "CWE-1253": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1254": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1255": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1256": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Clock/Counter Hardware",
+      "Memory Hardware",
+      "Power Management Hardware"
+    ],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1257": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Memory Hardware",
+      "Microcontroller Hardware",
+      "Network on Chip Hardware",
+      "Processor Hardware"
+    ],
+    "technology_classes": [
+      "System on Chip"
+    ]
+  },
+  "CWE-1258": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1259": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Processor Hardware"
+    ],
+    "technology_classes": [
+      "Not Technology-Specific",
+      "System on Chip"
+    ]
+  },
+  "CWE-126": {
+    "language_classes": [
+      "Memory-Unsafe"
+    ],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1260": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Memory Hardware",
+      "Processor Hardware"
+    ],
+    "technology_classes": []
+  },
+  "CWE-1261": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1262": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1263": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1264": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1265": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1266": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1267": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1268": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1269": {
+    "language_classes": [
+      "Compiled"
+    ],
+    "languages": [
+      "VHDL",
+      "Verilog"
+    ],
+    "technologies": [
+      "Other"
+    ],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-127": {
+    "language_classes": [
+      "Memory-Unsafe"
+    ],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1270": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1271": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1272": {
+    "language_classes": [
+      "Hardware Description Language"
+    ],
+    "languages": [
+      "VHDL",
+      "Verilog"
+    ],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1273": {
+    "language_classes": [
+      "Compiled"
+    ],
+    "languages": [
+      "VHDL",
+      "Verilog"
+    ],
+    "technologies": [
+      "Other"
+    ],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1274": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1275": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-1276": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1277": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1278": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1279": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "VHDL",
+      "Verilog"
+    ],
+    "technologies": [
+      "Processor Hardware"
+    ],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-128": {
+    "language_classes": [],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1280": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "VHDL",
+      "Verilog"
+    ],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1281": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Processor Hardware"
+    ],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1282": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1283": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1284": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1285": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1286": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1287": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1288": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1289": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-129": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1290": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Bus/Interface Hardware"
+    ],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1291": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1292": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Bus/Interface Hardware"
+    ],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1293": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1294": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Bus/Interface Hardware"
+    ],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1295": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1296": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "VHDL",
+      "Verilog"
+    ],
+    "technologies": [
+      "Processor Hardware"
+    ],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1297": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "VHDL",
+      "Verilog"
+    ],
+    "technologies": [
+      "Processor Hardware"
+    ],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1298": {
+    "language_classes": [],
+    "languages": [
+      "VHDL",
+      "Verilog"
+    ],
+    "technologies": [],
+    "technology_classes": [
+      "System on Chip"
+    ]
+  },
+  "CWE-1299": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Bus/Interface Hardware",
+      "Microcontroller Hardware",
+      "Processor Hardware"
+    ],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-13": {
+    "language_classes": [],
+    "languages": [
+      "ASP.NET"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-130": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1300": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1301": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1302": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1303": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1304": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-131": {
+    "language_classes": [
+      "Memory-Unsafe"
+    ],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1310": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "System on Chip"
+    ]
+  },
+  "CWE-1311": {
+    "language_classes": [],
+    "languages": [
+      "VHDL",
+      "Verilog"
+    ],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1312": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1313": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1314": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Sensor Hardware"
+    ],
+    "technology_classes": []
+  },
+  "CWE-1315": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1316": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Bus/Interface Hardware"
+    ],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1317": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Processor Hardware"
+    ],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1318": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Processor Hardware"
+    ],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1319": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Memory Hardware",
+      "Microcontroller Hardware",
+      "Power Management Hardware",
+      "Processor Hardware",
+      "Sensor Hardware",
+      "Test/Debug Hardware"
+    ],
+    "technology_classes": [
+      "System on Chip"
+    ]
+  },
+  "CWE-1320": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Memory Hardware",
+      "Microcontroller Hardware",
+      "Power Management Hardware",
+      "Processor Hardware",
+      "Sensor Hardware",
+      "Test/Debug Hardware"
+    ],
+    "technology_classes": [
+      "System on Chip"
+    ]
+  },
+  "CWE-1321": {
+    "language_classes": [],
+    "languages": [
+      "JavaScript"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1322": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1323": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "System on Chip"
+    ]
+  },
+  "CWE-1325": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1326": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Security Hardware"
+    ],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1327": {
+    "language_classes": [],
+    "languages": [
+      "Other"
+    ],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Client Server",
+      "Cloud Computing"
+    ]
+  },
+  "CWE-1328": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Security Hardware"
+    ],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1329": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "ICS/OT",
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1330": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Security Hardware"
+    ],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1331": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Security Hardware"
+    ],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1332": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "System on Chip"
+    ]
+  },
+  "CWE-1333": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1334": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1335": {
+    "language_classes": [],
+    "languages": [
+      "C",
+      "C#",
+      "C++",
+      "Java",
+      "JavaScript"
+    ],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1336": {
+    "language_classes": [
+      "Interpreted"
+    ],
+    "languages": [
+      "Java",
+      "JavaScript",
+      "PHP",
+      "Python"
+    ],
+    "technologies": [
+      "AI/ML"
+    ],
+    "technology_classes": [
+      "Client Server",
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1338": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Power Management Hardware",
+      "Processor Hardware"
+    ],
+    "technology_classes": [
+      "ICS/OT",
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1339": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-134": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "C",
+      "C++",
+      "Perl"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1341": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "C",
+      "C++",
+      "Java",
+      "Rust"
+    ],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1342": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific",
+      "System on Chip"
+    ]
+  },
+  "CWE-135": {
+    "language_classes": [],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1351": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "System on Chip"
+    ]
+  },
+  "CWE-1357": {
+    "language_classes": [],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "ICS/OT",
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-138": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1384": {
+    "language_classes": [],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "ICS/OT",
+      "System on Chip"
+    ]
+  },
+  "CWE-1385": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-1386": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1389": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1390": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "ICS/OT",
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1391": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "ICS/OT",
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1392": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "ICS/OT",
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1393": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "ICS/OT",
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1394": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1395": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-14": {
+    "language_classes": [
+      "Compiled"
+    ],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-140": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-141": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1419": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-142": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1420": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1421": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1422": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1423": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Memory Hardware",
+      "Microcontroller Hardware",
+      "Processor Hardware"
+    ],
+    "technology_classes": [
+      "System on Chip"
+    ]
+  },
+  "CWE-1426": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "AI/ML"
+    ],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1427": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "AI/ML"
+    ],
+    "technology_classes": []
+  },
+  "CWE-1428": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-1429": {
+    "language_classes": [
+      "Hardware Description Language",
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "C",
+      "C++",
+      "Verilog"
+    ],
+    "technologies": [
+      "Microcontroller Hardware",
+      "Processor Hardware",
+      "Security Hardware"
+    ],
+    "technology_classes": [
+      "System on Chip"
+    ]
+  },
+  "CWE-143": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-1431": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "System on Chip"
+    ]
+  },
+  "CWE-1434": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "AI/ML"
+    ],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-144": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-145": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-146": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-147": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-148": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-149": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-15": {
+    "language_classes": [],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "ICS/OT",
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-150": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-151": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-152": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-153": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-154": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-155": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-156": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-157": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-158": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-159": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-160": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-161": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-162": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-163": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-164": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-165": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-166": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-167": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-168": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-170": {
+    "language_classes": [],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-172": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-173": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-174": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-175": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-176": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-177": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-178": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-179": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-180": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-181": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-182": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-183": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-184": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-185": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-186": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-187": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-188": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-190": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "C"
+    ],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-191": {
+    "language_classes": [],
+    "languages": [
+      "C",
+      "C#",
+      "C++",
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-192": {
+    "language_classes": [],
+    "languages": [
+      "C",
+      "C#",
+      "C++",
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-193": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "C"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-194": {
+    "language_classes": [],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-195": {
+    "language_classes": [],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-196": {
+    "language_classes": [],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-197": {
+    "language_classes": [],
+    "languages": [
+      "C",
+      "C#",
+      "C++",
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-198": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-20": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-200": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Mobile",
+      "Not Technology-Specific",
+      "Web Based"
+    ]
+  },
+  "CWE-201": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-202": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-203": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-204": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-205": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-206": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-207": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-208": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-209": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "Java",
+      "PHP"
+    ],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-210": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-211": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "PHP"
+    ],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-212": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-213": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-214": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-215": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-219": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-22": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "AI/ML"
+    ],
+    "technology_classes": []
+  },
+  "CWE-220": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-221": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-222": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-223": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-224": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-226": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-228": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-229": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-23": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "AI/ML"
+    ],
+    "technology_classes": [
+      "Not Technology-Specific",
+      "Web Based"
+    ]
+  },
+  "CWE-230": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-231": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-232": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-233": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-234": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-235": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-236": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-237": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-238": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-239": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-24": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-240": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-241": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-242": {
+    "language_classes": [],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-243": {
+    "language_classes": [],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-244": {
+    "language_classes": [
+      "Memory-Unsafe"
+    ],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-245": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-246": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-248": {
+    "language_classes": [],
+    "languages": [
+      "C#",
+      "C++",
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-25": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-250": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Mobile"
+    ]
+  },
+  "CWE-252": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-253": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-256": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "ICS/OT"
+    ]
+  },
+  "CWE-257": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-258": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-259": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "ICS/OT"
+    ]
+  },
+  "CWE-26": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": []
+  },
+  "CWE-260": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-261": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-262": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-263": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-266": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-267": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-268": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-269": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-27": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-270": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-271": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-272": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-273": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-274": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-276": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "ICS/OT",
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-277": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-278": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-279": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-28": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-280": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-281": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-282": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-283": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-284": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "ICS/OT",
+      "Not Technology-Specific",
+      "Web Based"
+    ]
+  },
+  "CWE-285": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Database Server",
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-286": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-287": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "ICS/OT",
+      "Not Technology-Specific",
+      "Web Based"
+    ]
+  },
+  "CWE-288": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific",
+      "Web Based"
+    ]
+  },
+  "CWE-289": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-29": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-290": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-291": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-293": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-294": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-295": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Mobile",
+      "Not Technology-Specific",
+      "Web Based"
+    ]
+  },
+  "CWE-296": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific",
+      "Web Based"
+    ]
+  },
+  "CWE-297": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Mobile",
+      "Not Technology-Specific",
+      "Web Based"
+    ]
+  },
+  "CWE-298": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-299": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific",
+      "Web Based"
+    ]
+  },
+  "CWE-30": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-300": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-301": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-302": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific",
+      "Web Based"
+    ]
+  },
+  "CWE-303": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-304": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-305": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-306": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Cloud Computing",
+      "ICS/OT"
+    ]
+  },
+  "CWE-307": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-308": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-309": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-31": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-311": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-312": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Cloud Computing",
+      "ICS/OT",
+      "Mobile"
+    ]
+  },
+  "CWE-313": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-314": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-315": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-316": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-317": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-318": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-319": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Test/Debug Hardware"
+    ],
+    "technology_classes": [
+      "Cloud Computing",
+      "ICS/OT",
+      "Mobile",
+      "Not Technology-Specific",
+      "System on Chip"
+    ]
+  },
+  "CWE-32": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-321": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "ICS/OT"
+    ]
+  },
+  "CWE-322": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-323": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-324": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-325": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-326": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-327": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "VHDL",
+      "Verilog"
+    ],
+    "technologies": [],
+    "technology_classes": [
+      "ICS/OT",
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-328": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "ICS/OT"
+    ]
+  },
+  "CWE-329": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "ICS/OT"
+    ]
+  },
+  "CWE-33": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific",
+      "Web Based"
+    ]
+  },
+  "CWE-330": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-331": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-332": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-333": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-334": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-335": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-336": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-337": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-338": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-339": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-34": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-340": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-341": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-342": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-343": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-344": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-345": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "ICS/OT"
+    ]
+  },
+  "CWE-346": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific",
+      "Web Based"
+    ]
+  },
+  "CWE-347": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-348": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-349": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-35": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-350": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-351": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-352": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-353": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-354": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-356": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-357": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-358": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-359": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Mobile"
+    ]
+  },
+  "CWE-36": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "AI/ML"
+    ],
+    "technology_classes": [
+      "Not Technology-Specific",
+      "Web Based"
+    ]
+  },
+  "CWE-360": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-362": {
+    "language_classes": [],
+    "languages": [
+      "C",
+      "C++",
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": [
+      "ICS/OT",
+      "Mobile"
+    ]
+  },
+  "CWE-363": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-364": {
+    "language_classes": [],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-366": {
+    "language_classes": [],
+    "languages": [
+      "C",
+      "C#",
+      "C++",
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-367": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-368": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-369": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-37": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-370": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-372": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-374": {
+    "language_classes": [
+      "Object-Oriented"
+    ],
+    "languages": [
+      "C",
+      "C#",
+      "C++",
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-375": {
+    "language_classes": [
+      "Object-Oriented"
+    ],
+    "languages": [
+      "C",
+      "C#",
+      "C++",
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-377": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-378": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-379": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-38": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-382": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-383": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-384": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-385": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-386": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-39": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-390": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-391": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-392": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-393": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-394": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-395": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-396": {
+    "language_classes": [],
+    "languages": [
+      "C#",
+      "C++",
+      "Java",
+      "Python"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-397": {
+    "language_classes": [],
+    "languages": [
+      "C#",
+      "C++",
+      "Java",
+      "Python"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-40": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-400": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-401": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-402": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-403": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "C"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-404": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-405": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Client Server",
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-406": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-407": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-408": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-409": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-41": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-410": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-412": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-413": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-414": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-415": {
+    "language_classes": [
+      "Memory-Unsafe"
+    ],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-416": {
+    "language_classes": [
+      "Memory-Unsafe"
+    ],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-419": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-42": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-420": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-421": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-422": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-424": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific",
+      "Web Based"
+    ]
+  },
+  "CWE-425": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-426": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-427": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-428": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-43": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-430": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-431": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-432": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-433": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-434": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "ASP.NET",
+      "PHP"
+    ],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": []
+  },
+  "CWE-435": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-436": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-437": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-439": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-44": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-440": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "ICS/OT"
+    ]
+  },
+  "CWE-441": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-444": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-446": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-447": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-448": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-449": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-45": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-450": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-451": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-453": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "PHP"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-454": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "PHP"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-455": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-456": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-457": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "C",
+      "C++",
+      "PHP",
+      "Perl"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-459": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-46": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific",
+      "Web Based"
+    ]
+  },
+  "CWE-460": {
+    "language_classes": [],
+    "languages": [
+      "C",
+      "C#",
+      "C++",
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-462": {
+    "language_classes": [],
+    "languages": [
+      "C",
+      "C#",
+      "C++",
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-463": {
+    "language_classes": [],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-464": {
+    "language_classes": [],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-466": {
+    "language_classes": [
+      "Memory-Unsafe"
+    ],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-467": {
+    "language_classes": [],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-468": {
+    "language_classes": [],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-469": {
+    "language_classes": [],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-47": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-470": {
+    "language_classes": [
+      "Interpreted"
+    ],
+    "languages": [
+      "Java",
+      "PHP"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-471": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific",
+      "Web Based"
+    ]
+  },
+  "CWE-472": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-473": {
+    "language_classes": [],
+    "languages": [
+      "PHP"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-474": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "C",
+      "PHP"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-475": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-476": {
+    "language_classes": [],
+    "languages": [
+      "C",
+      "C#",
+      "C++",
+      "Go",
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-477": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-478": {
+    "language_classes": [],
+    "languages": [
+      "C",
+      "C#",
+      "C++",
+      "Java",
+      "JavaScript",
+      "Python"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-479": {
+    "language_classes": [],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-48": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-480": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "C",
+      "C++",
+      "Perl"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-481": {
+    "language_classes": [],
+    "languages": [
+      "C",
+      "C#",
+      "C++",
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-482": {
+    "language_classes": [],
+    "languages": [
+      "C",
+      "C++",
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-483": {
+    "language_classes": [],
+    "languages": [
+      "C",
+      "C++",
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-484": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "C",
+      "C#",
+      "C++",
+      "Java",
+      "PHP"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-486": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-487": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-488": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-489": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "ICS/OT",
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-49": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific",
+      "Web Based"
+    ]
+  },
+  "CWE-491": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-492": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-493": {
+    "language_classes": [
+      "Object-Oriented"
+    ],
+    "languages": [
+      "C++",
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-494": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-495": {
+    "language_classes": [
+      "Object-Oriented"
+    ],
+    "languages": [
+      "C",
+      "C#",
+      "C++",
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-496": {
+    "language_classes": [
+      "Object-Oriented"
+    ],
+    "languages": [
+      "C",
+      "C#",
+      "C++",
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-497": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific",
+      "Web Based"
+    ]
+  },
+  "CWE-498": {
+    "language_classes": [
+      "Object-Oriented"
+    ],
+    "languages": [
+      "C#",
+      "C++",
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-499": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-5": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-50": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-500": {
+    "language_classes": [],
+    "languages": [
+      "C++",
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-501": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-502": {
+    "language_classes": [],
+    "languages": [
+      "Java",
+      "JavaScript",
+      "PHP",
+      "Python",
+      "Ruby"
+    ],
+    "technologies": [
+      "AI/ML"
+    ],
+    "technology_classes": [
+      "ICS/OT",
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-506": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-507": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-508": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-509": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-51": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-510": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-511": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Mobile"
+    ]
+  },
+  "CWE-512": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-514": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-515": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-52": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific",
+      "Web Based"
+    ]
+  },
+  "CWE-520": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "ASP.NET",
+      "VB.NET"
+    ],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific",
+      "Web Based"
+    ]
+  },
+  "CWE-521": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-522": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "ICS/OT",
+      "Not Technology-Specific",
+      "Web Based"
+    ]
+  },
+  "CWE-523": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-524": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-525": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-526": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-527": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific",
+      "Web Based"
+    ]
+  },
+  "CWE-528": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-529": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-53": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-530": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-531": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-532": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-535": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-536": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-537": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-538": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-539": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-54": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-540": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific",
+      "Web Based"
+    ]
+  },
+  "CWE-541": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-543": {
+    "language_classes": [],
+    "languages": [
+      "C++",
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-544": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-546": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-547": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-548": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-549": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific",
+      "Web Based"
+    ]
+  },
+  "CWE-55": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-550": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-551": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Not Technology-Specific",
+      "Web Based"
+    ]
+  },
+  "CWE-552": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Cloud Computing",
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-553": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-554": {
+    "language_classes": [],
+    "languages": [
+      "ASP.NET"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-555": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-556": {
+    "language_classes": [],
+    "languages": [
+      "ASP.NET"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-558": {
+    "language_classes": [],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-56": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-560": {
+    "language_classes": [],
+    "languages": [
+      "C"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-561": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-562": {
+    "language_classes": [],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-563": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-564": {
+    "language_classes": [],
+    "languages": [
+      "SQL"
+    ],
+    "technologies": [
+      "Database Server"
+    ],
+    "technology_classes": []
+  },
+  "CWE-565": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-566": {
+    "language_classes": [],
+    "languages": [
+      "SQL"
+    ],
+    "technologies": [
+      "Database Server"
+    ],
+    "technology_classes": []
+  },
+  "CWE-567": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-568": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-57": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-570": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-571": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-572": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-573": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-574": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-575": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-576": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-577": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-578": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-579": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-58": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-580": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-581": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-582": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-583": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-584": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-585": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-586": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-587": {
+    "language_classes": [
+      "Assembly",
+      "Memory-Unsafe"
+    ],
+    "languages": [
+      "C",
+      "C#",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-588": {
+    "language_classes": [],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-589": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-59": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-590": {
+    "language_classes": [
+      "Memory-Unsafe"
+    ],
+    "languages": [
+      "C"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-591": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-593": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-594": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-595": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "Java",
+      "JavaScript",
+      "PHP"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-597": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "Java",
+      "JavaScript",
+      "PHP"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-598": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-599": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-6": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-600": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": []
+  },
+  "CWE-601": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-602": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "ICS/OT",
+      "Mobile"
+    ]
+  },
+  "CWE-603": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "ICS/OT"
+    ]
+  },
+  "CWE-605": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-606": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-607": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-608": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-609": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-61": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-610": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-611": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "XML"
+    ],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific",
+      "Web Based"
+    ]
+  },
+  "CWE-612": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Not Technology-Specific",
+      "Web Based"
+    ]
+  },
+  "CWE-613": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-614": {
+    "language_classes": [],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-615": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-616": {
+    "language_classes": [],
+    "languages": [
+      "PHP"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-617": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "C",
+      "Java",
+      "Rust"
+    ],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-618": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-619": {
+    "language_classes": [],
+    "languages": [
+      "SQL"
+    ],
+    "technologies": [
+      "Database Server"
+    ],
+    "technology_classes": []
+  },
+  "CWE-62": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-620": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-621": {
+    "language_classes": [],
+    "languages": [
+      "PHP"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-622": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-623": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-624": {
+    "language_classes": [],
+    "languages": [
+      "PHP",
+      "Perl"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-625": {
+    "language_classes": [],
+    "languages": [
+      "PHP",
+      "Perl"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-626": {
+    "language_classes": [],
+    "languages": [
+      "ASP.NET",
+      "PHP",
+      "Perl"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-627": {
+    "language_classes": [],
+    "languages": [
+      "PHP",
+      "Perl"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-628": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-636": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "ICS/OT",
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-637": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-638": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-639": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-64": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-640": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-641": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-642": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": []
+  },
+  "CWE-643": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-644": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-645": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-646": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": []
+  },
+  "CWE-647": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": []
+  },
+  "CWE-648": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-649": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-65": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-650": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-651": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": []
+  },
+  "CWE-652": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-653": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-654": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-655": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-656": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-657": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-66": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-662": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-663": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "C"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-664": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-665": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-666": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-667": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-668": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-669": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-67": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-670": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-671": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-672": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Mobile"
+    ]
+  },
+  "CWE-673": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-674": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-675": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-676": {
+    "language_classes": [],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-680": {
+    "language_classes": [
+      "Memory-Unsafe"
+    ],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-681": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "C"
+    ],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-682": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-683": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-684": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-685": {
+    "language_classes": [],
+    "languages": [
+      "C",
+      "Perl"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-686": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-687": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-688": {
+    "language_classes": [],
+    "languages": [
+      "C",
+      "Perl"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-689": {
+    "language_classes": [],
+    "languages": [
+      "C",
+      "Perl"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-69": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-690": {
+    "language_classes": [
+      "Memory-Unsafe",
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "C",
+      "C++",
+      "Java",
+      "JavaScript",
+      "TypeScript",
+      "Python",
+      "C#",
+      "Go",
+      "Rust",
+      "PHP",
+      "Ruby",
+      "Kotlin",
+      "Swift"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-691": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-692": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-693": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "ICS/OT",
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-694": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-695": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-696": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific",
+      "Web Based"
+    ]
+  },
+  "CWE-697": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-698": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-7": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-703": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-704": {
+    "language_classes": [
+      "Memory-Unsafe",
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-705": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-706": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-707": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-708": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-710": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-72": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-73": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-732": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Cloud Computing",
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-733": {
+    "language_classes": [
+      "Compiled"
+    ],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-74": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-749": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-75": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-754": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-755": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-756": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": []
+  },
+  "CWE-757": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-758": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-759": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-76": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-760": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-761": {
+    "language_classes": [
+      "Memory-Unsafe"
+    ],
+    "languages": [
+      "C"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-762": {
+    "language_classes": [
+      "Memory-Unsafe"
+    ],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-763": {
+    "language_classes": [
+      "Memory-Unsafe"
+    ],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-764": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-765": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-766": {
+    "language_classes": [],
+    "languages": [
+      "C#",
+      "C++",
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-767": {
+    "language_classes": [],
+    "languages": [
+      "C#",
+      "C++",
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-768": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "C"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-77": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "AI/ML"
+    ],
+    "technology_classes": []
+  },
+  "CWE-770": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-771": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-772": {
+    "language_classes": [],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Mobile"
+    ]
+  },
+  "CWE-773": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-774": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-775": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-776": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "XML"
+    ],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-777": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-778": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Cloud Computing",
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-779": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-78": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "AI/ML",
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-780": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-781": {
+    "language_classes": [],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-782": {
+    "language_classes": [],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-783": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-784": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-785": {
+    "language_classes": [],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-786": {
+    "language_classes": [
+      "Memory-Unsafe"
+    ],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-787": {
+    "language_classes": [
+      "Assembly",
+      "Memory-Unsafe"
+    ],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": [
+      "ICS/OT"
+    ]
+  },
+  "CWE-788": {
+    "language_classes": [
+      "Memory-Unsafe"
+    ],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-789": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-79": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "AI/ML",
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-790": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-791": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-792": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-793": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-794": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-795": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-796": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-797": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-798": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "ICS/OT",
+      "Mobile"
+    ]
+  },
+  "CWE-799": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Not Technology-Specific",
+      "Web Based"
+    ]
+  },
+  "CWE-8": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-80": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-804": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": []
+  },
+  "CWE-805": {
+    "language_classes": [
+      "Assembly",
+      "Memory-Unsafe"
+    ],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-806": {
+    "language_classes": [
+      "Memory-Unsafe"
+    ],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-807": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Not Technology-Specific",
+      "Web Based"
+    ]
+  },
+  "CWE-81": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-82": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-820": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-821": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-822": {
+    "language_classes": [
+      "Memory-Unsafe"
+    ],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-823": {
+    "language_classes": [
+      "Memory-Unsafe"
+    ],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-824": {
+    "language_classes": [
+      "Memory-Unsafe"
+    ],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-825": {
+    "language_classes": [
+      "Memory-Unsafe"
+    ],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-826": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-827": {
+    "language_classes": [],
+    "languages": [
+      "XML"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-828": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "C"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-829": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-83": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-830": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-831": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-832": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-833": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-834": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-835": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-836": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-837": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Not Technology-Specific",
+      "Web Based"
+    ]
+  },
+  "CWE-838": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-839": {
+    "language_classes": [],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-84": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-841": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-842": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-843": {
+    "language_classes": [],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-85": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-86": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-862": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "AI/ML",
+      "Database Server",
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-863": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Database Server",
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-87": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-88": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "PHP"
+    ],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-89": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "SQL"
+    ],
+    "technologies": [
+      "Database Server"
+    ],
+    "technology_classes": []
+  },
+  "CWE-9": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-90": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Database Server"
+    ],
+    "technology_classes": []
+  },
+  "CWE-908": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-909": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-91": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-910": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-911": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "C",
+      "C++"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-912": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "ICS/OT",
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-913": {
+    "language_classes": [
+      "Interpreted",
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-914": {
+    "language_classes": [
+      "Interpreted",
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-915": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [
+      "ASP.NET",
+      "PHP",
+      "Python",
+      "Ruby"
+    ],
+    "technologies": [],
+    "technology_classes": [
+      "Not Technology-Specific"
+    ]
+  },
+  "CWE-916": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-917": {
+    "language_classes": [],
+    "languages": [
+      "Java"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-918": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "AI/ML",
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-920": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Mobile"
+    ]
+  },
+  "CWE-921": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Mobile"
+    ]
+  },
+  "CWE-922": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-923": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Not Technology-Specific",
+      "Web Based"
+    ]
+  },
+  "CWE-924": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-925": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Mobile"
+    ]
+  },
+  "CWE-926": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Mobile"
+    ]
+  },
+  "CWE-927": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Mobile"
+    ]
+  },
+  "CWE-93": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-939": {
+    "language_classes": [],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Mobile"
+    ]
+  },
+  "CWE-94": {
+    "language_classes": [
+      "Interpreted"
+    ],
+    "languages": [],
+    "technologies": [
+      "AI/ML"
+    ],
+    "technology_classes": []
+  },
+  "CWE-940": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Mobile"
+    ]
+  },
+  "CWE-941": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": [
+      "Mobile"
+    ]
+  },
+  "CWE-942": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-943": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-95": {
+    "language_classes": [
+      "Interpreted"
+    ],
+    "languages": [
+      "Java",
+      "JavaScript",
+      "PHP",
+      "Perl",
+      "Python",
+      "Ruby"
+    ],
+    "technologies": [
+      "AI/ML"
+    ],
+    "technology_classes": []
+  },
+  "CWE-96": {
+    "language_classes": [
+      "Interpreted"
+    ],
+    "languages": [
+      "PHP",
+      "Perl"
+    ],
+    "technologies": [],
+    "technology_classes": []
+  },
+  "CWE-97": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-98": {
+    "language_classes": [],
+    "languages": [
+      "PHP"
+    ],
+    "technologies": [
+      "Web Server"
+    ],
+    "technology_classes": [
+      "Web Based"
+    ]
+  },
+  "CWE-99": {
+    "language_classes": [
+      "Not Language-Specific"
+    ],
+    "languages": [],
+    "technologies": [],
+    "technology_classes": []
+  }
+}

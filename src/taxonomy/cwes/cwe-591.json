@@ -1,0 +1,16 @@
+{
+  "id": "CWE-591",
+  "name": "Sensitive Data Storage in Improperly Locked Memory",
+  "status": "filled",
+  "description": "The product stores sensitive data in memory that is not properly locked, allowing the operating system's virtual memory manager to swap it to disk. This exposes sensitive information in swap files where attackers may recover it.",
+  "severity": "medium",
+  "category": "memory",
+  "detection_pattern": "STORAGE node holding sensitive data flows to a STRUCTURAL memory region without a CONTROL node enforcing memory locking (VirtualLock/mlock). The sensitive data path lacks a TRANSFORM node that would encrypt before storage or a CONTROL node that prevents swap-out.",
+  "graph_query": "STORAGE(sensitive_data)→STRUCTURAL(memory) without CONTROL(memory_lock)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-413"],
+  "references": ["https://cwe.mitre.org/data/definitions/591.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

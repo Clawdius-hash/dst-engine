@@ -1,0 +1,11 @@
+{
+  "id": "CWE-893",
+  "name": "SFP Primary Cluster: Path Resolution",
+  "status": "needs_review",
+  "description": "Category: Organizes Software Fault Patterns related to path resolution vulnerabilities. An organizational grouping, not a weakness itself.",
+  "category_type": "category",
+  "related_cwes": ["CWE-888", "CWE-979", "CWE-980", "CWE-981"],
+  "references": ["https://cwe.mitre.org/data/definitions/893.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "CWE-770",
+  "name": "Allocation of Resources Without Limits or Throttling",
+  "status": "implemented",
+  "description": "The product allocates a reusable resource on behalf of an actor without imposing any restrictions on the size or number of resources that can be allocated, enabling attackers to consume excessive resources and cause denial of service.",
+  "severity": "high",
+  "category": "reliability",
+  "detection_pattern": "INGRESS node triggers resource allocation at TRANSFORM or STORAGE nodes (memory malloc, thread spawn, connection accept, file descriptor open) without a CONTROL node enforcing per-user quotas, maximum allocation size, connection pool limits, or rate throttling",
+  "graph_query": "INGRESS→TRANSFORM|STORAGE[resource_alloc] without CONTROL[quota|max_size|throttle]",
+  "owasp_top10": null,
+  "sans_top25": true,
+  "related_cwes": ["CWE-400", "CWE-665", "CWE-774", "CWE-789", "CWE-1325", "CWE-771"],
+  "references": ["https://cwe.mitre.org/data/definitions/770.html"],
+  "implemented_in": ["verifier.ts"],
+  "verified_at": "2026-03-23T00:00:00Z",
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

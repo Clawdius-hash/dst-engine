@@ -1,0 +1,11 @@
+{
+  "id": "CWE-929",
+  "name": "OWASP Top Ten 2013 Category A1 - Injection",
+  "status": "needs_review",
+  "description": "Category: Organizational grouping of injection-related weaknesses mapped to the OWASP Top Ten 2013 A1 category. Not a weakness itself.",
+  "category_type": "category",
+  "related_cwes": ["CWE-928", "CWE-74", "CWE-77", "CWE-78", "CWE-89", "CWE-90", "CWE-91"],
+  "references": ["https://cwe.mitre.org/data/definitions/929.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

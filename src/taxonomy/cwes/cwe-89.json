@@ -1,0 +1,18 @@
+{
+  "id": "CWE-89",
+  "name": "Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')",
+  "status": "implemented",
+  "description": "The product constructs SQL commands using externally-influenced input without properly neutralizing special elements, allowing attackers to inject malicious SQL that modifies query logic to access, modify, or delete unauthorized data.",
+  "severity": "critical",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides user-controlled data that flows to a STORAGE[database] or EXTERNAL[sql] node executing SQL queries without passing through a CONTROL node that uses parameterized queries or prepared statements",
+  "graph_query": "INGRESS→STORAGE[database] without CONTROL[parameterized_query]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": true,
+  "related_cwes": ["CWE-943", "CWE-564", "CWE-74", "CWE-20"],
+  "references": ["https://cwe.mitre.org/data/definitions/89.html"],
+  "implemented_in": ["verifier.ts"],
+  "verified_at": "2026-03-23T00:00:00Z",
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

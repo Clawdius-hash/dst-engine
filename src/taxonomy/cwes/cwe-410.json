@@ -1,0 +1,16 @@
+{
+  "id": "CWE-410",
+  "name": "Insufficient Resource Pool",
+  "status": "filled",
+  "description": "The product's resource pool (connection pool, thread pool, file handle pool) is not large enough to handle peak demand, allowing an attacker to exhaust the pool with a relatively large number of requests and deny service to legitimate users.",
+  "severity": "medium",
+  "category": "reliability",
+  "detection_pattern": "INGRESS node opens or claims resources from a STRUCTURAL[resource_pool] node (connection pool, thread pool, session pool) that has a fixed or insufficiently sized capacity, without a CONTROL node enforcing per-client limits, queuing, or graceful degradation under load",
+  "graph_query": "INGRESS→STRUCTURAL[resource_pool] without CONTROL[pool_limit|per_client_quota]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-664", "CWE-400"],
+  "references": ["https://cwe.mitre.org/data/definitions/410.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:25:00Z"
+}

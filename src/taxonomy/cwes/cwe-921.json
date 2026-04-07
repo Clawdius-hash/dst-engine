@@ -1,0 +1,16 @@
+{
+  "id": "CWE-921",
+  "name": "Storage of Sensitive Data in a Mechanism without Access Control",
+  "status": "filled",
+  "description": "The product stores sensitive information in a file system or device that lacks built-in access controls, such as memory cards, USB devices, or Android external storage. Any entity on the system can read or write this data, creating exposure risks in multi-user environments.",
+  "severity": "high",
+  "category": "data_protection",
+  "detection_pattern": "TRANSFORM or EGRESS node writes sensitive data from STORAGE[sensitive] to STORAGE[external_storage] (SD card, USB, shared filesystem) without an AUTH[access_control] node enforcing read/write permissions on the destination storage",
+  "graph_query": "STORAGE[sensitive]→EGRESS→STORAGE[external_storage] without AUTH[access_control]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-922"],
+  "references": ["https://cwe.mitre.org/data/definitions/921.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

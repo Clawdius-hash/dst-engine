@@ -1,0 +1,16 @@
+{
+  "id": "CWE-626",
+  "name": "Null Byte Interaction Error (Poison Null Byte)",
+  "status": "filled",
+  "description": "The product does not properly handle null bytes when passing data between different representations or components. Languages like Perl and PHP do not treat null bytes as string terminators, but underlying C libraries do, causing truncation when these systems interact.",
+  "severity": "high",
+  "category": "input_output",
+  "detection_pattern": "INGRESS node accepts input containing null bytes that flows through a TRANSFORM node crossing language/component boundaries (e.g., PHP to C filesystem calls) without a CONTROL node stripping or rejecting null bytes. Common in path traversal where null bytes truncate file extensions.",
+  "graph_query": "INGRESS→TRANSFORM(cross_boundary) without CONTROL(null_byte_filter)",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-147", "CWE-436"],
+  "references": ["https://cwe.mitre.org/data/definitions/626.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:00:00Z"
+}

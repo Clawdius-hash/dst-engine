@@ -1,0 +1,16 @@
+{
+  "id": "CWE-698",
+  "name": "Execution After Redirect (EAR)",
+  "status": "filled",
+  "description": "The web application sends a redirect to another location but instead of exiting, it executes additional code. This allows attackers to bypass authentication or access restricted functionality by ignoring the redirect and processing the subsequent response body.",
+  "severity": "high",
+  "category": "input_output",
+  "detection_pattern": "CONTROL[redirect] node sends an HTTP redirect via EGRESS but TRANSFORM or CONTROL nodes continue executing after the redirect without a CONTROL[exit] or CONTROL[return] terminating the request processing pipeline",
+  "graph_query": "CONTROL[redirect]→TRANSFORM[continued_execution]→EGRESS|STORAGE without CONTROL[exit]|CONTROL[return]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-670", "CWE-705"],
+  "references": ["https://cwe.mitre.org/data/definitions/698.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-251",
+  "name": "Category: Often Misused: String Management",
+  "status": "needs_review",
+  "description": "This is a Category entry (not a specific weakness) that groups string manipulation functions encouraging buffer overflows. It cannot be used for vulnerability mapping; users should reference its constituent member weaknesses instead.",
+  "severity": "low",
+  "category": "memory",
+  "detection_pattern": "N/A — category",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-227", "CWE-974", "CWE-120"],
+  "references": ["https://cwe.mitre.org/data/definitions/251.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

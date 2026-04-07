@@ -1,0 +1,16 @@
+{
+  "id": "CWE-164",
+  "name": "Improper Neutralization of Internal Special Elements",
+  "status": "filled",
+  "description": "The product does not properly neutralize special characters that appear within the interior of user input (as opposed to leading or trailing positions), where internal special elements can alter tokenization, field boundaries, or control flow in downstream components.",
+  "severity": "medium",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides data with internal special characters that flows to TRANSFORM[parser|tokenizer] without a TRANSFORM[internal_element_escape] that escapes or strips special characters found in non-boundary positions within the input",
+  "graph_query": "INGRESS[internal_special]→TRANSFORM[parser] without TRANSFORM[internal_element_escape]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-138", "CWE-44", "CWE-45"],
+  "references": ["https://cwe.mitre.org/data/definitions/164.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

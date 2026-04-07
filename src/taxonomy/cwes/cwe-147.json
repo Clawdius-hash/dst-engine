@@ -1,0 +1,16 @@
+{
+  "id": "CWE-147",
+  "name": "Improper Neutralization of Input Terminators",
+  "status": "filled",
+  "description": "The product does not properly neutralize special characters that function as input terminators (e.g., '.' ending SMTP DATA, null bytes terminating C strings, EOF markers) in user input, allowing attackers to prematurely terminate input processing or inject data after the terminator.",
+  "severity": "high",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides user-controlled data containing terminator characters that flows to TRANSFORM[protocol_handler] or EXTERNAL[downstream] without a TRANSFORM[terminator_escape] that escapes or encodes characters the downstream component interprets as input terminators",
+  "graph_query": "INGRESS[terminator_chars]→TRANSFORM[protocol_handler] without TRANSFORM[terminator_escape]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-138"],
+  "references": ["https://cwe.mitre.org/data/definitions/147.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-26",
+  "name": "Path Traversal: '/dir/../filename'",
+  "status": "filled",
+  "description": "The product does not properly neutralize '/dir/../filename' sequences in user-supplied pathnames, where the traversal is embedded after an initial directory reference, allowing access outside restricted directories.",
+  "severity": "high",
+  "category": "file_handling",
+  "detection_pattern": "INGRESS node provides path data containing '/dir/../' patterns that flows to STORAGE[file_access] without a CONTROL node performing full path canonicalization and directory containment validation after resolving all relative segments",
+  "graph_query": "INGRESS[path '/dir/../']→STORAGE[file_access] without CONTROL[path_canonicalization]",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-23", "CWE-22"],
+  "references": ["https://cwe.mitre.org/data/definitions/26.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

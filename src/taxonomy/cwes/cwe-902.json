@@ -1,0 +1,11 @@
+{
+  "id": "CWE-902",
+  "name": "SFP Primary Cluster: Channel",
+  "status": "needs_review",
+  "description": "Category: Identifies Software Fault Patterns within the Channel cluster. An organizational grouping, not a weakness itself.",
+  "category_type": "category",
+  "related_cwes": ["CWE-888", "CWE-956", "CWE-957"],
+  "references": ["https://cwe.mitre.org/data/definitions/902.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

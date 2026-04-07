@@ -1,0 +1,16 @@
+{
+  "id": "CWE-619",
+  "name": "Dangling Database Cursor ('Cursor Injection')",
+  "status": "filled",
+  "description": "Database cursors are not properly closed and become accessible to other users while retaining original privileges, potentially enabling SQL injection attacks through the orphaned cursor context.",
+  "severity": "high",
+  "category": "injection",
+  "detection_pattern": "TRANSFORM(database_query) creates cursor in STORAGE(database) that persists after connection ends due to unhandled exception, accessible to EXTERNAL(other_user) with original AUTH privileges",
+  "graph_query": "TRANSFORM(cursor_create)→STORAGE(dangling_cursor) without CONTROL(cursor_cleanup_on_exception)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-402", "CWE-404"],
+  "references": ["https://cwe.mitre.org/data/definitions/619.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:50:00Z"
+}

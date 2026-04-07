@@ -1,0 +1,16 @@
+{
+  "id": "CWE-441",
+  "name": "Unintended Proxy or Intermediary ('Confused Deputy')",
+  "status": "filled",
+  "description": "The product forwards requests from an upstream component to an external actor without preserving the original requester's identity, allowing attackers to bypass access controls or hide malicious request origins by leveraging the product's privileges.",
+  "severity": "high",
+  "category": "authorization",
+  "detection_pattern": "INGRESS receives request from untrusted source, TRANSFORM forwards it to EXTERNAL target using product's own AUTH credentials, without CONTROL node preserving original requester identity or validating authorization",
+  "graph_query": "INGRESS(untrusted)→TRANSFORM(forward)→EXTERNAL(target) without AUTH(requester_identity_preservation)",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-610", "CWE-918", "CWE-1021", "CWE-611"],
+  "references": ["https://cwe.mitre.org/data/definitions/441.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:45:00Z"
+}

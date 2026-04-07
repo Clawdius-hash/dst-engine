@@ -1,0 +1,16 @@
+{
+  "id": "CWE-426",
+  "name": "Untrusted Search Path",
+  "status": "filled",
+  "description": "The product searches for critical resources using an externally-supplied search path that can be manipulated by attackers to redirect execution to unauthorized programs, access restricted data, or modify configurations.",
+  "severity": "high",
+  "category": "file_handling",
+  "detection_pattern": "INGRESS or EXTERNAL node controls search path (PATH, LD_PRELOAD) that TRANSFORM node uses to locate and execute resources without CONTROL node restricting path to trusted locations",
+  "graph_query": "EXTERNAL(search_path)→TRANSFORM(resource_load) without CONTROL(path_restriction)",
+  "owasp_top10": "A08:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-642", "CWE-673", "CWE-427", "CWE-428"],
+  "references": ["https://cwe.mitre.org/data/definitions/426.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:30:00Z"
+}

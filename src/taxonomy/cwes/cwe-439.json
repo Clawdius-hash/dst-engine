@@ -1,0 +1,16 @@
+{
+  "id": "CWE-439",
+  "name": "Behavioral Change in New Version or Environment",
+  "status": "filled",
+  "description": "A component's behavior changes with a new version or environment in ways not known to dependent components, causing integration failures or security issues when assumptions about behavior no longer hold.",
+  "severity": "low",
+  "category": "reliability",
+  "detection_pattern": "EXTERNAL node (dependency/library) changes behavior across versions but TRANSFORM node using it operates based on old behavioral assumptions without CONTROL node verifying version compatibility",
+  "graph_query": "EXTERNAL(updated_component)→TRANSFORM(assumption_based) without CONTROL(version_behavior_check)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-435"],
+  "references": ["https://cwe.mitre.org/data/definitions/439.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:45:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-322",
+  "name": "Key Exchange without Entity Authentication",
+  "status": "filled",
+  "description": "The product performs a cryptographic key exchange with a remote actor without verifying that actor's identity. This enables man-in-the-middle attacks where an attacker can impersonate a legitimate endpoint and intercept or modify encrypted communications.",
+  "severity": "high",
+  "category": "cryptography",
+  "detection_pattern": "Look for EXTERNAL nodes (remote peer, network endpoint) participating in TRANSFORM nodes (key exchange, Diffie-Hellman, key agreement) without an AUTH mediator (certificate validation, entity authentication, identity verification) that confirms the identity of the remote party before or during the key exchange.",
+  "graph_query": "EXTERNAL(remote_peer)→TRANSFORM(key_exchange) without AUTH(entity_authentication)",
+  "owasp_top10": "A02:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-306", "CWE-295", "CWE-923"],
+  "references": ["https://cwe.mitre.org/data/definitions/322.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

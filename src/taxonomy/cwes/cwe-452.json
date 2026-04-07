@@ -1,0 +1,16 @@
+{
+  "id": "CWE-452",
+  "name": "Category: Initialization and Cleanup Errors",
+  "status": "needs_review",
+  "description": "This is a CWE category (not a specific weakness) that groups weaknesses related to initialization and cleanup behaviors. Members include CWE-212, CWE-454, CWE-455, CWE-459, CWE-1051, CWE-1052, and CWE-1188. It should not be used to map real-world vulnerabilities.",
+  "severity": "low",
+  "category": "reliability",
+  "detection_pattern": "N/A — category, see member weaknesses",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-699", "CWE-212", "CWE-454", "CWE-455", "CWE-459", "CWE-1051", "CWE-1052", "CWE-1188"],
+  "references": ["https://cwe.mitre.org/data/definitions/452.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-479",
+  "name": "Signal Handler Use of a Non-reentrant Function",
+  "status": "filled",
+  "description": "A signal handler calls a non-reentrant function such as malloc(), free(), or syslog(). If the signal interrupts the same function mid-execution, the resulting undefined memory state can lead to memory corruption, crashes, or exploitable write-what-where conditions.",
+  "severity": "high",
+  "category": "concurrency",
+  "detection_pattern": "A STRUCTURAL[signal_handler] node contains a TRANSFORM[function_call] to a non-reentrant EXTERNAL function (malloc, free, syslog, printf) without a CONTROL[async_safe_check] mediator ensuring only async-signal-safe functions are called within the handler.",
+  "graph_query": "STRUCTURAL[signal_handler]→EXTERNAL[non_reentrant_function] without CONTROL[async_safe_check]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-663", "CWE-828", "CWE-123"],
+  "references": ["https://cwe.mitre.org/data/definitions/479.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

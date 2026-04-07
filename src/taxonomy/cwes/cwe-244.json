@@ -1,0 +1,16 @@
+{
+  "id": "CWE-244",
+  "name": "Improper Clearing of Heap Memory Before Release ('Heap Inspection')",
+  "status": "filled",
+  "description": "Sensitive data such as passwords or encryption keys remain in heap memory after reallocation because realloc() copies contents to a new block but leaves the original data intact. Attackers can exploit this through heap inspection attacks using memory dumps to recover secrets.",
+  "severity": "medium",
+  "category": "memory",
+  "detection_pattern": "Look for STORAGE nodes (heap buffers holding sensitive data like passwords, keys) that flow through TRANSFORM nodes (realloc, free) to EGRESS nodes (released memory pages) without a CONTROL mediator (explicit memory scrubbing, memset/SecureZeroMemory before free) that clears sensitive data before releasing the memory.",
+  "graph_query": "STORAGE(sensitive_heap_data)→TRANSFORM(realloc_or_free) without CONTROL(memory_scrub)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-226", "CWE-669", "CWE-316"],
+  "references": ["https://cwe.mitre.org/data/definitions/244.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

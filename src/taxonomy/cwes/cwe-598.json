@@ -1,0 +1,16 @@
+{
+  "id": "CWE-598",
+  "name": "Use of GET Request Method With Sensitive Query Strings",
+  "status": "filled",
+  "description": "The web application uses HTTP GET requests with sensitive information included in query string parameters. This exposes sensitive data in browser history, server logs, Referer headers, and proxy logs where it can be captured by attackers.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "INGRESS(http_get) node carries sensitive data in query parameters that flows to EGRESS(response) or EXTERNAL(third_party) via Referer headers. The sensitive data path from INGRESS lacks a TRANSFORM node that would redirect to POST method, and no CONTROL node enforces method restriction for sensitive parameters.",
+  "graph_query": "INGRESS(get_query_string, sensitive)→EGRESS(log|referer|history) without CONTROL(method_enforcement)",
+  "owasp_top10": "A04:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-201"],
+  "references": ["https://cwe.mitre.org/data/definitions/598.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

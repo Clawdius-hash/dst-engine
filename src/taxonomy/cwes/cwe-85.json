@@ -1,0 +1,16 @@
+{
+  "id": "CWE-85",
+  "name": "Doubled Character XSS Manipulations",
+  "status": "filled",
+  "description": "The product does not properly handle user input containing doubled or split characters used to disguise script tags (e.g., '<<script' or inserting null bytes), allowing attackers to bypass XSS filters that only check for standard tag patterns.",
+  "severity": "high",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides input with doubled or split HTML characters that bypasses CONTROL[xss_filter] pattern matching, but the browser reassembles the characters into executable script at EGRESS[html_output]",
+  "graph_query": "INGRESS[doubled_chars]→CONTROL[xss_filter]→EGRESS[html_output] without TRANSFORM[normalize_before_filter]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-79"],
+  "references": ["https://cwe.mitre.org/data/definitions/85.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

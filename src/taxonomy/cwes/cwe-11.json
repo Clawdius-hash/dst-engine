@@ -1,0 +1,16 @@
+{
+  "id": "CWE-11",
+  "name": "ASP.NET Misconfiguration: Creating Debug Binary",
+  "status": "filled",
+  "description": "An ASP.NET application is deployed with debug compilation enabled, causing detailed debugging information including stack traces, framework versions, and internal paths to be exposed to attackers in production.",
+  "severity": "medium",
+  "category": "configuration",
+  "detection_pattern": "META[web_config] node contains compilation debug=true setting that enables verbose error output through EGRESS[error_response] nodes, exposing internal application details without a CONTROL node ensuring debug is disabled in production deployment",
+  "graph_query": "META[web_config debug=true]→EGRESS[error_response] without CONTROL[production_config]",
+  "owasp_top10": "A05:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-489"],
+  "references": ["https://cwe.mitre.org/data/definitions/11.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

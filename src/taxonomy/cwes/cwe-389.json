@@ -1,0 +1,16 @@
+{
+  "id": "CWE-389",
+  "name": "Error Conditions, Return Values, Status Codes",
+  "status": "needs_review",
+  "description": "Category-level CWE covering weaknesses from incorrect return values or failure to handle all possible status codes. Vulnerability mapping is prohibited.",
+  "severity": "low",
+  "category": "error_handling",
+  "detection_pattern": "N/A — category CWE, not a concrete weakness",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-252", "CWE-253", "CWE-248", "CWE-391"],
+  "references": ["https://cwe.mitre.org/data/definitions/389.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:10:00Z"
+}

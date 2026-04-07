@@ -1,0 +1,16 @@
+{
+  "id": "CWE-566",
+  "name": "Authorization Bypass Through User-Controlled SQL Primary Key",
+  "status": "filled",
+  "description": "The application uses user-controlled input as a SQL primary key value in database queries, allowing attackers to modify the key to access unauthorized records and bypass row-level access controls.",
+  "severity": "high",
+  "category": "authorization",
+  "detection_pattern": "INGRESS node carrying user-controlled data flows into TRANSFORM (SQL query construction) where the value is used as a primary key for EXTERNAL (database) access without an AUTH node enforcing row-level authorization checks.",
+  "graph_query": "INGRESS→TRANSFORM(sql_key)→EXTERNAL(database) without AUTH(row_level)",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-639"],
+  "references": ["https://cwe.mitre.org/data/definitions/566.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

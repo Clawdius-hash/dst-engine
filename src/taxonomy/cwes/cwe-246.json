@@ -1,0 +1,16 @@
+{
+  "id": "CWE-246",
+  "name": "J2EE Bad Practices: Direct Use of Sockets",
+  "status": "filled",
+  "description": "A J2EE application directly uses sockets for communication instead of leveraging framework-provided method calls. The J2EE specification only permits socket use for legacy system communication when no higher-level protocol exists. Custom communication protocols introduce security risks.",
+  "severity": "low",
+  "category": "api",
+  "detection_pattern": "Look for STRUCTURAL nodes (J2EE application code) creating EXTERNAL nodes (raw socket connections, ServerSocket, Socket) for communication instead of using the proper STRUCTURAL mediator (framework APIs, higher-level protocol handlers, container-managed communication) that provides secure, managed communication.",
+  "graph_query": "STRUCTURAL(app_code)→EXTERNAL(raw_socket) without STRUCTURAL(framework_api)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-695", "CWE-245"],
+  "references": ["https://cwe.mitre.org/data/definitions/246.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-721",
+  "name": "Category: OWASP Top Ten 2007 Category A10 - Failure to Restrict URL Access",
+  "status": "needs_review",
+  "description": "This is a category grouping weaknesses related to the A10 category in the OWASP Top Ten 2007, covering failure to restrict URL access including improper authorization and authentication bypass using alternate paths. Categories are informal organizational groupings and are prohibited for vulnerability mapping since 2019.",
+  "severity": "low",
+  "category": "authorization",
+  "detection_pattern": "N/A — category, not a weakness",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-629", "CWE-285", "CWE-288", "CWE-425"],
+  "references": ["https://cwe.mitre.org/data/definitions/721.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:15:00Z"
+}

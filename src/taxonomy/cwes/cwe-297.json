@@ -1,0 +1,16 @@
+{
+  "id": "CWE-297",
+  "name": "Improper Validation of Certificate with Host Mismatch",
+  "status": "filled",
+  "description": "The product communicates with a host that provides a certificate but does not verify that the certificate is actually associated with that host. An attacker with a valid certificate for a different domain can impersonate the intended host via man-in-the-middle attacks.",
+  "severity": "high",
+  "category": "cryptography",
+  "detection_pattern": "Look for EXTERNAL nodes (TLS connection, certificate presentation) that establish trust with AUTH nodes (connection authentication, identity acceptance) without a CONTROL mediator (hostname verification, CN/SAN matching, certificate-to-host binding check) that confirms the certificate's subject matches the intended communication endpoint.",
+  "graph_query": "EXTERNAL(tls_certificate)→AUTH(connection_trust) without CONTROL(hostname_verification)",
+  "owasp_top10": "A07:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-295", "CWE-923", "CWE-370"],
+  "references": ["https://cwe.mitre.org/data/definitions/297.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

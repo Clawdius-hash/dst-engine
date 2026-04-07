@@ -1,0 +1,16 @@
+{
+  "id": "CWE-65",
+  "name": "Windows Hard Link",
+  "status": "filled",
+  "description": "The product opens a file or directory without properly handling that the name is associated with a Windows hard link to a target outside the intended control sphere, allowing attackers to operate on unauthorized files through the link.",
+  "severity": "medium",
+  "category": "file_handling",
+  "detection_pattern": "INGRESS node provides a filename that may be a Windows hard link to a file outside the intended directory, which flows to STORAGE[file_access] without a CONTROL node that verifies the file's actual location or checks NTFS link count to detect hard links to restricted files",
+  "graph_query": "INGRESS[filename]→STORAGE[file_access] without CONTROL[hardlink_check|location_verify]",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-59"],
+  "references": ["https://cwe.mitre.org/data/definitions/65.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

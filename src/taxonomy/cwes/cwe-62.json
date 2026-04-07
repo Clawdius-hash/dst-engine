@@ -1,0 +1,16 @@
+{
+  "id": "CWE-62",
+  "name": "UNIX Hard Link",
+  "status": "filled",
+  "description": "The product opens a file without accounting for the possibility that it is a hard link pointing to a file outside the intended control sphere, allowing attackers to create hard links to sensitive files and then operate on them through the link.",
+  "severity": "high",
+  "category": "file_handling",
+  "detection_pattern": "INGRESS or TRANSFORM node provides a filename that may be a hard link to a file outside the intended directory, which flows to STORAGE[file_access] without a CONTROL node that checks inode identity, link count, or verifies the file's actual location matches the expected directory",
+  "graph_query": "INGRESS[filename]→STORAGE[file_access] without CONTROL[hardlink_check|inode_verify]",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-59"],
+  "references": ["https://cwe.mitre.org/data/definitions/62.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

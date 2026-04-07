@@ -1,0 +1,16 @@
+{
+  "id": "CWE-48",
+  "name": "Path Equivalence: 'file name' (Internal Whitespace)",
+  "status": "filled",
+  "description": "The product does not properly handle paths containing internal whitespace characters, which different systems may interpret differently — some treating spaces as literal filename characters, others as delimiters — allowing attackers to bypass path-based access controls.",
+  "severity": "medium",
+  "category": "file_handling",
+  "detection_pattern": "INGRESS node provides a path with internal whitespace that the CONTROL[path_check] and STORAGE[file_access] resolve differently, creating a check-vs-use mismatch that bypasses intended restrictions",
+  "graph_query": "INGRESS[path 'file name']→CONTROL[path_check]→STORAGE[file_access] without TRANSFORM[canonicalize]",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-41"],
+  "references": ["https://cwe.mitre.org/data/definitions/48.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

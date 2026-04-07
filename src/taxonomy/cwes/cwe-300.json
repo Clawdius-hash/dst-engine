@@ -1,0 +1,16 @@
+{
+  "id": "CWE-300",
+  "name": "Channel Accessible by Non-Endpoint",
+  "status": "needs_review",
+  "description": "The product does not adequately verify the identity of actors at both ends of a communication channel, or does not adequately ensure the integrity of the channel between them. This enables man-in-the-middle attacks where unauthorized parties can eavesdrop or modify communications. MITRE discourages mapping directly to this CWE due to its Class-level abstraction.",
+  "severity": "high",
+  "category": "authentication",
+  "detection_pattern": "N/A — Class-level abstraction discouraged for direct mapping. Use more specific descendant CWEs for detection patterns.",
+  "graph_query": "N/A",
+  "owasp_top10": "A07:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-923", "CWE-602", "CWE-603"],
+  "references": ["https://cwe.mitre.org/data/definitions/300.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

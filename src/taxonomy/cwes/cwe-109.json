@@ -1,0 +1,16 @@
+{
+  "id": "CWE-109",
+  "name": "Struts: Validator Turned Off",
+  "status": "filled",
+  "description": "A Struts action mapping explicitly disables validation by setting validate='false', causing all form input for that action to bypass the Struts Validator framework entirely.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "META[struts_action_config] sets validate=false on an action mapping, disabling CONTROL[struts_validator] so INGRESS[form_data] flows directly to the action's TRANSFORM or STORAGE operations without any framework validation",
+  "graph_query": "META[action validate=false]→INGRESS[form_data]→TRANSFORM|STORAGE without CONTROL[validation]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-1173", "CWE-20"],
+  "references": ["https://cwe.mitre.org/data/definitions/109.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

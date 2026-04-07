@@ -1,0 +1,16 @@
+{
+  "id": "CWE-669",
+  "name": "Incorrect Resource Transfer Between Spheres",
+  "status": "filled",
+  "description": "The product does not properly transfer a resource to another control sphere, or improperly imports a resource from another sphere, providing unintended control over that resource. This can lead to unrestricted file uploads, unsafe external script inclusion, or data leakage across trust boundaries.",
+  "severity": "high",
+  "category": "authorization",
+  "detection_pattern": "INGRESS or EXTERNAL node transfers a resource across a trust boundary into STORAGE or STRUCTURAL node without CONTROL[boundary_check] or TRANSFORM[sanitize] enforcing proper sphere restrictions",
+  "graph_query": "EXTERNAL|INGRESS→STORAGE|STRUCTURAL[different_sphere] without CONTROL[boundary_check]|TRANSFORM[sanitize]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-664", "CWE-434", "CWE-494", "CWE-829"],
+  "references": ["https://cwe.mitre.org/data/definitions/669.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:00:00Z"
+}

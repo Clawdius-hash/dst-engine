@@ -1,0 +1,16 @@
+{
+  "id": "CWE-603",
+  "name": "Use of Client-Side Authentication",
+  "status": "filled",
+  "description": "Authentication logic is implemented on the client side rather than the server, allowing attackers to reverse-engineer or modify the client to bypass authentication and gain unauthorized access.",
+  "severity": "high",
+  "category": "authentication",
+  "detection_pattern": "AUTH node exists only in client-side STRUCTURAL code, not on server side, allowing INGRESS from modified client to reach protected TRANSFORM/STORAGE without server-side AUTH verification",
+  "graph_query": "INGRESS(client_request)→TRANSFORM(protected_resource) without AUTH(server_side_authentication)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-602", "CWE-1390", "CWE-656"],
+  "references": ["https://cwe.mitre.org/data/definitions/603.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

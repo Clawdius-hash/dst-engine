@@ -1,0 +1,16 @@
+{
+  "id": "CWE-408",
+  "name": "Incorrect Behavior Order: Early Amplification",
+  "status": "filled",
+  "description": "The product allows an entity to perform a legitimate but expensive operation before authentication or authorization has taken place, enabling unauthenticated attackers to consume significant resources and cause denial of service.",
+  "severity": "high",
+  "category": "reliability",
+  "detection_pattern": "INGRESS node reaches a TRANSFORM node performing an expensive operation (cryptographic computation, database query, file I/O, large allocation) before passing through an AUTH node that validates the requester's identity or authorization",
+  "graph_query": "INGRESS→TRANSFORM[expensive_operation] without AUTH[pre_operation] preceding TRANSFORM",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-405", "CWE-696"],
+  "references": ["https://cwe.mitre.org/data/definitions/408.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:25:00Z"
+}

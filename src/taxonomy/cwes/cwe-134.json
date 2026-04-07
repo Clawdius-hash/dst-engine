@@ -1,0 +1,16 @@
+{
+  "id": "CWE-134",
+  "name": "Use of Externally-Controlled Format String",
+  "status": "filled",
+  "description": "The product uses a format string function (printf, sprintf, syslog) with a format string that is externally controlled, allowing attackers to use format specifiers like %x to read stack memory or %n to write arbitrary values to memory.",
+  "severity": "critical",
+  "category": "memory",
+  "detection_pattern": "INGRESS node provides user-controlled data that is passed as the format string argument to TRANSFORM[format_function] (printf, sprintf, fprintf, syslog, NSLog) instead of as a data argument, without a CONTROL node that ensures format strings are always static/hardcoded literals",
+  "graph_query": "INGRESS→TRANSFORM[printf_format_arg] without CONTROL[static_format_string]",
+  "owasp_top10": null,
+  "sans_top25": true,
+  "related_cwes": ["CWE-668", "CWE-20", "CWE-123"],
+  "references": ["https://cwe.mitre.org/data/definitions/134.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

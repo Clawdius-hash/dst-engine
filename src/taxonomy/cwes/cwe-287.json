@@ -1,0 +1,18 @@
+{
+  "id": "CWE-287",
+  "name": "Improper Authentication",
+  "status": "implemented",
+  "description": "When an actor claims a given identity, the product does not prove or insufficiently proves that the claim is correct, allowing unauthorized actors to access protected resources or perform privileged operations.",
+  "severity": "critical",
+  "category": "authentication",
+  "detection_pattern": "INGRESS node provides identity claims (credentials, tokens, certificates) that reach STORAGE or EXTERNAL nodes performing privileged operations without passing through an AUTH node that adequately verifies the identity claim",
+  "graph_query": "INGRESS→STORAGE|EXTERNAL[privileged] without AUTH[identity_verification]",
+  "owasp_top10": "A07:2021",
+  "sans_top25": true,
+  "related_cwes": ["CWE-284", "CWE-306", "CWE-1390", "CWE-295", "CWE-521", "CWE-522", "CWE-798"],
+  "references": ["https://cwe.mitre.org/data/definitions/287.html"],
+  "implemented_in": ["verifier.ts"],
+  "verified_at": "2026-03-23T00:00:00Z",
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

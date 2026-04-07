@@ -1,0 +1,16 @@
+{
+  "id": "CWE-605",
+  "name": "Multiple Binds to the Same Port",
+  "status": "filled",
+  "description": "Multiple sockets are allowed to bind to the same port using SO_REUSEADDR, enabling other services to steal or spoof traffic on that port by intercepting packets intended for the original service.",
+  "severity": "medium",
+  "category": "configuration",
+  "detection_pattern": "TRANSFORM node binds socket to EXTERNAL port using SO_REUSEADDR without CONTROL node preventing multiple binds or verifying exclusive port ownership",
+  "graph_query": "TRANSFORM(socket_bind)→EXTERNAL(shared_port) without CONTROL(exclusive_bind_enforcement)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-666", "CWE-675"],
+  "references": ["https://cwe.mitre.org/data/definitions/605.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:40:00Z"
+}

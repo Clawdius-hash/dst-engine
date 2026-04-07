@@ -1,0 +1,18 @@
+{
+  "version": "1.0.0",
+  "created": "2026-03-22",
+  "total_slots": 933,
+  "mitre_cwe_count": 933,
+  "slot_dir": "cwes/",
+  "schema": "SCHEMA.md",
+  "implemented_cwes": [
+    "CWE-20", "CWE-22", "CWE-78", "CWE-79", "CWE-89", "CWE-94",
+    "CWE-116", "CWE-119", "CWE-200", "CWE-209", "CWE-250", "CWE-269",
+    "CWE-287", "CWE-290", "CWE-295", "CWE-306", "CWE-307", "CWE-312",
+    "CWE-319", "CWE-327", "CWE-347", "CWE-352", "CWE-362", "CWE-384",
+    "CWE-400", "CWE-434", "CWE-476", "CWE-502", "CWE-522", "CWE-601",
+    "CWE-611", "CWE-613", "CWE-614", "CWE-668", "CWE-732", "CWE-770",
+    "CWE-862", "CWE-915", "CWE-918", "CWE-942", "CWE-943", "CWE-1021",
+    "CWE-1321"
+  ]
+}

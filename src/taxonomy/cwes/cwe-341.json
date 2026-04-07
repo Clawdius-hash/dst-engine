@@ -1,0 +1,16 @@
+{
+  "id": "CWE-341",
+  "name": "Predictable from Observable State",
+  "status": "filled",
+  "description": "A number or object is predictable based on observations that the attacker can make about the state of the system or network, such as time, process ID, or other observable values. If these predictable values are used to generate identifiers or keys for security mechanisms, an attacker can gain unauthorized access.",
+  "severity": "high",
+  "category": "cryptography",
+  "detection_pattern": "EXTERNAL[system_state] such as timestamps, process IDs, or network-observable values flow into TRANSFORM[value_generation] which produces tokens, keys, or filenames used in AUTH or STORAGE nodes. The generated value's unpredictability depends solely on state observable to an attacker rather than a cryptographically secure random source.",
+  "graph_query": "EXTERNAL[observable_state]→TRANSFORM[value_generation]→AUTH[credential] without TRANSFORM[csprng]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-340", "CWE-339", "CWE-330"],
+  "references": ["https://cwe.mitre.org/data/definitions/341.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:20:00Z"
+}

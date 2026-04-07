@@ -1,0 +1,11 @@
+{
+  "id": "CWE-892",
+  "name": "SFP Primary Cluster: Resource Management",
+  "status": "needs_review",
+  "description": "Category: Organizes Software Fault Patterns within the Resource Management cluster. An organizational grouping, not a weakness itself.",
+  "category_type": "category",
+  "related_cwes": ["CWE-888", "CWE-982", "CWE-983", "CWE-984", "CWE-985"],
+  "references": ["https://cwe.mitre.org/data/definitions/892.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

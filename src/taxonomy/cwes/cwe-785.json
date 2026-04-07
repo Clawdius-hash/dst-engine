@@ -1,0 +1,16 @@
+{
+  "id": "CWE-785",
+  "name": "Use of Path Manipulation Function without Maximum-sized Buffer",
+  "status": "filled",
+  "description": "The product calls a path or filename normalization function (such as realpath or PathAppend) but provides an output buffer smaller than the maximum possible size (e.g., PATH_MAX). This can result in a buffer overflow when the resolved path exceeds the buffer size.",
+  "severity": "high",
+  "category": "memory",
+  "detection_pattern": "INGRESS node provides path data to a TRANSFORM node (path normalization function) that writes to a STORAGE node (buffer) without a CONTROL node verifying the buffer is sized to PATH_MAX or the maximum possible output length.",
+  "graph_query": "TRANSFORM[path_normalization]→STORAGE[buffer] without CONTROL[max_buffer_size_check]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-120", "CWE-676", "CWE-121", "CWE-122"],
+  "references": ["https://cwe.mitre.org/data/definitions/785.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

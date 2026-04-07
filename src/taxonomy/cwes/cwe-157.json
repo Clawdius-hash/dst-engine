@@ -1,0 +1,16 @@
+{
+  "id": "CWE-157",
+  "name": "Failure to Sanitize Paired Delimiters",
+  "status": "filled",
+  "description": "The product does not properly neutralize paired delimiter characters (parentheses, brackets, braces, angle brackets, quotes) in user input, allowing attackers to inject unbalanced or extra pairs that alter the structure parsed by downstream components.",
+  "severity": "high",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides user-controlled data containing paired delimiters ((), [], {{}}, <>, quotes) that flows to TRANSFORM[structured_parser] or EXTERNAL[expression_engine] without a TRANSFORM[paired_delimiter_escape] that escapes or balances the pairs before parsing",
+  "graph_query": "INGRESS[paired_delimiters]→TRANSFORM[parser] without TRANSFORM[paired_delimiter_escape]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-138"],
+  "references": ["https://cwe.mitre.org/data/definitions/157.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

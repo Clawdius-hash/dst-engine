@@ -1,0 +1,16 @@
+{
+  "id": "CWE-238",
+  "name": "Improper Handling of Incomplete Structural Elements",
+  "status": "filled",
+  "description": "The product does not handle or incorrectly handles when a particular structural element is not completely specified, such as a truncated header, partial XML tag, or incomplete protocol frame. This leads to unexpected application state or integrity violations.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "Look for INGRESS nodes (protocol data, structured messages, serialized input) with potentially incomplete structural elements flowing to TRANSFORM nodes (parsers, deserializers) without a CONTROL mediator (completeness check, structural element boundary validation) that verifies all required parts of the structural element are present before processing.",
+  "graph_query": "INGRESS(partial_structure)→TRANSFORM(parser) without CONTROL(completeness_check)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-237", "CWE-239", "CWE-228"],
+  "references": ["https://cwe.mitre.org/data/definitions/238.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "CWE-862",
+  "name": "Missing Authorization",
+  "status": "implemented",
+  "description": "The product does not perform an authorization check when an actor attempts to access a resource or perform an action, allowing authenticated but unauthorized users to bypass access controls and reach protected functionality or data.",
+  "severity": "critical",
+  "category": "authorization",
+  "detection_pattern": "INGRESS node (even after AUTH[authentication]) reaches STORAGE or EXTERNAL nodes performing privileged operations (data access, state modification, admin functions) without passing through a CONTROL[authorization] node that verifies the actor has permission for the specific resource or action",
+  "graph_query": "AUTH[authenticated]→STORAGE|EXTERNAL[privileged] without CONTROL[authorization]",
+  "owasp_top10": "A01:2021",
+  "sans_top25": true,
+  "related_cwes": ["CWE-285", "CWE-284", "CWE-425", "CWE-638", "CWE-939"],
+  "references": ["https://cwe.mitre.org/data/definitions/862.html"],
+  "implemented_in": ["verifier.ts"],
+  "verified_at": "2026-03-23T00:00:00Z",
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

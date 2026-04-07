@@ -1,0 +1,16 @@
+{
+  "id": "CWE-6",
+  "name": "J2EE Misconfiguration: Insufficient Session-ID Length",
+  "status": "filled",
+  "description": "A J2EE application is configured with session identifiers shorter than 128 bits, making them susceptible to brute-force guessing attacks that allow session hijacking and identity assumption.",
+  "severity": "high",
+  "category": "authentication",
+  "detection_pattern": "META[configuration] node specifies session ID length below 128 bits flowing to AUTH[session_creation] node, or TRANSFORM[session_id_generation] produces tokens with insufficient entropy for STORAGE[session] without a CONTROL node enforcing minimum session ID length",
+  "graph_query": "META[session_config]→TRANSFORM[session_id_gen] without CONTROL[min_128bit_length]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-334"],
+  "references": ["https://cwe.mitre.org/data/definitions/6.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-428",
+  "name": "Unquoted Search Path or Element",
+  "status": "filled",
+  "description": "The product uses a search path containing spaces or separators without proper quoting, allowing attackers to insert executables in parent directories that get resolved before the intended target.",
+  "severity": "high",
+  "category": "file_handling",
+  "detection_pattern": "TRANSFORM node resolves unquoted path containing spaces through STORAGE filesystem, where attacker can place executable at shorter path prefix without CONTROL node enforcing quoted path resolution",
+  "graph_query": "TRANSFORM(unquoted_path_resolution)→STORAGE(filesystem) without CONTROL(quoted_path_enforcement)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-668", "CWE-426"],
+  "references": ["https://cwe.mitre.org/data/definitions/428.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:30:00Z"
+}

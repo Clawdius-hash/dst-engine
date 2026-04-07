@@ -1,0 +1,16 @@
+{
+  "id": "CWE-776",
+  "name": "Improper Restriction of Recursive Entity References in DTDs ('XML Entity Expansion')",
+  "status": "filled",
+  "description": "The XML parser fails to properly control recursive entity definitions in DTDs, allowing attackers to craft XML with nested entities that cause explosive data growth during parsing, leading to denial of service (XML Bomb).",
+  "severity": "high",
+  "category": "input_output",
+  "detection_pattern": "INGRESS(XML) flows to TRANSFORM(XML_parser) that processes DTD entity definitions without CONTROL node limiting entity expansion depth or total expansion size",
+  "graph_query": "INGRESS(xml_with_dtd)→TRANSFORM(entity_expansion) without CONTROL(recursion_depth_limit)",
+  "owasp_top10": "A05:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-405", "CWE-674", "CWE-827"],
+  "references": ["https://cwe.mitre.org/data/definitions/776.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:25:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-448",
+  "name": "Obsolete Feature in UI",
+  "status": "filled",
+  "description": "A UI function is obsolete and the product does not warn the user. The user may rely on a deprecated or non-functional feature without knowing it no longer provides the expected security or functionality, leading to quality degradation and potential security gaps.",
+  "severity": "low",
+  "category": "input_output",
+  "detection_pattern": "EGRESS node (UI element) exposes an obsolete feature without a META or CONTROL node that flags it as deprecated or warns the user. Look for STRUCTURAL UI components that reference functionality no longer supported by backend CONTROL or TRANSFORM nodes.",
+  "graph_query": "EGRESS(ui_obsolete_feature)→STRUCTURAL(backend) without META(deprecation_warning)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-446"],
+  "references": ["https://cwe.mitre.org/data/definitions/448.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

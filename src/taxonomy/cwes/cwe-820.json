@@ -1,0 +1,16 @@
+{
+  "id": "CWE-820",
+  "name": "Missing Synchronization",
+  "status": "filled",
+  "description": "The product accesses a shared resource in a concurrent context without proper synchronization mechanisms. This can cause the resource to enter unexpected states, potentially enabling attackers to influence the shared resource and trigger security-relevant behavior.",
+  "severity": "medium",
+  "category": "concurrency",
+  "detection_pattern": "Multiple TRANSFORM or STORAGE nodes access the same shared resource concurrently without a CONTROL node enforcing synchronization (locks, mutexes, semaphores, atomic operations) to prevent race conditions.",
+  "graph_query": "TRANSFORM[concurrent_access]→STORAGE[shared_resource] without CONTROL[synchronization]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-662", "CWE-543", "CWE-567", "CWE-362"],
+  "references": ["https://cwe.mitre.org/data/definitions/820.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

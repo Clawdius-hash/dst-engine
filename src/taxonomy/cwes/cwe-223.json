@@ -1,0 +1,16 @@
+{
+  "id": "CWE-223",
+  "name": "Omission of Security-relevant Information",
+  "status": "filled",
+  "description": "The product fails to record or display information that would be important for identifying the source or nature of an attack, or for determining if an action is safe. Missing security-relevant log data allows attacks to continue undetected.",
+  "severity": "medium",
+  "category": "logging",
+  "detection_pattern": "Look for AUTH or CONTROL nodes (authentication attempts, authorization decisions, security-critical operations) that lack a flow to STORAGE nodes (log entries). The absence of logging for security-relevant events means there is no audit trail for forensic analysis or real-time alerting.",
+  "graph_query": "AUTH|CONTROL(security_operation)→EGRESS without STORAGE(security_log)",
+  "owasp_top10": "A09:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-221", "CWE-778", "CWE-222"],
+  "references": ["https://cwe.mitre.org/data/definitions/223.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

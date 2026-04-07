@@ -1,0 +1,16 @@
+{
+  "id": "CWE-122",
+  "name": "Heap-based Buffer Overflow",
+  "status": "filled",
+  "description": "A buffer allocated on the heap (via malloc, calloc, new) is written beyond its intended boundaries, corrupting adjacent heap metadata or data structures, enabling attackers to achieve arbitrary code execution or denial of service.",
+  "severity": "critical",
+  "category": "memory",
+  "detection_pattern": "INGRESS or TRANSFORM node writes data to a STORAGE[heap_buffer] (dynamically allocated memory) without a CONTROL[bounds_check] that ensures write length does not exceed the allocated size, potentially corrupting heap management structures",
+  "graph_query": "INGRESS→TRANSFORM[write]→STORAGE[heap_buffer] without CONTROL[bounds_check]",
+  "owasp_top10": null,
+  "sans_top25": true,
+  "related_cwes": ["CWE-787", "CWE-788", "CWE-120"],
+  "references": ["https://cwe.mitre.org/data/definitions/122.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-429",
+  "name": "Handler Errors",
+  "status": "needs_review",
+  "description": "Category-level CWE covering weaknesses related to improper management of handlers. Vulnerability mapping is prohibited.",
+  "severity": "low",
+  "category": "error_handling",
+  "detection_pattern": "N/A — category CWE, not a concrete weakness",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-430", "CWE-431", "CWE-434"],
+  "references": ["https://cwe.mitre.org/data/definitions/429.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:30:00Z"
+}

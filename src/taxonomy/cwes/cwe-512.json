@@ -1,0 +1,16 @@
+{
+  "id": "CWE-512",
+  "name": "Spyware",
+  "status": "filled",
+  "description": "Software that collects personally identifiable information about users or their activities through other resources without explicit approval, exfiltrating data users did not knowingly authorize for collection.",
+  "severity": "high",
+  "category": "data_protection",
+  "detection_pattern": "TRANSFORM node collects personal data from STORAGE or EXTERNAL resources and sends it via EGRESS to unauthorized EXTERNAL destination without META node providing user notice or consent mechanism",
+  "graph_query": "STORAGE(personal_data)→TRANSFORM(collection)→EGRESS(exfiltration) without META(user_consent)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-506"],
+  "references": ["https://cwe.mitre.org/data/definitions/512.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:05:00Z"
+}

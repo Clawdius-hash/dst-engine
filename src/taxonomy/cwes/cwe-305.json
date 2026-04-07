@@ -1,0 +1,16 @@
+{
+  "id": "CWE-305",
+  "name": "Authentication Bypass by Primary Weakness",
+  "status": "filled",
+  "description": "The authentication algorithm itself is sound, but it can be bypassed due to a separate, primary weakness elsewhere in the system. The authentication failure is resultant — caused by another flaw such as a logic error, race condition, or input handling bug that allows the authentication check to be circumvented.",
+  "severity": "high",
+  "category": "authentication",
+  "detection_pattern": "Look for AUTH nodes (authentication gate, access control check) that can be reached via an alternate CONTROL flow path (logic bypass, race condition, error handling flaw) that skips the AUTH node entirely, without a STRUCTURAL mediator (defense-in-depth, redundant auth check, fail-secure default) that ensures authentication cannot be bypassed even when a separate weakness is exploited.",
+  "graph_query": "INGRESS(request)→CONTROL(primary_weakness)→STORAGE(protected_resource) without AUTH(authentication_check)",
+  "owasp_top10": "A07:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-1390"],
+  "references": ["https://cwe.mitre.org/data/definitions/305.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

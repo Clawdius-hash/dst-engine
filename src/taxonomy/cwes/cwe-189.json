@@ -1,0 +1,16 @@
+{
+  "id": "CWE-189",
+  "name": "Category: Numeric Errors",
+  "status": "needs_review",
+  "description": "This is a CWE Category (not a weakness). It groups weaknesses related to improper calculation or conversion of numbers. Member weaknesses include CWE-190 (Integer Overflow), CWE-191 (Integer Underflow), CWE-193 (Off-by-one), CWE-369 (Divide By Zero), and others.",
+  "severity": "low",
+  "category": "input_output",
+  "detection_pattern": "N/A — category",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-190", "CWE-191", "CWE-193", "CWE-369", "CWE-681"],
+  "references": ["https://cwe.mitre.org/data/definitions/189.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

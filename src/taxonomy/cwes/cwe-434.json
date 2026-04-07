@@ -1,0 +1,18 @@
+{
+  "id": "CWE-434",
+  "name": "Unrestricted Upload of File with Dangerous Type",
+  "status": "implemented",
+  "description": "The product allows the upload of files with dangerous types (e.g., .php, .asp, .jsp) that can be automatically processed within the product's environment, enabling attackers to upload and execute arbitrary code on the server.",
+  "severity": "critical",
+  "category": "file_handling",
+  "detection_pattern": "INGRESS[file_upload] node accepts uploaded files that flow to STORAGE[web_accessible] without passing through a CONTROL node that validates file type via allowlist (content-type inspection, magic bytes, extension check) and ensures the file is stored outside executable directories",
+  "graph_query": "INGRESS[file_upload]→STORAGE[web_accessible] without CONTROL[file_type_validation]",
+  "owasp_top10": "A04:2021",
+  "sans_top25": true,
+  "related_cwes": ["CWE-669", "CWE-351", "CWE-430", "CWE-436", "CWE-646", "CWE-73"],
+  "references": ["https://cwe.mitre.org/data/definitions/434.html"],
+  "implemented_in": ["verifier.ts"],
+  "verified_at": "2026-03-23T00:00:00Z",
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

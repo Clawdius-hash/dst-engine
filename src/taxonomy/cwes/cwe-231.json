@@ -1,0 +1,16 @@
+{
+  "id": "CWE-231",
+  "name": "Improper Handling of Extra Values",
+  "status": "filled",
+  "description": "The product does not handle or incorrectly handles when more values are provided than expected for a parameter, field, or argument. Excess values can lead to buffer overflows, unexpected state changes, or logic bypasses.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "Look for INGRESS nodes (user input, API parameters) flowing to TRANSFORM or STORAGE nodes (buffer copy, data processing) without a CONTROL mediator (value count validation, bounds check) that enforces the expected number of values and rejects or truncates excess input safely.",
+  "graph_query": "INGRESS(excess_values)→TRANSFORM(processing) without CONTROL(count_validation)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-229", "CWE-120", "CWE-228"],
+  "references": ["https://cwe.mitre.org/data/definitions/231.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-451",
+  "name": "User Interface (UI) Misrepresentation of Critical Information",
+  "status": "filled",
+  "description": "The user interface does not properly represent critical information to the user, allowing it to be obscured or spoofed. This enables attacks such as phishing where visual indicators (lock icons, URLs, filenames) are manipulated to deceive users about the true state of the system.",
+  "severity": "high",
+  "category": "input_output",
+  "detection_pattern": "EGRESS node (UI display) renders critical security information (URLs, certificates, file names) from an EXTERNAL or INGRESS source without a TRANSFORM node that validates or canonicalizes the display representation. Look for missing CONTROL nodes that enforce visual integrity of security indicators against spoofing or overlay attacks.",
+  "graph_query": "EXTERNAL(content_source)→EGRESS(ui_display) without TRANSFORM(display_validation)",
+  "owasp_top10": "A04:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-221", "CWE-684", "CWE-1007", "CWE-1021", "CWE-346"],
+  "references": ["https://cwe.mitre.org/data/definitions/451.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

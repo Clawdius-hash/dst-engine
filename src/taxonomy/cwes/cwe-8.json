@@ -1,0 +1,16 @@
+{
+  "id": "CWE-8",
+  "name": "J2EE Misconfiguration: Entity Bean Declared Remote",
+  "status": "filled",
+  "description": "An entity bean in a J2EE application is declared with a remote interface, exposing its getter and setter methods to remote callers and creating an expanded attack surface for reading confidential data or modifying application state.",
+  "severity": "medium",
+  "category": "configuration",
+  "detection_pattern": "META[ejb_jar_config] node declares an entity bean with a remote interface tag, exposing STORAGE[entity_bean] getter/setter methods via EGRESS[remote_interface] without a CONTROL[access_restriction] limiting the bean to local-only access",
+  "graph_query": "META[ejb_config]→EGRESS[remote_interface]→STORAGE[entity_bean] without CONTROL[local_only]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-668"],
+  "references": ["https://cwe.mitre.org/data/definitions/8.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

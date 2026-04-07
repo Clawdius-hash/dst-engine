@@ -1,0 +1,16 @@
+{
+  "id": "CWE-154",
+  "name": "Improper Neutralization of Variable Name Delimiters",
+  "status": "filled",
+  "description": "The product does not properly neutralize characters that delimit variable names (e.g., ${}, %%, @@) in user input, allowing attackers to inject variable references that the downstream component expands to reveal sensitive values or alter execution.",
+  "severity": "high",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides user-controlled data containing variable name delimiter characters that flows to EXTERNAL[template_engine|shell] without a TRANSFORM[variable_delimiter_escape] that neutralizes the delimiters before the data reaches the variable expansion engine",
+  "graph_query": "INGRESS[variable_delimiters]→EXTERNAL[template|shell] without TRANSFORM[variable_delimiter_escape]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-138"],
+  "references": ["https://cwe.mitre.org/data/definitions/154.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

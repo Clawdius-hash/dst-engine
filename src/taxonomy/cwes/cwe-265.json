@@ -1,0 +1,16 @@
+{
+  "id": "CWE-265",
+  "name": "Category: Privilege Issues",
+  "status": "needs_review",
+  "description": "This is a category (not a specific weakness) that groups weaknesses related to improper handling, assignment, or management of privileges. Privileges grant agents the ability to perform actions that are ordinarily restricted. This entry should not be used for direct vulnerability mapping.",
+  "severity": "low",
+  "category": "authorization",
+  "detection_pattern": "N/A — category",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-250", "CWE-266", "CWE-269", "CWE-272"],
+  "references": ["https://cwe.mitre.org/data/definitions/265.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

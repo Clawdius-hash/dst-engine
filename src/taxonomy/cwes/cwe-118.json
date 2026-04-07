@@ -1,0 +1,16 @@
+{
+  "id": "CWE-118",
+  "name": "Incorrect Access of Indexable Resource ('Range Error')",
+  "status": "filled",
+  "description": "The product does not properly restrict index or pointer operations within the boundaries of an indexable resource (array, buffer, string), potentially allowing out-of-bounds reads or writes that corrupt memory or leak data.",
+  "severity": "high",
+  "category": "memory",
+  "detection_pattern": "INGRESS or TRANSFORM node provides an index or pointer value that is used to access a STORAGE[indexable_resource] (array, buffer, string) without a CONTROL[bounds_check] node that validates the index is within the valid range [0, length) before the access operation",
+  "graph_query": "TRANSFORM[index_value]→STORAGE[array|buffer] without CONTROL[bounds_check]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-664", "CWE-119", "CWE-125", "CWE-787"],
+  "references": ["https://cwe.mitre.org/data/definitions/118.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

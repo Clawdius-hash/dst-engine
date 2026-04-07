@@ -1,0 +1,16 @@
+{
+  "id": "CWE-909",
+  "name": "Missing Initialization of Resource",
+  "status": "filled",
+  "description": "The product does not initialize a critical resource before use, which can cause it to contain unpredictable or expired data, or be initialized to invalid defaults. This may lead to crashes, information disclosure, or undefined behavior when the resource is expected to have specific properties.",
+  "severity": "medium",
+  "category": "reliability",
+  "detection_pattern": "STORAGE or STRUCTURAL node representing a resource is accessed by a TRANSFORM or EGRESS node without a prior TRANSFORM[initialization] node that sets the resource to a known-good state",
+  "graph_query": "STORAGE→TRANSFORM|EGRESS without TRANSFORM[initialization]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-665", "CWE-456", "CWE-908", "CWE-1271"],
+  "references": ["https://cwe.mitre.org/data/definitions/909.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

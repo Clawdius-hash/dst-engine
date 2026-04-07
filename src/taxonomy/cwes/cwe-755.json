@@ -1,0 +1,16 @@
+{
+  "id": "CWE-755",
+  "name": "Improper Handling of Exceptional Conditions",
+  "status": "filled",
+  "description": "The product does not handle or incorrectly handles exceptional conditions including uncaught exceptions, undetected errors, and inadequate error responses, potentially leaving the system in an exploitable state.",
+  "severity": "medium",
+  "category": "error_handling",
+  "detection_pattern": "CONTROL node detects exceptional condition but TRANSFORM node does not properly handle it (missing cleanup, missing user notification, continuing on error path), leaving system in unexpected state",
+  "graph_query": "CONTROL(exception_detected)→TRANSFORM(improper_handling) without CONTROL(proper_recovery_or_termination)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-703", "CWE-209", "CWE-248", "CWE-390", "CWE-544"],
+  "references": ["https://cwe.mitre.org/data/definitions/755.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:10:00Z"
+}

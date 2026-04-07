@@ -1,0 +1,16 @@
+{
+  "id": "CWE-166",
+  "name": "Improper Handling of Missing Special Element",
+  "status": "filled",
+  "description": "The product expects a special element (delimiter, terminator, header field, required token) to be present in input but does not properly handle the case when it is absent, leading to undefined parsing behavior, buffer over-reads, or security bypasses.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "INGRESS node provides data missing an expected special element that flows to TRANSFORM[parser] which assumes the element is present, causing the parser to read beyond boundaries or misinterpret structure without a CONTROL[element_presence_check] validating the required element exists before parsing",
+  "graph_query": "INGRESS[missing_element]→TRANSFORM[parser] without CONTROL[element_presence_check]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-159", "CWE-228"],
+  "references": ["https://cwe.mitre.org/data/definitions/166.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-191",
+  "name": "Integer Underflow (Wrap or Wraparound)",
+  "status": "filled",
+  "description": "The product subtracts one value from another such that the result is less than the minimum allowable integer value, producing an incorrect result. For unsigned integers this wraps to a very large value; for signed integers it wraps to a large positive or unexpected negative value.",
+  "severity": "high",
+  "category": "memory",
+  "detection_pattern": "Look for INGRESS nodes providing numeric input that flows to TRANSFORM nodes performing subtraction without a CONTROL node that validates the result does not underflow before it reaches STORAGE or is used as a size/index. The missing mediator is underflow/bounds checking on subtraction results.",
+  "graph_query": "INGRESS→TRANSFORM(subtraction)→STORAGE|STRUCTURAL without CONTROL(underflow_check)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-682", "CWE-190", "CWE-128"],
+  "references": ["https://cwe.mitre.org/data/definitions/191.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

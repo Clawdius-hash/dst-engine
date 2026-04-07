@@ -1,0 +1,16 @@
+{
+  "id": "CWE-259",
+  "name": "Use of Hard-coded Password",
+  "status": "filled",
+  "description": "The product contains a hard-coded password used for inbound authentication or outbound communication with external components. Hard-coded passwords cannot be changed without patching, affect all installations identically, and are easily discoverable through reverse engineering.",
+  "severity": "critical",
+  "category": "authentication",
+  "detection_pattern": "Look for STRUCTURAL nodes (source code, compiled binaries) containing AUTH data (embedded password literals, credential constants) that flow to AUTH nodes (authentication checks, outbound connection setup) without a CONTROL mediator (external credential store, secrets manager, environment variable lookup) that provides the password from a configurable, non-embedded source.",
+  "graph_query": "STRUCTURAL(hardcoded_password)→AUTH(authentication) without CONTROL(external_credential_store)",
+  "owasp_top10": "A07:2021",
+  "sans_top25": true,
+  "related_cwes": ["CWE-798", "CWE-257", "CWE-321", "CWE-656"],
+  "references": ["https://cwe.mitre.org/data/definitions/259.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

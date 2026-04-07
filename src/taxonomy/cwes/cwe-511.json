@@ -1,0 +1,16 @@
+{
+  "id": "CWE-511",
+  "name": "Logic/Time Bomb",
+  "status": "filled",
+  "description": "Malicious code designed to disrupt legitimate product operation when specific time or logical conditions are met, potentially crashing the system, deleting critical data, or degrading response time.",
+  "severity": "critical",
+  "category": "reliability",
+  "detection_pattern": "STRUCTURAL node contains hidden CONTROL logic that checks time or condition trigger, then executes destructive TRANSFORM operations against STORAGE when conditions are met",
+  "graph_query": "CONTROL(time_or_condition_trigger)→TRANSFORM(destructive_action) without META(code_review_detection)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-506"],
+  "references": ["https://cwe.mitre.org/data/definitions/511.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:05:00Z"
+}

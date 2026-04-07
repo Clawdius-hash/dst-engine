@@ -1,0 +1,16 @@
+{
+  "id": "CWE-226",
+  "name": "Sensitive Information in Resource Not Removed Before Reuse",
+  "status": "filled",
+  "description": "The product releases a resource such as memory or a file for reuse without clearing the sensitive data it contains. When the resource is reallocated to another process or entity, the previous sensitive information remains accessible, leading to information disclosure.",
+  "severity": "high",
+  "category": "memory",
+  "detection_pattern": "Look for STORAGE nodes (memory buffers, heap allocations, temp files) that are released or deallocated and then flow to a new INGRESS or EXTERNAL node (reallocation, new process) without a TRANSFORM mediator (zeroization, memset, secure wipe) that clears the sensitive content before the resource is reused.",
+  "graph_query": "STORAGE(sensitive_buffer)→EXTERNAL(reuse) without TRANSFORM(zeroize)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-212", "CWE-459", "CWE-244", "CWE-1239"],
+  "references": ["https://cwe.mitre.org/data/definitions/226.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

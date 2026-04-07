@@ -1,0 +1,30 @@
+{
+  "id": "CWE-866",
+  "name": "Category: 2011 Top 25 - Porous Defenses",
+  "status": "needs_review",
+  "description": "This is a category from the 2011 CWE/SANS Top 25 grouping weaknesses related to porous defenses including missing authentication, broken crypto, hardcoded credentials, and missing authorization.",
+  "severity": "low",
+  "category": "authentication",
+  "detection_pattern": "N/A — category",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": true,
+  "related_cwes": [
+    "CWE-250",
+    "CWE-306",
+    "CWE-307",
+    "CWE-311",
+    "CWE-327",
+    "CWE-732",
+    "CWE-759",
+    "CWE-798",
+    "CWE-807",
+    "CWE-862",
+    "CWE-863"
+  ],
+  "references": [
+    "https://cwe.mitre.org/data/definitions/866.html"
+  ],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

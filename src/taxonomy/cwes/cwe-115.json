@@ -1,0 +1,16 @@
+{
+  "id": "CWE-115",
+  "name": "Misinterpretation of Input",
+  "status": "filled",
+  "description": "The product misinterprets input in a security-relevant way, processing data under incorrect assumptions about its format, encoding, or meaning, leading to unexpected and potentially exploitable behavior.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "INGRESS node provides data in one format or encoding that a TRANSFORM or CONTROL node interprets under a different assumption (e.g., treating binary as text, misreading length fields, confusing data types), causing a semantic mismatch that bypasses security logic",
+  "graph_query": "INGRESS[format_A]→TRANSFORM[interprets_as_format_B] without CONTROL[format_verification]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-436"],
+  "references": ["https://cwe.mitre.org/data/definitions/115.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

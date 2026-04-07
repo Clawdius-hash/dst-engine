@@ -1,0 +1,16 @@
+{
+  "id": "CWE-582",
+  "name": "Array Declared Public, Final, and Static",
+  "status": "filled",
+  "description": "An array is declared as public, final, and static. While the final modifier prevents reassignment of the array reference, it does not protect array contents from modification. Any code with access can alter the array elements, potentially compromising security-critical data.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "STRUCTURAL node representing a class field declared as public static final array. The STORAGE node for the array is publicly accessible without CONTROL or AUTH mediators protecting write access to its elements.",
+  "graph_query": "STORAGE[public_static_final_array]→EGRESS without AUTH[access_control]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-668"],
+  "references": ["https://cwe.mitre.org/data/definitions/582.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

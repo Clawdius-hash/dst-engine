@@ -1,0 +1,16 @@
+{
+  "id": "CWE-338",
+  "name": "Use of Cryptographically Weak Pseudo-Random Number Generator (PRNG)",
+  "status": "filled",
+  "description": "The product uses a Pseudo-Random Number Generator (PRNG) in a security context, but the PRNG's algorithm is not cryptographically strong. Functions like rand(), Math.random(), or Random.nextInt() produce statistically distributed but predictable output, allowing attackers to reconstruct sequences and compromise session IDs, tokens, or cryptographic keys.",
+  "severity": "high",
+  "category": "cryptography",
+  "detection_pattern": "Look for TRANSFORM[weak_prng] nodes using non-cryptographic random functions (rand, Math.random, random.randint, Random.nextInt) whose output flows into AUTH[session_id|token|nonce] or CONTROL[crypto_key|iv_generation] nodes in a security context. No EXTERNAL[csprng] or TRANSFORM[crypto_random] mediator replaces the weak source with a cryptographically secure alternative like SecureRandom, crypto.randomBytes, or /dev/urandom.",
+  "graph_query": "TRANSFORM[weak_prng]→AUTH|CONTROL[security_context] without EXTERNAL[csprng]",
+  "owasp_top10": "A02:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-330", "CWE-334", "CWE-335", "CWE-676"],
+  "references": ["https://cwe.mitre.org/data/definitions/338.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:20:00Z"
+}

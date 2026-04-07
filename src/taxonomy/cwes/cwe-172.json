@@ -1,0 +1,16 @@
+{
+  "id": "CWE-172",
+  "name": "Encoding Error",
+  "status": "filled",
+  "description": "The product does not properly encode or decode data, resulting in unexpected values that may bypass security checks, corrupt data, or enable injection attacks when the encoding mismatch causes different interpretation by upstream and downstream components.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "INGRESS or TRANSFORM node produces data in one encoding that is interpreted as a different encoding by a downstream TRANSFORM[parser] or EXTERNAL[interpreter], without a TRANSFORM[encoding_normalize] that converts to a canonical encoding before security-relevant processing",
+  "graph_query": "INGRESS[encoding_A]→TRANSFORM[interprets_encoding_B] without TRANSFORM[encoding_normalize]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-707", "CWE-173", "CWE-174", "CWE-175", "CWE-176", "CWE-177"],
+  "references": ["https://cwe.mitre.org/data/definitions/172.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

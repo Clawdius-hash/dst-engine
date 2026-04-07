@@ -1,0 +1,16 @@
+{
+  "id": "CWE-90",
+  "name": "Improper Neutralization of Special Elements used in an LDAP Query ('LDAP Injection')",
+  "status": "filled",
+  "description": "The product constructs LDAP queries using externally-influenced input without properly neutralizing special LDAP characters (parentheses, asterisks, backslashes), allowing attackers to modify query logic to bypass authentication or access unauthorized directory entries.",
+  "severity": "high",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides user-controlled data that is incorporated into an LDAP query string flowing to EXTERNAL[ldap_server] without a TRANSFORM[ldap_encoding] node that escapes LDAP-significant characters or uses parameterized LDAP query APIs",
+  "graph_query": "INGRESS→EXTERNAL[ldap_query] without TRANSFORM[ldap_encoding]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-943", "CWE-74"],
+  "references": ["https://cwe.mitre.org/data/definitions/90.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

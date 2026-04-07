@@ -1,0 +1,16 @@
+{
+  "id": "CWE-656",
+  "name": "Reliance on Security Through Obscurity",
+  "status": "filled",
+  "description": "The product uses a protection mechanism whose strength depends heavily on its obscurity, such that knowledge of its algorithms or key data is sufficient to defeat it. Reverse engineering or information disclosure can undermine such approaches.",
+  "severity": "medium",
+  "category": "configuration",
+  "detection_pattern": "CONTROL[security_mechanism] or AUTH node relies on hidden or obscured logic (hardcoded secrets, proprietary algorithms) without TRANSFORM[crypto] or AUTH[standard_mechanism] providing mathematically sound protection",
+  "graph_query": "CONTROL[obscured_mechanism]→STORAGE|EGRESS without TRANSFORM[crypto]|AUTH[standard_mechanism]",
+  "owasp_top10": "A04:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-657", "CWE-693", "CWE-603", "CWE-259", "CWE-321"],
+  "references": ["https://cwe.mitre.org/data/definitions/656.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:00:00Z"
+}

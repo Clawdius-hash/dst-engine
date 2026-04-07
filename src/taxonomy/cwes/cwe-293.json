@@ -1,0 +1,16 @@
+{
+  "id": "CWE-293",
+  "name": "Using Referer Field for Authentication",
+  "status": "filled",
+  "description": "The product uses the HTTP Referer header for authentication or authorization decisions. The Referer field is entirely client-controlled and can be easily spoofed by attackers, making it an unreliable mechanism for validating request authenticity.",
+  "severity": "high",
+  "category": "authentication",
+  "detection_pattern": "Look for AUTH nodes (authentication check, authorization decision, access control) that consume INGRESS metadata (HTTP Referer header, referrer field) without an AUTH mediator (server-side session validation, cryptographic token verification, proper credential check) that provides a non-spoofable authentication mechanism independent of client-supplied headers.",
+  "graph_query": "INGRESS(referer_header)→AUTH(auth_decision) without AUTH(server_side_credential_check)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-290"],
+  "references": ["https://cwe.mitre.org/data/definitions/293.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

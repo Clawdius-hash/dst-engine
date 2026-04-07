@@ -1,0 +1,16 @@
+{
+  "id": "CWE-579",
+  "name": "J2EE Bad Practices: Non-serializable Object Stored in Session",
+  "status": "filled",
+  "description": "The product stores a non-serializable object as an HttpSession attribute. In J2EE environments with multiple JVMs, session replication requires all session data to be serializable. Storing non-serializable objects breaks session failover and can cause reliability failures.",
+  "severity": "medium",
+  "category": "reliability",
+  "detection_pattern": "STORAGE node representing an HttpSession where a TRANSFORM stores an object that does not implement Serializable. Look for session setAttribute() calls where the value type lacks serialization capability.",
+  "graph_query": "TRANSFORM[object]→STORAGE[HttpSession] without STRUCTURAL[Serializable]",
+  "owasp_top10": "A04:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-573"],
+  "references": ["https://cwe.mitre.org/data/definitions/579.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-105",
+  "name": "Struts: Form Field Without Validator",
+  "status": "filled",
+  "description": "A Struts form field has no corresponding validation definition in the Struts Validator configuration, so user input for that field passes through unvalidated even when the framework is otherwise properly configured.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "META[struts_validation_config] lacks a validation rule for a form field defined in STRUCTURAL[form_bean], so INGRESS[form_field_data] for that field bypasses CONTROL[struts_validator] and flows directly to TRANSFORM or STORAGE without validation",
+  "graph_query": "INGRESS[unvalidated_field]→TRANSFORM|STORAGE without CONTROL[field_validation_rule]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-1173", "CWE-20"],
+  "references": ["https://cwe.mitre.org/data/definitions/105.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

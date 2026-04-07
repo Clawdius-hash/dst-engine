@@ -1,0 +1,16 @@
+{
+  "id": "CWE-926",
+  "name": "Improper Export of Android Application Components",
+  "status": "filled",
+  "description": "An Android application exports components (activities, services, content providers, broadcast receivers) without properly restricting which other applications can access them. Malicious apps can launch exported activities, bind to services, or query content providers to gain access to sensitive information or modify internal state.",
+  "severity": "high",
+  "category": "authorization",
+  "detection_pattern": "STRUCTURAL[android_component] is marked as exported (android:exported=true or has intent-filter) without an AUTH[permission] node requiring a custom permission or signature-level protection to restrict access from EXTERNAL[other_app] nodes",
+  "graph_query": "STRUCTURAL[exported_component]→INGRESS without AUTH[permission]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-285"],
+  "references": ["https://cwe.mitre.org/data/definitions/926.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

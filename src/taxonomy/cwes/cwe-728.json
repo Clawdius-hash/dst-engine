@@ -1,0 +1,16 @@
+{
+  "id": "CWE-728",
+  "name": "Category: OWASP Top Ten 2004 Category A7 - Improper Error Handling",
+  "status": "needs_review",
+  "description": "This is a category grouping weaknesses related to the A7 category in the OWASP Top Ten 2004, covering improper error handling including error messages containing sensitive information, unchecked return values, detection of error conditions without action, and failure to fail securely. Categories are informal organizational groupings and are prohibited for vulnerability mapping since 2019.",
+  "severity": "low",
+  "category": "error_handling",
+  "detection_pattern": "N/A — category, not a weakness",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-711", "CWE-7", "CWE-203", "CWE-209", "CWE-228", "CWE-252", "CWE-389", "CWE-390", "CWE-391", "CWE-394", "CWE-636"],
+  "references": ["https://cwe.mitre.org/data/definitions/728.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:15:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-208",
+  "name": "Observable Timing Discrepancy",
+  "status": "filled",
+  "description": "Two separate operations require different amounts of time to complete in a way that is observable and reveals security-relevant information. Attackers exploit timing variations to infer internal state, particularly in cryptographic operations where timing differences can reveal properties of private keys.",
+  "severity": "medium",
+  "category": "cryptography",
+  "detection_pattern": "Look for AUTH or CONTROL nodes (password comparison, cryptographic operation, token validation) where execution time varies based on input or internal state, flowing to EGRESS nodes (response) without a TRANSFORM node (constant-time comparison/operation) ensuring uniform execution time regardless of input values or match position.",
+  "graph_query": "AUTH|CONTROL(variable_time_operation)→EGRESS(timed_response) without TRANSFORM(constant_time_operation)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-203", "CWE-1254", "CWE-327", "CWE-385"],
+  "references": ["https://cwe.mitre.org/data/definitions/208.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

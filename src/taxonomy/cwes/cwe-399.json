@@ -1,0 +1,16 @@
+{
+  "id": "CWE-399",
+  "name": "Resource Management Errors",
+  "status": "needs_review",
+  "description": "Category-level CWE covering improper management of system resources. Vulnerability mapping is prohibited — use specific descendants like CWE-400 instead.",
+  "severity": "low",
+  "category": "reliability",
+  "detection_pattern": "N/A — category CWE, not a concrete weakness",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-400", "CWE-770", "CWE-772"],
+  "references": ["https://cwe.mitre.org/data/definitions/399.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:22:00Z"
+}

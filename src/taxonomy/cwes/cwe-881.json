@@ -1,0 +1,11 @@
+{
+  "id": "CWE-881",
+  "name": "CERT C++ Secure Coding Section 13 - Object Oriented Programming (OOP)",
+  "status": "needs_review",
+  "description": "Category: Organizational grouping of weaknesses related to object-oriented programming from the CERT C++ Secure Coding Standard. Not a weakness itself.",
+  "category_type": "category",
+  "related_cwes": ["CWE-868"],
+  "references": ["https://cwe.mitre.org/data/definitions/881.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

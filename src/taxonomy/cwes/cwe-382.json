@@ -1,0 +1,16 @@
+{
+  "id": "CWE-382",
+  "name": "J2EE Bad Practices: Use of System.exit()",
+  "status": "filled",
+  "description": "A J2EE application calls System.exit(), which terminates the entire application container. This provides an avenue for denial of service attacks since web applications should never call methods that shut down the virtual machine.",
+  "severity": "medium",
+  "category": "reliability",
+  "detection_pattern": "TRANSFORM node in web application context invokes System.exit() or Runtime.halt(), creating a path from INGRESS to application termination without CONTROL node preventing container shutdown",
+  "graph_query": "INGRESS→TRANSFORM(system_exit) without CONTROL(exit_prevention)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-705"],
+  "references": ["https://cwe.mitre.org/data/definitions/382.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:05:00Z"
+}

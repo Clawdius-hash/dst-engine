@@ -1,0 +1,16 @@
+{
+  "id": "CWE-59",
+  "name": "Improper Link Resolution Before File Access ('Link Following')",
+  "status": "filled",
+  "description": "The product attempts to access a file based on its filename, but does not properly prevent that filename from being a symbolic link, hard link, or shortcut that resolves to an unintended resource outside the intended directory or access scope.",
+  "severity": "high",
+  "category": "file_handling",
+  "detection_pattern": "INGRESS or TRANSFORM node provides a filename that could be a symlink, hardlink, or junction point, which flows to STORAGE[file_access] performing open/read/write/delete without a CONTROL node that checks whether the resolved target is within the intended directory (lstat before open, O_NOFOLLOW, realpath validation)",
+  "graph_query": "INGRESS[filename]→STORAGE[file_access] without CONTROL[link_resolution_check|O_NOFOLLOW]",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-706", "CWE-61", "CWE-62", "CWE-64", "CWE-65"],
+  "references": ["https://cwe.mitre.org/data/definitions/59.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

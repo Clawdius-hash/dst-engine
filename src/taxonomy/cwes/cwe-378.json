@@ -1,0 +1,16 @@
+{
+  "id": "CWE-378",
+  "name": "Creation of Temporary File With Insecure Permissions",
+  "status": "filled",
+  "description": "The product creates temporary files with overly permissive access controls (e.g., world-readable/writable), allowing unauthorized users to read sensitive data, modify file contents, or escalate privileges.",
+  "severity": "high",
+  "category": "file_handling",
+  "detection_pattern": "TRANSFORM node creates temporary file in STORAGE using unsafe functions (tmpnam, tempnam, mktemp) without CONTROL node enforcing restrictive file permissions (0600) on the created file",
+  "graph_query": "TRANSFORM(temp_file_create)→STORAGE(insecure_permissions) without CONTROL(restrictive_permissions)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-377"],
+  "references": ["https://cwe.mitre.org/data/definitions/378.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:00:00Z"
+}

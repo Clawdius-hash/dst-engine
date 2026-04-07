@@ -1,0 +1,16 @@
+{
+  "id": "CWE-69",
+  "name": "Improper Handling of Windows ::DATA Alternate Data Stream",
+  "status": "filled",
+  "description": "The product does not properly prevent access to or detect usage of NTFS Alternate Data Streams (ADS), allowing attackers to hide malicious data within files or bypass access restrictions by appending '::$DATA' or other stream identifiers to filenames.",
+  "severity": "medium",
+  "category": "file_handling",
+  "detection_pattern": "INGRESS node provides a filename containing '::$DATA' or other ADS stream syntax that flows to STORAGE[file_access] without a CONTROL node that strips or rejects alternate data stream identifiers before file operations",
+  "graph_query": "INGRESS[path '::$DATA']→STORAGE[file_access] without CONTROL[reject_ads_streams]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-66"],
+  "references": ["https://cwe.mitre.org/data/definitions/69.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

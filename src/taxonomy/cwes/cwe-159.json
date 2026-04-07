@@ -1,0 +1,16 @@
+{
+  "id": "CWE-159",
+  "name": "Improper Handling of Invalid Use of Special Elements",
+  "status": "filled",
+  "description": "The product does not properly handle cases where special elements are used in invalid, unexpected, or malformed ways in user input, leading to undefined behavior, crashes, or security bypasses in downstream processing.",
+  "severity": "medium",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides data with malformed, duplicated, misplaced, or incomplete special elements that flows to TRANSFORM[parser] without a CONTROL[special_element_validation] that rejects or sanitizes invalid usage patterns before the data is processed",
+  "graph_query": "INGRESS[invalid_special_elements]→TRANSFORM[parser] without CONTROL[special_element_validation]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-138"],
+  "references": ["https://cwe.mitre.org/data/definitions/159.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "CWE-732",
+  "name": "Incorrect Permission Assignment for Critical Resource",
+  "status": "implemented",
+  "description": "The product specifies permissions for a security-critical resource in a way that allows unintended actors to read or modify it, enabling unauthorized access to sensitive data or modification of critical configuration and executable files.",
+  "severity": "high",
+  "category": "authorization",
+  "detection_pattern": "STRUCTURAL or STORAGE node representing a critical resource (config file, credentials store, executable, database) is created or modified by a TRANSFORM node that sets overly permissive access controls (world-readable, public, 0777) without a CONTROL node enforcing least-privilege permission assignment",
+  "graph_query": "TRANSFORM[resource_create|chmod]→STORAGE[critical_resource] without CONTROL[least_privilege_permissions]",
+  "owasp_top10": "A01:2021",
+  "sans_top25": true,
+  "related_cwes": ["CWE-285", "CWE-668", "CWE-276", "CWE-277", "CWE-278", "CWE-279", "CWE-281", "CWE-766"],
+  "references": ["https://cwe.mitre.org/data/definitions/732.html"],
+  "implemented_in": ["verifier.ts"],
+  "verified_at": "2026-03-23T00:00:00Z",
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

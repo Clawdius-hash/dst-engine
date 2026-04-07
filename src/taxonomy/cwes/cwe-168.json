@@ -1,0 +1,16 @@
+{
+  "id": "CWE-168",
+  "name": "Improper Handling of Inconsistent Special Elements",
+  "status": "filled",
+  "description": "The product does not properly handle cases where special elements in input are inconsistent — such as unbalanced parentheses, mismatched quotes, or conflicting reserved words — leading to undefined parsing behavior or security bypasses.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "INGRESS node provides data with inconsistent special elements (unbalanced pairs, conflicting markers) that flows to TRANSFORM[parser] which does not validate structural consistency, causing undefined behavior without a CONTROL[consistency_check] rejecting malformed input",
+  "graph_query": "INGRESS[inconsistent_elements]→TRANSFORM[parser] without CONTROL[consistency_check]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-159", "CWE-228"],
+  "references": ["https://cwe.mitre.org/data/definitions/168.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

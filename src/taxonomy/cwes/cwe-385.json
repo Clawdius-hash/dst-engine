@@ -1,0 +1,16 @@
+{
+  "id": "CWE-385",
+  "name": "Covert Timing Channel",
+  "status": "filled",
+  "description": "The product conveys information by modulating system behavior over time, allowing external observers to infer protected data by monitoring operation timing, particularly in cryptographic operations where execution time varies based on internal state.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "TRANSFORM node (especially cryptographic) has variable execution time based on secret STORAGE data, observable at EGRESS timing, without CONTROL node enforcing constant-time operations",
+  "graph_query": "STORAGE(secret)→TRANSFORM(variable_time)→EGRESS(observable_timing) without CONTROL(constant_time)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-514", "CWE-208"],
+  "references": ["https://cwe.mitre.org/data/definitions/385.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:05:00Z"
+}

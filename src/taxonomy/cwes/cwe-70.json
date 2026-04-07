@@ -1,0 +1,16 @@
+{
+  "id": "CWE-70",
+  "name": "DEPRECATED: Mac Virtual File Problems",
+  "status": "needs_review",
+  "description": "Deprecated category for Mac virtual file issues. Not an actual weakness — mapping is prohibited. Use CWE-66 instead.",
+  "severity": "low",
+  "category": "file_handling",
+  "detection_pattern": "N/A — deprecated category, not a scannable weakness",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-66", "CWE-632"],
+  "references": ["https://cwe.mitre.org/data/definitions/70.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

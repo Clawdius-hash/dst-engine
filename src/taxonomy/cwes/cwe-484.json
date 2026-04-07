@@ -1,0 +1,16 @@
+{
+  "id": "CWE-484",
+  "name": "Omitted Break Statement in Switch",
+  "status": "filled",
+  "description": "The program omits a break statement within a switch case, causing execution to fall through to subsequent cases. This leads to unintended code execution where logic from multiple case branches runs when only one was intended.",
+  "severity": "medium",
+  "category": "reliability",
+  "detection_pattern": "CONTROL node (switch/case) where a case branch lacks a terminating break or return. Look for CONTROL(switch)→STRUCTURAL(case) paths that fall through to the next STRUCTURAL(case) without an explicit CONTROL(break).",
+  "graph_query": "CONTROL(switch)→STRUCTURAL(case)→STRUCTURAL(next_case) without CONTROL(break)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-670", "CWE-710"],
+  "references": ["https://cwe.mitre.org/data/definitions/484.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

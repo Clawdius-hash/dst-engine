@@ -1,0 +1,16 @@
+{
+  "id": "CWE-247",
+  "name": "DEPRECATED: Reliance on DNS Lookups in a Security Decision",
+  "status": "needs_review",
+  "description": "This entry has been deprecated because it was a duplicate of CWE-350 (Reliance on Reverse DNS Resolution for a Security-Critical Action). All content has been transferred to CWE-350. CWE-292 was also merged into CWE-350.",
+  "severity": "low",
+  "category": "authentication",
+  "detection_pattern": "N/A — deprecated",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-350", "CWE-292"],
+  "references": ["https://cwe.mitre.org/data/definitions/247.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

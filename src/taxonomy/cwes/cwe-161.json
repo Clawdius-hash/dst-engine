@@ -1,0 +1,16 @@
+{
+  "id": "CWE-161",
+  "name": "Improper Neutralization of Multiple Leading Special Elements",
+  "status": "filled",
+  "description": "The product does not properly handle multiple leading special characters in user input (e.g., '//' interpreted as UNC path, '--' as end-of-options), where the repetition changes the semantic meaning from a single instance.",
+  "severity": "medium",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides data with multiple consecutive leading special characters that flows to EXTERNAL[interpreter] or STORAGE[file_access] without a TRANSFORM[multiple_leading_strip] that normalizes or rejects repeated leading special elements",
+  "graph_query": "INGRESS[multiple_leading_special]→EXTERNAL|STORAGE without TRANSFORM[normalize_leading]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-160", "CWE-50"],
+  "references": ["https://cwe.mitre.org/data/definitions/161.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

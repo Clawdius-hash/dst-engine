@@ -1,0 +1,16 @@
+{
+  "id": "CWE-559",
+  "name": "DEPRECATED: Often Misused: Arguments and Parameters",
+  "status": "needs_review",
+  "description": "This entry has been deprecated. It was originally a category for organizing the Development View (CWE-699) but introduced unnecessary complexity. Its mapping status is PROHIBITED.",
+  "severity": "low",
+  "category": "api",
+  "detection_pattern": "N/A — deprecated",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-699"],
+  "references": ["https://cwe.mitre.org/data/definitions/559.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

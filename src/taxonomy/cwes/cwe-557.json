@@ -1,0 +1,16 @@
+{
+  "id": "CWE-557",
+  "name": "Category: Concurrency Issues",
+  "status": "needs_review",
+  "description": "This is a CWE category (not a weakness) that groups weaknesses related to concurrent use of shared resources. It contains members such as race conditions, missing synchronization, and context switching issues.",
+  "severity": "low",
+  "category": "concurrency",
+  "detection_pattern": "N/A — category",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-364", "CWE-366", "CWE-367", "CWE-368", "CWE-820", "CWE-821"],
+  "references": ["https://cwe.mitre.org/data/definitions/557.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

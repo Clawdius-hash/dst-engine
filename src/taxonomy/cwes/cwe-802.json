@@ -1,0 +1,16 @@
+{
+  "id": "CWE-802",
+  "name": "Category: 2010 Top 25 - Risky Resource Management",
+  "status": "needs_review",
+  "description": "This is a Category grouping weaknesses from the 'Risky Resource Management' section of the 2010 CWE/SANS Top 25. Includes CWE-22, CWE-98, CWE-120, CWE-129, CWE-131, CWE-190, CWE-494, CWE-754, CWE-770, CWE-805. Prohibited for vulnerability mapping.",
+  "severity": "low",
+  "category": "reliability",
+  "detection_pattern": "N/A — category, not a weakness",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-800", "CWE-22", "CWE-120", "CWE-190", "CWE-770"],
+  "references": ["https://cwe.mitre.org/data/definitions/802.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-77",
+  "name": "Improper Neutralization of Special Elements used in a Command ('Command Injection')",
+  "status": "filled",
+  "description": "The product constructs all or part of a command using externally-influenced input without properly neutralizing special elements that could modify the intended command when it is sent to a downstream component for execution.",
+  "severity": "critical",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides user-controlled data that is incorporated into a command string flowing to an EXTERNAL[command_execution] node (system, exec, popen, Runtime.exec, subprocess) without a TRANSFORM[command_neutralization] node that parameterizes the command or escapes command-significant special elements",
+  "graph_query": "INGRESS→EXTERNAL[command_exec] without TRANSFORM[command_neutralization|parameterization]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": true,
+  "related_cwes": ["CWE-74", "CWE-78", "CWE-88"],
+  "references": ["https://cwe.mitre.org/data/definitions/77.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

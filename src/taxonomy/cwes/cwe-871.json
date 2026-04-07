@@ -1,0 +1,11 @@
+{
+  "id": "CWE-871",
+  "name": "CERT C++ Secure Coding Section 03 - Expressions (EXP)",
+  "status": "needs_review",
+  "description": "Category: Organizational grouping of weaknesses related to the Expressions (EXP) section of the CERT C++ Secure Coding Standard. Not a weakness itself.",
+  "category_type": "category",
+  "related_cwes": ["CWE-868", "CWE-476", "CWE-480", "CWE-768"],
+  "references": ["https://cwe.mitre.org/data/definitions/871.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

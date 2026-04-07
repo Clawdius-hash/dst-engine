@@ -1,0 +1,16 @@
+{
+  "id": "CWE-524",
+  "name": "Use of Cache Containing Sensitive Information",
+  "status": "filled",
+  "description": "The product uses a cache that stores sensitive information but the cache is accessible to actors outside the intended control sphere, potentially exposing passwords, financial data, or other protected resources.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "STORAGE(cache) contains sensitive data from TRANSFORM operations but is readable by unauthorized EXTERNAL actors without CONTROL node enforcing cache access restrictions or encryption",
+  "graph_query": "TRANSFORM(cache_write)→STORAGE(accessible_cache) without CONTROL(cache_access_restriction)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-668", "CWE-525"],
+  "references": ["https://cwe.mitre.org/data/definitions/524.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:20:00Z"
+}

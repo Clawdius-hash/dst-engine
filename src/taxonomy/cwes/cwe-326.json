@@ -1,0 +1,16 @@
+{
+  "id": "CWE-326",
+  "name": "Inadequate Encryption Strength",
+  "status": "filled",
+  "description": "The product stores or transmits sensitive data using an encryption scheme that is theoretically sound but not strong enough for the required level of protection. The encryption can be broken by brute force with reasonable effort using current computational resources.",
+  "severity": "high",
+  "category": "cryptography",
+  "detection_pattern": "Look for TRANSFORM nodes (encryption, key derivation) that use weak parameters (short key length, insufficient rounds, deprecated cipher suite) on sensitive data flowing from INGRESS or STORAGE nodes, without a CONTROL mediator (minimum key length enforcement, cipher strength validation, security policy check) that ensures the cryptographic strength meets current standards.",
+  "graph_query": "INGRESS(sensitive_data)→TRANSFORM(weak_encryption)→EGRESS(ciphertext) without CONTROL(strength_validation)",
+  "owasp_top10": "A02:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-693", "CWE-328", "CWE-327"],
+  "references": ["https://cwe.mitre.org/data/definitions/326.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-447",
+  "name": "Unimplemented or Unsupported Feature in UI",
+  "status": "filled",
+  "description": "A UI function for a security feature appears to be supported and gives feedback suggesting it is active, but the underlying functionality is not actually implemented. Users believe a security control is protecting them when no such protection exists.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "EGRESS node (UI element) presents a security feature toggle or indicator, but no corresponding CONTROL or AUTH node exists in the backend to enforce the feature. The STRUCTURAL UI component references a security capability that has no implementation path in the graph.",
+  "graph_query": "EGRESS(ui_security_indicator)→CONTROL(enforcement) without STRUCTURAL(implementation)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-446", "CWE-671"],
+  "references": ["https://cwe.mitre.org/data/definitions/447.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

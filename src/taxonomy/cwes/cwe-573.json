@@ -1,0 +1,16 @@
+{
+  "id": "CWE-573",
+  "name": "Improper Following of Specification by Caller",
+  "status": "filled",
+  "description": "The product does not follow the required specifications when calling external functionality such as APIs, frameworks, or protocols. This can lead to undefined behavior, security bypasses, or reliability failures when the caller violates the contract expected by the callee.",
+  "severity": "medium",
+  "category": "api",
+  "detection_pattern": "EXTERNAL call node where the invocation parameters, sequence, or preconditions do not match the specification of the target API. Look for EXTERNAL nodes calling framework or library functions without proper CONTROL flow ensuring specification compliance.",
+  "graph_query": "EXTERNAL[api_call]→EGRESS without CONTROL[spec_validation]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-710", "CWE-253", "CWE-296", "CWE-304", "CWE-325", "CWE-475", "CWE-628"],
+  "references": ["https://cwe.mitre.org/data/definitions/573.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

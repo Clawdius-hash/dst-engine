@@ -1,0 +1,16 @@
+{
+  "id": "CWE-444",
+  "name": "Inconsistent Interpretation of HTTP Requests ('HTTP Request/Response Smuggling')",
+  "status": "filled",
+  "description": "The product acts as an intermediary HTTP agent (such as a proxy or firewall) but interprets malformed HTTP requests differently from how destination entities process them, allowing attackers to smuggle hidden requests past security controls by exploiting discrepancies in header parsing (e.g., duplicate Transfer-Encoding or Content-Length headers).",
+  "severity": "high",
+  "category": "input_output",
+  "detection_pattern": "INGRESS node receives HTTP request that passes through an EXTERNAL intermediary (proxy/firewall) before reaching a second EGRESS or STRUCTURAL endpoint. Look for absence of a TRANSFORM node that normalizes or canonicalizes HTTP headers between the intermediary and the backend, allowing inconsistent interpretation of request boundaries.",
+  "graph_query": "INGRESS→EXTERNAL(proxy)→EGRESS(backend) without TRANSFORM(header_normalization)",
+  "owasp_top10": "A04:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-436", "CWE-438"],
+  "references": ["https://cwe.mitre.org/data/definitions/444.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

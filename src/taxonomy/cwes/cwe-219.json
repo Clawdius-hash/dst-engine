@@ -1,0 +1,16 @@
+{
+  "id": "CWE-219",
+  "name": "Storage of File with Sensitive Data Under Web Root",
+  "status": "filled",
+  "description": "The product stores sensitive data (configuration files, database exports, credentials) under the web document root with insufficient access control, making it directly accessible to untrusted parties via HTTP requests.",
+  "severity": "high",
+  "category": "file_handling",
+  "detection_pattern": "Look for STORAGE nodes (file write operations) placing sensitive data in paths under an EXTERNAL node (web root directory, public_html, wwwroot) without an AUTH node (access control rules, .htaccess deny, web server config restriction) that prevents direct HTTP access to the sensitive file.",
+  "graph_query": "STORAGE(sensitive_file)→EXTERNAL(web_root) without AUTH(access_restriction)",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-552", "CWE-220", "CWE-433"],
+  "references": ["https://cwe.mitre.org/data/definitions/219.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-213",
+  "name": "Exposure of Sensitive Information Due to Incompatible Policies",
+  "status": "filled",
+  "description": "The product exposes information that the developer's security policy considers acceptable, but that other stakeholders (administrators, users, regulators) consider sensitive. The root cause is a mismatch between different parties' expectations of what data should be protected.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "Look for STORAGE or STRUCTURAL nodes containing user/stakeholder data flowing to EGRESS nodes (public endpoints, shared logs, exported data) where the AUTH or CONTROL nodes enforce a policy that is less restrictive than what the data's sensitivity level requires. The missing mediator is a META node (policy alignment check) that reconciles different stakeholder sensitivity expectations.",
+  "graph_query": "STORAGE(stakeholder_data)→EGRESS(public) without META(policy_alignment)",
+  "owasp_top10": "A04:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-200", "CWE-199"],
+  "references": ["https://cwe.mitre.org/data/definitions/213.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

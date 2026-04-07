@@ -1,0 +1,16 @@
+{
+  "id": "CWE-148",
+  "name": "Improper Neutralization of Input Leaders",
+  "status": "filled",
+  "description": "The product does not properly handle leading special characters or sequences in input (e.g., BOM markers, protocol prefixes, comment indicators), allowing attackers to inject, duplicate, or omit leaders to alter how the input is parsed by downstream components.",
+  "severity": "medium",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides data with manipulated leading characters or sequences that flows to TRANSFORM[parser] without a CONTROL[leader_validation] that ensures exactly the expected leader sequence is present and properly formed before parsing proceeds",
+  "graph_query": "INGRESS[malformed_leader]→TRANSFORM[parser] without CONTROL[leader_validation]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-138"],
+  "references": ["https://cwe.mitre.org/data/definitions/148.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

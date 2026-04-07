@@ -1,0 +1,16 @@
+{
+  "id": "CWE-304",
+  "name": "Missing Critical Step in Authentication",
+  "status": "filled",
+  "description": "The product implements an authentication technique but omits a critical step required by the algorithm, such as skipping signature verification, omitting nonce validation, or not checking certificate revocation. This weakens or entirely bypasses the authentication mechanism.",
+  "severity": "high",
+  "category": "authentication",
+  "detection_pattern": "Look for AUTH nodes (authentication flow implementation) where the sequence of CONTROL nodes (verification steps) is incomplete — a required step in the authentication algorithm is missing. The flow goes from INGRESS (credentials) to AUTH (access granted) without all required CONTROL mediators (each verification step in the algorithm: e.g., nonce check, signature verify, certificate validate).",
+  "graph_query": "INGRESS(credentials)→AUTH(access_granted) without CONTROL(critical_auth_step)",
+  "owasp_top10": "A07:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-303", "CWE-573", "CWE-287"],
+  "references": ["https://cwe.mitre.org/data/definitions/304.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

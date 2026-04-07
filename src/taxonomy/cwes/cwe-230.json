@@ -1,0 +1,16 @@
+{
+  "id": "CWE-230",
+  "name": "Improper Handling of Missing Values",
+  "status": "filled",
+  "description": "The product does not handle or incorrectly handles when a parameter, field, or argument name is specified but the associated value is missing, empty, blank, or null. This can cause null pointer dereferences, crashes, or unexpected application states.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "Look for INGRESS nodes (parameters, form fields, API arguments) where the value may be empty or null flowing to TRANSFORM or CONTROL nodes (string operations, business logic) without a CONTROL mediator (null check, empty value validation) that verifies the value is present and non-empty before use.",
+  "graph_query": "INGRESS(nullable_param)→TRANSFORM(processing) without CONTROL(null_check)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-229", "CWE-228", "CWE-476"],
+  "references": ["https://cwe.mitre.org/data/definitions/230.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

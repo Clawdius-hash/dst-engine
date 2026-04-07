@@ -1,0 +1,16 @@
+{
+  "id": "CWE-39",
+  "name": "Path Traversal: 'C:dirname'",
+  "status": "filled",
+  "description": "The product does not properly neutralize Windows drive letter paths ('C:dirname') in user-supplied input, allowing attackers to specify files on arbitrary drives and bypass intended directory restrictions.",
+  "severity": "high",
+  "category": "file_handling",
+  "detection_pattern": "INGRESS node provides a path containing a drive letter pattern ('X:') that flows to STORAGE[file_access] without a CONTROL node that rejects drive-letter prefixed paths or enforces relative-path-only access within a restricted base directory",
+  "graph_query": "INGRESS[path 'C:']→STORAGE[file_access] without CONTROL[reject_drive_letter]",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-36", "CWE-22"],
+  "references": ["https://cwe.mitre.org/data/definitions/39.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

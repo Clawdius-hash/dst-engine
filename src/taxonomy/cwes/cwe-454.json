@@ -1,0 +1,16 @@
+{
+  "id": "CWE-454",
+  "name": "External Initialization of Trusted Variables or Data Stores",
+  "status": "filled",
+  "description": "The product initializes critical internal variables or data stores using inputs that can be modified by untrusted actors. An attacker could manipulate these externally-sourced values to influence system behavior, potentially modifying sensitive application data.",
+  "severity": "high",
+  "category": "input_output",
+  "detection_pattern": "INGRESS or EXTERNAL node provides input that flows directly into a STORAGE node (trusted variable or data store) without passing through a TRANSFORM node that sanitizes or validates the input, and without an AUTH or CONTROL node that restricts who can set the initial values.",
+  "graph_query": "INGRESS(external_input)→STORAGE(trusted_variable) without TRANSFORM(validation)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-1419", "CWE-456", "CWE-452"],
+  "references": ["https://cwe.mitre.org/data/definitions/454.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

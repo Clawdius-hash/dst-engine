@@ -1,0 +1,16 @@
+{
+  "id": "CWE-775",
+  "name": "Missing Release of File Descriptor or Handle after Effective Lifetime",
+  "status": "filled",
+  "description": "The product fails to release file descriptors or handles after they are no longer needed, allowing attackers to deplete the available resource pool and prevent other processes from performing file operations.",
+  "severity": "medium",
+  "category": "file_handling",
+  "detection_pattern": "TRANSFORM node opens file descriptor from STORAGE but no CONTROL node releases it after the operation completes, causing descriptor leak over repeated invocations",
+  "graph_query": "TRANSFORM(open_fd)→STORAGE(held_fd) without CONTROL(fd_release_after_use)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-772", "CWE-404", "CWE-770"],
+  "references": ["https://cwe.mitre.org/data/definitions/775.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:25:00Z"
+}

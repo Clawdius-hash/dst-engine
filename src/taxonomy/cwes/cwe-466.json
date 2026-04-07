@@ -1,0 +1,16 @@
+{
+  "id": "CWE-466",
+  "name": "Return of Pointer Value Outside of Expected Range",
+  "status": "filled",
+  "description": "A function returns a pointer to memory that is outside the buffer the pointer is expected to reference. This can lead to reading or modifying memory outside intended boundaries, causing crashes or information disclosure.",
+  "severity": "high",
+  "category": "memory",
+  "detection_pattern": "A TRANSFORM node performing pointer arithmetic or buffer operations returns a pointer value to a calling TRANSFORM node without a CONTROL[bounds_check] mediator validating that the returned pointer falls within the expected memory buffer range.",
+  "graph_query": "TRANSFORM[pointer_return]→TRANSFORM[dereference] without CONTROL[bounds_check]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-119", "CWE-465", "CWE-20"],
+  "references": ["https://cwe.mitre.org/data/definitions/466.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

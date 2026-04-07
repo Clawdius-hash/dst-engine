@@ -1,0 +1,16 @@
+{
+  "id": "CWE-227",
+  "name": "Category: Improper Fulfillment of API Contract ('API Abuse')",
+  "status": "needs_review",
+  "description": "This is a category (not a weakness) that groups weaknesses related to software misusing an API contrary to its intended contract. Mapping to this CWE is prohibited since 2019. Specific child weaknesses include CWE-242, CWE-243, CWE-248, CWE-250, and CWE-252.",
+  "severity": "low",
+  "category": "api",
+  "detection_pattern": "N/A — category",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-242", "CWE-243", "CWE-248", "CWE-250", "CWE-252"],
+  "references": ["https://cwe.mitre.org/data/definitions/227.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

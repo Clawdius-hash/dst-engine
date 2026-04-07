@@ -1,0 +1,16 @@
+{
+  "id": "CWE-195",
+  "name": "Signed to Unsigned Conversion Error",
+  "status": "filled",
+  "description": "The product casts a signed primitive to an unsigned primitive, producing unexpected values when the signed value is negative. A negative error-return value converted to unsigned becomes a very large number, which can violate program assumptions and lead to buffer overflows when used for memory sizes or indices.",
+  "severity": "high",
+  "category": "memory",
+  "detection_pattern": "Look for TRANSFORM nodes where a signed integer (especially error return codes like -1) is cast to an unsigned type and then flows to STORAGE or STRUCTURAL nodes for buffer allocation or indexing, without a CONTROL node that checks for negative values before the signed-to-unsigned conversion.",
+  "graph_query": "TRANSFORM(signed_to_unsigned)→STORAGE|STRUCTURAL without CONTROL(sign_check)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-681", "CWE-839", "CWE-119", "CWE-194"],
+  "references": ["https://cwe.mitre.org/data/definitions/195.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

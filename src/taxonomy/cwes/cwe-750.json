@@ -1,0 +1,16 @@
+{
+  "id": "CWE-750",
+  "name": "View: 2009 CWE/SANS Top 25 Most Dangerous Programming Errors",
+  "status": "needs_review",
+  "description": "This is a View (not a weakness) that organizes the 2009 CWE/SANS Top 25 Most Dangerous Programming Errors into three categories: Insecure Interaction Between Components, Risky Resource Management, and Porous Defenses. Views are navigational frameworks and cannot be mapped to real-world vulnerabilities.",
+  "severity": "low",
+  "category": "configuration",
+  "detection_pattern": "N/A — view, not a weakness",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-751", "CWE-752", "CWE-753"],
+  "references": ["https://cwe.mitre.org/data/definitions/750.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:15:00Z"
+}

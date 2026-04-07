@@ -1,0 +1,18 @@
+{
+  "id": "CWE-319",
+  "name": "Cleartext Transmission of Sensitive Information",
+  "status": "implemented",
+  "description": "The product transmits sensitive data such as credentials, tokens, or encryption keys in cleartext across a communication channel that can be sniffed by unauthorized actors, enabling interception of the unprotected information.",
+  "severity": "high",
+  "category": "cryptography",
+  "detection_pattern": "Sensitive data flows from a TRANSFORM or STORAGE node to an EGRESS or EXTERNAL[network] node that transmits over an unencrypted channel (HTTP, plaintext protocol) without passing through a TRANSFORM[encryption] or EXTERNAL[tls] node that encrypts the transport",
+  "graph_query": "STORAGE|TRANSFORM[sensitive_data]→EGRESS[network] without TRANSFORM[encryption]|EXTERNAL[tls]",
+  "owasp_top10": "A02:2021",
+  "sans_top25": true,
+  "related_cwes": ["CWE-311", "CWE-5", "CWE-614", "CWE-1428", "CWE-294"],
+  "references": ["https://cwe.mitre.org/data/definitions/319.html"],
+  "implemented_in": ["verifier.ts"],
+  "verified_at": "2026-03-23T00:00:00Z",
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

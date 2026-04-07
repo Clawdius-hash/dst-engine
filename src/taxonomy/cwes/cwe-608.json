@@ -1,0 +1,16 @@
+{
+  "id": "CWE-608",
+  "name": "Struts: Non-private Field in ActionForm Class",
+  "status": "filled",
+  "description": "An ActionForm class contains a field without private declaration, allowing direct access and modification without using setter/getter methods, violating encapsulation and enabling unauthorized data modification.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "STRUCTURAL node (ActionForm class) exposes non-private field in STORAGE directly to EXTERNAL access without CONTROL node enforcing encapsulation through private access modifiers and accessor methods",
+  "graph_query": "EXTERNAL(direct_access)→STORAGE(non_private_field) without CONTROL(encapsulation_enforcement)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-668"],
+  "references": ["https://cwe.mitre.org/data/definitions/608.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:40:00Z"
+}

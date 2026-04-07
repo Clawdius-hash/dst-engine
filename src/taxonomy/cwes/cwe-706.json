@@ -1,0 +1,16 @@
+{
+  "id": "CWE-706",
+  "name": "Use of Incorrectly-Resolved Name or Reference",
+  "status": "filled",
+  "description": "The product uses a name or reference to access a resource, but the name resolves to a resource outside the intended control sphere due to improper validation of where the reference actually points.",
+  "severity": "high",
+  "category": "input_output",
+  "detection_pattern": "INGRESS provides name/reference that TRANSFORM resolves to access STORAGE or EXTERNAL resource, but CONTROL does not validate the resolved target stays within intended sphere",
+  "graph_query": "INGRESS(name_reference)→TRANSFORM(resolution)→STORAGE(unintended_resource) without CONTROL(resolution_validation)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-664", "CWE-22", "CWE-59", "CWE-99", "CWE-386"],
+  "references": ["https://cwe.mitre.org/data/definitions/706.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:05:00Z"
+}

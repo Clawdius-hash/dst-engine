@@ -1,0 +1,18 @@
+{
+  "id": "CWE-306",
+  "name": "Missing Authentication for Critical Function",
+  "status": "implemented",
+  "description": "The product does not perform any authentication for functionality that requires a provable user identity or consumes significant resources, allowing unauthorized actors to directly access critical operations.",
+  "severity": "critical",
+  "category": "authentication",
+  "detection_pattern": "INGRESS node connects directly to STORAGE, EXTERNAL, or TRANSFORM nodes performing critical operations (admin functions, data modification, resource-intensive tasks) without any AUTH node in the path",
+  "graph_query": "INGRESS→STORAGE|EXTERNAL[critical_function] without AUTH",
+  "owasp_top10": "A07:2021",
+  "sans_top25": true,
+  "related_cwes": ["CWE-287", "CWE-288", "CWE-322"],
+  "references": ["https://cwe.mitre.org/data/definitions/306.html"],
+  "implemented_in": ["verifier.ts"],
+  "verified_at": "2026-03-23T00:00:00Z",
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

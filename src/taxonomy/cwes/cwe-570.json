@@ -1,0 +1,16 @@
+{
+  "id": "CWE-570",
+  "name": "Expression is Always False",
+  "status": "filled",
+  "description": "The product contains an expression that always evaluates to false, typically due to coding errors such as wrong operators, incorrect variable assignments, or logical mistakes. This renders the guarded code block unreachable, potentially hiding intended functionality or security checks.",
+  "severity": "low",
+  "category": "reliability",
+  "detection_pattern": "CONTROL node contains a conditional expression that statically evaluates to false, making the downstream STRUCTURAL code block unreachable. This may cause CONTROL(security_check) nodes or TRANSFORM nodes in the dead branch to never execute.",
+  "graph_query": "CONTROL(always_false)→STRUCTURAL(dead_branch) without INGRESS(trigger)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-710", "CWE-561"],
+  "references": ["https://cwe.mitre.org/data/definitions/570.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

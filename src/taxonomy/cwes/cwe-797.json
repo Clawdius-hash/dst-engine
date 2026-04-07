@@ -1,0 +1,16 @@
+{
+  "id": "CWE-797",
+  "name": "Only Filtering Special Elements at an Absolute Position",
+  "status": "filled",
+  "description": "The product only filters special elements at an absolute position (e.g., byte number 10 or index 0), thereby missing special elements at other positions in the input data. This allows attackers to bypass the filter by placing dangerous elements at unexpected offsets.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "INGRESS node provides data that flows through a CONTROL node performing absolute-position filtering (fixed index check) to an EGRESS or TRANSFORM node, leaving special elements at other absolute positions unfiltered.",
+  "graph_query": "INGRESS→CONTROL[absolute_position_filter]→EGRESS without CONTROL[all_position_filter]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-795", "CWE-796"],
+  "references": ["https://cwe.mitre.org/data/definitions/797.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

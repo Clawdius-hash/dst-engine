@@ -1,0 +1,16 @@
+{
+  "id": "CWE-240",
+  "name": "Improper Handling of Inconsistent Structural Elements",
+  "status": "filled",
+  "description": "The product does not properly handle cases where two or more structural elements that should be consistent contain conflicting or mismatched values. A canonical example is Heartbleed (CVE-2014-0160), where an inconsistent length parameter enabled an out-of-bounds read exposing cryptographic keys and sensitive data.",
+  "severity": "high",
+  "category": "input_output",
+  "detection_pattern": "Look for INGRESS nodes (protocol messages, structured data with multiple related fields) where structural metadata fields (e.g., length, count, offset) flow to TRANSFORM nodes (buffer operations, memory access, deserialization) without a CONTROL mediator (consistency check, cross-field validation) that verifies the structural elements agree with each other and with actual data boundaries.",
+  "graph_query": "INGRESS(inconsistent_fields)→TRANSFORM(buffer_op) without CONTROL(consistency_validation)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-237", "CWE-130", "CWE-707"],
+  "references": ["https://cwe.mitre.org/data/definitions/240.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

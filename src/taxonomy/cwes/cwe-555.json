@@ -1,0 +1,16 @@
+{
+  "id": "CWE-555",
+  "name": "J2EE Misconfiguration: Plaintext Password in Configuration File",
+  "status": "filled",
+  "description": "The J2EE application stores passwords in plaintext within configuration files, allowing anyone with read access to the file to obtain the credentials and access password-protected resources.",
+  "severity": "high",
+  "category": "data_protection",
+  "detection_pattern": "STORAGE node (configuration file) contains credential data in plaintext without a TRANSFORM node performing encryption. The credential data flows from META (configuration) to AUTH or EXTERNAL nodes without cryptographic protection.",
+  "graph_query": "META(config)→STORAGE(plaintext_credential) without TRANSFORM(encrypt)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-260"],
+  "references": ["https://cwe.mitre.org/data/definitions/555.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

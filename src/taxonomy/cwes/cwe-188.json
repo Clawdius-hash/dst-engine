@@ -1,0 +1,16 @@
+{
+  "id": "CWE-188",
+  "name": "Reliance on Data/Memory Layout",
+  "status": "filled",
+  "description": "The product makes invalid assumptions about how protocol data or memory is organized at lower levels. When platforms or protocol versions change, in-memory data organization may shift in unintended ways, leading to accessing wrong fields or type confusion.",
+  "severity": "medium",
+  "category": "memory",
+  "detection_pattern": "Look for STRUCTURAL nodes that assume fixed memory/data layout (offsets, struct packing, endianness) when reading from INGRESS or STORAGE nodes, without a TRANSFORM node that normalizes or validates the layout. The missing mediator is a layout validation/abstraction layer.",
+  "graph_query": "INGRESS|STORAGE→STRUCTURAL without TRANSFORM(layout_validation)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-435", "CWE-1105", "CWE-198"],
+  "references": ["https://cwe.mitre.org/data/definitions/188.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

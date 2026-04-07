@@ -1,0 +1,16 @@
+{
+  "id": "CWE-628",
+  "name": "Function Call with Incorrectly Specified Arguments",
+  "status": "filled",
+  "description": "The product calls a function with arguments that do not match expectations, including wrong variables, incorrect argument count, improper sequencing, mismatched types, or incorrect values. This can lead to unexpected behavior, crashes, or security vulnerabilities.",
+  "severity": "medium",
+  "category": "reliability",
+  "detection_pattern": "STRUCTURAL node defining a function interface is called from another STRUCTURAL node where arguments do not match the expected signature in count, type, or order. Look for TRANSFORM nodes receiving incorrectly typed or ordered data from calling contexts.",
+  "graph_query": "STRUCTURAL(caller)→STRUCTURAL(callee) without CONTROL(argument_validation)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-573", "CWE-683", "CWE-685", "CWE-686", "CWE-687", "CWE-688"],
+  "references": ["https://cwe.mitre.org/data/definitions/628.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:00:00Z"
+}

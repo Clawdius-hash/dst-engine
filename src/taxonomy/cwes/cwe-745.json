@@ -1,0 +1,16 @@
+{
+  "id": "CWE-745",
+  "name": "Category: CERT C Secure Coding Standard (2008) Chapter 12 - Signals (SIG)",
+  "status": "needs_review",
+  "description": "Category grouping weaknesses related to signal handling rules from the CERT C Secure Coding Standard (2008). Covers use of non-reentrant functions in signal handlers, improper synchronization, and dangerous signal handler implementations.",
+  "severity": "low",
+  "category": "concurrency",
+  "detection_pattern": "N/A — category",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-734", "CWE-479", "CWE-662", "CWE-432", "CWE-828"],
+  "references": ["https://cwe.mitre.org/data/definitions/745.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:15:00Z"
+}

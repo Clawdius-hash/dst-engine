@@ -1,0 +1,2333 @@
+{
+  "source_file": "routes/api.js",
+  "parser_version": "0.1.0",
+  "node_count": 56,
+  "edge_count": 71,
+  "nodes": [
+    {
+      "id": "node_23_1",
+      "label": "require('express')",
+      "sequence": 1,
+      "node_type": "STRUCTURAL",
+      "node_subtype": "dependency",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 1,
+      "line_end": 1,
+      "data_in": [],
+      "data_out": [],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_2",
+      "label": "require('bcrypt')",
+      "sequence": 2,
+      "node_type": "STRUCTURAL",
+      "node_subtype": "dependency",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 2,
+      "line_end": 2,
+      "data_in": [],
+      "data_out": [],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_3",
+      "label": "require('jsonwebtoken')",
+      "sequence": 3,
+      "node_type": "STRUCTURAL",
+      "node_subtype": "dependency",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 3,
+      "line_end": 3,
+      "data_in": [],
+      "data_out": [],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_4",
+      "label": "require('./db')",
+      "sequence": 4,
+      "node_type": "STRUCTURAL",
+      "node_subtype": "dependency",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 4,
+      "line_end": 4,
+      "data_in": [],
+      "data_out": [],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_5",
+      "label": "app.use(express.json())",
+      "sequence": 5,
+      "node_type": "STRUCTURAL",
+      "node_subtype": "dependency",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 6,
+      "line_end": 6,
+      "data_in": [],
+      "data_out": [],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_6",
+      "label": "app.get('/users/:id', async (req, res) => {\n  const id = req.params.id;\n  try {\n    const user = ...",
+      "sequence": 6,
+      "node_type": "STRUCTURAL",
+      "node_subtype": "route",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 9,
+      "line_end": 21,
+      "data_in": [],
+      "data_out": [],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_7",
+      "label": "anonymous",
+      "sequence": 7,
+      "node_type": "STRUCTURAL",
+      "node_subtype": "function",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 9,
+      "line_end": 21,
+      "data_in": [],
+      "data_out": [],
+      "edges": [
+        {
+          "target": "node_23_10",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_11",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_12",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_13",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_14",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_15",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_16",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_17",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_18",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_19",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_20",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_21",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_8",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_9",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        }
+      ],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_8",
+      "label": "req.params.id",
+      "sequence": 8,
+      "node_type": "INGRESS",
+      "node_subtype": "http_request",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 10,
+      "line_end": 10,
+      "data_in": [],
+      "data_out": [
+        {
+          "name": "result",
+          "source": "node_23_8",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "NONE"
+        }
+      ],
+      "edges": [],
+      "attack_surface": [
+        "user_input"
+      ],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_9",
+      "label": "req.params",
+      "sequence": 9,
+      "node_type": "INGRESS",
+      "node_subtype": "http_request",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 10,
+      "line_end": 10,
+      "data_in": [],
+      "data_out": [
+        {
+          "name": "id",
+          "source": "node_23_9",
+          "target": "node_23_12",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "NONE"
+        },
+        {
+          "name": "result",
+          "source": "node_23_9",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "NONE"
+        }
+      ],
+      "edges": [
+        {
+          "target": "node_23_12",
+          "edge_type": "DATA_FLOW",
+          "conditional": false,
+          "async": false
+        }
+      ],
+      "attack_surface": [
+        "user_input"
+      ],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_10",
+      "label": "try/catch",
+      "sequence": 10,
+      "node_type": "CONTROL",
+      "node_subtype": "error_handler",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 11,
+      "line_end": 20,
+      "data_in": [],
+      "data_out": [],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_11",
+      "label": "await",
+      "sequence": 11,
+      "node_type": "CONTROL",
+      "node_subtype": "await",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 12,
+      "line_end": 12,
+      "data_in": [],
+      "data_out": [],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": [
+        "async"
+      ]
+    },
+    {
+      "id": "node_23_12",
+      "label": "db.findOne({ _id: id })",
+      "sequence": 12,
+      "node_type": "STORAGE",
+      "node_subtype": "db_read",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 12,
+      "line_end": 12,
+      "data_in": [
+        {
+          "name": "id",
+          "source": "node_23_9",
+          "target": "node_23_12",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "NONE"
+        }
+      ],
+      "data_out": [
+        {
+          "name": "result",
+          "source": "node_23_12",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "NONE"
+        },
+        {
+          "name": "user",
+          "source": "node_23_12",
+          "target": "node_23_17",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "NONE"
+        }
+      ],
+      "edges": [
+        {
+          "target": "node_23_17",
+          "edge_type": "DATA_FLOW",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_17",
+          "edge_type": "READS",
+          "conditional": false,
+          "async": false
+        }
+      ],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_13",
+      "label": "if",
+      "sequence": 13,
+      "node_type": "CONTROL",
+      "node_subtype": "branch",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 13,
+      "line_end": 15,
+      "data_in": [],
+      "data_out": [],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_14",
+      "label": "return",
+      "sequence": 14,
+      "node_type": "CONTROL",
+      "node_subtype": "return",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 14,
+      "line_end": 14,
+      "data_in": [],
+      "data_out": [],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_15",
+      "label": "res.status(404).json({ error: 'Not found' })",
+      "sequence": 15,
+      "node_type": "EGRESS",
+      "node_subtype": "http_response",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 14,
+      "line_end": 14,
+      "data_in": [],
+      "data_out": [],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_16",
+      "label": "res.status(404)",
+      "sequence": 16,
+      "node_type": "EGRESS",
+      "node_subtype": "http_response",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 14,
+      "line_end": 14,
+      "data_in": [],
+      "data_out": [],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_17",
+      "label": "res.json(user)",
+      "sequence": 17,
+      "node_type": "EGRESS",
+      "node_subtype": "http_response",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 16,
+      "line_end": 16,
+      "data_in": [
+        {
+          "name": "user",
+          "source": "node_23_12",
+          "target": "node_23_17",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "NONE"
+        }
+      ],
+      "data_out": [
+        {
+          "name": "result",
+          "source": "node_23_17",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "NONE"
+        }
+      ],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_18",
+      "label": "catch(err)",
+      "sequence": 18,
+      "node_type": "CONTROL",
+      "node_subtype": "catch",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 17,
+      "line_end": 20,
+      "data_in": [],
+      "data_out": [],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": [
+        "error-handler"
+      ]
+    },
+    {
+      "id": "node_23_19",
+      "label": "console.log(err)",
+      "sequence": 19,
+      "node_type": "EGRESS",
+      "node_subtype": "display",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 18,
+      "line_end": 18,
+      "data_in": [],
+      "data_out": [],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_20",
+      "label": "res.status(500).json({ error: 'Server error' })",
+      "sequence": 20,
+      "node_type": "EGRESS",
+      "node_subtype": "http_response",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 19,
+      "line_end": 19,
+      "data_in": [],
+      "data_out": [],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_21",
+      "label": "res.status(500)",
+      "sequence": 21,
+      "node_type": "EGRESS",
+      "node_subtype": "http_response",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 19,
+      "line_end": 19,
+      "data_in": [],
+      "data_out": [],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_22",
+      "label": "app.post('/users', async (req, res) => {\n  const { username, email, password } = req.body;\n  cons...",
+      "sequence": 22,
+      "node_type": "STRUCTURAL",
+      "node_subtype": "route",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 24,
+      "line_end": 38,
+      "data_in": [],
+      "data_out": [],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_23",
+      "label": "anonymous",
+      "sequence": 23,
+      "node_type": "STRUCTURAL",
+      "node_subtype": "function",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 24,
+      "line_end": 38,
+      "data_in": [],
+      "data_out": [],
+      "edges": [
+        {
+          "target": "node_23_24",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_25",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_26",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_27",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_28",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_29",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_30",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_31",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_32",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_33",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_34",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_35",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_36",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        }
+      ],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_24",
+      "label": "req.body",
+      "sequence": 24,
+      "node_type": "INGRESS",
+      "node_subtype": "http_request",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 25,
+      "line_end": 25,
+      "data_in": [],
+      "data_out": [
+        {
+          "name": "email",
+          "source": "node_23_24",
+          "target": "node_23_26",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "PII"
+        },
+        {
+          "name": "password",
+          "source": "node_23_24",
+          "target": "node_23_28",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "SECRET"
+        },
+        {
+          "name": "result",
+          "source": "node_23_24",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "NONE"
+        },
+        {
+          "name": "username",
+          "source": "node_23_24",
+          "target": "node_23_25",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "NONE"
+        }
+      ],
+      "edges": [
+        {
+          "target": "node_23_25",
+          "edge_type": "DATA_FLOW",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_26",
+          "edge_type": "DATA_FLOW",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_28",
+          "edge_type": "DATA_FLOW",
+          "conditional": false,
+          "async": false
+        }
+      ],
+      "attack_surface": [
+        "user_input"
+      ],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_25",
+      "label": "escape(username)",
+      "sequence": 25,
+      "node_type": "TRANSFORM",
+      "node_subtype": "sanitize",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 26,
+      "line_end": 26,
+      "data_in": [
+        {
+          "name": "username",
+          "source": "node_23_24",
+          "target": "node_23_25",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "NONE"
+        }
+      ],
+      "data_out": [
+        {
+          "name": "cleanName",
+          "source": "node_23_25",
+          "target": "node_23_30",
+          "data_type": "unknown",
+          "tainted": false,
+          "sensitivity": "NONE"
+        },
+        {
+          "name": "cleanName",
+          "source": "node_23_25",
+          "target": "node_23_35",
+          "data_type": "unknown",
+          "tainted": false,
+          "sensitivity": "NONE"
+        },
+        {
+          "name": "result",
+          "source": "node_23_25",
+          "data_type": "unknown",
+          "tainted": false,
+          "sensitivity": "NONE"
+        },
+        {
+          "name": "user._id",
+          "source": "node_23_25",
+          "target": "node_23_32",
+          "data_type": "unknown",
+          "tainted": false,
+          "sensitivity": "NONE"
+        },
+        {
+          "name": "user._id",
+          "source": "node_23_25",
+          "target": "node_23_35",
+          "data_type": "unknown",
+          "tainted": false,
+          "sensitivity": "NONE"
+        }
+      ],
+      "edges": [
+        {
+          "target": "node_23_30",
+          "edge_type": "DATA_FLOW",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_32",
+          "edge_type": "DATA_FLOW",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_35",
+          "edge_type": "DATA_FLOW",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_30",
+          "edge_type": "WRITES",
+          "conditional": false,
+          "async": false
+        }
+      ],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_26",
+      "label": "escape(email)",
+      "sequence": 26,
+      "node_type": "TRANSFORM",
+      "node_subtype": "sanitize",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 27,
+      "line_end": 27,
+      "data_in": [
+        {
+          "name": "email",
+          "source": "node_23_24",
+          "target": "node_23_26",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "PII"
+        }
+      ],
+      "data_out": [
+        {
+          "name": "cleanEmail",
+          "source": "node_23_26",
+          "target": "node_23_30",
+          "data_type": "unknown",
+          "tainted": false,
+          "sensitivity": "PII"
+        },
+        {
+          "name": "result",
+          "source": "node_23_26",
+          "data_type": "unknown",
+          "tainted": false,
+          "sensitivity": "NONE"
+        }
+      ],
+      "edges": [
+        {
+          "target": "node_23_30",
+          "edge_type": "DATA_FLOW",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_30",
+          "edge_type": "WRITES",
+          "conditional": false,
+          "async": false
+        }
+      ],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_27",
+      "label": "await",
+      "sequence": 27,
+      "node_type": "CONTROL",
+      "node_subtype": "await",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 28,
+      "line_end": 28,
+      "data_in": [],
+      "data_out": [],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": [
+        "async"
+      ]
+    },
+    {
+      "id": "node_23_28",
+      "label": "bcrypt.hash(password, 10)",
+      "sequence": 28,
+      "node_type": "AUTH",
+      "node_subtype": "authenticate",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 28,
+      "line_end": 28,
+      "data_in": [
+        {
+          "name": "password",
+          "source": "node_23_24",
+          "target": "node_23_28",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "SECRET"
+        }
+      ],
+      "data_out": [
+        {
+          "name": "hash",
+          "source": "node_23_28",
+          "target": "node_23_30",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "NONE"
+        },
+        {
+          "name": "result",
+          "source": "node_23_28",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "NONE"
+        }
+      ],
+      "edges": [
+        {
+          "target": "node_23_30",
+          "edge_type": "DATA_FLOW",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_30",
+          "edge_type": "WRITES",
+          "conditional": false,
+          "async": false
+        }
+      ],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_29",
+      "label": "await",
+      "sequence": 29,
+      "node_type": "CONTROL",
+      "node_subtype": "await",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 30,
+      "line_end": 34,
+      "data_in": [],
+      "data_out": [],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": [
+        "async"
+      ]
+    },
+    {
+      "id": "node_23_30",
+      "label": "db.insert({\n    username: cleanName,\n    email: cleanEmail,\n    password: hash,\n  })",
+      "sequence": 30,
+      "node_type": "STORAGE",
+      "node_subtype": "db_write",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 30,
+      "line_end": 34,
+      "data_in": [
+        {
+          "name": "cleanEmail",
+          "source": "node_23_26",
+          "target": "node_23_30",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "PII"
+        },
+        {
+          "name": "cleanName",
+          "source": "node_23_25",
+          "target": "node_23_30",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "NONE"
+        },
+        {
+          "name": "hash",
+          "source": "node_23_28",
+          "target": "node_23_30",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "NONE"
+        }
+      ],
+      "data_out": [
+        {
+          "name": "result",
+          "source": "node_23_30",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "NONE"
+        }
+      ],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_31",
+      "label": "{...}",
+      "sequence": 31,
+      "node_type": "TRANSFORM",
+      "node_subtype": "object_literal",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 30,
+      "line_end": 34,
+      "data_in": [],
+      "data_out": [],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_32",
+      "label": "jwt.sign({ id: user._id }, process.env.JWT_SECRET)",
+      "sequence": 32,
+      "node_type": "AUTH",
+      "node_subtype": "authenticate",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 36,
+      "line_end": 36,
+      "data_in": [
+        {
+          "name": "user._id",
+          "source": "node_23_25",
+          "target": "node_23_32",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "NONE"
+        }
+      ],
+      "data_out": [
+        {
+          "name": "result",
+          "source": "node_23_32",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "NONE"
+        }
+      ],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_33",
+      "label": "process.env.JWT_SECRET",
+      "sequence": 33,
+      "node_type": "INGRESS",
+      "node_subtype": "env_read",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 36,
+      "line_end": 36,
+      "data_in": [],
+      "data_out": [],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_34",
+      "label": "process.env",
+      "sequence": 34,
+      "node_type": "INGRESS",
+      "node_subtype": "env_read",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 36,
+      "line_end": 36,
+      "data_in": [],
+      "data_out": [
+        {
+          "name": "token",
+          "source": "node_23_34",
+          "target": "node_23_35",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "SECRET"
+        }
+      ],
+      "edges": [
+        {
+          "target": "node_23_35",
+          "edge_type": "DATA_FLOW",
+          "conditional": false,
+          "async": false
+        }
+      ],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_35",
+      "label": "res.status(201).json({ user: { id: user._id, username: cleanName }, token })",
+      "sequence": 35,
+      "node_type": "EGRESS",
+      "node_subtype": "http_response",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 37,
+      "line_end": 37,
+      "data_in": [
+        {
+          "name": "cleanName",
+          "source": "node_23_25",
+          "target": "node_23_35",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "NONE"
+        },
+        {
+          "name": "token",
+          "source": "node_23_34",
+          "target": "node_23_35",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "SECRET"
+        },
+        {
+          "name": "user._id",
+          "source": "node_23_25",
+          "target": "node_23_35",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "NONE"
+        }
+      ],
+      "data_out": [
+        {
+          "name": "result",
+          "source": "node_23_35",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "NONE"
+        }
+      ],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_36",
+      "label": "res.status(201)",
+      "sequence": 36,
+      "node_type": "EGRESS",
+      "node_subtype": "http_response",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 37,
+      "line_end": 37,
+      "data_in": [],
+      "data_out": [],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_37",
+      "label": "app.post('/login', async (req, res) => {\n  const { username, password } = req.body;\n  const user ...",
+      "sequence": 37,
+      "node_type": "STRUCTURAL",
+      "node_subtype": "route",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 41,
+      "line_end": 56,
+      "data_in": [],
+      "data_out": [],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_38",
+      "label": "anonymous",
+      "sequence": 38,
+      "node_type": "STRUCTURAL",
+      "node_subtype": "function",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 41,
+      "line_end": 56,
+      "data_in": [],
+      "data_out": [],
+      "edges": [
+        {
+          "target": "node_23_39",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_40",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_41",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_42",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_43",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_44",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_45",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_46",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_47",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_48",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_49",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_50",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_51",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_52",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_53",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_54",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_55",
+          "edge_type": "CONTAINS",
+          "conditional": false,
+          "async": false
+        }
+      ],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_39",
+      "label": "req.body",
+      "sequence": 39,
+      "node_type": "INGRESS",
+      "node_subtype": "http_request",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 42,
+      "line_end": 42,
+      "data_in": [],
+      "data_out": [
+        {
+          "name": "password",
+          "source": "node_23_39",
+          "target": "node_23_47",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "SECRET"
+        },
+        {
+          "name": "result",
+          "source": "node_23_39",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "NONE"
+        },
+        {
+          "name": "username",
+          "source": "node_23_39",
+          "target": "node_23_41",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "NONE"
+        }
+      ],
+      "edges": [
+        {
+          "target": "node_23_41",
+          "edge_type": "DATA_FLOW",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_47",
+          "edge_type": "DATA_FLOW",
+          "conditional": false,
+          "async": false
+        }
+      ],
+      "attack_surface": [
+        "user_input"
+      ],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_40",
+      "label": "await",
+      "sequence": 40,
+      "node_type": "CONTROL",
+      "node_subtype": "await",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 43,
+      "line_end": 43,
+      "data_in": [],
+      "data_out": [],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": [
+        "async"
+      ]
+    },
+    {
+      "id": "node_23_41",
+      "label": "db.findOne({ username })",
+      "sequence": 41,
+      "node_type": "STORAGE",
+      "node_subtype": "db_read",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 43,
+      "line_end": 43,
+      "data_in": [
+        {
+          "name": "username",
+          "source": "node_23_39",
+          "target": "node_23_41",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "NONE"
+        }
+      ],
+      "data_out": [
+        {
+          "name": "result",
+          "source": "node_23_41",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "NONE"
+        },
+        {
+          "name": "user._id",
+          "source": "node_23_41",
+          "target": "node_23_52",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "NONE"
+        },
+        {
+          "name": "user.password",
+          "source": "node_23_41",
+          "target": "node_23_47",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "SECRET"
+        }
+      ],
+      "edges": [
+        {
+          "target": "node_23_47",
+          "edge_type": "DATA_FLOW",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_52",
+          "edge_type": "DATA_FLOW",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_47",
+          "edge_type": "READS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_52",
+          "edge_type": "READS",
+          "conditional": false,
+          "async": false
+        }
+      ],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_42",
+      "label": "if",
+      "sequence": 42,
+      "node_type": "CONTROL",
+      "node_subtype": "branch",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 45,
+      "line_end": 47,
+      "data_in": [],
+      "data_out": [],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_43",
+      "label": "return",
+      "sequence": 43,
+      "node_type": "CONTROL",
+      "node_subtype": "return",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 46,
+      "line_end": 46,
+      "data_in": [],
+      "data_out": [],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_44",
+      "label": "res.status(401).json({ error: 'Invalid credentials' })",
+      "sequence": 44,
+      "node_type": "EGRESS",
+      "node_subtype": "http_response",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 46,
+      "line_end": 46,
+      "data_in": [],
+      "data_out": [],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_45",
+      "label": "res.status(401)",
+      "sequence": 45,
+      "node_type": "EGRESS",
+      "node_subtype": "http_response",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 46,
+      "line_end": 46,
+      "data_in": [],
+      "data_out": [],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_46",
+      "label": "await",
+      "sequence": 46,
+      "node_type": "CONTROL",
+      "node_subtype": "await",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 49,
+      "line_end": 49,
+      "data_in": [],
+      "data_out": [],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": [
+        "async"
+      ]
+    },
+    {
+      "id": "node_23_47",
+      "label": "bcrypt.compare(password, user.password)",
+      "sequence": 47,
+      "node_type": "AUTH",
+      "node_subtype": "authenticate",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 49,
+      "line_end": 49,
+      "data_in": [
+        {
+          "name": "password",
+          "source": "node_23_39",
+          "target": "node_23_47",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "SECRET"
+        },
+        {
+          "name": "user.password",
+          "source": "node_23_41",
+          "target": "node_23_47",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "SECRET"
+        }
+      ],
+      "data_out": [
+        {
+          "name": "result",
+          "source": "node_23_47",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "NONE"
+        }
+      ],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_48",
+      "label": "if",
+      "sequence": 48,
+      "node_type": "CONTROL",
+      "node_subtype": "branch",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 50,
+      "line_end": 52,
+      "data_in": [],
+      "data_out": [],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_49",
+      "label": "return",
+      "sequence": 49,
+      "node_type": "CONTROL",
+      "node_subtype": "return",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 51,
+      "line_end": 51,
+      "data_in": [],
+      "data_out": [],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_50",
+      "label": "res.status(401).json({ error: 'Invalid credentials' })",
+      "sequence": 50,
+      "node_type": "EGRESS",
+      "node_subtype": "http_response",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 51,
+      "line_end": 51,
+      "data_in": [],
+      "data_out": [],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_51",
+      "label": "res.status(401)",
+      "sequence": 51,
+      "node_type": "EGRESS",
+      "node_subtype": "http_response",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 51,
+      "line_end": 51,
+      "data_in": [],
+      "data_out": [],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_52",
+      "label": "jwt.sign({ id: user._id }, process.env.JWT_SECRET)",
+      "sequence": 52,
+      "node_type": "AUTH",
+      "node_subtype": "authenticate",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 54,
+      "line_end": 54,
+      "data_in": [
+        {
+          "name": "user._id",
+          "source": "node_23_41",
+          "target": "node_23_52",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "NONE"
+        }
+      ],
+      "data_out": [
+        {
+          "name": "result",
+          "source": "node_23_52",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "NONE"
+        }
+      ],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_53",
+      "label": "process.env.JWT_SECRET",
+      "sequence": 53,
+      "node_type": "INGRESS",
+      "node_subtype": "env_read",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 54,
+      "line_end": 54,
+      "data_in": [],
+      "data_out": [],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_54",
+      "label": "process.env",
+      "sequence": 54,
+      "node_type": "INGRESS",
+      "node_subtype": "env_read",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 54,
+      "line_end": 54,
+      "data_in": [],
+      "data_out": [
+        {
+          "name": "token",
+          "source": "node_23_54",
+          "target": "node_23_55",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "SECRET"
+        }
+      ],
+      "edges": [
+        {
+          "target": "node_23_55",
+          "edge_type": "DATA_FLOW",
+          "conditional": false,
+          "async": false
+        }
+      ],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_55",
+      "label": "res.json({ token })",
+      "sequence": 55,
+      "node_type": "EGRESS",
+      "node_subtype": "http_response",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 55,
+      "line_end": 55,
+      "data_in": [
+        {
+          "name": "token",
+          "source": "node_23_54",
+          "target": "node_23_55",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "SECRET"
+        }
+      ],
+      "data_out": [
+        {
+          "name": "result",
+          "source": "node_23_55",
+          "data_type": "unknown",
+          "tainted": true,
+          "sensitivity": "NONE"
+        }
+      ],
+      "edges": [],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    },
+    {
+      "id": "node_23_56",
+      "label": "routes/api.js",
+      "sequence": 56,
+      "node_type": "STRUCTURAL",
+      "node_subtype": "module",
+      "language": "javascript",
+      "file": "routes/api.js",
+      "line_start": 1,
+      "line_end": 1,
+      "data_in": [],
+      "data_out": [],
+      "edges": [
+        {
+          "target": "node_23_1",
+          "edge_type": "DEPENDS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_2",
+          "edge_type": "DEPENDS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_3",
+          "edge_type": "DEPENDS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_4",
+          "edge_type": "DEPENDS",
+          "conditional": false,
+          "async": false
+        },
+        {
+          "target": "node_23_5",
+          "edge_type": "DEPENDS",
+          "conditional": false,
+          "async": false
+        }
+      ],
+      "attack_surface": [],
+      "trust_boundary": "",
+      "tags": []
+    }
+  ],
+  "edges": [
+    {
+      "target": "node_23_10",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_7"
+    },
+    {
+      "target": "node_23_11",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_7"
+    },
+    {
+      "target": "node_23_12",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_7"
+    },
+    {
+      "target": "node_23_13",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_7"
+    },
+    {
+      "target": "node_23_14",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_7"
+    },
+    {
+      "target": "node_23_15",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_7"
+    },
+    {
+      "target": "node_23_16",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_7"
+    },
+    {
+      "target": "node_23_17",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_7"
+    },
+    {
+      "target": "node_23_18",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_7"
+    },
+    {
+      "target": "node_23_19",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_7"
+    },
+    {
+      "target": "node_23_20",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_7"
+    },
+    {
+      "target": "node_23_21",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_7"
+    },
+    {
+      "target": "node_23_24",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_23"
+    },
+    {
+      "target": "node_23_25",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_23"
+    },
+    {
+      "target": "node_23_26",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_23"
+    },
+    {
+      "target": "node_23_27",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_23"
+    },
+    {
+      "target": "node_23_28",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_23"
+    },
+    {
+      "target": "node_23_29",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_23"
+    },
+    {
+      "target": "node_23_30",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_23"
+    },
+    {
+      "target": "node_23_31",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_23"
+    },
+    {
+      "target": "node_23_32",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_23"
+    },
+    {
+      "target": "node_23_33",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_23"
+    },
+    {
+      "target": "node_23_34",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_23"
+    },
+    {
+      "target": "node_23_35",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_23"
+    },
+    {
+      "target": "node_23_36",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_23"
+    },
+    {
+      "target": "node_23_39",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_38"
+    },
+    {
+      "target": "node_23_40",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_38"
+    },
+    {
+      "target": "node_23_41",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_38"
+    },
+    {
+      "target": "node_23_42",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_38"
+    },
+    {
+      "target": "node_23_43",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_38"
+    },
+    {
+      "target": "node_23_44",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_38"
+    },
+    {
+      "target": "node_23_45",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_38"
+    },
+    {
+      "target": "node_23_46",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_38"
+    },
+    {
+      "target": "node_23_47",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_38"
+    },
+    {
+      "target": "node_23_48",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_38"
+    },
+    {
+      "target": "node_23_49",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_38"
+    },
+    {
+      "target": "node_23_50",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_38"
+    },
+    {
+      "target": "node_23_51",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_38"
+    },
+    {
+      "target": "node_23_52",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_38"
+    },
+    {
+      "target": "node_23_53",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_38"
+    },
+    {
+      "target": "node_23_54",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_38"
+    },
+    {
+      "target": "node_23_55",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_38"
+    },
+    {
+      "target": "node_23_8",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_7"
+    },
+    {
+      "target": "node_23_9",
+      "edge_type": "CONTAINS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_7"
+    },
+    {
+      "target": "node_23_12",
+      "edge_type": "DATA_FLOW",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_9"
+    },
+    {
+      "target": "node_23_17",
+      "edge_type": "DATA_FLOW",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_12"
+    },
+    {
+      "target": "node_23_25",
+      "edge_type": "DATA_FLOW",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_24"
+    },
+    {
+      "target": "node_23_26",
+      "edge_type": "DATA_FLOW",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_24"
+    },
+    {
+      "target": "node_23_28",
+      "edge_type": "DATA_FLOW",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_24"
+    },
+    {
+      "target": "node_23_30",
+      "edge_type": "DATA_FLOW",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_25"
+    },
+    {
+      "target": "node_23_30",
+      "edge_type": "DATA_FLOW",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_26"
+    },
+    {
+      "target": "node_23_30",
+      "edge_type": "DATA_FLOW",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_28"
+    },
+    {
+      "target": "node_23_32",
+      "edge_type": "DATA_FLOW",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_25"
+    },
+    {
+      "target": "node_23_35",
+      "edge_type": "DATA_FLOW",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_25"
+    },
+    {
+      "target": "node_23_35",
+      "edge_type": "DATA_FLOW",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_34"
+    },
+    {
+      "target": "node_23_41",
+      "edge_type": "DATA_FLOW",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_39"
+    },
+    {
+      "target": "node_23_47",
+      "edge_type": "DATA_FLOW",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_39"
+    },
+    {
+      "target": "node_23_47",
+      "edge_type": "DATA_FLOW",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_41"
+    },
+    {
+      "target": "node_23_52",
+      "edge_type": "DATA_FLOW",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_41"
+    },
+    {
+      "target": "node_23_55",
+      "edge_type": "DATA_FLOW",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_54"
+    },
+    {
+      "target": "node_23_1",
+      "edge_type": "DEPENDS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_56"
+    },
+    {
+      "target": "node_23_2",
+      "edge_type": "DEPENDS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_56"
+    },
+    {
+      "target": "node_23_3",
+      "edge_type": "DEPENDS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_56"
+    },
+    {
+      "target": "node_23_4",
+      "edge_type": "DEPENDS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_56"
+    },
+    {
+      "target": "node_23_5",
+      "edge_type": "DEPENDS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_56"
+    },
+    {
+      "target": "node_23_17",
+      "edge_type": "READS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_12"
+    },
+    {
+      "target": "node_23_47",
+      "edge_type": "READS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_41"
+    },
+    {
+      "target": "node_23_52",
+      "edge_type": "READS",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_41"
+    },
+    {
+      "target": "node_23_30",
+      "edge_type": "WRITES",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_25"
+    },
+    {
+      "target": "node_23_30",
+      "edge_type": "WRITES",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_26"
+    },
+    {
+      "target": "node_23_30",
+      "edge_type": "WRITES",
+      "conditional": false,
+      "async": false,
+      "source": "node_23_28"
+    }
+  ]
+}

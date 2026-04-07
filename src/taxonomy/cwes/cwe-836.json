@@ -1,0 +1,21 @@
+{
+  "id": "CWE-836",
+  "name": "Use of Password Hash Instead of Password for Authentication",
+  "status": "filled",
+  "description": "The product stores password hashes but accepts and compares client-supplied hashes for authentication, allowing attackers who obtain stolen hashes via SQL injection or data breach to authenticate directly without knowing the original password.",
+  "severity": "high",
+  "category": "authentication",
+  "detection_pattern": "INGRESS[client_hash] is compared directly against STORAGE[stored_hash] at AUTH[authentication] without a TRANSFORM[server_side_hashing] step that hashes the raw password on the server, making the hash functionally equivalent to a plaintext password",
+  "graph_query": "INGRESS[client_hash]→AUTH[compare_hash] without TRANSFORM[server_side_hash]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": [
+    "CWE-1390",
+    "CWE-602"
+  ],
+  "references": [
+    "https://cwe.mitre.org/data/definitions/836.html"
+  ],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

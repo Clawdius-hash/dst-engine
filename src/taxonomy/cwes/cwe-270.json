@@ -1,0 +1,16 @@
+{
+  "id": "CWE-270",
+  "name": "Privilege Context Switching Error",
+  "status": "filled",
+  "description": "The product does not properly manage privileges while switching between different contexts that have different privileges or spheres of control. A user could gain another user's privileges in an alternate context, such as a browser executing code in an unsafe security zone or back-button navigation bypassing authentication.",
+  "severity": "high",
+  "category": "authorization",
+  "detection_pattern": "Look for AUTH nodes (privilege context, security zone, session identity) that transition between CONTROL nodes (different security contexts, privilege domains, trust boundaries) without a CONTROL mediator (privilege re-evaluation, context isolation, identity re-verification) that ensures the correct privilege level is enforced in the new context.",
+  "graph_query": "AUTH(context_A_privileges)→CONTROL(context_B) without CONTROL(privilege_revalidation)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-269", "CWE-271", "CWE-250"],
+  "references": ["https://cwe.mitre.org/data/definitions/270.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

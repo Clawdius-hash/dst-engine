@@ -1,0 +1,18 @@
+{
+  "id": "CWE-20",
+  "name": "Improper Input Validation",
+  "status": "implemented",
+  "description": "The product receives input but does not validate or incorrectly validates that the input has the properties required to process data safely and correctly, allowing attackers to craft inputs that cause unexpected behavior.",
+  "severity": "high",
+  "category": "input_output",
+  "detection_pattern": "INGRESS node receives external data that flows to TRANSFORM, STORAGE, or EXTERNAL nodes without passing through a CONTROL node that enforces type, length, format, or range constraints",
+  "graph_query": "INGRESS→TRANSFORM|STORAGE|EXTERNAL without CONTROL[validation]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": true,
+  "related_cwes": ["CWE-1284", "CWE-1286", "CWE-1287", "CWE-1288", "CWE-1289"],
+  "references": ["https://cwe.mitre.org/data/definitions/20.html"],
+  "implemented_in": ["verifier.ts"],
+  "verified_at": "2026-03-22T00:00:00Z",
+  "filled_by": "atreus",
+  "filled_at": "2026-03-22T00:00:00Z"
+}

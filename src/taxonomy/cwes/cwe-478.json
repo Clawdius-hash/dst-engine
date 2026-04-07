@@ -1,0 +1,16 @@
+{
+  "id": "CWE-478",
+  "name": "Missing Default Case in Multiple Condition Expression",
+  "status": "filled",
+  "description": "Code with multiple conditional branches (such as switch statements) lacks a default case to handle unanticipated input values. The absence of a fallback handler can lead to complex logic errors and cascading failures with security implications.",
+  "severity": "medium",
+  "category": "error_handling",
+  "detection_pattern": "A CONTROL[switch|conditional] node handles multiple discrete cases from an INGRESS or TRANSFORM source but lacks a CONTROL[default_case] branch, allowing unanticipated values to pass through without handling.",
+  "graph_query": "INGRESS|TRANSFORM→CONTROL[multi_branch] without CONTROL[default_case]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-1023"],
+  "references": ["https://cwe.mitre.org/data/definitions/478.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

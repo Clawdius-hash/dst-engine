@@ -1,0 +1,16 @@
+{
+  "id": "CWE-460",
+  "name": "Improper Cleanup on Thrown Exception",
+  "status": "filled",
+  "description": "The product does not clean up its state or incorrectly cleans up its state when an exception is thrown, leading to unexpected state or control flow. Exceptions can disrupt normal code flow and prevent necessary resource cleanup from occurring, leaving the system in an inconsistent state.",
+  "severity": "medium",
+  "category": "error_handling",
+  "detection_pattern": "CONTROL(exception_handler) or STRUCTURAL(try_block) catches or propagates an exception but does not include a TRANSFORM(cleanup) node that releases resources or resets state. Look for exception paths where STORAGE nodes (resources, locks, file handles) are not released before the EGRESS(exception_propagation) node.",
+  "graph_query": "CONTROL(exception_path)→EGRESS(exit) without TRANSFORM(resource_cleanup)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-459", "CWE-755"],
+  "references": ["https://cwe.mitre.org/data/definitions/460.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

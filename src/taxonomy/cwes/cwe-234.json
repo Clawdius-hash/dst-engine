@@ -1,0 +1,16 @@
+{
+  "id": "CWE-234",
+  "name": "Failure to Handle Missing Parameter",
+  "status": "filled",
+  "description": "The product does not properly handle or detect when a required parameter is missing from input. When too few arguments are provided to a function, it may still attempt to read from the stack, leading to crashes, information disclosure, or code execution.",
+  "severity": "high",
+  "category": "input_output",
+  "detection_pattern": "Look for INGRESS nodes (function call sites, API requests) flowing to CONTROL or TRANSFORM nodes (function bodies, parameter consumers) without a CONTROL mediator (required parameter check, argument count validation) that verifies all required parameters are present before the function processes them.",
+  "graph_query": "INGRESS(call_site)→CONTROL(function_body) without CONTROL(required_param_check)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-233", "CWE-685"],
+  "references": ["https://cwe.mitre.org/data/definitions/234.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

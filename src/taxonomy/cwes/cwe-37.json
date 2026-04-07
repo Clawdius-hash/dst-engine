@@ -1,0 +1,16 @@
+{
+  "id": "CWE-37",
+  "name": "Path Traversal: '/absolute/pathname/here'",
+  "status": "filled",
+  "description": "The product does not properly neutralize Unix-style absolute path sequences ('/absolute/pathname/here') in user-supplied input, allowing attackers to specify arbitrary files on the filesystem.",
+  "severity": "high",
+  "category": "file_handling",
+  "detection_pattern": "INGRESS node provides a path starting with '/' that flows to STORAGE[file_access] without a CONTROL node that rejects absolute paths or enforces the path must be relative to a restricted base directory",
+  "graph_query": "INGRESS[path '/absolute']→STORAGE[file_access] without CONTROL[reject_absolute|base_dir]",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-36", "CWE-22", "CWE-160"],
+  "references": ["https://cwe.mitre.org/data/definitions/37.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-463",
+  "name": "Deletion of Data Structure Sentinel",
+  "status": "filled",
+  "description": "The product accidentally removes a sentinel value (such as a null terminator or end-of-list marker) that marks the boundary of a data structure. This can cause the data structure to malfunction, leading to availability issues or authorization bypass.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "A TRANSFORM node modifies a STORAGE node containing sentinel-delimited data and removes the sentinel boundary marker without a CONTROL[sentinel_preservation] check ensuring the sentinel remains intact after modification.",
+  "graph_query": "TRANSFORM[modify]→STORAGE[sentinel_data] without CONTROL[sentinel_preservation]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-707", "CWE-170", "CWE-464"],
+  "references": ["https://cwe.mitre.org/data/definitions/463.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

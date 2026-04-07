@@ -1,0 +1,18 @@
+{
+  "id": "CWE-200",
+  "name": "Exposure of Sensitive Information to an Unauthorized Actor",
+  "status": "implemented",
+  "description": "The product exposes sensitive information such as credentials, personal data, or system details to an actor not explicitly authorized to access it, through error messages, logging, debug output, or unprotected data channels.",
+  "severity": "high",
+  "category": "data_protection",
+  "detection_pattern": "STORAGE or TRANSFORM node containing sensitive data (credentials, PII, system internals) flows to an EGRESS node accessible to unauthorized actors without passing through a CONTROL[authorization] or TRANSFORM[redaction] node that filters or masks the sensitive content",
+  "graph_query": "STORAGE[sensitive_data]→EGRESS without CONTROL[authorization]|TRANSFORM[redaction]",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-668", "CWE-201", "CWE-203", "CWE-209", "CWE-359", "CWE-497", "CWE-538"],
+  "references": ["https://cwe.mitre.org/data/definitions/200.html"],
+  "implemented_in": ["verifier.ts"],
+  "verified_at": "2026-03-23T00:00:00Z",
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-13",
+  "name": "ASP.NET Misconfiguration: Password in Configuration File",
+  "status": "filled",
+  "description": "An ASP.NET application stores database credentials or passwords in plaintext within configuration files, allowing attackers who gain file access to immediately obtain authentication credentials and compromise protected resources.",
+  "severity": "high",
+  "category": "data_protection",
+  "detection_pattern": "META[web_config] node contains plaintext password or connection string credentials in STORAGE[config_file] without a TRANSFORM[encryption] node (DPAPI, RSA) protecting the sensitive values before storage",
+  "graph_query": "STORAGE[config_file credentials=plaintext] without TRANSFORM[encryption]",
+  "owasp_top10": "A05:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-260"],
+  "references": ["https://cwe.mitre.org/data/definitions/13.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

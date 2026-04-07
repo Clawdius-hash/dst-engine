@@ -1,0 +1,16 @@
+{
+  "id": "CWE-520",
+  "name": ".NET Misconfiguration: Use of Impersonation",
+  "status": "filled",
+  "description": "A .NET application uses impersonation to execute with the authenticated user's identity, relying solely on NTFS directory and file permissions for access control instead of application-level security checks, potentially enabling privilege escalation.",
+  "severity": "high",
+  "category": "authorization",
+  "detection_pattern": "AUTH node enables impersonation in .NET configuration, allowing TRANSFORM nodes to execute with escalated privileges based on EXTERNAL user identity without CONTROL node enforcing application-level authorization checks",
+  "graph_query": "AUTH(impersonation_config)→TRANSFORM(privileged_execution) without CONTROL(application_level_authz)",
+  "owasp_top10": "A05:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-266"],
+  "references": ["https://cwe.mitre.org/data/definitions/520.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:15:00Z"
+}

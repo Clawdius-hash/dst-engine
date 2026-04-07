@@ -1,0 +1,16 @@
+{
+  "id": "CWE-273",
+  "name": "Improper Check for Dropped Privileges",
+  "status": "filled",
+  "description": "The product attempts to drop privileges but does not verify whether the operation succeeded. If the privilege drop fails silently, the product continues running with elevated privileges, creating a privilege escalation vulnerability.",
+  "severity": "high",
+  "category": "authorization",
+  "detection_pattern": "Look for CONTROL nodes (privilege drop calls like setuid, setgid, seteuid) whose return values flow to no CONTROL mediator (return value check, error handling for failed privilege drop) before the program continues with TRANSFORM, EXTERNAL, or STORAGE nodes (subsequent operations that assume reduced privileges).",
+  "graph_query": "CONTROL(privilege_drop_call)→TRANSFORM(subsequent_operation) without CONTROL(drop_success_verification)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-271", "CWE-754", "CWE-252", "CWE-250"],
+  "references": ["https://cwe.mitre.org/data/definitions/273.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

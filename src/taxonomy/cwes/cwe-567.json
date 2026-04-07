@@ -1,0 +1,16 @@
+{
+  "id": "CWE-567",
+  "name": "Unsynchronized Access to Shared Data in a Multithreaded Context",
+  "status": "filled",
+  "description": "The product does not properly synchronize access to shared data across threads, such as using static variables in servlets. This allows one thread to corrupt data relied upon by another, leading to race conditions, data leaks, or crashes.",
+  "severity": "medium",
+  "category": "concurrency",
+  "detection_pattern": "STORAGE node (shared/static variable) is accessed by multiple concurrent CONTROL nodes (threads) without an intervening CONTROL(synchronization) mediator such as a lock or mutex. Data written by one thread is read by another without ordering guarantees.",
+  "graph_query": "CONTROL(thread_A)→STORAGE(shared)→CONTROL(thread_B) without CONTROL(synchronization)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-820", "CWE-662", "CWE-488"],
+  "references": ["https://cwe.mitre.org/data/definitions/567.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

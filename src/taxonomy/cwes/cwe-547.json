@@ -1,0 +1,16 @@
+{
+  "id": "CWE-547",
+  "name": "Use of Hard-coded, Security-relevant Constants",
+  "status": "filled",
+  "description": "The software uses hard-coded constants rather than symbolic names for security-critical values such as cryptographic keys, permission masks, or access thresholds. This makes maintenance error-prone and risks exposing security values if source code is disclosed.",
+  "severity": "medium",
+  "category": "configuration",
+  "detection_pattern": "META[hardcoded_constant] within STRUCTURAL[source_code] that is referenced by AUTH, CONTROL, or TRANSFORM nodes for security decisions. Security-relevant literal values embedded directly rather than loaded from STORAGE[config] or META[symbolic_constant].",
+  "graph_query": "META[hardcoded_constant]→AUTH|CONTROL without STORAGE[config]",
+  "owasp_top10": "A05:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-1078", "CWE-798"],
+  "references": ["https://cwe.mitre.org/data/definitions/547.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-217",
+  "name": "DEPRECATED: Failure to Protect Stored Data from Modification",
+  "status": "needs_review",
+  "description": "This CWE has been deprecated because it merged multiple distinct weaknesses. The concept has been redistributed to CWE-766 and CWE-767 which are more specific. Mapping to this CWE is prohibited.",
+  "severity": "low",
+  "category": "data_protection",
+  "detection_pattern": "N/A — deprecated",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-766", "CWE-767"],
+  "references": ["https://cwe.mitre.org/data/definitions/217.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

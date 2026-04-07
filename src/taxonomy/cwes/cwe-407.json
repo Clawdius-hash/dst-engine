@@ -1,0 +1,16 @@
+{
+  "id": "CWE-407",
+  "name": "Inefficient Algorithmic Complexity",
+  "status": "filled",
+  "description": "An algorithm in the product has an inefficient worst-case computational complexity that can be triggered by an attacker using crafted input to force worst-case execution paths, causing CPU or memory exhaustion and denial of service.",
+  "severity": "high",
+  "category": "reliability",
+  "detection_pattern": "INGRESS node provides attacker-controlled input to a TRANSFORM node running an algorithm with super-linear worst-case complexity (regex matching, hash table operations, sorting, XML/JSON parsing) without a CONTROL node enforcing input size limits, timeouts, or complexity bounds",
+  "graph_query": "INGRESS→TRANSFORM[superlinear_algorithm] without CONTROL[input_size_limit|timeout|complexity_bound]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-405", "CWE-1333"],
+  "references": ["https://cwe.mitre.org/data/definitions/407.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:25:00Z"
+}

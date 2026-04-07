@@ -1,0 +1,16 @@
+{
+  "id": "CWE-465",
+  "name": "Category: Pointer Issues",
+  "status": "needs_review",
+  "description": "This is an organizational category for weaknesses related to improper handling of pointers. It contains members such as CWE-476 (NULL Pointer Dereference), CWE-468 (Incorrect Pointer Scaling), and others. Mapping to categories has been discouraged since 2019.",
+  "severity": "low",
+  "category": "memory",
+  "detection_pattern": "N/A — category",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-466", "CWE-468", "CWE-469", "CWE-476", "CWE-587", "CWE-763", "CWE-822", "CWE-823", "CWE-824", "CWE-825"],
+  "references": ["https://cwe.mitre.org/data/definitions/465.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

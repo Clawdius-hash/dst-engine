@@ -1,0 +1,16 @@
+{
+  "id": "CWE-255",
+  "name": "Category: Credentials Management Errors",
+  "status": "needs_review",
+  "description": "This is a Category entry grouping weaknesses related to the management of credentials, including plaintext storage, recoverable formats, hard-coded credentials, and default credentials. It cannot be used for vulnerability mapping; users should reference member weaknesses like CWE-256, CWE-257, CWE-260, or CWE-798 instead.",
+  "severity": "low",
+  "category": "authentication",
+  "detection_pattern": "N/A — category",
+  "graph_query": "N/A",
+  "owasp_top10": "A07:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-256", "CWE-257", "CWE-260", "CWE-798", "CWE-287"],
+  "references": ["https://cwe.mitre.org/data/definitions/255.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

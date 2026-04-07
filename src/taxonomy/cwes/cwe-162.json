@@ -1,0 +1,16 @@
+{
+  "id": "CWE-162",
+  "name": "Improper Neutralization of Trailing Special Elements",
+  "status": "filled",
+  "description": "The product does not properly neutralize trailing special characters in user input (e.g., trailing dots stripped by Windows, trailing slashes, trailing spaces), allowing attackers to bypass path-based or name-based access controls.",
+  "severity": "medium",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides data with trailing special characters that flows to CONTROL[name_check] or STORAGE[file_access] without a TRANSFORM[trailing_strip] that removes or normalizes trailing special elements before comparison or access",
+  "graph_query": "INGRESS[trailing_special]→CONTROL[check]|STORAGE without TRANSFORM[trailing_strip]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-138", "CWE-42", "CWE-46", "CWE-49"],
+  "references": ["https://cwe.mitre.org/data/definitions/162.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

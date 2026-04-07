@@ -1,0 +1,16 @@
+{
+  "id": "CWE-260",
+  "name": "Password in Configuration File",
+  "status": "filled",
+  "description": "The product stores a password in a configuration file that might be accessible to unauthorized actors. An attacker gaining access to this file can learn the stored password or modify it, compromising the system the password protects.",
+  "severity": "high",
+  "category": "data_protection",
+  "detection_pattern": "Look for STORAGE nodes (configuration files, properties files, XML configs, .env files) containing AUTH data (plaintext passwords, credentials) that are accessible without a CONTROL mediator (file permission enforcement, encryption at rest, secrets manager) that restricts access and protects the stored credential from unauthorized reading.",
+  "graph_query": "STORAGE(config_file_with_password)→EGRESS(file_read) without CONTROL(access_restriction|encryption)",
+  "owasp_top10": "A05:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-522", "CWE-258", "CWE-555", "CWE-256"],
+  "references": ["https://cwe.mitre.org/data/definitions/260.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

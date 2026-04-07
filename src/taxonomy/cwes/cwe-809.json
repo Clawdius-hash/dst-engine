@@ -1,0 +1,16 @@
+{
+  "id": "CWE-809",
+  "name": "View: Weaknesses in OWASP Top Ten (2010)",
+  "status": "needs_review",
+  "description": "This is a View organizing weaknesses by OWASP Top Ten 2010 categories (A1-A10). It is considered obsolete as newer OWASP Top Ten versions are available. Vulnerability mapping is prohibited for this view entry.",
+  "severity": "low",
+  "category": "configuration",
+  "detection_pattern": "N/A — view, not a weakness",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-810", "CWE-811", "CWE-812", "CWE-813", "CWE-814", "CWE-815", "CWE-816", "CWE-817", "CWE-818", "CWE-819"],
+  "references": ["https://cwe.mitre.org/data/definitions/809.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

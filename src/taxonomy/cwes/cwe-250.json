@@ -1,0 +1,18 @@
+{
+  "id": "CWE-250",
+  "name": "Execution with Unnecessary Privileges",
+  "status": "implemented",
+  "description": "The product performs operations at a privilege level higher than the minimum required, so that if a vulnerability is exploited the attacker gains those unnecessary elevated privileges, amplifying the impact.",
+  "severity": "medium",
+  "category": "authorization",
+  "detection_pattern": "An AUTH node grants elevated privileges (root, admin, SYSTEM) to a process or context that flows through TRANSFORM or EXTERNAL nodes performing operations that do not require those privileges, without a CONTROL node that drops or restricts privileges after the privileged operation completes",
+  "graph_query": "AUTH[elevated]→TRANSFORM|EXTERNAL without CONTROL[privilege_drop]",
+  "owasp_top10": null,
+  "sans_top25": true,
+  "related_cwes": ["CWE-269", "CWE-657", "CWE-653", "CWE-271", "CWE-273"],
+  "references": ["https://cwe.mitre.org/data/definitions/250.html"],
+  "implemented_in": ["verifier.ts"],
+  "verified_at": "2026-03-23T00:00:00Z",
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

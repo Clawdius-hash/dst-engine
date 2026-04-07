@@ -1,0 +1,16 @@
+{
+  "id": "CWE-81",
+  "name": "Improper Neutralization of Script in an Error Message Web Page",
+  "status": "filled",
+  "description": "The product receives input that is reflected in error message web pages without properly neutralizing special characters, allowing attackers to inject scripts that execute when users view the error page.",
+  "severity": "high",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides user input that flows through a CONTROL[error_handler] to an EGRESS[error_page_html] node without a TRANSFORM[html_encoding] node that neutralizes script-significant characters before they are embedded in the error response",
+  "graph_query": "INGRESS→CONTROL[error_handler]→EGRESS[error_page] without TRANSFORM[html_encoding]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-79"],
+  "references": ["https://cwe.mitre.org/data/definitions/81.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

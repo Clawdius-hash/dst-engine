@@ -1,0 +1,16 @@
+{
+  "id": "CWE-924",
+  "name": "Improper Enforcement of Message Integrity During Transmission in a Communication Channel",
+  "status": "filled",
+  "description": "The product receives messages from an endpoint without sufficiently verifying they have not been modified during transmission. Attackers could alter messages in transit or redirect connections to systems under their control, potentially spoofing the endpoint.",
+  "severity": "high",
+  "category": "data_protection",
+  "detection_pattern": "INGRESS[network] receives messages that flow to TRANSFORM or CONTROL nodes without a CONTROL[integrity_check] node (HMAC, digital signature, MAC verification) that validates message contents have not been tampered with during transmission",
+  "graph_query": "INGRESS[network]→TRANSFORM without CONTROL[integrity_check]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-345"],
+  "references": ["https://cwe.mitre.org/data/definitions/924.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

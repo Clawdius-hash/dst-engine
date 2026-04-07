@@ -1,0 +1,16 @@
+{
+  "id": "CWE-409",
+  "name": "Improper Handling of Highly Compressed Data (Data Amplification)",
+  "status": "filled",
+  "description": "The product does not properly handle or restrict the decompression of highly compressed data (decompression bombs), allowing a small compressed input to expand into an enormously large output that exhausts memory, disk, or CPU resources.",
+  "severity": "high",
+  "category": "input_output",
+  "detection_pattern": "INGRESS node accepts compressed data that flows to a TRANSFORM[decompress] node without a CONTROL node enforcing maximum decompression ratio, output size limits, or resource consumption bounds before the decompressed data reaches STORAGE or further TRANSFORM nodes",
+  "graph_query": "INGRESS[compressed_data]→TRANSFORM[decompress] without CONTROL[size_limit|ratio_limit]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-405"],
+  "references": ["https://cwe.mitre.org/data/definitions/409.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:25:00Z"
+}

@@ -1,0 +1,11 @@
+{
+  "id": "CWE-880",
+  "name": "CERT C++ Secure Coding Section 12 - Exceptions and Error Handling (ERR)",
+  "status": "needs_review",
+  "description": "Category: Organizational grouping of weaknesses related to exception and error handling from the CERT C++ Secure Coding Standard. Not a weakness itself.",
+  "category_type": "category",
+  "related_cwes": ["CWE-868", "CWE-209", "CWE-390", "CWE-391", "CWE-460", "CWE-703", "CWE-754", "CWE-755"],
+  "references": ["https://cwe.mitre.org/data/definitions/880.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

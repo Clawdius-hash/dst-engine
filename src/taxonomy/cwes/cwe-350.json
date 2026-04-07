@@ -1,0 +1,16 @@
+{
+  "id": "CWE-350",
+  "name": "Reliance on Reverse DNS Resolution for a Security-Critical Action",
+  "status": "filled",
+  "description": "The product performs reverse DNS lookups and uses the result for security-critical decisions without verifying that the IP address truly maps to the claimed hostname. Attackers can spoof DNS through server compromise or cache poisoning to bypass authentication.",
+  "severity": "high",
+  "category": "authentication",
+  "detection_pattern": "EXTERNAL node provides DNS resolution result that flows to AUTH or CONTROL node for access decisions without a CONTROL node verifying forward-reverse DNS consistency",
+  "graph_query": "EXTERNAL(dns_reverse)→AUTH(access_decision) without CONTROL(dns_verification)",
+  "owasp_top10": "A07:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-290", "CWE-807", "CWE-923"],
+  "references": ["https://cwe.mitre.org/data/definitions/350.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:25:00Z"
+}

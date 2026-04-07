@@ -1,0 +1,16 @@
+{
+  "id": "CWE-296",
+  "name": "Improper Following of a Certificate's Chain of Trust",
+  "status": "filled",
+  "description": "The product does not properly follow or validate the entire chain of trust from a certificate back to a trusted root certificate authority. This breaks the certificate's ability to establish legitimate trust, potentially allowing attackers to present fraudulent certificates.",
+  "severity": "high",
+  "category": "cryptography",
+  "detection_pattern": "Look for EXTERNAL nodes (received certificate, TLS peer certificate) that flow to AUTH nodes (trust decision, identity verification) without a CONTROL mediator (full chain-of-trust validation, root CA verification, intermediate certificate check) that walks the entire certificate chain from the presented cert up to a trusted root authority.",
+  "graph_query": "EXTERNAL(certificate)→AUTH(trust_decision) without CONTROL(chain_of_trust_validation)",
+  "owasp_top10": "A02:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-295", "CWE-573", "CWE-370"],
+  "references": ["https://cwe.mitre.org/data/definitions/296.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

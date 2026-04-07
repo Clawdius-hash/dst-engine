@@ -1,0 +1,18 @@
+{
+  "id": "CWE-384",
+  "name": "Session Fixation",
+  "status": "implemented",
+  "description": "The application authenticates a user or otherwise establishes a new user session without invalidating any existing session identifier, giving an attacker the opportunity to fix a known session ID and then hijack the authenticated session.",
+  "severity": "high",
+  "category": "authentication",
+  "detection_pattern": "AUTH[login] node authenticates a user and transitions to an authenticated context but does not flow through a CONTROL node that invalidates or regenerates the session identifier in STORAGE[session] before granting access, allowing a pre-existing session ID to persist",
+  "graph_query": "AUTH[login]→STORAGE[session] without CONTROL[session_regeneration]",
+  "owasp_top10": "A07:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-610", "CWE-346", "CWE-441", "CWE-472", "CWE-340"],
+  "references": ["https://cwe.mitre.org/data/definitions/384.html"],
+  "implemented_in": ["verifier.ts"],
+  "verified_at": "2026-03-23T00:00:00Z",
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

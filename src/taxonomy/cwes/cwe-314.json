@@ -1,0 +1,16 @@
+{
+  "id": "CWE-314",
+  "name": "Cleartext Storage of Sensitive Information in the Registry",
+  "status": "filled",
+  "description": "The product stores sensitive information in cleartext in the Windows registry. Attackers who can access the registry key can read the sensitive data, even if basic encoding is applied.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "Look for STORAGE nodes (registry write, registry key set) receiving sensitive data from INGRESS or TRANSFORM nodes without a TRANSFORM mediator (encryption) that protects the data before it is written to the registry.",
+  "graph_query": "INGRESS(sensitive_data)→STORAGE(registry) without TRANSFORM(encryption)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-312", "CWE-311"],
+  "references": ["https://cwe.mitre.org/data/definitions/314.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-779",
+  "name": "Logging of Excessive Data",
+  "status": "filled",
+  "description": "The product logs too much information, making log files hard to process and potentially hindering recovery efforts or forensic analysis after an attack. Excessive logging can consume resources and obscure important security events.",
+  "severity": "medium",
+  "category": "logging",
+  "detection_pattern": "INGRESS or TRANSFORM node generates data that flows to a STORAGE node (log sink) without a CONTROL node that limits log volume, filters sensitive data, or enforces log rotation policies.",
+  "graph_query": "INGRESS→STORAGE[logging] without CONTROL[log_filtering]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-400", "CWE-532", "CWE-117"],
+  "references": ["https://cwe.mitre.org/data/definitions/779.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

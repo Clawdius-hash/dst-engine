@@ -1,0 +1,11 @@
+{
+  "id": "CWE-907",
+  "name": "SFP Primary Cluster: Other",
+  "status": "needs_review",
+  "description": "Category: Identifies Software Fault Patterns within the Other cluster covering architecture, compiler, design, and implementation patterns. An organizational grouping, not a weakness itself.",
+  "category_type": "category",
+  "related_cwes": ["CWE-888", "CWE-975", "CWE-976", "CWE-977", "CWE-978"],
+  "references": ["https://cwe.mitre.org/data/definitions/907.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

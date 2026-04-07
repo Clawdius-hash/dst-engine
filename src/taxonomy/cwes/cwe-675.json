@@ -1,0 +1,16 @@
+{
+  "id": "CWE-675",
+  "name": "Multiple Operations on Resource in Single-Operation Context",
+  "status": "filled",
+  "description": "The product performs the same operation on a resource two or more times when the operation should only be applied once. This includes double decoding, multiple binds to the same port, multiple locks or unlocks, and multiple resource releases.",
+  "severity": "medium",
+  "category": "reliability",
+  "detection_pattern": "TRANSFORM or CONTROL node performs a duplicate operation on the same STORAGE or STRUCTURAL node in a context where the operation should be idempotent or single-use, such as double TRANSFORM[decode] or double CONTROL[lock]",
+  "graph_query": "TRANSFORM[operation]→STORAGE→TRANSFORM[same_operation] without CONTROL[idempotency_check]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-573", "CWE-174", "CWE-605", "CWE-764", "CWE-765"],
+  "references": ["https://cwe.mitre.org/data/definitions/675.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:00:00Z"
+}

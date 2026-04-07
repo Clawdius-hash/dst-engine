@@ -1,0 +1,16 @@
+{
+  "id": "CWE-593",
+  "name": "Authentication Bypass: OpenSSL CTX Object Modified after SSL Objects are Created",
+  "status": "filled",
+  "description": "The product modifies an OpenSSL SSL_CTX object after SSL objects have already been created from it. Changes to the context can retroactively affect existing SSL objects, potentially weakening or bypassing encryption and authentication protections.",
+  "severity": "high",
+  "category": "authentication",
+  "detection_pattern": "EXTERNAL(SSL_CTX) node is modified by a TRANSFORM node after EXTERNAL(SSL) objects have been instantiated from it. The temporal ordering shows a CONTROL flow where context modification occurs after object creation, without re-initialization of dependent SSL objects.",
+  "graph_query": "TRANSFORM(ctx_modify)→EXTERNAL(SSL_CTX) without CONTROL(reinitialize_ssl_objects)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-666", "CWE-1390"],
+  "references": ["https://cwe.mitre.org/data/definitions/593.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-302",
+  "name": "Authentication Bypass by Assumed-Immutable Data",
+  "status": "filled",
+  "description": "The authentication scheme or security decision relies on values that the developer assumes cannot be modified by an attacker, but which are actually under attacker control. Common examples include trusting cookie values, hidden form fields, or client-side state for authentication without server-side validation.",
+  "severity": "high",
+  "category": "authentication",
+  "detection_pattern": "Look for INGRESS nodes (cookies, hidden fields, client-side state, URL parameters) that flow directly to AUTH nodes (authentication decision, security check, access control) without a CONTROL mediator (server-side validation, integrity verification, tamper detection, cryptographic MAC) that verifies the data has not been modified by the client.",
+  "graph_query": "INGRESS(client_controlled_data)→AUTH(security_decision) without CONTROL(integrity_verification)",
+  "owasp_top10": "A07:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-807", "CWE-1390"],
+  "references": ["https://cwe.mitre.org/data/definitions/302.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

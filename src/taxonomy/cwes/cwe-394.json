@@ -1,0 +1,16 @@
+{
+  "id": "CWE-394",
+  "name": "Unexpected Status Code or Return Value",
+  "status": "filled",
+  "description": "The product does not properly handle when a function returns a value that is legitimate for the function but unexpected by the product, potentially leading to incorrect execution states or logic errors.",
+  "severity": "medium",
+  "category": "error_handling",
+  "detection_pattern": "INGRESS or TRANSFORM node receives return value from EXTERNAL call but CONTROL node only checks for expected values, not all legitimate return possibilities",
+  "graph_query": "EXTERNAL(function_call)→CONTROL(partial_check) without CONTROL(comprehensive_return_handling)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-754"],
+  "references": ["https://cwe.mitre.org/data/definitions/394.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:15:00Z"
+}

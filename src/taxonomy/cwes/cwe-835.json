@@ -1,0 +1,21 @@
+{
+  "id": "CWE-835",
+  "name": "Loop with Unreachable Exit Condition ('Infinite Loop')",
+  "status": "filled",
+  "description": "The product contains an iteration or loop with an exit condition that cannot be reached, resulting in an infinite loop that causes unexpected consumption of CPU cycles or memory, leading to denial of service.",
+  "severity": "medium",
+  "category": "reliability",
+  "detection_pattern": "CONTROL[loop] has an exit condition that depends on a state or variable that is never modified within the loop body or whose modification path is unreachable, causing indefinite execution without CONTROL[timeout] or CONTROL[watchdog] to terminate the loop",
+  "graph_query": "CONTROL[loop]→CONTROL[unreachable_exit] without CONTROL[timeout|watchdog]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": [
+    "CWE-834",
+    "CWE-1322"
+  ],
+  "references": [
+    "https://cwe.mitre.org/data/definitions/835.html"
+  ],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

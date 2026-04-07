@@ -1,0 +1,16 @@
+{
+  "id": "CWE-9",
+  "name": "J2EE Misconfiguration: Weak Access Permissions for EJB Methods",
+  "status": "filled",
+  "description": "EJB methods in a J2EE application are configured with overly permissive access controls such as the ANYONE role, allowing unauthorized users to invoke sensitive operations that should be restricted to specific roles.",
+  "severity": "high",
+  "category": "authorization",
+  "detection_pattern": "META[ejb_jar_config] node contains method-permission elements granting the ANYONE role access to EXTERNAL[ejb_method] nodes performing privileged operations, without a CONTROL[role_restriction] node limiting invocation to authorized roles only",
+  "graph_query": "META[ejb_config]→AUTH[method_permission=ANYONE]→EXTERNAL[ejb_method] without CONTROL[role_restriction]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-266"],
+  "references": ["https://cwe.mitre.org/data/definitions/9.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

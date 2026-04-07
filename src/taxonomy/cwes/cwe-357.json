@@ -1,0 +1,16 @@
+{
+  "id": "CWE-357",
+  "name": "Insufficient UI Warning of Dangerous Operations",
+  "status": "filled",
+  "description": "The user interface provides a warning about risky or sensitive operations, but the warning is not sufficiently prominent to capture the user's attention, leading users to proceed with dangerous actions unknowingly.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "META node provides user warning before CONTROL node executes dangerous operation, but the warning lacks sufficient prominence (e.g., non-modal dialog, easily dismissible, buried in text)",
+  "graph_query": "META(weak_warning)→CONTROL(dangerous_op) without META(prominent_warning)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-693", "CWE-450", "CWE-356"],
+  "references": ["https://cwe.mitre.org/data/definitions/357.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:35:00Z"
+}

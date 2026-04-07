@@ -1,0 +1,16 @@
+{
+  "id": "CWE-54",
+  "name": "Path Equivalence: 'filedir\\' (Trailing Backslash)",
+  "status": "filled",
+  "description": "The product does not properly handle paths with trailing backslashes, which Windows may strip or interpret as directory indicators, allowing attackers to bypass path-based access controls by appending a backslash to restricted filenames.",
+  "severity": "medium",
+  "category": "file_handling",
+  "detection_pattern": "INGRESS node provides a path with a trailing backslash that bypasses CONTROL[path_check] because the check treats 'filename\\' differently from 'filename' while Windows resolves them equivalently at STORAGE[file_access]",
+  "graph_query": "INGRESS[path 'file\\\\']→CONTROL[path_check]→STORAGE[file_access] without TRANSFORM[strip_trailing_backslash]",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-41", "CWE-162"],
+  "references": ["https://cwe.mitre.org/data/definitions/54.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

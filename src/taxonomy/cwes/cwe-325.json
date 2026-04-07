@@ -1,0 +1,16 @@
+{
+  "id": "CWE-325",
+  "name": "Missing Cryptographic Step",
+  "status": "filled",
+  "description": "The product does not implement a required step in a cryptographic algorithm, resulting in weaker encryption than the algorithm is designed to provide. Developers may skip resource-intensive steps mistakenly believing they are unnecessary, undermining the entire cryptographic guarantee.",
+  "severity": "high",
+  "category": "cryptography",
+  "detection_pattern": "Look for TRANSFORM nodes (cryptographic operation, encryption pipeline) where the sequence of cryptographic steps is incomplete — a required step in the algorithm is missing. Data flows from INGRESS to TRANSFORM(crypto) to EGRESS or STORAGE without all required TRANSFORM mediators (each step of the cryptographic algorithm: e.g., padding, IV generation, MAC computation, salt application).",
+  "graph_query": "INGRESS(data)→TRANSFORM(incomplete_crypto)→EGRESS(output) without TRANSFORM(required_crypto_step)",
+  "owasp_top10": "A02:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-573", "CWE-1240", "CWE-358"],
+  "references": ["https://cwe.mitre.org/data/definitions/325.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

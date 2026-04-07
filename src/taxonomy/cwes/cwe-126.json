@@ -1,0 +1,16 @@
+{
+  "id": "CWE-126",
+  "name": "Buffer Over-read",
+  "status": "filled",
+  "description": "The product reads from a buffer using indexes or pointers that reference memory locations after the end of the targeted buffer, potentially leaking sensitive data from adjacent memory (e.g., Heartbleed).",
+  "severity": "high",
+  "category": "memory",
+  "detection_pattern": "TRANSFORM[read_index] exceeds the upper bound of STORAGE[buffer], causing a read past the buffer's end without a CONTROL[upper_bounds_check] validating the index is < buffer_size before the read operation",
+  "graph_query": "TRANSFORM[index > size]→STORAGE[buffer_read] without CONTROL[upper_bounds_check]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-125", "CWE-788"],
+  "references": ["https://cwe.mitre.org/data/definitions/126.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

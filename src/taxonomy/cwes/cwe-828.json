@@ -1,0 +1,22 @@
+{
+  "id": "CWE-828",
+  "name": "Signal Handler with Functionality that is not Asynchronous-Safe",
+  "status": "filled",
+  "description": "The product defines a signal handler that contains code which is not asynchronous-safe, such as calling non-reentrant functions or accessing shared global state, which can corrupt system state and lead to denial of service or code execution.",
+  "severity": "medium",
+  "category": "concurrency",
+  "detection_pattern": "CONTROL[signal_handler] invokes TRANSFORM[non_reentrant_function] (like malloc, printf) or accesses STORAGE[global_state] without CONTROL[async_safety_guard] ensuring all operations within the handler are reentrant and atomic",
+  "graph_query": "CONTROL[signal_handler]→TRANSFORM[non_reentrant_function]|STORAGE[shared_state] without CONTROL[async_safety]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": [
+    "CWE-364",
+    "CWE-479",
+    "CWE-831"
+  ],
+  "references": [
+    "https://cwe.mitre.org/data/definitions/828.html"
+  ],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

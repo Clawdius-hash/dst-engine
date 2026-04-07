@@ -1,0 +1,16 @@
+{
+  "id": "CWE-539",
+  "name": "Use of Persistent Cookies Containing Sensitive Information",
+  "status": "filled",
+  "description": "The web application stores sensitive information in persistent cookies that are saved to the user's hard drive. This creates security and privacy risks as the data persists beyond the session and may be accessed by other users or attackers with access to the file system.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "Sensitive data from INGRESS or STORAGE flows into an EGRESS[cookie] node where the cookie is configured as persistent (not session-scoped). Look for AUTH or credential data being placed into EGRESS[set-cookie] without CONTROL[session_only] or TRANSFORM[encryption] mediation.",
+  "graph_query": "STORAGE[sensitive_data]→EGRESS[persistent_cookie] without TRANSFORM[encryption]",
+  "owasp_top10": "A04:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-552", "CWE-312"],
+  "references": ["https://cwe.mitre.org/data/definitions/539.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

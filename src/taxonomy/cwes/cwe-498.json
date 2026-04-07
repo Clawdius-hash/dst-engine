@@ -1,0 +1,16 @@
+{
+  "id": "CWE-498",
+  "name": "Cloneable Class Containing Sensitive Information",
+  "status": "filled",
+  "description": "A class containing sensitive information implements the Cloneable interface or does not explicitly deny cloning. This allows attackers to clone objects without running the constructor, bypassing security checks normally performed during instantiation and gaining unauthorized access to sensitive data.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "STRUCTURAL(class) implementing Cloneable that contains STORAGE(sensitive_data). Look for EXTERNAL(attacker)→TRANSFORM(clone)→STORAGE(sensitive_object) paths that bypass AUTH(constructor) to access sensitive fields.",
+  "graph_query": "EXTERNAL(caller)→TRANSFORM(clone)→STORAGE(sensitive_data) without AUTH(constructor_check)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-668", "CWE-200"],
+  "references": ["https://cwe.mitre.org/data/definitions/498.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

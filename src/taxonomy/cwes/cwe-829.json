@@ -1,0 +1,23 @@
+{
+  "id": "CWE-829",
+  "name": "Inclusion of Functionality from Untrusted Control Sphere",
+  "status": "filled",
+  "description": "The product imports, requires, or includes executable functionality such as libraries or code from sources outside its intended control sphere, enabling attackers to inject malicious code by compromising or substituting the external source.",
+  "severity": "high",
+  "category": "input_output",
+  "detection_pattern": "STRUCTURAL[import/include/require] references EXTERNAL[untrusted_source] to load executable code without a CONTROL[integrity_verification] node (hash check, signature validation, trusted source whitelist) ensuring the included functionality is authentic",
+  "graph_query": "STRUCTURAL[code_inclusion]→EXTERNAL[untrusted_source] without CONTROL[integrity_check]",
+  "owasp_top10": "A08:2021",
+  "sans_top25": true,
+  "related_cwes": [
+    "CWE-669",
+    "CWE-98",
+    "CWE-827",
+    "CWE-830"
+  ],
+  "references": [
+    "https://cwe.mitre.org/data/definitions/829.html"
+  ],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

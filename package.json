@@ -1,0 +1,33 @@
+{
+  "name": "dst-engine",
+  "version": "0.3.0",
+  "type": "module",
+  "description": "Deterministic Security Testing — static analysis that proves vulnerabilities exploitable",
+  "scripts": {
+    "test": "vitest run",
+    "scan": "tsx src/dst-cli.ts",
+    "demo": "tsx src/dst-cli.ts --demo --prove"
+  },
+  "dependencies": {
+    "web-tree-sitter": "^0.25.3",
+    "tree-sitter-java": "^0.23.5",
+    "tree-sitter-javascript": "^0.25.0",
+    "tree-sitter-python": "^0.25.0",
+    "tree-sitter-go": "^0.25.0",
+    "tree-sitter-rust": "^0.24.0",
+    "tree-sitter-php": "^0.24.2",
+    "tree-sitter-ruby": "^0.23.1",
+    "tree-sitter-c-sharp": "^0.23.1",
+    "tree-sitter-swift": "^0.7.1",
+    "tree-sitter-kotlin": "^0.3.8",
+    "@tree-sitter-grammars/tree-sitter-kotlin": "^1.1.0",
+    "tree-sitter-css": "^0.25.0",
+    "tree-sitter-html": "^0.23.2"
+  },
+  "devDependencies": {
+    "vitest": "^4.0.18",
+    "tsx": "^4.19.4",
+    "typescript": "~5.9.3"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-121",
+  "name": "Stack-based Buffer Overflow",
+  "status": "filled",
+  "description": "A buffer allocated on the stack (local variable) is written beyond its intended boundaries, corrupting adjacent stack frames including return addresses, enabling attackers to redirect execution flow and achieve arbitrary code execution.",
+  "severity": "critical",
+  "category": "memory",
+  "detection_pattern": "INGRESS or TRANSFORM node writes data to a STORAGE[stack_buffer] (local array, fixed-size stack variable) without a CONTROL[bounds_check] that ensures write length does not exceed the declared buffer size, potentially overwriting the return address on the stack",
+  "graph_query": "INGRESS→TRANSFORM[write]→STORAGE[stack_buffer] without CONTROL[bounds_check]",
+  "owasp_top10": null,
+  "sans_top25": true,
+  "related_cwes": ["CWE-787", "CWE-788", "CWE-120"],
+  "references": ["https://cwe.mitre.org/data/definitions/121.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

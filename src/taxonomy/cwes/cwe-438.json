@@ -1,0 +1,16 @@
+{
+  "id": "CWE-438",
+  "name": "Behavioral Problems",
+  "status": "needs_review",
+  "description": "Category-level CWE covering weaknesses related to unexpected behaviors from code. Vulnerability mapping is prohibited.",
+  "severity": "low",
+  "category": "reliability",
+  "detection_pattern": "N/A — category CWE, not a concrete weakness",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-115", "CWE-179", "CWE-444", "CWE-835"],
+  "references": ["https://cwe.mitre.org/data/definitions/438.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:40:00Z"
+}

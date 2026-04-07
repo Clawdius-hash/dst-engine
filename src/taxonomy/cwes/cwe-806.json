@@ -1,0 +1,16 @@
+{
+  "id": "CWE-806",
+  "name": "Buffer Access Using Size of Source Buffer",
+  "status": "filled",
+  "description": "The product uses the size of a source buffer when reading from or writing to a destination buffer, which may cause out-of-bounds memory access when the destination is smaller than the source. For example, using sizeof(source) instead of sizeof(dest) in strncpy.",
+  "severity": "high",
+  "category": "memory",
+  "detection_pattern": "TRANSFORM node performs a buffer copy using a length derived from the source STORAGE node's size rather than the destination STORAGE node's size, without a CONTROL node verifying destination capacity.",
+  "graph_query": "STORAGE[source_buffer]→TRANSFORM[copy_with_source_size]→STORAGE[dest_buffer] without CONTROL[dest_size_check]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-805", "CWE-120", "CWE-119"],
+  "references": ["https://cwe.mitre.org/data/definitions/806.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

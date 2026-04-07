@@ -1,0 +1,16 @@
+{
+  "id": "CWE-174",
+  "name": "Double Decoding of the Same Data",
+  "status": "filled",
+  "description": "The product decodes the same input data twice, allowing attackers to bypass security filters that operate between the two decoding steps — the first decode passes the filter, the second decode reveals the malicious payload.",
+  "severity": "high",
+  "category": "input_output",
+  "detection_pattern": "INGRESS node provides double-encoded data that passes through TRANSFORM[decode_1]→CONTROL[security_filter]→TRANSFORM[decode_2] where the filter checks the singly-decoded form but the doubly-decoded form contains the malicious payload, without a CONTROL[single_canonical_decode] that ensures data is fully decoded before any security check",
+  "graph_query": "INGRESS[double_encoded]→TRANSFORM[decode]→CONTROL[filter]→TRANSFORM[decode_again] without CONTROL[canonical_decode_first]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-172", "CWE-675"],
+  "references": ["https://cwe.mitre.org/data/definitions/174.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

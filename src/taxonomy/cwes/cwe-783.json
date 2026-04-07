@@ -1,0 +1,16 @@
+{
+  "id": "CWE-783",
+  "name": "Operator Precedence Logic Error",
+  "status": "filled",
+  "description": "The product uses an expression in which operator precedence causes incorrect logic to be used. When found in security-critical code such as authentication decisions, these errors can lead to security bypasses or unexpected program states.",
+  "severity": "medium",
+  "category": "reliability",
+  "detection_pattern": "CONTROL node contains conditional logic with mixed operators where precedence may cause unintended evaluation order, especially when the CONTROL node gates AUTH decisions or security-critical TRANSFORM operations.",
+  "graph_query": "CONTROL[conditional_logic]→AUTH[security_decision] without CONTROL[parenthesized_expression]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-670", "CWE-480"],
+  "references": ["https://cwe.mitre.org/data/definitions/783.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

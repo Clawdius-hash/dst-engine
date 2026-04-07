@@ -1,0 +1,16 @@
+{
+  "id": "CWE-553",
+  "name": "Command Shell in Externally Accessible Directory",
+  "status": "filled",
+  "description": "A command shell executable exists in a publicly accessible web directory such as /cgi-bin/, allowing an attacker to execute arbitrary commands on the web server.",
+  "severity": "critical",
+  "category": "file_handling",
+  "detection_pattern": "STRUCTURAL node representing a web-accessible directory (e.g., cgi-bin) contains a shell executable that connects directly to an EGRESS node. An EXTERNAL actor can reach the shell via INGRESS without AUTH mediation.",
+  "graph_query": "EXTERNAL→INGRESS→STRUCTURAL(shell) without AUTH",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-552"],
+  "references": ["https://cwe.mitre.org/data/definitions/553.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

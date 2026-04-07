@@ -1,0 +1,16 @@
+{
+  "id": "CWE-202",
+  "name": "Exposure of Sensitive Information Through Data Queries",
+  "status": "filled",
+  "description": "The product exposes sensitive information through data queries, allowing attackers to infer confidential details via statistical analysis or targeted search terms. Even when identity is scrubbed, unique query patterns can leak user-specific information.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "Look for STORAGE nodes containing sensitive or user-specific data accessible through EXTERNAL nodes (query interfaces, search APIs, database queries) flowing to EGRESS nodes (query results) without a CONTROL node (anonymization/aggregation threshold) or TRANSFORM node (differential privacy, k-anonymity) preventing individual record inference.",
+  "graph_query": "STORAGE(sensitive_data)→EXTERNAL(query_interface)→EGRESS(query_results) without CONTROL(anonymization)|TRANSFORM(privacy_filter)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-1230", "CWE-612"],
+  "references": ["https://cwe.mitre.org/data/definitions/202.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

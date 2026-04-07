@@ -1,0 +1,16 @@
+{
+  "id": "CWE-773",
+  "name": "Missing Reference to Active File Descriptor or Handle",
+  "status": "filled",
+  "description": "The product fails to maintain references to open file descriptors or handles, preventing their reclamation and leading to exhaustion of all available file descriptors.",
+  "severity": "medium",
+  "category": "file_handling",
+  "detection_pattern": "TRANSFORM node opens file descriptor in STORAGE(fd_table) but loses reference before CONTROL node can close it, causing descriptor leak over repeated operations",
+  "graph_query": "TRANSFORM(open_fd)→STORAGE(fd_table) without CONTROL(fd_reference_maintenance)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-771", "CWE-770"],
+  "references": ["https://cwe.mitre.org/data/definitions/773.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:20:00Z"
+}

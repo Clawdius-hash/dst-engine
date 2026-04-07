@@ -1,0 +1,16 @@
+{
+  "id": "CWE-587",
+  "name": "Assignment of a Fixed Address to a Pointer",
+  "status": "filled",
+  "description": "The product sets a pointer to a specific fixed memory address other than NULL. Fixed addresses are not portable across environments and platforms, potentially causing crashes or enabling attackers to inject malicious code at predictable memory locations.",
+  "severity": "medium",
+  "category": "memory",
+  "detection_pattern": "TRANSFORM node that assigns a hardcoded numeric value (other than 0/NULL) to a pointer variable in STORAGE. Look for pointer assignments where the source is a literal address constant rather than a dynamically allocated address.",
+  "graph_query": "META[literal_address]→STORAGE[pointer] without TRANSFORM[dynamic_allocation]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-344", "CWE-758"],
+  "references": ["https://cwe.mitre.org/data/definitions/587.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

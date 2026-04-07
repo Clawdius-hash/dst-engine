@@ -1,0 +1,16 @@
+{
+  "id": "CWE-176",
+  "name": "Improper Handling of Unicode Encoding",
+  "status": "filled",
+  "description": "The product does not properly handle Unicode-encoded input, including overlong UTF-8 sequences, homoglyphs, or Unicode normalization forms, allowing attackers to bypass ASCII-based security filters or create visually confusing identifiers.",
+  "severity": "high",
+  "category": "input_output",
+  "detection_pattern": "INGRESS node provides Unicode-encoded data (overlong UTF-8, fullwidth characters, homoglyphs, unnormalized forms) that bypasses CONTROL[ascii_filter] while the downstream TRANSFORM or EXTERNAL normalizes the Unicode and interprets the malicious content, without a TRANSFORM[unicode_normalize] (NFC/NFKC) applied before the security check",
+  "graph_query": "INGRESS[unicode]→CONTROL[ascii_filter]→EXTERNAL without TRANSFORM[unicode_normalize]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-172"],
+  "references": ["https://cwe.mitre.org/data/definitions/176.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

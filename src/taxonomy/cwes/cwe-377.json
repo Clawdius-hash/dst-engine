@@ -1,0 +1,16 @@
+{
+  "id": "CWE-377",
+  "name": "Insecure Temporary File",
+  "status": "filled",
+  "description": "The product creates and uses insecure temporary files, involving race conditions between filename generation and creation, insufficient randomization in filenames, or inadequate permissions that expose sensitive data to unauthorized access.",
+  "severity": "medium",
+  "category": "file_handling",
+  "detection_pattern": "TRANSFORM node creates temporary file in STORAGE with predictable name or insecure permissions, without CONTROL node enforcing secure temp file creation (mkstemp, O_EXCL) and restrictive permissions",
+  "graph_query": "TRANSFORM(temp_file_create)→STORAGE(filesystem) without CONTROL(secure_temp_creation)",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-668", "CWE-378", "CWE-379"],
+  "references": ["https://cwe.mitre.org/data/definitions/377.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:55:00Z"
+}

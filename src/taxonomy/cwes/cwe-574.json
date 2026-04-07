@@ -1,0 +1,16 @@
+{
+  "id": "CWE-574",
+  "name": "EJB Bad Practices: Use of Synchronization Primitives",
+  "status": "filled",
+  "description": "An Enterprise JavaBean uses thread synchronization primitives, violating the EJB specification. Since EJB containers may distribute bean instances across multiple JVMs, synchronization primitives will not work correctly and can lead to unpredictable behavior and race conditions.",
+  "severity": "medium",
+  "category": "concurrency",
+  "detection_pattern": "STRUCTURAL node within an EJB context that contains CONTROL nodes using synchronization primitives (synchronized blocks, locks, semaphores). Look for concurrency control mechanisms inside bean classes that violate the container-managed threading model.",
+  "graph_query": "STRUCTURAL[EJB]→CONTROL[synchronization] without EXTERNAL[container_managed_concurrency]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-695", "CWE-821"],
+  "references": ["https://cwe.mitre.org/data/definitions/574.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

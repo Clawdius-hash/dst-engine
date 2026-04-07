@@ -1,0 +1,16 @@
+{
+  "id": "CWE-765",
+  "name": "Multiple Unlocks of a Critical Resource",
+  "status": "filled",
+  "description": "The product unlocks a critical resource more times than intended, increasing semaphore counts beyond correct values or causing undefined behavior with binary locks, potentially leading to race conditions, crashes, or security bypasses.",
+  "severity": "medium",
+  "category": "concurrency",
+  "detection_pattern": "CONTROL(lock_release) is called multiple times on the same STORAGE(shared_resource) without matching CONTROL(lock_acquire) for each release. Look for error-handling or early-return paths where unlock is called when the lock is not held.",
+  "graph_query": "CONTROL(lock_release)→CONTROL(lock_release_same_resource) without CONTROL(lock_acquire)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-667", "CWE-675", "CWE-764"],
+  "references": ["https://cwe.mitre.org/data/definitions/765.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:15:00Z"
+}

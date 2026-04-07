@@ -1,0 +1,16 @@
+{
+  "id": "CWE-920",
+  "name": "Improper Restriction of Power Consumption",
+  "status": "filled",
+  "description": "The product operates in a power-constrained environment but does not properly restrict the amount of power its operation consumes. Attackers can exploit this to rapidly drain batteries through intensive use of components like CPU, GPS, or display on mobile and embedded devices.",
+  "severity": "medium",
+  "category": "reliability",
+  "detection_pattern": "EXTERNAL[power_intensive_component] (GPS, camera, CPU-intensive loop, display) is activated by an INGRESS-triggered CONTROL node without a CONTROL[power_budget] or CONTROL[rate_limit] node that restricts duration or frequency of power-intensive operations",
+  "graph_query": "INGRESS→CONTROL[activate]→EXTERNAL[power_intensive] without CONTROL[power_budget]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-400"],
+  "references": ["https://cwe.mitre.org/data/definitions/920.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

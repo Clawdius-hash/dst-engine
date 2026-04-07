@@ -1,0 +1,16 @@
+{
+  "id": "CWE-760",
+  "name": "Use of a One-Way Hash with a Predictable Salt",
+  "status": "filled",
+  "description": "The product uses a one-way cryptographic hash for sensitive data such as passwords with a predictable salt value (e.g., username, constant, or sequential value), enabling targeted dictionary attacks and reducing the effectiveness of the salt.",
+  "severity": "high",
+  "category": "cryptography",
+  "detection_pattern": "INGRESS(password_input) flows to TRANSFORM(hash_function) with a salt derived from a predictable source (META(username), META(constant), META(sequential_id)) rather than TRANSFORM(cryptographic_random_salt). Look for salt values that are deterministic or guessable.",
+  "graph_query": "INGRESS(sensitive_data)→TRANSFORM(hash_with_salt)→STORAGE(credential_store) without TRANSFORM(cryptographic_random_salt_generation)",
+  "owasp_top10": "A02:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-916", "CWE-759"],
+  "references": ["https://cwe.mitre.org/data/definitions/760.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:15:00Z"
+}

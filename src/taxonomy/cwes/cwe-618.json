@@ -1,0 +1,16 @@
+{
+  "id": "CWE-618",
+  "name": "Exposed Unsafe ActiveX Method",
+  "status": "filled",
+  "description": "An ActiveX control exposes methods that perform actions outside the browser's security model, lacking proper input validation or origin verification, allowing attackers to invoke dangerous OS-level operations.",
+  "severity": "high",
+  "category": "api",
+  "detection_pattern": "STRUCTURAL(ActiveX_control) exposes TRANSFORM methods to EXTERNAL(web_browser) that access STORAGE or CONTROL at OS level without AUTH node verifying caller origin or CONTROL node restricting method scope",
+  "graph_query": "EXTERNAL(browser)→STRUCTURAL(activex)→TRANSFORM(os_action) without AUTH(origin_verification)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-749", "CWE-623"],
+  "references": ["https://cwe.mitre.org/data/definitions/618.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:50:00Z"
+}

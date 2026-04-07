@@ -1,0 +1,16 @@
+{
+  "id": "CWE-323",
+  "name": "Reusing a Nonce, Key Pair in Encryption",
+  "status": "filled",
+  "description": "The product reuses a nonce or nonce-key pair in encryption operations. Nonces must be unique per operation; reuse enables replay attacks, allows attackers to derive plaintext from ciphertext, or permits impersonation by resending captured encrypted messages.",
+  "severity": "high",
+  "category": "cryptography",
+  "detection_pattern": "Look for TRANSFORM nodes (encryption, authenticated encryption) that receive nonce values from STORAGE or META nodes (static nonce, reused counter) without a CONTROL mediator (nonce uniqueness enforcement, counter increment, random nonce generation) that guarantees each nonce is used only once per key.",
+  "graph_query": "STORAGE(reused_nonce)→TRANSFORM(encryption) without CONTROL(nonce_uniqueness)",
+  "owasp_top10": "A02:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-344", "CWE-320"],
+  "references": ["https://cwe.mitre.org/data/definitions/323.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

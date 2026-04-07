@@ -1,0 +1,16 @@
+{
+  "id": "CWE-549",
+  "name": "Missing Password Field Masking",
+  "status": "filled",
+  "description": "The product does not mask passwords during entry in user interface fields, increasing the risk that attackers or bystanders can observe and capture passwords through shoulder-surfing or screen capture.",
+  "severity": "medium",
+  "category": "authentication",
+  "detection_pattern": "INGRESS[password_field] flowing to EGRESS[ui_display] without TRANSFORM[mask_input] mediating the display. The password input is rendered as plaintext rather than masked characters in the user interface.",
+  "graph_query": "INGRESS[password_field]→EGRESS[ui_display] without TRANSFORM[mask_input]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-522", "CWE-255"],
+  "references": ["https://cwe.mitre.org/data/definitions/549.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

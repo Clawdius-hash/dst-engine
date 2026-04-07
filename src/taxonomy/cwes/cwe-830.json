@@ -1,0 +1,20 @@
+{
+  "id": "CWE-830",
+  "name": "Inclusion of Web Functionality from an Untrusted Source",
+  "status": "filled",
+  "description": "The product includes web functionality such as third-party JavaScript widgets from external domains, granting that untrusted code full access within the product's domain including cookies, DOM data, and user session information.",
+  "severity": "high",
+  "category": "input_output",
+  "detection_pattern": "STRUCTURAL[web_page] includes EXTERNAL[third_party_script] from an untrusted domain that executes within the same origin as the application, without CONTROL[content_security_policy] or CONTROL[subresource_integrity] restricting the external code's capabilities",
+  "graph_query": "STRUCTURAL[page]→EXTERNAL[untrusted_script] without CONTROL[CSP|SRI]",
+  "owasp_top10": "A08:2021",
+  "sans_top25": false,
+  "related_cwes": [
+    "CWE-829"
+  ],
+  "references": [
+    "https://cwe.mitre.org/data/definitions/830.html"
+  ],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

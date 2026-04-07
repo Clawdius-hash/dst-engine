@@ -1,0 +1,16 @@
+{
+  "id": "CWE-308",
+  "name": "Use of Single-factor Authentication",
+  "status": "filled",
+  "description": "The product uses single-factor authentication (e.g., password only) in a security context that warrants multi-factor authentication. If the single factor is compromised, the attacker gains complete access with no additional barriers.",
+  "severity": "medium",
+  "category": "authentication",
+  "detection_pattern": "Look for AUTH nodes (authentication decision, login gate) that accept only one INGRESS factor (password, PIN, single token) without a secondary AUTH mediator (second factor check, MFA verification, out-of-band confirmation) that requires an independent additional proof of identity before granting access to sensitive resources.",
+  "graph_query": "INGRESS(single_factor)→AUTH(authentication_decision) without AUTH(second_factor_check)",
+  "owasp_top10": "A07:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-654", "CWE-1390", "CWE-309"],
+  "references": ["https://cwe.mitre.org/data/definitions/308.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-292",
+  "name": "DEPRECATED: Trusting Self-reported DNS Name",
+  "status": "needs_review",
+  "description": "This CWE is deprecated. It involved trusting DNS names that were self-reported rather than independently verified. All content has been transferred to CWE-350 (Reliance on Reverse DNS Resolution for a Security-Critical Action).",
+  "severity": "low",
+  "category": "authentication",
+  "detection_pattern": "N/A — deprecated, see CWE-350",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-350"],
+  "references": ["https://cwe.mitre.org/data/definitions/292.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

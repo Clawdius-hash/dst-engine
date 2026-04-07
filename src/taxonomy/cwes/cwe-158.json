@@ -1,0 +1,16 @@
+{
+  "id": "CWE-158",
+  "name": "Improper Neutralization of Null Byte or NUL Character",
+  "status": "filled",
+  "description": "The product does not properly handle null bytes (\\0, %00) in user input, which can truncate strings in C-based systems, bypass validation that only checks up to the null byte, or cause interpretation mismatches between components that handle null bytes differently.",
+  "severity": "high",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides user-controlled data containing null bytes that bypasses CONTROL[input_validation] (which may stop reading at the null) while the downstream STORAGE[file_access] or EXTERNAL[interpreter] processes the full data including content after the null, creating a validation-vs-use mismatch",
+  "graph_query": "INGRESS[null_byte]→CONTROL[validation]→STORAGE|EXTERNAL without TRANSFORM[null_byte_strip]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-138", "CWE-86"],
+  "references": ["https://cwe.mitre.org/data/definitions/158.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

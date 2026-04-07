@@ -1,0 +1,16 @@
+{
+  "id": "CWE-179",
+  "name": "Incorrect Behavior Order: Early Validation",
+  "status": "filled",
+  "description": "The product validates input before applying transformations or protection mechanisms that modify the input, allowing attackers to craft input that passes validation in its original form but becomes dangerous after the subsequent modification (e.g., validating before URL-decoding or before stripping characters).",
+  "severity": "high",
+  "category": "input_output",
+  "detection_pattern": "CONTROL[input_validation] runs before TRANSFORM[modification] (decode, strip, normalize, canonicalize), so input that passes validation in pre-modification form becomes dangerous in post-modification form when it reaches STORAGE or EXTERNAL, without reordering to TRANSFORM first then CONTROL",
+  "graph_query": "INGRESS→CONTROL[validate]→TRANSFORM[modify]→STORAGE|EXTERNAL without CONTROL[validate_after_modify]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-20", "CWE-696"],
+  "references": ["https://cwe.mitre.org/data/definitions/179.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-446",
+  "name": "UI Discrepancy for Security Feature",
+  "status": "filled",
+  "description": "The user interface does not correctly enable or configure a security feature, but provides feedback that causes the user to believe the feature is in a secure state. This can lead users to operate under a false sense of security while protections are actually inactive.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "EGRESS node (UI output) displays security state information that is inconsistent with the actual CONTROL or AUTH node configuration. Look for a STRUCTURAL UI component that reports a security feature as enabled without a corresponding CONTROL node that enforces the feature, missing a TRANSFORM that synchronizes UI state with actual security state.",
+  "graph_query": "EGRESS(ui_feedback)→CONTROL(security_feature) without TRANSFORM(state_sync)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-684", "CWE-447", "CWE-448", "CWE-449"],
+  "references": ["https://cwe.mitre.org/data/definitions/446.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

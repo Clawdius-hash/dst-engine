@@ -1,0 +1,16 @@
+{
+  "id": "CWE-190",
+  "name": "Integer Overflow or Wraparound",
+  "status": "filled",
+  "description": "The product performs calculations that can produce an integer overflow or wraparound when the logic assumes results will always be larger than original values. When an integer exceeds its maximum representable value, it wraps to a very small or negative number, potentially leading to buffer overflows or other memory corruption.",
+  "severity": "high",
+  "category": "memory",
+  "detection_pattern": "Look for INGRESS nodes providing numeric input that flows to TRANSFORM nodes performing arithmetic (addition, multiplication) without a CONTROL node that validates the result fits within the integer type's range before the value reaches STORAGE or is used as a size for memory allocation. The missing mediator is bounds/overflow checking.",
+  "graph_query": "INGRESS→TRANSFORM(arithmetic)→STORAGE|STRUCTURAL without CONTROL(bounds_check)",
+  "owasp_top10": null,
+  "sans_top25": true,
+  "related_cwes": ["CWE-682", "CWE-680", "CWE-128", "CWE-119"],
+  "references": ["https://cwe.mitre.org/data/definitions/190.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

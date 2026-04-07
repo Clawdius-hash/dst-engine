@@ -1,0 +1,16 @@
+{
+  "id": "CWE-235",
+  "name": "Improper Handling of Extra Parameters",
+  "status": "filled",
+  "description": "The product does not handle or incorrectly handles when the number of parameters, fields, or arguments with the same name exceeds the expected amount. This enables attacks like HTTP Parameter Pollution where duplicate parameters bypass security controls.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "Look for INGRESS nodes (HTTP requests with duplicate parameters, repeated form fields) flowing to CONTROL or AUTH nodes (security filters, access checks) without a CONTROL mediator (duplicate parameter detection, parameter deduplication) that detects and properly handles multiple parameters with the same name before security decisions are made.",
+  "graph_query": "INGRESS(duplicate_params)→CONTROL(security_decision) without CONTROL(dedup_validation)",
+  "owasp_top10": "A04:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-233", "CWE-228"],
+  "references": ["https://cwe.mitre.org/data/definitions/235.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-507",
+  "name": "Trojan Horse",
+  "status": "filled",
+  "description": "Software that appears to contain legitimate or useful functionality but conceals hidden code that violates the intended security policy, executing unauthorized actions under the guise of benign operation.",
+  "severity": "critical",
+  "category": "data_protection",
+  "detection_pattern": "STRUCTURAL node presents legitimate META interface but contains hidden TRANSFORM logic that performs unauthorized EGRESS or STORAGE operations not visible to the user",
+  "graph_query": "STRUCTURAL(benign_facade)→TRANSFORM(hidden_malicious) without META(transparency)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-506", "CWE-508", "CWE-509"],
+  "references": ["https://cwe.mitre.org/data/definitions/507.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:00:00Z"
+}

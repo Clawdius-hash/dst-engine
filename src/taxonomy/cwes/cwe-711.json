@@ -1,0 +1,16 @@
+{
+  "id": "CWE-711",
+  "name": "View: Weaknesses in OWASP Top Ten (2004)",
+  "status": "needs_review",
+  "description": "This is a View that organizes weaknesses associated with the 2004 OWASP Top Ten categories. It is considered obsolete as newer versions of the OWASP Top Ten are available (see CWE-629 for the 2007 version).",
+  "severity": "low",
+  "category": "configuration",
+  "detection_pattern": "N/A — view, not a weakness",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-629", "CWE-722", "CWE-723", "CWE-724", "CWE-725", "CWE-726", "CWE-727", "CWE-728", "CWE-729", "CWE-730", "CWE-731"],
+  "references": ["https://cwe.mitre.org/data/definitions/711.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:15:00Z"
+}

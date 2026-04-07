@@ -1,0 +1,16 @@
+{
+  "id": "CWE-218",
+  "name": "DEPRECATED: Failure to Provide Confidentiality for Stored Data",
+  "status": "needs_review",
+  "description": "This CWE is deprecated. It was a duplicate of CWE-493. All content has been transferred to CWE-493. This entry should not be used for mapping real-world vulnerabilities.",
+  "severity": "low",
+  "category": "data_protection",
+  "detection_pattern": "N/A — deprecated",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-493"],
+  "references": ["https://cwe.mitre.org/data/definitions/218.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

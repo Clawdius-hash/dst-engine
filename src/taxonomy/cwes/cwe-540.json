@@ -1,0 +1,16 @@
+{
+  "id": "CWE-540",
+  "name": "Inclusion of Sensitive Information in Source Code",
+  "status": "filled",
+  "description": "Source code that is accessible on web servers or in repositories contains sensitive information such as credentials, API keys, or internal logic. Attackers who gain access to the source code can extract this data to further exploit the system.",
+  "severity": "high",
+  "category": "data_protection",
+  "detection_pattern": "STORAGE[credentials] or META[sensitive_config] embedded within STRUCTURAL[source_code] nodes that are accessible via EGRESS[web_server] or EXTERNAL[repository] without AUTH[access_control]. Hardcoded secrets in source files that reach externally-accessible locations.",
+  "graph_query": "META[sensitive_data]→STRUCTURAL[source_code]→EGRESS without AUTH[access_control]",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-538", "CWE-531", "CWE-541", "CWE-615"],
+  "references": ["https://cwe.mitre.org/data/definitions/540.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

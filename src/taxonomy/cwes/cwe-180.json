@@ -1,0 +1,16 @@
+{
+  "id": "CWE-180",
+  "name": "Incorrect Behavior Order: Validate Before Canonicalize",
+  "status": "filled",
+  "description": "The product validates input before canonicalizing it (resolving path traversal, decoding, normalizing), allowing attackers to provide encoded or non-canonical input that passes validation but resolves to a dangerous value after canonicalization.",
+  "severity": "high",
+  "category": "input_output",
+  "detection_pattern": "CONTROL[input_validation] runs before TRANSFORM[canonicalize] (path resolution, URL decode, Unicode normalize), so input passes validation in non-canonical form then resolves to a dangerous canonical form at STORAGE or EXTERNAL, without reordering to canonicalize-then-validate",
+  "graph_query": "INGRESS→CONTROL[validate]→TRANSFORM[canonicalize]→STORAGE without CONTROL[validate_after_canonicalize]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-179", "CWE-22"],
+  "references": ["https://cwe.mitre.org/data/definitions/180.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

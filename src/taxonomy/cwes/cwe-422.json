@@ -1,0 +1,16 @@
+{
+  "id": "CWE-422",
+  "name": "Unprotected Windows Messaging Channel ('Shatter')",
+  "status": "filled",
+  "description": "The product running with elevated privileges does not properly verify the source of Windows messages, allowing an attacker to send crafted messages through the Windows Messaging System to manipulate the privileged application and execute arbitrary actions.",
+  "severity": "high",
+  "category": "authorization",
+  "detection_pattern": "INGRESS node receiving Windows messages (WM_* messages, SendMessage, PostMessage) into a TRANSFORM or CONTROL node running with elevated privileges, without an AUTH node verifying the sender identity or message origin before processing",
+  "graph_query": "INGRESS[windows_message]→TRANSFORM|CONTROL[privileged_handler] without AUTH[message_source_verification]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-360", "CWE-420"],
+  "references": ["https://cwe.mitre.org/data/definitions/422.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:25:00Z"
+}

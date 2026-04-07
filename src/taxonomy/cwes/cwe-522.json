@@ -1,0 +1,18 @@
+{
+  "id": "CWE-522",
+  "name": "Insufficiently Protected Credentials",
+  "status": "implemented",
+  "description": "The product transmits or stores authentication credentials using methods that are insufficient to protect them from unauthorized interception or retrieval, such as plaintext storage, weak encoding, or unencrypted transmission.",
+  "severity": "high",
+  "category": "data_protection",
+  "detection_pattern": "Credential data (passwords, API keys, tokens) flows from INGRESS or TRANSFORM nodes to STORAGE nodes (config files, databases, registry) or EGRESS[network] nodes without passing through a TRANSFORM[strong_hash|encryption] node that applies cryptographic protection (bcrypt, Argon2, AES, TLS)",
+  "graph_query": "INGRESS|TRANSFORM[credentials]→STORAGE|EGRESS without TRANSFORM[strong_hash|encryption]",
+  "owasp_top10": "A04:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-668", "CWE-1390", "CWE-287", "CWE-256", "CWE-257", "CWE-260", "CWE-261", "CWE-523"],
+  "references": ["https://cwe.mitre.org/data/definitions/522.html"],
+  "implemented_in": ["verifier.ts"],
+  "verified_at": "2026-03-23T00:00:00Z",
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

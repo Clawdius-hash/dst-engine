@@ -1,0 +1,16 @@
+{
+  "id": "CWE-375",
+  "name": "Returning a Mutable Object to an Untrusted Caller",
+  "status": "filled",
+  "description": "The product returns a reference to mutable internal data without cloning it, allowing the calling code to modify the object and violate the class's internal state assumptions.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "TRANSFORM or EGRESS node returns reference to mutable STORAGE data to an untrusted caller without TRANSFORM node performing defensive copy before return",
+  "graph_query": "STORAGE(mutable_internal)→EGRESS(return_to_caller) without TRANSFORM(defensive_copy)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-668"],
+  "references": ["https://cwe.mitre.org/data/definitions/375.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:55:00Z"
+}

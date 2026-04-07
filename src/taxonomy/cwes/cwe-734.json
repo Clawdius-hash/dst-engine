@@ -1,0 +1,16 @@
+{
+  "id": "CWE-734",
+  "name": "View: Weaknesses Addressed by the CERT C Secure Coding Standard (2008)",
+  "status": "needs_review",
+  "description": "This is a View that organizes software weaknesses addressed by the 2008 CERT C Secure Coding Standard. It is considered obsolete as newer versions of the coding standard exist.",
+  "severity": "low",
+  "category": "reliability",
+  "detection_pattern": "N/A — view",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-735", "CWE-736", "CWE-737", "CWE-738", "CWE-739", "CWE-740", "CWE-741", "CWE-742", "CWE-743", "CWE-744", "CWE-745", "CWE-746", "CWE-747", "CWE-748"],
+  "references": ["https://cwe.mitre.org/data/definitions/734.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:15:00Z"
+}

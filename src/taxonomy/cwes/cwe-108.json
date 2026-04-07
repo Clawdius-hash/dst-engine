@@ -1,0 +1,16 @@
+{
+  "id": "CWE-108",
+  "name": "Struts: Unvalidated Action Form",
+  "status": "filled",
+  "description": "A Struts Action Form exists that has no corresponding validation form definition in the Struts Validator configuration, meaning all input from that form bypasses framework validation entirely.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "STRUCTURAL[action_form] exists with no matching validation definition in META[struts_validation_config], so INGRESS[form_data] from that form bypasses CONTROL[struts_validator] entirely and flows directly to TRANSFORM or STORAGE",
+  "graph_query": "INGRESS[unvalidated_form]→TRANSFORM|STORAGE without CONTROL[validation_form_definition]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-1173", "CWE-20"],
+  "references": ["https://cwe.mitre.org/data/definitions/108.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

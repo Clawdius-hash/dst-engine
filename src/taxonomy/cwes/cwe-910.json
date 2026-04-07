@@ -1,0 +1,16 @@
+{
+  "id": "CWE-910",
+  "name": "Use of Expired File Descriptor",
+  "status": "filled",
+  "description": "The product accesses or uses a file descriptor after it has been closed. Since closed file descriptors may be reused by the system, the code may inadvertently operate on a different file or device than intended, potentially causing data corruption or information disclosure.",
+  "severity": "medium",
+  "category": "file_handling",
+  "detection_pattern": "STORAGE[file_descriptor] node is closed via a TRANSFORM[close] operation, but a subsequent TRANSFORM or EGRESS node references the same STORAGE[file_descriptor] without a new TRANSFORM[open] re-acquiring it",
+  "graph_query": "STORAGE[file_descriptor]→TRANSFORM[close]→TRANSFORM|EGRESS[use_fd] without TRANSFORM[open]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-672"],
+  "references": ["https://cwe.mitre.org/data/definitions/910.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

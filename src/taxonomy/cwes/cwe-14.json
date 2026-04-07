@@ -1,0 +1,16 @@
+{
+  "id": "CWE-14",
+  "name": "Compiler Removal of Code to Clear Buffers",
+  "status": "filled",
+  "description": "Sensitive data stored in memory buffers is not properly cleared because the compiler's optimizer removes the clearing code (e.g., memset) as a dead store, leaving passwords and cryptographic keys recoverable from memory.",
+  "severity": "medium",
+  "category": "memory",
+  "detection_pattern": "TRANSFORM[memset|bzero] node clears a STORAGE[memory_buffer] containing sensitive data, but the buffer is not subsequently read, causing compiler optimization to remove the clearing operation — requires use of volatile or platform-specific secure clear functions (SecureZeroMemory, explicit_bzero)",
+  "graph_query": "STORAGE[sensitive_buffer]→TRANSFORM[memset_clear] without CONTROL[volatile_barrier|secure_zero]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-733"],
+  "references": ["https://cwe.mitre.org/data/definitions/14.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

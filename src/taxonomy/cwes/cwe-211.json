@@ -1,0 +1,16 @@
+{
+  "id": "CWE-211",
+  "name": "Externally-Generated Error Message Containing Sensitive Information",
+  "status": "filled",
+  "description": "The product triggers an external diagnostic or error message (e.g., from a language interpreter, database engine, or framework) that is not directly controlled by the product, exposing sensitive system information such as stack traces, file paths, or SQL details to users or attackers.",
+  "severity": "medium",
+  "category": "error_handling",
+  "detection_pattern": "Look for EXTERNAL nodes (database engines, language runtimes, frameworks) that produce error output flowing to EGRESS nodes (HTTP responses, user-visible logs) without a CONTROL node (error handler/catch block) or TRANSFORM node (error sanitizer) intercepting and redacting the sensitive content.",
+  "graph_query": "EXTERNAL(runtime_error)→EGRESS(response) without CONTROL(error_handler)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-209", "CWE-210", "CWE-535", "CWE-536", "CWE-537"],
+  "references": ["https://cwe.mitre.org/data/definitions/211.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

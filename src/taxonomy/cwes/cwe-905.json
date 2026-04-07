@@ -1,0 +1,11 @@
+{
+  "id": "CWE-905",
+  "name": "SFP Primary Cluster: Predictability",
+  "status": "needs_review",
+  "description": "Category: Clusters weaknesses related to predictability issues within the Software Fault Pattern framework. An organizational grouping, not a weakness itself.",
+  "category_type": "category",
+  "related_cwes": ["CWE-888", "CWE-330", "CWE-331", "CWE-332", "CWE-335", "CWE-338", "CWE-340"],
+  "references": ["https://cwe.mitre.org/data/definitions/905.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

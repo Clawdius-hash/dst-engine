@@ -1,0 +1,16 @@
+{
+  "id": "CWE-192",
+  "name": "Integer Coercion Error",
+  "status": "filled",
+  "description": "Integer coercion refers to flaws in type casting, extension, or truncation of primitive data types. When a value is converted between integer types of different sizes or signedness, data can be lost or misinterpreted, potentially leading to buffer overflows or other memory corruption.",
+  "severity": "high",
+  "category": "memory",
+  "detection_pattern": "Look for INGRESS or TRANSFORM nodes where an integer value undergoes type casting (e.g., long to int, signed to unsigned) before being used at a STORAGE or STRUCTURAL node (such as buffer size calculation) without a CONTROL node that validates the value is within the target type's range. The missing mediator is range validation before type conversion.",
+  "graph_query": "INGRESS→TRANSFORM(type_cast)→STORAGE|STRUCTURAL without CONTROL(range_validation)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-681", "CWE-195", "CWE-119", "CWE-190"],
+  "references": ["https://cwe.mitre.org/data/definitions/192.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

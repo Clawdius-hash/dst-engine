@@ -1,0 +1,18 @@
+{
+  "id": "CWE-614",
+  "name": "Sensitive Cookie in HTTPS Session Without 'Secure' Attribute",
+  "status": "implemented",
+  "description": "The Secure attribute is not set for sensitive cookies in HTTPS sessions, allowing the user agent to transmit the cookie in plaintext over HTTP connections where it can be intercepted by attackers.",
+  "severity": "medium",
+  "category": "configuration",
+  "detection_pattern": "A TRANSFORM or EGRESS node sets a cookie containing sensitive data (session ID, auth token) on an HTTPS response without the Secure flag, allowing the cookie to flow over unencrypted EGRESS[http] channels in subsequent requests",
+  "graph_query": "TRANSFORM[set_cookie]→EGRESS[http_response] without CONTROL[secure_flag]",
+  "owasp_top10": "A05:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-319"],
+  "references": ["https://cwe.mitre.org/data/definitions/614.html"],
+  "implemented_in": ["verifier.ts"],
+  "verified_at": "2026-03-23T00:00:00Z",
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

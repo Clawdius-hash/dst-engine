@@ -1,0 +1,16 @@
+{
+  "id": "CWE-509",
+  "name": "Replicating Malicious Code (Virus or Worm)",
+  "status": "filled",
+  "description": "Self-propagating malicious code that, after compromising the target system, attempts to spread to and attack additional systems, expanding the scope of damage beyond the initial infection.",
+  "severity": "critical",
+  "category": "data_protection",
+  "detection_pattern": "STRUCTURAL node contains malicious TRANSFORM code that after local execution propagates to EXTERNAL nodes via EGRESS network connections without AUTH verification",
+  "graph_query": "STRUCTURAL(malware)→EGRESS(propagation)→EXTERNAL(new_targets) without CONTROL(propagation_prevention)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-507"],
+  "references": ["https://cwe.mitre.org/data/definitions/509.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:00:00Z"
+}

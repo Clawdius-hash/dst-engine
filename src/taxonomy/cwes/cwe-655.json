@@ -1,0 +1,16 @@
+{
+  "id": "CWE-655",
+  "name": "Insufficient Psychological Acceptability",
+  "status": "filled",
+  "description": "The product has a protection mechanism that is too difficult or inconvenient to use, encouraging non-malicious users to disable or bypass it. This undermines the intended security control through poor usability design.",
+  "severity": "low",
+  "category": "configuration",
+  "detection_pattern": "AUTH or CONTROL[security_mechanism] node exists in the graph but has high friction indicators (excessive steps, complex configuration) leading to STRUCTURAL paths that bypass the mechanism entirely",
+  "graph_query": "INGRESS→STRUCTURAL[bypass_path]→STORAGE|EGRESS without AUTH|CONTROL[security_mechanism]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-657", "CWE-693"],
+  "references": ["https://cwe.mitre.org/data/definitions/655.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:00:00Z"
+}

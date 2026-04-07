@@ -1,0 +1,16 @@
+{
+  "id": "CWE-12",
+  "name": "ASP.NET Misconfiguration: Missing Custom Error Page",
+  "status": "filled",
+  "description": "An ASP.NET application does not configure custom error pages, causing default error handlers to expose detailed stack traces, framework versions, and platform information to attackers.",
+  "severity": "medium",
+  "category": "error_handling",
+  "detection_pattern": "META[web_config] node has customErrors mode=Off or lacks customErrors configuration, allowing CONTROL[error_handler] to fall through to default ASP.NET EGRESS[error_response] that exposes internal details without TRANSFORM[redaction]",
+  "graph_query": "META[web_config customErrors=Off]→EGRESS[error_response] without META[custom_error_page]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-756"],
+  "references": ["https://cwe.mitre.org/data/definitions/12.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

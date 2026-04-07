@@ -1,0 +1,16 @@
+{
+  "id": "CWE-556",
+  "name": "ASP.NET Misconfiguration: Use of Identity Impersonation",
+  "status": "filled",
+  "description": "An ASP.NET application is configured to run with impersonated credentials, potentially granting the application unnecessary elevated privileges beyond what is required for its operation.",
+  "severity": "medium",
+  "category": "configuration",
+  "detection_pattern": "META node (ASP.NET configuration) enables identity impersonation, causing AUTH node to operate with elevated or client-derived credentials. The application's CONTROL flow executes under privileges exceeding the principle of least privilege.",
+  "graph_query": "META(config:impersonation)→AUTH(elevated) without CONTROL(least_privilege)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-266"],
+  "references": ["https://cwe.mitre.org/data/definitions/556.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

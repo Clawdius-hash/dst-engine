@@ -1,0 +1,16 @@
+{
+  "id": "CWE-575",
+  "name": "EJB Bad Practices: Use of AWT Swing",
+  "status": "filled",
+  "description": "An Enterprise JavaBean uses AWT/Swing GUI functionality, violating the EJB specification. Server-side beans should not interact with display or keyboard resources, as most servers do not allow direct interaction between application code and attached peripherals.",
+  "severity": "low",
+  "category": "api",
+  "detection_pattern": "STRUCTURAL node within an EJB context that imports or invokes AWT/Swing classes via EXTERNAL calls. Look for GUI framework usage (java.awt.*, javax.swing.*) within enterprise bean code.",
+  "graph_query": "STRUCTURAL[EJB]→EXTERNAL[AWT/Swing] without CONTROL[specification_compliance]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-695"],
+  "references": ["https://cwe.mitre.org/data/definitions/575.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

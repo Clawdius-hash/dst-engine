@@ -1,0 +1,18 @@
+{
+  "id": "CWE-119",
+  "name": "Improper Restriction of Operations within the Bounds of a Memory Buffer",
+  "status": "implemented",
+  "description": "The product performs operations on a memory buffer without properly restricting read or write actions to the buffer's intended boundaries, potentially allowing memory corruption, arbitrary code execution, or information disclosure.",
+  "severity": "critical",
+  "category": "memory",
+  "detection_pattern": "INGRESS or TRANSFORM node provides size or index data that flows to a STORAGE[memory_buffer] node performing read/write operations without passing through a CONTROL node that validates bounds, length, or index range",
+  "graph_query": "INGRESS→STORAGE[memory_buffer] without CONTROL[bounds_check]",
+  "owasp_top10": null,
+  "sans_top25": true,
+  "related_cwes": ["CWE-118", "CWE-120", "CWE-125", "CWE-787", "CWE-786", "CWE-788", "CWE-131", "CWE-129"],
+  "references": ["https://cwe.mitre.org/data/definitions/119.html"],
+  "implemented_in": ["verifier.ts"],
+  "verified_at": "2026-03-23T00:00:00Z",
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

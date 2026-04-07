@@ -1,0 +1,16 @@
+{
+  "id": "CWE-117",
+  "name": "Improper Output Neutralization for Logs",
+  "status": "filled",
+  "description": "The product writes user-controlled data to log files without neutralizing special elements (newlines, control characters, log format delimiters), allowing attackers to forge log entries, inject false audit trails, or exploit log analysis tools.",
+  "severity": "medium",
+  "category": "logging",
+  "detection_pattern": "INGRESS node provides user-controlled data that flows to STORAGE[log_file] or EGRESS[log_output] without a TRANSFORM[log_encoding] node that strips or encodes newlines, control characters, and log-format-significant delimiters before writing",
+  "graph_query": "INGRESS→STORAGE[log_file] without TRANSFORM[log_encoding]",
+  "owasp_top10": "A09:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-116", "CWE-20", "CWE-93"],
+  "references": ["https://cwe.mitre.org/data/definitions/117.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

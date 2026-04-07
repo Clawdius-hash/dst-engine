@@ -1,0 +1,16 @@
+{
+  "id": "CWE-508",
+  "name": "Non-Replicating Malicious Code",
+  "status": "filled",
+  "description": "Malicious code that resides only on the target system and executes unauthorized actions without attempting to spread to other systems or hosts.",
+  "severity": "critical",
+  "category": "data_protection",
+  "detection_pattern": "STRUCTURAL node contains malicious TRANSFORM code that executes on local system via STORAGE or EGRESS without propagation to EXTERNAL nodes",
+  "graph_query": "STRUCTURAL(malware)→TRANSFORM(local_execution) without META(integrity_verification)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-507"],
+  "references": ["https://cwe.mitre.org/data/definitions/508.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:00:00Z"
+}

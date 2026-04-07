@@ -1,0 +1,16 @@
+{
+  "id": "CWE-201",
+  "name": "Insertion of Sensitive Information Into Sent Data",
+  "status": "filled",
+  "description": "The code transmits data to another actor, but a portion of the data includes sensitive information that should not be accessible to that actor. This can expose credentials, private communications, or system architecture details useful for further exploitation.",
+  "severity": "high",
+  "category": "data_protection",
+  "detection_pattern": "Look for STORAGE nodes containing sensitive data (credentials, PII, internal state) flowing to an EGRESS node (HTTP response, API response, network transmission) without a TRANSFORM node (data sanitization/redaction) or CONTROL node (access check) ensuring sensitive fields are stripped before transmission.",
+  "graph_query": "STORAGE(sensitive_data)→EGRESS(sent_data) without TRANSFORM(redaction)|CONTROL(access_check)",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-200", "CWE-598", "CWE-202", "CWE-209", "CWE-212", "CWE-226"],
+  "references": ["https://cwe.mitre.org/data/definitions/201.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

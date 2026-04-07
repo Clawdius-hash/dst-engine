@@ -1,0 +1,16 @@
+{
+  "id": "CWE-72",
+  "name": "Improper Handling of Apple HFS+ Alternate Data Stream Path",
+  "status": "filled",
+  "description": "The product does not properly handle special file path syntax that accesses data forks or resource forks on Apple HFS+ filesystems, potentially allowing attackers to bypass access controls or access hidden file content.",
+  "severity": "medium",
+  "category": "file_handling",
+  "detection_pattern": "INGRESS node provides a filename containing HFS+ fork syntax ('/..namedfork/data' or '/..namedfork/rsrc') that flows to STORAGE[file_access] without a CONTROL node that rejects or sanitizes fork path components",
+  "graph_query": "INGRESS[path 'namedfork']→STORAGE[file_access] without CONTROL[reject_fork_syntax]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-66"],
+  "references": ["https://cwe.mitre.org/data/definitions/72.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

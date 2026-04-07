@@ -1,0 +1,16 @@
+{
+  "id": "CWE-263",
+  "name": "Password Aging with Long Expiration",
+  "status": "filled",
+  "description": "The product implements password aging but with an excessively long expiration period, giving attackers an extended window to crack compromised password hashes before forced rotation occurs. Note: modern NIST guidance discourages mandatory password expiration entirely, as it often leads to weaker password choices.",
+  "severity": "low",
+  "category": "authentication",
+  "detection_pattern": "Look for META nodes (password expiration policy, aging configuration) applied to AUTH nodes (authentication system) where the expiration period exceeds reasonable thresholds (e.g., >90 days) without a CONTROL mediator (adaptive expiration, breach-triggered rotation, risk-based policy) that adjusts aging based on threat context.",
+  "graph_query": "META(long_expiration_policy)→AUTH(password_system) without CONTROL(adaptive_rotation)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-1390", "CWE-262", "CWE-324"],
+  "references": ["https://cwe.mitre.org/data/definitions/263.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-376",
+  "name": "DEPRECATED: Temporary File Issues",
+  "status": "needs_review",
+  "description": "Deprecated category CWE. Replaced by CWE-1219 (File Handling Issues). Vulnerability mapping is prohibited.",
+  "severity": "low",
+  "category": "file_handling",
+  "detection_pattern": "N/A — deprecated category CWE",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-1219"],
+  "references": ["https://cwe.mitre.org/data/definitions/376.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:55:00Z"
+}

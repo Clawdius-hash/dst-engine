@@ -1,0 +1,16 @@
+{
+  "id": "CWE-535",
+  "name": "Exposure of Information Through Shell Error Message",
+  "status": "filled",
+  "description": "Command shell error messages expose unhandled exceptions or internal details of the web application, which attackers can exploit to gain unauthorized access or further map the system's internals.",
+  "severity": "medium",
+  "category": "error_handling",
+  "detection_pattern": "EGRESS node emitting shell error output that reaches an external user without passing through a TRANSFORM node that sanitizes or replaces error details. Look for EXTERNAL (shell/command execution) flowing to EGRESS without error-masking TRANSFORM.",
+  "graph_query": "EXTERNAL[shell]→EGRESS without TRANSFORM[error_sanitize]",
+  "owasp_top10": "A05:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-211", "CWE-209"],
+  "references": ["https://cwe.mitre.org/data/definitions/535.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

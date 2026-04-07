@@ -1,0 +1,16 @@
+{
+  "id": "CWE-258",
+  "name": "Empty Password in Configuration File",
+  "status": "filled",
+  "description": "The product stores credentials with an empty string as the password in a configuration file. Using an empty password provides virtually no authentication barrier, allowing anyone with access to the configuration file to immediately use the exposed credentials.",
+  "severity": "high",
+  "category": "authentication",
+  "detection_pattern": "Look for STORAGE nodes (configuration files, properties files, connection strings) containing AUTH data (credentials, passwords) where the password value is empty or blank, without a CONTROL mediator (password strength validation, configuration audit) that enforces minimum password complexity requirements.",
+  "graph_query": "STORAGE(config_file)→AUTH(empty_password) without CONTROL(password_strength_check)",
+  "owasp_top10": "A07:2025",
+  "sans_top25": false,
+  "related_cwes": ["CWE-260", "CWE-521", "CWE-798"],
+  "references": ["https://cwe.mitre.org/data/definitions/258.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

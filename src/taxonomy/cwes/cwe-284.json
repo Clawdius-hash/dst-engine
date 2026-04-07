@@ -1,0 +1,16 @@
+{
+  "id": "CWE-284",
+  "name": "Improper Access Control",
+  "status": "needs_review",
+  "description": "This is a Pillar-level CWE (the most abstract level). The product does not restrict or incorrectly restricts access to a resource from an unauthorized actor. MITRE discourages mapping to this CWE directly; more specific descendants like CWE-862, CWE-306, or CWE-732 should be used instead.",
+  "severity": "high",
+  "category": "authorization",
+  "detection_pattern": "N/A — Pillar-level abstraction, too broad for specific detection pattern. Use descendant CWEs (CWE-862, CWE-863, CWE-287, CWE-306, CWE-732) for actionable detection.",
+  "graph_query": "N/A",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-269", "CWE-282", "CWE-285", "CWE-286", "CWE-287"],
+  "references": ["https://cwe.mitre.org/data/definitions/284.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

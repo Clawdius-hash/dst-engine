@@ -1,0 +1,11 @@
+{
+  "id": "CWE-873",
+  "name": "CERT C++ Secure Coding Section 05 - Floating Point Arithmetic (FLP)",
+  "status": "needs_review",
+  "description": "Category: Organizational grouping of weaknesses related to floating-point arithmetic rules from the CERT C++ Secure Coding Standard. Not a weakness itself.",
+  "category_type": "category",
+  "related_cwes": ["CWE-868", "CWE-369", "CWE-681", "CWE-682", "CWE-686"],
+  "references": ["https://cwe.mitre.org/data/definitions/873.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-923",
+  "name": "Improper Restriction of Communication Channel to Intended Endpoints",
+  "status": "filled",
+  "description": "The product establishes a communication channel for privileged operations but fails to verify it is communicating with the correct endpoint. Attackers can spoof the intended endpoint from a different system or process, gaining the same level of access as the legitimate endpoint.",
+  "severity": "high",
+  "category": "authentication",
+  "detection_pattern": "EGRESS or EXTERNAL[network] node establishes a communication channel without an AUTH[endpoint_verification] node that validates the identity of the remote endpoint through certificates, mutual authentication, or origin checks",
+  "graph_query": "EGRESS→EXTERNAL[network] without AUTH[endpoint_verification]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-284", "CWE-291", "CWE-297", "CWE-300", "CWE-940", "CWE-941", "CWE-942"],
+  "references": ["https://cwe.mitre.org/data/definitions/923.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-123",
+  "name": "Write-what-where Condition",
+  "status": "filled",
+  "description": "An attacker gains the ability to write an arbitrary value to an arbitrary memory location, typically as a result of a buffer overflow corrupting heap metadata or function pointers, enabling complete control over program execution.",
+  "severity": "critical",
+  "category": "memory",
+  "detection_pattern": "A TRANSFORM[buffer_overflow] or TRANSFORM[heap_corruption] causes a STORAGE[memory_write] operation where both the destination address and the written value are attacker-influenced, without a CONTROL[write_protection] such as ASLR, stack canaries, or safe unlinking that prevents arbitrary writes",
+  "graph_query": "INGRESS→TRANSFORM[overflow]→STORAGE[arbitrary_write] without CONTROL[write_protection]",
+  "owasp_top10": null,
+  "sans_top25": true,
+  "related_cwes": ["CWE-787", "CWE-119", "CWE-122"],
+  "references": ["https://cwe.mitre.org/data/definitions/123.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-500",
+  "name": "Public Static Field Not Marked Final",
+  "status": "filled",
+  "description": "A public static field is not marked as final (or const), allowing any class in the application to read and modify it without accessors or mutators. This can lead to unintended modification of critical data elements, causing integrity and confidentiality violations.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "STORAGE(public_static_field) without final modifier. Look for EXTERNAL(any_class)→TRANSFORM(assignment)→STORAGE(public_static_non_final) where any code can overwrite the field without AUTH(validation) or CONTROL(setter).",
+  "graph_query": "EXTERNAL(any_class)→TRANSFORM(assignment)→STORAGE(public_static_non_final) without AUTH(setter_validation)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-493"],
+  "references": ["https://cwe.mitre.org/data/definitions/500.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

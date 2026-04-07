@@ -1,0 +1,16 @@
+{
+  "id": "CWE-771",
+  "name": "Missing Reference to Active Allocated Resource",
+  "status": "filled",
+  "description": "The product does not properly maintain a reference to an allocated resource, preventing it from being reclaimed and leading to resource leaks, particularly in languages without automatic garbage collection.",
+  "severity": "medium",
+  "category": "memory",
+  "detection_pattern": "TRANSFORM node allocates resource in STORAGE but loses the reference (overwrite, scope exit), preventing CONTROL node from later releasing the resource",
+  "graph_query": "TRANSFORM(allocate)→STORAGE(resource) without CONTROL(reference_maintenance)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-400", "CWE-773"],
+  "references": ["https://cwe.mitre.org/data/definitions/771.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:20:00Z"
+}

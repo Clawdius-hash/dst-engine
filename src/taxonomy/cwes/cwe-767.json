@@ -1,0 +1,16 @@
+{
+  "id": "CWE-767",
+  "name": "Access to Critical Private Variable via Public Method",
+  "status": "filled",
+  "description": "The product defines a public method that reads or modifies a critical private variable without proper validation, allowing attackers to manipulate internal state to unexpected values or expose sensitive information.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "STRUCTURAL(class) has STORAGE(private_critical_variable) accessible through a public TRANSFORM(getter_or_setter_method) without CONTROL(input_validation) or AUTH(caller_authorization). Look for public methods that expose or mutate security-critical private state without checks.",
+  "graph_query": "EXTERNAL(caller)→TRANSFORM(public_method)→STORAGE(private_critical_variable) without CONTROL(validation_or_authorization)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-668", "CWE-766"],
+  "references": ["https://cwe.mitre.org/data/definitions/767.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:15:00Z"
+}

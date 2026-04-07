@@ -1,0 +1,16 @@
+{
+  "id": "CWE-459",
+  "name": "Incomplete Cleanup",
+  "status": "filled",
+  "description": "The product does not properly clean up and remove temporary or supporting resources after they have been used. This includes failure to delete temporary files, release I/O resources, or clear sensitive data from memory, potentially leading to resource exhaustion, data leaks, or denial of service.",
+  "severity": "medium",
+  "category": "reliability",
+  "detection_pattern": "STORAGE or EXTERNAL node (temporary resource) is created or allocated during operation but no corresponding TRANSFORM(cleanup) or CONTROL(release) node exists on all exit paths, including error paths. Look for STORAGE nodes that persist beyond their intended lifecycle without a TRANSFORM that removes or zeroes sensitive data.",
+  "graph_query": "STRUCTURAL(allocation)→STORAGE(temp_resource)→EGRESS(exit) without TRANSFORM(cleanup)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-404", "CWE-226", "CWE-460", "CWE-568"],
+  "references": ["https://cwe.mitre.org/data/definitions/459.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

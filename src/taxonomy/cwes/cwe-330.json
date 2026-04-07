@@ -1,0 +1,16 @@
+{
+  "id": "CWE-330",
+  "name": "Use of Insufficiently Random Values",
+  "status": "filled",
+  "description": "The product uses insufficiently random numbers or values in a security context that depends on unpredictable numbers, such as token generation, session IDs, or cryptographic operations, enabling attackers to predict values and bypass protections.",
+  "severity": "high",
+  "category": "cryptography",
+  "detection_pattern": "TRANSFORM node generates random values using a weak or non-cryptographic source (Math.random, rand(), predictable seed) and feeds into AUTH, STORAGE, or EGRESS nodes for security-sensitive purposes without a CONTROL node enforcing use of cryptographically secure random number generators",
+  "graph_query": "TRANSFORM(weak_random)→AUTH|STORAGE|EGRESS without CONTROL(csprng_policy)",
+  "owasp_top10": "A02:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-331", "CWE-334", "CWE-335", "CWE-338", "CWE-340"],
+  "references": ["https://cwe.mitre.org/data/definitions/330.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:20:00Z"
+}

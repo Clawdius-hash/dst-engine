@@ -1,0 +1,11 @@
+{
+  "id": "CWE-874",
+  "name": "CERT C++ Secure Coding Section 06 - Arrays and the STL (ARR)",
+  "status": "needs_review",
+  "description": "Category: Organizational grouping of weaknesses related to arrays and STL handling from the CERT C++ Secure Coding Standard. Not a weakness itself.",
+  "category_type": "category",
+  "related_cwes": ["CWE-868", "CWE-119", "CWE-129", "CWE-467", "CWE-469", "CWE-665", "CWE-805"],
+  "references": ["https://cwe.mitre.org/data/definitions/874.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

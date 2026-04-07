@@ -1,0 +1,28 @@
+{
+  "id": "CWE-857",
+  "name": "Category: CERT Oracle Secure Coding Standard for Java (2011) Chapter 14 - Input Output (FIO)",
+  "status": "needs_review",
+  "description": "This is a category grouping weaknesses related to input/output handling from the CERT Oracle Secure Coding Standard for Java (2011). Categories cannot be used for vulnerability mapping.",
+  "severity": "low",
+  "category": "file_handling",
+  "detection_pattern": "N/A — category",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": [
+    "CWE-844",
+    "CWE-67",
+    "CWE-276",
+    "CWE-377",
+    "CWE-404",
+    "CWE-459",
+    "CWE-532",
+    "CWE-732",
+    "CWE-770"
+  ],
+  "references": [
+    "https://cwe.mitre.org/data/definitions/857.html"
+  ],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

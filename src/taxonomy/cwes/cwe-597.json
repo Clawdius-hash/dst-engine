@@ -1,0 +1,16 @@
+{
+  "id": "CWE-597",
+  "name": "Use of Wrong Operator in String Comparison",
+  "status": "filled",
+  "description": "The product uses the wrong operator for string comparison, such as using == instead of .equals() in Java. This compares object references rather than string values, leading to incorrect comparison results that can affect security-critical logic.",
+  "severity": "medium",
+  "category": "reliability",
+  "detection_pattern": "CONTROL(string_comparison) node uses identity operator (==) on string objects arriving from INGRESS or TRANSFORM nodes. The CONTROL branch depends on string equality but lacks proper TRANSFORM(string_equals) invocation, causing incorrect branching on logically equal strings.",
+  "graph_query": "INGRESS(string)→CONTROL(identity_compare) without TRANSFORM(string_equals)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-480", "CWE-595"],
+  "references": ["https://cwe.mitre.org/data/definitions/597.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

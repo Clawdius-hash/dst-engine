@@ -1,0 +1,16 @@
+{
+  "id": "CWE-71",
+  "name": "DEPRECATED: Apple '.DS_Store'",
+  "status": "needs_review",
+  "description": "Deprecated variant — represents a specific observed example of UNIX hard link weakness rather than its own type. Use CWE-62 instead.",
+  "severity": "low",
+  "category": "file_handling",
+  "detection_pattern": "N/A — deprecated, use CWE-62",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-62"],
+  "references": ["https://cwe.mitre.org/data/definitions/71.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

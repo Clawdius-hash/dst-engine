@@ -1,0 +1,16 @@
+{
+  "id": "CWE-516",
+  "name": "DEPRECATED: Covert Timing Channel",
+  "status": "needs_review",
+  "description": "Deprecated CWE. Use CWE-385 instead. Vulnerability mapping is prohibited.",
+  "severity": "low",
+  "category": "data_protection",
+  "detection_pattern": "N/A — deprecated, use CWE-385",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-385"],
+  "references": ["https://cwe.mitre.org/data/definitions/516.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:10:00Z"
+}

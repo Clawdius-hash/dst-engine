@@ -1,0 +1,21 @@
+{
+  "id": "CWE-826",
+  "name": "Premature Release of Resource During Expected Lifetime",
+  "status": "filled",
+  "description": "The product releases a resource that is still intended for use by itself or another actor, causing subsequent access to fail or corrupt state, potentially leading to denial of service, information exposure, or code execution.",
+  "severity": "medium",
+  "category": "reliability",
+  "detection_pattern": "STORAGE[resource] is released via TRANSFORM[release/free] while other CONTROL[execution_path] nodes still expect the resource to be available, without a CONTROL[lifetime_management] node coordinating the release with all consumers",
+  "graph_query": "TRANSFORM[premature_release]→STORAGE[resource] without CONTROL[lifetime_coordination]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": [
+    "CWE-666",
+    "CWE-672"
+  ],
+  "references": [
+    "https://cwe.mitre.org/data/definitions/826.html"
+  ],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

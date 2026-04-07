@@ -1,0 +1,16 @@
+{
+  "id": "CWE-790",
+  "name": "Improper Filtering of Special Elements",
+  "status": "filled",
+  "description": "The product receives data from an upstream component but does not filter or incorrectly filters special elements before sending it to a downstream component. This abstract class of weakness encompasses various incomplete filtering scenarios that can lead to injection attacks.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "INGRESS node provides data containing special elements that flows to an EGRESS or TRANSFORM node without passing through a CONTROL node that properly filters all instances and forms of special elements.",
+  "graph_query": "INGRESS→EGRESS without CONTROL[special_element_filtering]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-138", "CWE-791"],
+  "references": ["https://cwe.mitre.org/data/definitions/790.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

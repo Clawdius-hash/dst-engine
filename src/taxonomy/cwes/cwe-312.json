@@ -1,0 +1,18 @@
+{
+  "id": "CWE-312",
+  "name": "Cleartext Storage of Sensitive Information",
+  "status": "implemented",
+  "description": "The product stores sensitive information such as passwords, tokens, or personal data in cleartext within a resource that could be accessible to unauthorized actors, including files, databases, cookies, memory, or environment variables.",
+  "severity": "high",
+  "category": "data_protection",
+  "detection_pattern": "Sensitive data (credentials, PII, tokens) flows from a TRANSFORM or INGRESS node to a STORAGE node (file, database, cookie, registry, environment variable) without passing through a TRANSFORM[encryption] node that encrypts or hashes the data before storage",
+  "graph_query": "TRANSFORM|INGRESS[sensitive_data]→STORAGE without TRANSFORM[encryption]",
+  "owasp_top10": "A04:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-311", "CWE-922", "CWE-313", "CWE-314", "CWE-315", "CWE-316", "CWE-526"],
+  "references": ["https://cwe.mitre.org/data/definitions/312.html"],
+  "implemented_in": ["verifier.ts"],
+  "verified_at": "2026-03-23T00:00:00Z",
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

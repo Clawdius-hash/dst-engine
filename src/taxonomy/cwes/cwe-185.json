@@ -1,0 +1,16 @@
+{
+  "id": "CWE-185",
+  "name": "Incorrect Regular Expression",
+  "status": "filled",
+  "description": "The product uses a regular expression that does not correctly match or compare the intended data, due to missing anchors, incorrect quantifiers, unescaped metacharacters, or other regex errors, allowing dangerous input to pass validation or causing incorrect data matching.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "CONTROL[regex_validation] uses a flawed regular expression (missing ^/$ anchors, overly broad .* patterns, unescaped dots, missing case flags) that allows INGRESS data to bypass intended matching at TRANSFORM or STORAGE, without a CONTROL[correct_regex] that properly constrains the match",
+  "graph_query": "INGRESS→CONTROL[flawed_regex]→TRANSFORM|STORAGE without CONTROL[correct_regex]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-697", "CWE-186", "CWE-625"],
+  "references": ["https://cwe.mitre.org/data/definitions/185.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-602",
+  "name": "Client-Side Enforcement of Server-Side Security",
+  "status": "filled",
+  "description": "The server relies on client-side mechanisms for protection, which attackers can bypass by modifying client behavior, resulting in unexpected interactions where server-side security assumptions are violated.",
+  "severity": "high",
+  "category": "authorization",
+  "detection_pattern": "CONTROL node implementing security check exists only in client-side STRUCTURAL code, not replicated on server-side AUTH/CONTROL, allowing INGRESS from modified client to bypass protection",
+  "graph_query": "INGRESS(modified_client)→TRANSFORM(server_action) without CONTROL(server_side_validation)",
+  "owasp_top10": "A04:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-693", "CWE-565", "CWE-603"],
+  "references": ["https://cwe.mitre.org/data/definitions/602.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

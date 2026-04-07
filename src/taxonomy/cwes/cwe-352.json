@@ -1,0 +1,18 @@
+{
+  "id": "CWE-352",
+  "name": "Cross-Site Request Forgery (CSRF)",
+  "status": "implemented",
+  "description": "The web application does not sufficiently verify that a well-formed, valid, consistent request was intentionally provided by the user who submitted it, allowing attackers to trick authenticated users into executing unintended state-changing actions.",
+  "severity": "high",
+  "category": "authentication",
+  "detection_pattern": "INGRESS[http_request] node carrying state-changing operations (POST, PUT, DELETE) flows to TRANSFORM or STORAGE nodes that modify server state without passing through a CONTROL node that validates a CSRF token, origin header, or same-site cookie policy",
+  "graph_query": "INGRESS[http_state_changing]→STORAGE|TRANSFORM[state_modify] without CONTROL[csrf_token_validation]",
+  "owasp_top10": "A01:2021",
+  "sans_top25": true,
+  "related_cwes": ["CWE-345", "CWE-346", "CWE-441", "CWE-613", "CWE-642", "CWE-79"],
+  "references": ["https://cwe.mitre.org/data/definitions/352.html"],
+  "implemented_in": ["verifier.ts"],
+  "verified_at": "2026-03-23T00:00:00Z",
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-151",
+  "name": "Improper Neutralization of Comment Delimiters",
+  "status": "filled",
+  "description": "The product does not properly neutralize comment delimiter characters (e.g., //, /*, --, #) in user input, allowing attackers to inject comment sequences that hide malicious code or cause the downstream parser to ignore security-critical portions of the input.",
+  "severity": "high",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides user-controlled data containing comment delimiter characters that flows to TRANSFORM[code_construction] or EXTERNAL[query_engine] without a TRANSFORM[comment_delimiter_escape] that neutralizes comment syntax before the data reaches the interpreter",
+  "graph_query": "INGRESS[comment_delimiters]→EXTERNAL[interpreter] without TRANSFORM[comment_delimiter_escape]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-138", "CWE-89"],
+  "references": ["https://cwe.mitre.org/data/definitions/151.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

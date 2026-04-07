@@ -1,0 +1,16 @@
+{
+  "id": "CWE-922",
+  "name": "Insecure Storage of Sensitive Information",
+  "status": "filled",
+  "description": "The product stores sensitive information without properly restricting read or write access to unauthorized parties. If read access is unrestricted, attackers can steal the data; if write access is unrestricted, they can modify or delete it, causing integrity violations and potential denial of service.",
+  "severity": "high",
+  "category": "data_protection",
+  "detection_pattern": "TRANSFORM or EGRESS node writes data from STORAGE[sensitive] to STORAGE[persistent] without an AUTH[access_control] node enforcing proper read/write permissions, or without a TRANSFORM[encryption] node protecting the data at rest",
+  "graph_query": "STORAGE[sensitive]→EGRESS→STORAGE[persistent] without AUTH[access_control]",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-664", "CWE-312", "CWE-921"],
+  "references": ["https://cwe.mitre.org/data/definitions/922.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

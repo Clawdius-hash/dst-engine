@@ -1,0 +1,16 @@
+{
+  "id": "CWE-411",
+  "name": "Resource Locking Problems",
+  "status": "needs_review",
+  "description": "Category-level CWE grouping weaknesses related to improper handling of locks used to control access to resources. Vulnerability mapping is prohibited — use specific descendants like CWE-412, CWE-413, CWE-414, or CWE-833 instead.",
+  "severity": "low",
+  "category": "concurrency",
+  "detection_pattern": "N/A — category CWE, not a concrete weakness",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-412", "CWE-413", "CWE-414", "CWE-609", "CWE-764", "CWE-765", "CWE-832", "CWE-833"],
+  "references": ["https://cwe.mitre.org/data/definitions/411.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:25:00Z"
+}

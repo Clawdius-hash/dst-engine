@@ -1,0 +1,16 @@
+{
+  "id": "CWE-95",
+  "name": "Improper Neutralization of Directives in Dynamically Evaluated Code ('Eval Injection')",
+  "status": "filled",
+  "description": "The product receives input from an upstream component but does not neutralize code syntax before using it in a dynamic evaluation call (eval(), Function(), setTimeout with string), allowing attackers to inject and execute arbitrary code.",
+  "severity": "critical",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides user-controlled data that flows directly into a TRANSFORM[eval|Function|dynamic_exec] node performing dynamic code evaluation without a CONTROL node that validates or sanitizes the input to ensure it contains no executable directives",
+  "graph_query": "INGRESS→TRANSFORM[eval] without CONTROL[code_validation|sanitization]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-94"],
+  "references": ["https://cwe.mitre.org/data/definitions/95.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

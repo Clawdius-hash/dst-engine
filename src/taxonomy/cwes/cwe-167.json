@@ -1,0 +1,16 @@
+{
+  "id": "CWE-167",
+  "name": "Improper Handling of Additional Special Element",
+  "status": "filled",
+  "description": "The product does not properly handle cases where input contains an unexpected additional special element beyond what is expected, causing extra delimiters, terminators, or markers to alter parsing logic or create additional fields.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "INGRESS node provides data with extra special elements beyond the expected count that flows to TRANSFORM[parser] which does not validate element count, causing unintended field creation or structure alteration without a CONTROL[element_count_check]",
+  "graph_query": "INGRESS[extra_element]→TRANSFORM[parser] without CONTROL[element_count_check]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-159", "CWE-228"],
+  "references": ["https://cwe.mitre.org/data/definitions/167.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

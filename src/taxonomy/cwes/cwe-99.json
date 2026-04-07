@@ -1,0 +1,16 @@
+{
+  "id": "CWE-99",
+  "name": "Improper Control of Resource Identifiers ('Resource Injection')",
+  "status": "filled",
+  "description": "The product receives user input that specifies a resource identifier (port number, socket address, file path, database name) but does not restrict or validate the identifier, allowing attackers to access or modify unintended system resources.",
+  "severity": "high",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides a user-controlled resource identifier (port, hostname, file path, database name, queue name) that flows to EXTERNAL[resource_access] or STORAGE[resource_open] without a CONTROL node that validates the identifier against an allowlist or restricts it to intended resources",
+  "graph_query": "INGRESS[resource_id]→EXTERNAL|STORAGE[resource_access] without CONTROL[resource_allowlist]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-74", "CWE-73"],
+  "references": ["https://cwe.mitre.org/data/definitions/99.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

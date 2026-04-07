@@ -1,0 +1,16 @@
+{
+  "id": "CWE-443",
+  "name": "DEPRECATED: HTTP Response Splitting",
+  "status": "needs_review",
+  "description": "This CWE has been deprecated as a duplicate. All content has been transferred to CWE-113 (Improper Neutralization of CRLF Sequences in HTTP Headers). It should not be used to map real-world vulnerabilities.",
+  "severity": "low",
+  "category": "injection",
+  "detection_pattern": "N/A — deprecated, see CWE-113",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-113"],
+  "references": ["https://cwe.mitre.org/data/definitions/443.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

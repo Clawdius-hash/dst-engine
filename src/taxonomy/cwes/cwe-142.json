@@ -1,0 +1,16 @@
+{
+  "id": "CWE-142",
+  "name": "Improper Neutralization of Value Delimiters",
+  "status": "filled",
+  "description": "The product does not properly neutralize characters that function as value delimiters (e.g., '=' separating key from value, quotes around values) in user input, allowing attackers to alter value boundaries and inject malicious content.",
+  "severity": "high",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides user-controlled data containing value delimiter characters that flows into TRANSFORM[value_construction] without a TRANSFORM[value_delimiter_escape] node that escapes or encodes the delimiter characters before they reach the downstream parser",
+  "graph_query": "INGRESS[value_delimiters]→TRANSFORM[value_construction] without TRANSFORM[value_delimiter_escape]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-140", "CWE-138"],
+  "references": ["https://cwe.mitre.org/data/definitions/142.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

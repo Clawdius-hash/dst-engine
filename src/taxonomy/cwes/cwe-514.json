@@ -1,0 +1,16 @@
+{
+  "id": "CWE-514",
+  "name": "Covert Channel",
+  "status": "filled",
+  "description": "An unauthorized information transfer path exists in the system that was not intended by designers, allowing data to be transmitted through application behaviors rather than explicit communication channels.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "TRANSFORM or CONTROL node leaks information through observable side effects (timing, resource usage, error messages) at EGRESS, creating unauthorized information flow from STORAGE to EXTERNAL observer",
+  "graph_query": "STORAGE(sensitive)→TRANSFORM(side_effect)→EGRESS(observable) without CONTROL(covert_channel_prevention)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-385", "CWE-515", "CWE-205"],
+  "references": ["https://cwe.mitre.org/data/definitions/514.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:05:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-801",
+  "name": "Category: 2010 Top 25 - Insecure Interaction Between Components",
+  "status": "needs_review",
+  "description": "This is a Category grouping weaknesses from the 'Insecure Interaction Between Components' section of the 2010 CWE/SANS Top 25. Includes CWE-78, CWE-79, CWE-89, CWE-209, CWE-352, CWE-362, CWE-434, CWE-601. Cannot be used for vulnerability mapping.",
+  "severity": "low",
+  "category": "input_output",
+  "detection_pattern": "N/A — category, not a weakness",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-800", "CWE-78", "CWE-79", "CWE-89", "CWE-352", "CWE-434"],
+  "references": ["https://cwe.mitre.org/data/definitions/801.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

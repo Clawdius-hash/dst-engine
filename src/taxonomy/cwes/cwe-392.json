@@ -1,0 +1,16 @@
+{
+  "id": "CWE-392",
+  "name": "Missing Report of Error Condition",
+  "status": "filled",
+  "description": "The product encounters an error but fails to communicate it through a status code or return value, preventing calling code from knowing whether an operation succeeded or failed and potentially leaving the system in an unexpected state.",
+  "severity": "medium",
+  "category": "error_handling",
+  "detection_pattern": "TRANSFORM node encounters error condition but EGRESS node returns success status or no status to the caller, without CONTROL node propagating error information",
+  "graph_query": "TRANSFORM(error_occurs)→EGRESS(success_status) without CONTROL(error_propagation)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-684", "CWE-755"],
+  "references": ["https://cwe.mitre.org/data/definitions/392.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:15:00Z"
+}

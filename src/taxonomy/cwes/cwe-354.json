@@ -1,0 +1,16 @@
+{
+  "id": "CWE-354",
+  "name": "Improper Validation of Integrity Check Value",
+  "status": "filled",
+  "description": "The product does not validate or improperly validates checksums or integrity check values of messages, allowing potentially corrupted or maliciously altered data to be accepted without verification.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "INGRESS node receives data with an integrity check value from EXTERNAL source, but CONTROL node does not verify the checksum before data reaches TRANSFORM or STORAGE nodes",
+  "graph_query": "EXTERNAL→INGRESS(with_checksum)→TRANSFORM without CONTROL(checksum_validation)",
+  "owasp_top10": "A08:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-345", "CWE-754", "CWE-353"],
+  "references": ["https://cwe.mitre.org/data/definitions/354.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:30:00Z"
+}

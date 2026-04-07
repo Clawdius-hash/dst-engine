@@ -1,0 +1,11 @@
+{
+  "id": "CWE-888",
+  "name": "Software Fault Pattern (SFP) Clusters",
+  "status": "needs_review",
+  "description": "View: Organizes CWE identifiers into clusters representing Software Fault Patterns. A structured classification system, not a weakness itself.",
+  "category_type": "view",
+  "related_cwes": ["CWE-885", "CWE-886", "CWE-887", "CWE-889", "CWE-890"],
+  "references": ["https://cwe.mitre.org/data/definitions/888.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

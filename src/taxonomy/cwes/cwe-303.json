@@ -1,0 +1,16 @@
+{
+  "id": "CWE-303",
+  "name": "Incorrect Implementation of Authentication Algorithm",
+  "status": "filled",
+  "description": "The product specifies an established authentication algorithm but implements it incorrectly, such as using wrong logical operators in conditional checks, skipping verification steps, or mishandling edge cases. This enables attackers to bypass authentication entirely.",
+  "severity": "high",
+  "category": "authentication",
+  "detection_pattern": "Look for AUTH nodes (authentication algorithm implementation) that contain CONTROL nodes (conditional logic, verification steps) where the implementation deviates from the specification — e.g., using AND instead of OR, short-circuit evaluation, or missing validation branches. The missing mediator is a META node (algorithm correctness verification, specification compliance check) ensuring the implementation matches the intended algorithm.",
+  "graph_query": "AUTH(flawed_implementation)→CONTROL(access_decision) without META(algorithm_correctness)",
+  "owasp_top10": "A07:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-1390", "CWE-304", "CWE-287"],
+  "references": ["https://cwe.mitre.org/data/definitions/303.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

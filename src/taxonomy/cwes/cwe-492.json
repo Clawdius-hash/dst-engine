@@ -1,0 +1,16 @@
+{
+  "id": "CWE-492",
+  "name": "Use of Inner Class Containing Sensitive Data",
+  "status": "filled",
+  "description": "An inner class contains sensitive data, but the Java compiler transforms inner classes into peer classes with package-level access. Private fields accessed by the inner class are converted to protected fields in bytecode, allowing unauthorized access to sensitive data from any class in the same package.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "STRUCTURAL(inner_class) containing STORAGE(sensitive_data) where the compiler transforms access modifiers. Look for STORAGE(private_field) in an inner class context that becomes accessible at package scope, exposing data to EXTERNAL(same_package_class) without AUTH(access_control).",
+  "graph_query": "STORAGE(inner_class_private_field)→EXTERNAL(package_peer) without AUTH(access_restriction)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-668"],
+  "references": ["https://cwe.mitre.org/data/definitions/492.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

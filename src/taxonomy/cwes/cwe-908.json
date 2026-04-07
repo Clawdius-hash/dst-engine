@@ -1,0 +1,16 @@
+{
+  "id": "CWE-908",
+  "name": "Use of Uninitialized Resource",
+  "status": "filled",
+  "description": "The product accesses or uses a resource that has not been properly initialized. This can lead to crashes, invalid memory access, or information disclosure depending on the resource type and usage context, as the product may behave unexpectedly with uninitialized data.",
+  "severity": "high",
+  "category": "reliability",
+  "detection_pattern": "STORAGE[resource] node is accessed by a TRANSFORM or EGRESS node along a code path where no prior TRANSFORM[initialization] or TRANSFORM[assignment] node has set the resource to a valid state, especially after CONTROL[branch] nodes that may skip initialization",
+  "graph_query": "STORAGE[uninitialized]→TRANSFORM|EGRESS[use] without TRANSFORM[initialization]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-665", "CWE-457", "CWE-909", "CWE-476"],
+  "references": ["https://cwe.mitre.org/data/definitions/908.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

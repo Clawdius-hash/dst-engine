@@ -1,0 +1,31 @@
+{
+  "id": "CWE-861",
+  "name": "Category: CERT Oracle Secure Coding Standard for Java (2011) Chapter 18 - Miscellaneous (MSC)",
+  "status": "needs_review",
+  "description": "This is a category grouping miscellaneous weaknesses from the CERT Oracle Secure Coding Standard for Java (2011). Categories cannot be used for vulnerability mapping.",
+  "severity": "low",
+  "category": "configuration",
+  "detection_pattern": "N/A — category",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": [
+    "CWE-844",
+    "CWE-259",
+    "CWE-311",
+    "CWE-330",
+    "CWE-332",
+    "CWE-336",
+    "CWE-337",
+    "CWE-400",
+    "CWE-401",
+    "CWE-543",
+    "CWE-770",
+    "CWE-798"
+  ],
+  "references": [
+    "https://cwe.mitre.org/data/definitions/861.html"
+  ],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

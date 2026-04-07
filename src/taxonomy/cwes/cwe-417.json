@@ -1,0 +1,16 @@
+{
+  "id": "CWE-417",
+  "name": "Communication Channel Errors",
+  "status": "needs_review",
+  "description": "Category-level CWE grouping weaknesses related to improper handling of communication channels and access paths, including problems in creating, managing, or removing alternate channels. Vulnerability mapping is prohibited — use specific descendants like CWE-419, CWE-420, CWE-425, or CWE-918 instead.",
+  "severity": "low",
+  "category": "api",
+  "detection_pattern": "N/A — category CWE, not a concrete weakness",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-322", "CWE-346", "CWE-419", "CWE-420", "CWE-425", "CWE-918"],
+  "references": ["https://cwe.mitre.org/data/definitions/417.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:25:00Z"
+}

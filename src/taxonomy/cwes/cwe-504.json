@@ -1,0 +1,16 @@
+{
+  "id": "CWE-504",
+  "name": "DEPRECATED: Motivation/Intent",
+  "status": "needs_review",
+  "description": "Deprecated category CWE. Introduced unnecessary complexity. Vulnerability mapping is prohibited.",
+  "severity": "low",
+  "category": "reliability",
+  "detection_pattern": "N/A — deprecated category CWE",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": [],
+  "references": ["https://cwe.mitre.org/data/definitions/504.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:55:00Z"
+}

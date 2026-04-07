@@ -1,0 +1,16 @@
+{
+  "id": "CWE-416",
+  "name": "Use After Free",
+  "status": "filled",
+  "description": "The product references memory after it has been freed, leading to undefined behavior. If the freed memory has been reallocated, an attacker may exploit this to corrupt data, execute arbitrary code, or cause denial of service.",
+  "severity": "critical",
+  "category": "memory",
+  "detection_pattern": "TRANSFORM node performing memory deallocation (free, delete) followed by a subsequent TRANSFORM, STORAGE, or EGRESS node that reads or writes via the same pointer, without a CONTROL node that checks pointer validity or nullifies the pointer after deallocation",
+  "graph_query": "TRANSFORM[mem_free]→TRANSFORM|STORAGE|EGRESS[ptr_dereference] without CONTROL[ptr_validity_check]",
+  "owasp_top10": null,
+  "sans_top25": true,
+  "related_cwes": ["CWE-415", "CWE-825", "CWE-672", "CWE-362", "CWE-120", "CWE-123"],
+  "references": ["https://cwe.mitre.org/data/definitions/416.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:25:00Z"
+}

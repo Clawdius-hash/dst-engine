@@ -1,0 +1,16 @@
+{
+  "id": "CWE-468",
+  "name": "Incorrect Pointer Scaling",
+  "status": "filled",
+  "description": "In C/C++, pointer arithmetic implicitly scales the operand by the size of the pointed-to data type. When developers manually add byte offsets to typed pointers, the implicit scaling causes access to incorrect memory locations, potentially leading to buffer overflows or information disclosure.",
+  "severity": "high",
+  "category": "memory",
+  "detection_pattern": "A TRANSFORM[pointer_arithmetic] node adds a byte-level offset to a typed pointer without accounting for implicit type scaling, and the result is used in a TRANSFORM[dereference] node without a CONTROL[scaling_check] mediator that verifies correct offset computation.",
+  "graph_query": "TRANSFORM[pointer_arithmetic]→TRANSFORM[dereference] without CONTROL[scaling_check]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-682", "CWE-465"],
+  "references": ["https://cwe.mitre.org/data/definitions/468.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-196",
+  "name": "Unsigned to Signed Conversion Error",
+  "status": "filled",
+  "description": "The product uses an unsigned primitive and performs a cast to a signed primitive, which can produce an unexpected value if the value of the unsigned primitive cannot be represented using a signed primitive. This can lead to buffer overflows, memory corruption, or denial of service.",
+  "severity": "high",
+  "category": "memory",
+  "detection_pattern": "Look for INGRESS or STORAGE nodes containing unsigned integer values flowing through a TRANSFORM node (type cast to signed) without a CONTROL node (range validation) mediating the conversion. The signed result may be negative, causing downstream buffer or arithmetic errors.",
+  "graph_query": "INGRESS|STORAGE(unsigned)→TRANSFORM(cast_to_signed)→STORAGE|EGRESS without CONTROL(range_check)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-681", "CWE-120", "CWE-124"],
+  "references": ["https://cwe.mitre.org/data/definitions/196.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

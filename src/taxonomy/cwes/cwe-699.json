@@ -1,0 +1,8 @@
+{
+  "id": "CWE-699",
+  "name": "Software Development",
+  "status": "needs_review",
+  "description": "This is a CWE View organizing weaknesses around concepts encountered in software development. Views are not weaknesses and should not be used for vulnerability mapping.",
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:00:00Z"
+}

@@ -1,0 +1,26 @@
+{
+  "id": "CWE-867",
+  "name": "Category: 2011 Top 25 - Weaknesses On the Cusp",
+  "status": "needs_review",
+  "description": "This is a category from the 2011 CWE/SANS Top 25 grouping weaknesses that were nominees but did not make the final rankings, serving as a historical reference for near-miss vulnerabilities.",
+  "severity": "low",
+  "category": "reliability",
+  "detection_pattern": "N/A — category",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": true,
+  "related_cwes": [
+    "CWE-129",
+    "CWE-209",
+    "CWE-362",
+    "CWE-476",
+    "CWE-770",
+    "CWE-772",
+    "CWE-841"
+  ],
+  "references": [
+    "https://cwe.mitre.org/data/definitions/867.html"
+  ],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

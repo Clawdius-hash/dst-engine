@@ -1,0 +1,24 @@
+{
+  "id": "CWE-834",
+  "name": "Excessive Iteration",
+  "status": "filled",
+  "description": "The product performs an iteration or loop without sufficiently limiting the number of times it executes, allowing attackers who can influence the iteration count to cause excessive resource consumption affecting CPU or memory availability.",
+  "severity": "medium",
+  "category": "reliability",
+  "detection_pattern": "CONTROL[loop/iteration] uses a condition influenced by INGRESS[user_input] or EXTERNAL[external_data] without a CONTROL[iteration_limit] node enforcing a maximum bound on the number of iterations, enabling resource exhaustion",
+  "graph_query": "INGRESS[input]→CONTROL[loop_condition] without CONTROL[iteration_limit]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": [
+    "CWE-691",
+    "CWE-674",
+    "CWE-835",
+    "CWE-1322",
+    "CWE-606"
+  ],
+  "references": [
+    "https://cwe.mitre.org/data/definitions/834.html"
+  ],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

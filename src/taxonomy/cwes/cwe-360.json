@@ -1,0 +1,16 @@
+{
+  "id": "CWE-360",
+  "name": "Trust of System Event Data",
+  "status": "filled",
+  "description": "The product trusts system event data for security decisions without verifying the source, allowing attackers to send spoofed event messages to manipulate application behavior since events lack inherent authentication.",
+  "severity": "high",
+  "category": "authentication",
+  "detection_pattern": "INGRESS node receives system event data that flows directly to CONTROL node for security-critical decisions without AUTH node verifying the event source or message integrity",
+  "graph_query": "INGRESS(system_event)→CONTROL(security_decision) without AUTH(event_source_verification)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-345", "CWE-422"],
+  "references": ["https://cwe.mitre.org/data/definitions/360.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:35:00Z"
+}

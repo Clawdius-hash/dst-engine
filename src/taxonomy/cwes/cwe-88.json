@@ -1,0 +1,16 @@
+{
+  "id": "CWE-88",
+  "name": "Improper Neutralization of Argument Delimiters in a Command ('Argument Injection')",
+  "status": "filled",
+  "description": "The product constructs a command string using user input without properly delimiting arguments, allowing attackers to inject additional command-line arguments (e.g., '--admin' or '-r') that alter the command's intended behavior.",
+  "severity": "high",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides user-controlled data that is placed into a command argument list flowing to EXTERNAL[command_exec] without a CONTROL node that validates the input contains no argument delimiters (hyphens, dashes, equals signs) or uses a safe argument passing API that separates arguments from data",
+  "graph_query": "INGRESS→EXTERNAL[command_exec] without CONTROL[argument_delimiter_validation|safe_arg_api]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-77", "CWE-74", "CWE-78"],
+  "references": ["https://cwe.mitre.org/data/definitions/88.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

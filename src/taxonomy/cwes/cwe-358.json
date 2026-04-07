@@ -1,0 +1,16 @@
+{
+  "id": "CWE-358",
+  "name": "Improperly Implemented Security Check for Standard",
+  "status": "filled",
+  "description": "The product does not implement or incorrectly implements one or more security-relevant checks as specified by the design of a standardized algorithm, protocol, or technique, allowing attackers to bypass protection mechanisms.",
+  "severity": "high",
+  "category": "authentication",
+  "detection_pattern": "AUTH or CONTROL node implements a security check based on a standard protocol but omits required verification steps, allowing data to flow from INGRESS to EGRESS without complete validation",
+  "graph_query": "INGRESS→AUTH(incomplete_standard_check)→EGRESS without CONTROL(full_standard_compliance)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-573", "CWE-693", "CWE-325", "CWE-290", "CWE-345"],
+  "references": ["https://cwe.mitre.org/data/definitions/358.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:35:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-758",
+  "name": "Reliance on Undefined, Unspecified, or Implementation-Defined Behavior",
+  "status": "filled",
+  "description": "The product uses an API function, data structure, or other entity in a way that relies on properties not guaranteed by the specification, causing potential failures when ported to different platforms or compilers.",
+  "severity": "medium",
+  "category": "reliability",
+  "detection_pattern": "TRANSFORM node invokes operation whose behavior varies by platform or is undefined by the language specification. Look for TRANSFORM(undefined_behavior_operation) where STRUCTURAL(code_construct) relies on implementation-specific guarantees without CONTROL(portability_check) or CONTROL(defined_behavior_assertion).",
+  "graph_query": "TRANSFORM(platform_dependent_operation)→TRANSFORM(use_result) without CONTROL(defined_behavior_validation)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-710", "CWE-474", "CWE-562", "CWE-587", "CWE-588", "CWE-1102"],
+  "references": ["https://cwe.mitre.org/data/definitions/758.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:15:00Z"
+}

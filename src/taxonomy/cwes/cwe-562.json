@@ -1,0 +1,16 @@
+{
+  "id": "CWE-562",
+  "name": "Return of Stack Variable Address",
+  "status": "filled",
+  "description": "A function returns the address of a stack-allocated local variable, creating a dangling pointer. Subsequent function calls may overwrite that stack location, leading to crashes, memory corruption, or potential code execution.",
+  "severity": "high",
+  "category": "memory",
+  "detection_pattern": "CONTROL node (function) returns a pointer from STORAGE (stack-allocated variable) via EGRESS. The returned address becomes invalid after the function's stack frame is deallocated, creating a dangling reference used by the caller.",
+  "graph_query": "STORAGE(stack_var)→EGRESS(return) without TRANSFORM(heap_allocation)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-758", "CWE-672", "CWE-825"],
+  "references": ["https://cwe.mitre.org/data/definitions/562.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

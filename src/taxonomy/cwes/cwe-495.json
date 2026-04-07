@@ -1,0 +1,16 @@
+{
+  "id": "CWE-495",
+  "name": "Private Data Structure Returned From A Public Method",
+  "status": "filled",
+  "description": "A public method returns a reference to a private mutable data structure, allowing external code to directly modify the object's internal state. This violates encapsulation by exposing internal data through the returned reference without creating a defensive copy.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "EGRESS(public_method) returning a direct reference to STORAGE(private_field) of a mutable type. Look for STORAGE(private_mutable)→EGRESS(public_return) without TRANSFORM(defensive_copy) as a mediator.",
+  "graph_query": "STORAGE(private_mutable)→EGRESS(public_method) without TRANSFORM(clone)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-664"],
+  "references": ["https://cwe.mitre.org/data/definitions/495.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

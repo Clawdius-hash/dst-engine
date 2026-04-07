@@ -1,0 +1,16 @@
+{
+  "id": "CWE-423",
+  "name": "DEPRECATED: Proxied Trusted Channel",
+  "status": "needs_review",
+  "description": "Deprecated CWE that was removed because it is a duplicate of CWE-441 (Unintended Proxy or Intermediary). Vulnerability mapping is prohibited — use CWE-441 instead.",
+  "severity": "low",
+  "category": "authorization",
+  "detection_pattern": "N/A — deprecated CWE, duplicate of CWE-441",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-441"],
+  "references": ["https://cwe.mitre.org/data/definitions/423.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:25:00Z"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "CWE-611",
+  "name": "Improper Restriction of XML External Entity Reference",
+  "status": "implemented",
+  "description": "The product processes an XML document that can contain external entity references resolving to URIs outside the intended control sphere, allowing attackers to read local files, perform server-side request forgery, or cause denial of service.",
+  "severity": "high",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides XML data that flows to a TRANSFORM[xml_parser] node configured to resolve external entities without a CONTROL node that disables DTD processing, external entity expansion, or restricts entity resolution to trusted sources",
+  "graph_query": "INGRESS[xml]→TRANSFORM[xml_parser] without CONTROL[disable_xxe]",
+  "owasp_top10": "A05:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-610", "CWE-441"],
+  "references": ["https://cwe.mitre.org/data/definitions/611.html"],
+  "implemented_in": ["verifier.ts"],
+  "verified_at": "2026-03-23T00:00:00Z",
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

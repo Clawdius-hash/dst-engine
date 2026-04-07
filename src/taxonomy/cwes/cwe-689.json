@@ -1,0 +1,16 @@
+{
+  "id": "CWE-689",
+  "name": "Permission Race Condition During Resource Copy",
+  "status": "filled",
+  "description": "The product, while copying or cloning a resource, does not set the resource's permissions or access control until the copy is complete, leaving the resource exposed to other spheres during the copy operation. This is a composite weakness requiring both a race condition and incorrect permission assignment.",
+  "severity": "high",
+  "category": "concurrency",
+  "detection_pattern": "TRANSFORM[copy_resource] creates a new STORAGE[resource_copy] node that is accessible via EGRESS or EXTERNAL paths before CONTROL[set_permissions] or AUTH[access_control] has been applied to the copy",
+  "graph_query": "TRANSFORM[copy]→STORAGE[resource_copy]→EGRESS|EXTERNAL without CONTROL[set_permissions] before EGRESS",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-362", "CWE-732"],
+  "references": ["https://cwe.mitre.org/data/definitions/689.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:00:00Z"
+}

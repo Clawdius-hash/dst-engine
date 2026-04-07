@@ -1,0 +1,16 @@
+{
+  "id": "CWE-110",
+  "name": "Struts: Validator Without Form Field",
+  "status": "filled",
+  "description": "A Struts Validator configuration defines validation for a field that does not exist in the corresponding form, indicating stale validation logic that may not cover newly added form fields.",
+  "severity": "low",
+  "category": "input_output",
+  "detection_pattern": "META[struts_validation_config] defines validation rules for fields that don't exist in the corresponding STRUCTURAL[action_form], indicating configuration drift where new INGRESS[form_fields] may lack validation",
+  "graph_query": "META[validation_field]→no matching field in STRUCTURAL[action_form]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-1164", "CWE-20"],
+  "references": ["https://cwe.mitre.org/data/definitions/110.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

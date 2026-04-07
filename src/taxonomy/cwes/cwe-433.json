@@ -1,0 +1,16 @@
+{
+  "id": "CWE-433",
+  "name": "Unparsed Raw Web Content Delivery",
+  "status": "filled",
+  "description": "The product stores raw content or code under the web document root with an extension the server doesn't handle, causing the server to return unparsed source code (including credentials) when the file is requested directly.",
+  "severity": "high",
+  "category": "data_protection",
+  "detection_pattern": "STORAGE node contains source files with unhandled extensions under web root, and INGRESS request for that file goes to EGRESS without TRANSFORM (server-side parsing), exposing raw content",
+  "graph_query": "INGRESS(file_request)→STORAGE(web_root_source)→EGRESS(raw_content) without TRANSFORM(server_side_parsing)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-219", "CWE-178", "CWE-430", "CWE-431"],
+  "references": ["https://cwe.mitre.org/data/definitions/433.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:35:00Z"
+}

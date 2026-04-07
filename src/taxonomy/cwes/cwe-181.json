@@ -1,0 +1,16 @@
+{
+  "id": "CWE-181",
+  "name": "Incorrect Behavior Order: Validate Before Filter",
+  "status": "filled",
+  "description": "The product validates input before applying filters that strip or modify characters, allowing attackers to provide input that passes validation but becomes dangerous after the filter removes characters (e.g., 'scr<blocked>ipt' becoming 'script' after tag stripping).",
+  "severity": "high",
+  "category": "input_output",
+  "detection_pattern": "CONTROL[input_validation] runs before TRANSFORM[filter_strip] that removes characters, so input passes validation in pre-filtered form then becomes dangerous in post-filtered form at EGRESS or EXTERNAL, without reordering to filter-then-validate",
+  "graph_query": "INGRESS→CONTROL[validate]→TRANSFORM[filter]→EGRESS without CONTROL[validate_after_filter]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-179"],
+  "references": ["https://cwe.mitre.org/data/definitions/181.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

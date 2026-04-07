@@ -1,0 +1,16 @@
+{
+  "id": "CWE-178",
+  "name": "Improper Handling of Case Sensitivity",
+  "status": "filled",
+  "description": "The product does not properly account for differences in letter case when comparing names, paths, or identifiers, allowing attackers to bypass access controls by using alternate case (e.g., 'Admin' vs 'admin', 'CMD.EXE' vs 'cmd.exe') on case-insensitive systems.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "CONTROL[name_check] performs case-sensitive comparison against a blocklist or allowlist, but STORAGE[file_access] or EXTERNAL[resource] resolves names case-insensitively, creating a mismatch where 'FILE.TXT' bypasses a check for 'file.txt' without a TRANSFORM[case_normalize] before the comparison",
+  "graph_query": "INGRESS[mixed_case]→CONTROL[case_sensitive_check]→STORAGE[case_insensitive_access] without TRANSFORM[case_normalize]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-706"],
+  "references": ["https://cwe.mitre.org/data/definitions/178.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

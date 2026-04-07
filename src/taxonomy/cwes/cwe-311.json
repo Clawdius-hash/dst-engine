@@ -1,0 +1,16 @@
+{
+  "id": "CWE-311",
+  "name": "Missing Encryption of Sensitive Data",
+  "status": "needs_review",
+  "description": "The product does not encrypt sensitive or critical information before storage or transmission, exposing data to unauthorized access through network interception or unauthorized file access. MITRE discourages direct mapping to this Class-level CWE; prefer CWE-312 (cleartext storage) or CWE-319 (cleartext transmission).",
+  "severity": "high",
+  "category": "data_protection",
+  "detection_pattern": "N/A — Class-level abstraction discouraged for direct mapping. Use CWE-312 for storage and CWE-319 for transmission detection patterns.",
+  "graph_query": "N/A",
+  "owasp_top10": "A04:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-693", "CWE-312", "CWE-319", "CWE-327"],
+  "references": ["https://cwe.mitre.org/data/definitions/311.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

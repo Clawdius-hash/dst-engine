@@ -1,0 +1,16 @@
+{
+  "id": "CWE-747",
+  "name": "Category: CERT C Secure Coding Standard (2008) Chapter 14 - Miscellaneous (MSC)",
+  "status": "needs_review",
+  "description": "Category grouping miscellaneous weaknesses from the CERT C Secure Coding Standard (2008). Covers improper input validation, insufficient randomness, dead code, comparing instead of assigning, and incorrect comparisons.",
+  "severity": "low",
+  "category": "reliability",
+  "detection_pattern": "N/A — category",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-734", "CWE-14", "CWE-20", "CWE-330", "CWE-482", "CWE-561", "CWE-697"],
+  "references": ["https://cwe.mitre.org/data/definitions/747.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:15:00Z"
+}

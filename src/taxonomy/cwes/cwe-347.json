@@ -1,0 +1,18 @@
+{
+  "id": "CWE-347",
+  "name": "Improper Verification of Cryptographic Signature",
+  "status": "implemented",
+  "description": "The product does not verify or incorrectly verifies the cryptographic signature of data, allowing attackers to forge or tamper with messages, updates, or tokens without detection, undermining authentication and integrity guarantees.",
+  "severity": "high",
+  "category": "cryptography",
+  "detection_pattern": "INGRESS or EXTERNAL node provides signed data (JWT, firmware updates, API responses, packages) that flows to TRANSFORM or STORAGE nodes for processing without passing through an AUTH[signature_verification] node that validates the cryptographic signature against a trusted key",
+  "graph_query": "INGRESS|EXTERNAL[signed_data]→TRANSFORM|STORAGE without AUTH[signature_verification]",
+  "owasp_top10": "A02:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-345", "CWE-310", "CWE-1214"],
+  "references": ["https://cwe.mitre.org/data/definitions/347.html"],
+  "implemented_in": ["verifier.ts"],
+  "verified_at": "2026-03-23T00:00:00Z",
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

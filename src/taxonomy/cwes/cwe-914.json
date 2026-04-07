@@ -1,0 +1,16 @@
+{
+  "id": "CWE-914",
+  "name": "Improper Control of Dynamically-Identified Variables",
+  "status": "filled",
+  "description": "The product does not properly restrict reading from or writing to dynamically-identified variables specified by input strings. Languages offering dynamic variable access allow attackers to modify unintended variables with security implications when input is not properly validated.",
+  "severity": "high",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides a string that is used as a variable name in a TRANSFORM[dynamic_variable] node (extract, register_globals, variable variables) to read or write STORAGE nodes without a CONTROL[allowlist] restricting which variables can be accessed",
+  "graph_query": "INGRESS→TRANSFORM[dynamic_variable]→STORAGE without CONTROL[allowlist]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-99", "CWE-913", "CWE-621", "CWE-627"],
+  "references": ["https://cwe.mitre.org/data/definitions/914.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

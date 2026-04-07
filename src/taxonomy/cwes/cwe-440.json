@@ -1,0 +1,16 @@
+{
+  "id": "CWE-440",
+  "name": "Expected Behavior Violation",
+  "status": "filled",
+  "description": "A feature, API, or function does not perform according to its specification, behaving inconsistently with developer expectations and potentially leading to incorrect usage that introduces security vulnerabilities.",
+  "severity": "medium",
+  "category": "api",
+  "detection_pattern": "EXTERNAL or TRANSFORM node provides API that behaves differently from its specification, causing calling CONTROL nodes to make incorrect security decisions based on assumed behavior",
+  "graph_query": "EXTERNAL(api_call)→CONTROL(decision_based_on_spec) without CONTROL(actual_behavior_verification)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-684"],
+  "references": ["https://cwe.mitre.org/data/definitions/440.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:45:00Z"
+}

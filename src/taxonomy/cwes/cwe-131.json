@@ -1,0 +1,16 @@
+{
+  "id": "CWE-131",
+  "name": "Incorrect Calculation of Buffer Size",
+  "status": "filled",
+  "description": "The product incorrectly calculates the size needed when allocating a buffer, due to off-by-one errors, integer overflows, or failing to account for data expansion, leading to an undersized buffer that is subsequently overflowed.",
+  "severity": "critical",
+  "category": "memory",
+  "detection_pattern": "TRANSFORM[size_calculation] computes a buffer size that is too small (off-by-one, missing null terminator space, integer overflow in multiplication, encoding expansion not accounted for) and passes it to STORAGE[memory_alloc], creating an undersized buffer that subsequent TRANSFORM[write] operations overflow",
+  "graph_query": "TRANSFORM[wrong_size_calc]→STORAGE[alloc]→TRANSFORM[write_overflow] without CONTROL[size_validation]",
+  "owasp_top10": null,
+  "sans_top25": true,
+  "related_cwes": ["CWE-682", "CWE-119", "CWE-120", "CWE-190"],
+  "references": ["https://cwe.mitre.org/data/definitions/131.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-450",
+  "name": "Multiple Interpretations of UI Input",
+  "status": "filled",
+  "description": "The UI has multiple interpretations of user input but does not prompt the user when it selects the less secure interpretation. Ambiguous input is silently resolved in a way that may compromise security without the user's knowledge or consent.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "INGRESS node (user input) flows to a TRANSFORM node that has multiple interpretation paths. The system selects a less secure interpretation without routing through a CONTROL node that prompts the user for disambiguation or an EGRESS node that warns about the interpretation chosen.",
+  "graph_query": "INGRESS(user_input)→TRANSFORM(ambiguous_interpretation)→CONTROL(action) without EGRESS(disambiguation_prompt)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-357"],
+  "references": ["https://cwe.mitre.org/data/definitions/450.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

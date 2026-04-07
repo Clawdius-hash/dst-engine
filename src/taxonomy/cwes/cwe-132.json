@@ -1,0 +1,16 @@
+{
+  "id": "CWE-132",
+  "name": "DEPRECATED: Miscalculated Null Termination",
+  "status": "needs_review",
+  "description": "Deprecated — duplicate of CWE-170. Use CWE-170 instead.",
+  "severity": "low",
+  "category": "memory",
+  "detection_pattern": "N/A — deprecated, use CWE-170",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-170"],
+  "references": ["https://cwe.mitre.org/data/definitions/132.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

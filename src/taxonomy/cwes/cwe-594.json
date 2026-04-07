@@ -1,0 +1,16 @@
+{
+  "id": "CWE-594",
+  "name": "J2EE Framework: Saving Unserializable Objects to Disk",
+  "status": "filled",
+  "description": "The J2EE application stores objects in session or application scope that do not implement java.io.Serializable. When the framework attempts to persist these objects to disk under heavy load, serialization failures can cause crashes or data loss.",
+  "severity": "medium",
+  "category": "reliability",
+  "detection_pattern": "STORAGE(session_scope) node receives objects from TRANSFORM nodes where the stored object type lacks Serializable implementation. The STRUCTURAL(framework) node attempts EGRESS(disk_persist) without a CONTROL(serialization_check) mediator validating object serializability.",
+  "graph_query": "STORAGE(session)→EGRESS(disk_persist) without CONTROL(serialization_check)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-1076"],
+  "references": ["https://cwe.mitre.org/data/definitions/594.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

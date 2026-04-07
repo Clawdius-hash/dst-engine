@@ -1,0 +1,16 @@
+{
+  "id": "CWE-366",
+  "name": "Race Condition within a Thread",
+  "status": "filled",
+  "description": "Multiple threads access a shared resource simultaneously without proper synchronization, leading to undefined execution state and potential data corruption when synchronization mechanisms are inadequate.",
+  "severity": "medium",
+  "category": "concurrency",
+  "detection_pattern": "Multiple TRANSFORM or CONTROL nodes access shared STORAGE without a CONTROL node implementing proper locking or synchronization primitives between concurrent execution paths",
+  "graph_query": "TRANSFORM(thread_a)→STORAGE(shared) AND TRANSFORM(thread_b)→STORAGE(shared) without CONTROL(synchronization)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-362", "CWE-662", "CWE-416"],
+  "references": ["https://cwe.mitre.org/data/definitions/366.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:45:00Z"
+}

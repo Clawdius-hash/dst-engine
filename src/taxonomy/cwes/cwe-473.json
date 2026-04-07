@@ -1,0 +1,16 @@
+{
+  "id": "CWE-473",
+  "name": "PHP External Variable Modification",
+  "status": "filled",
+  "description": "A PHP application does not properly protect against modification of variables from external sources such as query parameters or cookies. When register_globals is enabled or input is not validated, attackers can overwrite internal variables, enabling vulnerabilities like remote file inclusion.",
+  "severity": "high",
+  "category": "input_output",
+  "detection_pattern": "An INGRESS[http_parameter] node in a PHP context provides externally-controlled input that directly overwrites a STORAGE[internal_variable] node used in application logic without a CONTROL[input_validation] or STRUCTURAL[register_globals_disabled] mediator preventing external variable injection.",
+  "graph_query": "INGRESS[http_parameter]→STORAGE[internal_variable] without CONTROL[input_validation]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-471", "CWE-616", "CWE-98"],
+  "references": ["https://cwe.mitre.org/data/definitions/473.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

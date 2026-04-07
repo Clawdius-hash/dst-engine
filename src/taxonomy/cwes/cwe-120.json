@@ -1,0 +1,16 @@
+{
+  "id": "CWE-120",
+  "name": "Buffer Copy without Checking Size of Input ('Classic Buffer Overflow')",
+  "status": "filled",
+  "description": "The product copies an input buffer to an output buffer without verifying that the size of the input does not exceed the capacity of the output buffer, leading to adjacent memory corruption and potentially arbitrary code execution.",
+  "severity": "critical",
+  "category": "memory",
+  "detection_pattern": "INGRESS or STORAGE[input_buffer] flows to a TRANSFORM[buffer_copy] operation (strcpy, memcpy, sprintf, gets) writing to STORAGE[output_buffer] without a CONTROL[size_check] node that validates the input length is less than the destination buffer capacity before copying",
+  "graph_query": "STORAGE[input]→TRANSFORM[buffer_copy]→STORAGE[output] without CONTROL[size_check]",
+  "owasp_top10": null,
+  "sans_top25": true,
+  "related_cwes": ["CWE-787", "CWE-119", "CWE-121", "CWE-122"],
+  "references": ["https://cwe.mitre.org/data/definitions/120.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

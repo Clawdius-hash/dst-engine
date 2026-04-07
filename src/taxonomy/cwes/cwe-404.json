@@ -1,0 +1,16 @@
+{
+  "id": "CWE-404",
+  "name": "Improper Resource Shutdown or Release",
+  "status": "filled",
+  "description": "The product does not release or incorrectly releases a resource before it is made available for re-use, leading to resource exhaustion, denial of service, or information disclosure when sensitive data remains in uncleared resources.",
+  "severity": "medium",
+  "category": "reliability",
+  "detection_pattern": "TRANSFORM or STORAGE node acquires a resource (file handle, socket, database connection, memory) and reaches an EGRESS or CONTROL[exit] node without passing through a TRANSFORM[release] node that properly closes or deallocates the resource on all code paths including error branches",
+  "graph_query": "TRANSFORM|STORAGE[resource_acquire]→EGRESS|CONTROL[exit] without TRANSFORM[resource_release]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-664", "CWE-772", "CWE-401", "CWE-405", "CWE-459", "CWE-763"],
+  "references": ["https://cwe.mitre.org/data/definitions/404.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:25:00Z"
+}

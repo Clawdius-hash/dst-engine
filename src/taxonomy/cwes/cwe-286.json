@@ -1,0 +1,16 @@
+{
+  "id": "CWE-286",
+  "name": "Incorrect User Management",
+  "status": "filled",
+  "description": "The product does not properly manage users within its environment, such as assigning users to incorrect permission groups. This can grant users unintended access to sensitive resources or operations due to improper group membership or role assignment.",
+  "severity": "high",
+  "category": "authorization",
+  "detection_pattern": "Look for STRUCTURAL nodes (user creation, group assignment, role management) that assign AUTH properties (group membership, role, permission set) to actors without an AUTH mediator (role validation, group membership verification, principle of least privilege enforcement) that ensures the user is placed in the correct permission group with appropriate access levels.",
+  "graph_query": "STRUCTURAL(user_management)→AUTH(group_assignment) without AUTH(role_validation)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-284", "CWE-842"],
+  "references": ["https://cwe.mitre.org/data/definitions/286.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

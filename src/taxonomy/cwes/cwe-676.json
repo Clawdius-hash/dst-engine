@@ -1,0 +1,16 @@
+{
+  "id": "CWE-676",
+  "name": "Use of Potentially Dangerous Function",
+  "status": "filled",
+  "description": "The product invokes a potentially dangerous function that could introduce a vulnerability if used incorrectly, even though the function can also be used safely. Examples include strcpy() which may cause buffer overflows when destination buffers are inadequately sized.",
+  "severity": "medium",
+  "category": "api",
+  "detection_pattern": "TRANSFORM node invokes a known dangerous API function (e.g., strcpy, sprintf, gets) that flows data into STORAGE[buffer] without a CONTROL[bounds_check] or TRANSFORM[safe_alternative] mediating the operation",
+  "graph_query": "TRANSFORM[dangerous_function]→STORAGE[buffer] without CONTROL[bounds_check]|TRANSFORM[safe_alternative]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-1177", "CWE-785"],
+  "references": ["https://cwe.mitre.org/data/definitions/676.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:00:00Z"
+}

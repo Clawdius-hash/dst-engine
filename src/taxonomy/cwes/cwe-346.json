@@ -1,0 +1,16 @@
+{
+  "id": "CWE-346",
+  "name": "Origin Validation Error",
+  "status": "filled",
+  "description": "The product does not properly verify that the source of data or communication is valid. This allows attackers to spoof trusted origins and bypass access controls, gaining unauthorized access to functionality or data that should be restricted to known sources.",
+  "severity": "high",
+  "category": "authentication",
+  "detection_pattern": "INGRESS node receives data or requests from an external source that flows to CONTROL or AUTH nodes for access decisions, but the origin of the request (e.g., Origin header, referrer, source IP, communication channel) is not validated by an AUTH[origin_check] node. Look for INGRESS→CONTROL paths where the source identity is assumed rather than verified, especially in cross-origin contexts like WebSocket connections, intent handlers, or API endpoints.",
+  "graph_query": "INGRESS[untrusted_origin]→CONTROL|TRANSFORM without AUTH[origin_check]",
+  "owasp_top10": "A07:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-284", "CWE-345", "CWE-940", "CWE-1385"],
+  "references": ["https://cwe.mitre.org/data/definitions/346.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:20:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-87",
+  "name": "Improper Neutralization of Alternate XSS Syntax",
+  "status": "filled",
+  "description": "The product does not properly neutralize alternate syntax variations for script injection (e.g., case variations like 'SCRIPT', 'ScRiPt', or alternate encodings), allowing attackers to bypass incomplete sanitization routines.",
+  "severity": "high",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides input using alternate case or syntax for script tags that bypasses CONTROL[xss_filter] doing case-sensitive or incomplete pattern matching, while the browser interprets the alternate syntax as executable at EGRESS[html_output]",
+  "graph_query": "INGRESS[alternate_case_script]→CONTROL[xss_filter]→EGRESS[html_output] without TRANSFORM[case_normalize_before_filter]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-79"],
+  "references": ["https://cwe.mitre.org/data/definitions/87.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

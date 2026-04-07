@@ -1,0 +1,16 @@
+{
+  "id": "CWE-140",
+  "name": "Improper Neutralization of Delimiters",
+  "status": "filled",
+  "description": "The product does not neutralize or incorrectly neutralizes delimiter characters in user input before using it in delimited data structures, allowing attackers to inject additional fields, terminate records, or alter the intended structure of the output.",
+  "severity": "high",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides user-controlled data containing delimiter characters (commas, pipes, tabs, semicolons, newlines) that flows into a TRANSFORM[delimited_output] or STORAGE[delimited_data] without a TRANSFORM[delimiter_escape] node that escapes or quotes the delimiter characters before insertion",
+  "graph_query": "INGRESS[delimiters]→TRANSFORM[delimited_output] without TRANSFORM[delimiter_escape]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-138", "CWE-74"],
+  "references": ["https://cwe.mitre.org/data/definitions/140.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

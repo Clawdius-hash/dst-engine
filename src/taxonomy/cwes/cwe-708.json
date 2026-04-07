@@ -1,0 +1,16 @@
+{
+  "id": "CWE-708",
+  "name": "Incorrect Ownership Assignment",
+  "status": "filled",
+  "description": "The product assigns an owner to a resource, but the assigned owner exists outside the intended control sphere, allowing unauthorized actors to read and modify the resource without proper permissions.",
+  "severity": "medium",
+  "category": "authorization",
+  "detection_pattern": "CONTROL node assigns ownership of STORAGE resource to an EXTERNAL actor outside the intended AUTH sphere, without CONTROL validating the owner is within the correct trust boundary",
+  "graph_query": "CONTROL(ownership_assignment)→STORAGE(resource)→EXTERNAL(wrong_owner) without CONTROL(ownership_validation)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-282", "CWE-345"],
+  "references": ["https://cwe.mitre.org/data/definitions/708.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:05:00Z"
+}

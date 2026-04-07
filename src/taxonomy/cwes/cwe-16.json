@@ -1,0 +1,16 @@
+{
+  "id": "CWE-16",
+  "name": "Configuration",
+  "status": "needs_review",
+  "description": "Active category (status: Obsolete) for configuration-related weaknesses. Not an actual weakness — mapping is prohibited. Analyze the specific weakness set by the configuration instead, e.g. CWE-284 (access control) or CWE-400 (resource management).",
+  "severity": "low",
+  "category": "configuration",
+  "detection_pattern": "N/A — category, not a scannable weakness",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-284", "CWE-400"],
+  "references": ["https://cwe.mitre.org/data/definitions/16.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

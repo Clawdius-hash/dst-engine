@@ -1,0 +1,18 @@
+{
+  "id": "CWE-94",
+  "name": "Improper Control of Generation of Code ('Code Injection')",
+  "status": "implemented",
+  "description": "The product constructs code segments using externally-influenced input without properly neutralizing special elements, allowing attackers to inject arbitrary code that executes within the application's context and privileges.",
+  "severity": "critical",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides user-controlled data that flows to a TRANSFORM or EXTERNAL node performing dynamic code generation or evaluation (eval, Function constructor, template engines) without passing through a CONTROL node that sanitizes or restricts code content",
+  "graph_query": "INGRESS→TRANSFORM[code_eval] without CONTROL[code_sanitization]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": true,
+  "related_cwes": ["CWE-74", "CWE-95", "CWE-96", "CWE-1336", "CWE-913"],
+  "references": ["https://cwe.mitre.org/data/definitions/94.html"],
+  "implemented_in": ["verifier.ts"],
+  "verified_at": "2026-03-23T00:00:00Z",
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

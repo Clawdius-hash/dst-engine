@@ -1,0 +1,16 @@
+{
+  "id": "CWE-138",
+  "name": "Improper Neutralization of Special Elements",
+  "status": "filled",
+  "description": "The product receives input from an upstream component but does not neutralize special elements that could be interpreted as control elements or syntactic markers when sent to a downstream component, enabling various injection attacks.",
+  "severity": "high",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides data containing special elements (delimiters, escape chars, null bytes, wildcards, quotes, metacharacters) that flows to EGRESS or EXTERNAL[downstream] without a TRANSFORM[neutralization] node that encodes, escapes, or strips the special elements appropriate to the downstream context",
+  "graph_query": "INGRESS[special_elements]→EGRESS|EXTERNAL without TRANSFORM[neutralization]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-707", "CWE-140", "CWE-74"],
+  "references": ["https://cwe.mitre.org/data/definitions/138.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

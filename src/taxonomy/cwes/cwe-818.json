@@ -1,0 +1,16 @@
+{
+  "id": "CWE-818",
+  "name": "Category: OWASP Top Ten 2010 Category A9 - Insufficient Transport Layer Protection",
+  "status": "needs_review",
+  "description": "This is a Category grouping weaknesses related to OWASP Top Ten 2010 A9 (Insufficient Transport Layer Protection). Includes CWE-311, CWE-319. Prohibited for vulnerability mapping; map to specific member weaknesses instead.",
+  "severity": "low",
+  "category": "cryptography",
+  "detection_pattern": "N/A — category, not a weakness",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-809", "CWE-311", "CWE-319"],
+  "references": ["https://cwe.mitre.org/data/definitions/818.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

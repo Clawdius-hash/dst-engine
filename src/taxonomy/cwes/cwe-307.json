@@ -1,0 +1,18 @@
+{
+  "id": "CWE-307",
+  "name": "Improper Restriction of Excessive Authentication Attempts",
+  "status": "implemented",
+  "description": "The product does not implement sufficient measures to prevent multiple failed authentication attempts in a short timeframe, allowing attackers to use brute force to guess valid credentials without throttling, lockout, or delay.",
+  "severity": "high",
+  "category": "authentication",
+  "detection_pattern": "INGRESS node submits repeated authentication attempts to an AUTH node that lacks a CONTROL node enforcing rate limiting, account lockout, progressive delays, or CAPTCHA challenges on failed attempts",
+  "graph_query": "INGRESS→AUTH[login] without CONTROL[rate_limit|account_lockout]",
+  "owasp_top10": "A07:2021",
+  "sans_top25": true,
+  "related_cwes": ["CWE-799", "CWE-1390", "CWE-287"],
+  "references": ["https://cwe.mitre.org/data/definitions/307.html"],
+  "implemented_in": ["verifier.ts"],
+  "verified_at": "2026-03-23T00:00:00Z",
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

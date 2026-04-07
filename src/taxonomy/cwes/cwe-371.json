@@ -1,0 +1,16 @@
+{
+  "id": "CWE-371",
+  "name": "State Issues",
+  "status": "needs_review",
+  "description": "Category-level CWE covering weaknesses related to improper management of system state. Vulnerability mapping is prohibited — this is an organizational grouping, not a concrete weakness.",
+  "severity": "low",
+  "category": "concurrency",
+  "detection_pattern": "N/A — category CWE, not a concrete weakness",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-15", "CWE-372", "CWE-374", "CWE-375"],
+  "references": ["https://cwe.mitre.org/data/definitions/371.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:50:00Z"
+}

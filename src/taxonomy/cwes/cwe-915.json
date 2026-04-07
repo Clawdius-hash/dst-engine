@@ -1,0 +1,18 @@
+{
+  "id": "CWE-915",
+  "name": "Improperly Controlled Modification of Dynamically-Determined Object Attributes",
+  "status": "implemented",
+  "description": "The product receives input that specifies multiple object attributes for initialization or update but does not properly restrict which attributes can be modified, allowing attackers to alter internal-only fields like roles, permissions, or pricing through mass assignment.",
+  "severity": "high",
+  "category": "input_output",
+  "detection_pattern": "INGRESS node provides key-value pairs or structured data that flows to a TRANSFORM[object_binding] node (mass assignment, autobinding, Object.assign, spread operator) which sets object properties in STORAGE without a CONTROL node that allowlists permitted attributes or blocklists sensitive ones",
+  "graph_query": "INGRESS→TRANSFORM[object_binding]→STORAGE without CONTROL[attribute_allowlist]",
+  "owasp_top10": "A08:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-913", "CWE-1321", "CWE-502"],
+  "references": ["https://cwe.mitre.org/data/definitions/915.html"],
+  "implemented_in": ["verifier.ts"],
+  "verified_at": "2026-03-23T00:00:00Z",
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

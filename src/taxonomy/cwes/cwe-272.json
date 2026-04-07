@@ -1,0 +1,16 @@
+{
+  "id": "CWE-272",
+  "name": "Least Privilege Violation",
+  "status": "filled",
+  "description": "The product retains elevated privileges longer than necessary after performing a privileged operation. The elevated privilege level required for operations like chroot() should be dropped immediately after the operation completes, but the product continues running with unnecessary elevated access.",
+  "severity": "medium",
+  "category": "authorization",
+  "detection_pattern": "Look for AUTH nodes (elevated privilege acquisition, root/admin context) that enable a CONTROL or TRANSFORM node (privileged operation like chroot, bind to port, file open) but continue to flow to subsequent TRANSFORM, EXTERNAL, or CONTROL nodes (normal operations, user-facing code) without a CONTROL mediator (immediate privilege drop, setuid/setgid, capability restriction) that reduces privileges right after the privileged operation.",
+  "graph_query": "AUTH(elevated)→TRANSFORM(privileged_op)→TRANSFORM(normal_op) without CONTROL(immediate_privilege_drop)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-271", "CWE-250", "CWE-269"],
+  "references": ["https://cwe.mitre.org/data/definitions/272.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

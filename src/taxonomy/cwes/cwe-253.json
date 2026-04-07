@@ -1,0 +1,16 @@
+{
+  "id": "CWE-253",
+  "name": "Incorrect Check of Function Return Value",
+  "status": "filled",
+  "description": "The product incorrectly checks the return value from a function, failing to properly detect errors or exceptional conditions. Unlike CWE-252 where the return value is entirely unchecked, here it is checked but the check logic is wrong (e.g., checking for the wrong error code or inverting the condition).",
+  "severity": "medium",
+  "category": "error_handling",
+  "detection_pattern": "Look for EXTERNAL or TRANSFORM nodes (function calls, system calls) whose return values flow through a CONTROL node (conditional check) that performs an incorrect comparison or uses the wrong expected value, without a proper CONTROL mediator (correct return value validation per function specification) that accurately detects failure states.",
+  "graph_query": "TRANSFORM(function_call)→CONTROL(wrong_check)→CONTROL(next_action) without CONTROL(correct_return_validation)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-573", "CWE-754", "CWE-252"],
+  "references": ["https://cwe.mitre.org/data/definitions/253.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

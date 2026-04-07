@@ -1,0 +1,622 @@
+
+import { Parser, Language } from 'web-tree-sitter';
+import { verifyAll, formatReport, registeredCWEs } from './verifier';
+import { buildNeuralMap } from './mapper';
+import { resetSequence } from './types';
+import type { NeuralMap } from './types';
+import type { LanguageProfile } from './languageProfile';
+import { analyzeCrossFile } from './cross-file';
+import type { CrossFileResult } from './cross-file';
+import * as fs from 'fs';
+import * as path from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+interface LanguageConfig {
+  grammarPackage: string;
+  profileImport: string;
+}
+
+const LANGUAGE_MAP: Record<string, LanguageConfig> = {
+  '.js':  { grammarPackage: 'tree-sitter-javascript', profileImport: 'javascript' },
+  '.mjs': { grammarPackage: 'tree-sitter-javascript', profileImport: 'javascript' },
+  '.cjs': { grammarPackage: 'tree-sitter-javascript', profileImport: 'javascript' },
+  '.ts':  { grammarPackage: 'tree-sitter-javascript', profileImport: 'javascript' },
+  '.py':  { grammarPackage: 'tree-sitter-python',     profileImport: 'python' },
+  '.go':  { grammarPackage: 'tree-sitter-go',         profileImport: 'go' },
+  '.rs':  { grammarPackage: 'tree-sitter-rust',       profileImport: 'rust' },
+  '.java': { grammarPackage: 'tree-sitter-java',      profileImport: 'java' },
+  '.php':  { grammarPackage: 'tree-sitter-php',       profileImport: 'php' },
+  '.phtml': { grammarPackage: 'tree-sitter-php',      profileImport: 'php' },
+  '.rb':   { grammarPackage: 'tree-sitter-ruby',      profileImport: 'ruby' },
+  '.rake': { grammarPackage: 'tree-sitter-ruby',      profileImport: 'ruby' },
+  '.cs':  { grammarPackage: 'tree-sitter-c-sharp',    profileImport: 'csharp' },
+  '.kt':  { grammarPackage: '@tree-sitter-grammars/tree-sitter-kotlin', profileImport: 'kotlin' },
+  '.kts': { grammarPackage: '@tree-sitter-grammars/tree-sitter-kotlin', profileImport: 'kotlin' },
+  '.swift': { grammarPackage: 'tree-sitter-swift', profileImport: 'swift' },
+};
+
+const SCANNABLE_EXTENSIONS = new Set(Object.keys(LANGUAGE_MAP));
+
+function detectLanguage(filename: string): LanguageConfig {
+  const ext = path.extname(filename).toLowerCase();
+  return LANGUAGE_MAP[ext] ?? LANGUAGE_MAP['.js'];
+}
+
+const _parsers = new Map<string, InstanceType<typeof Parser>>();
+const _profiles = new Map<string, LanguageProfile>();
+
+async function getParser(grammarPackage: string): Promise<InstanceType<typeof Parser>> {
+  if (_parsers.has(grammarPackage)) return _parsers.get(grammarPackage)!;
+
+  await Parser.init();
+  const parser = new Parser();
+
+  let wasmPath = path.resolve(
+    __dirname,
+    `../node_modules/${grammarPackage}/${grammarPackage}.wasm`
+  );
+
+  if (!fs.existsSync(wasmPath)) {
+    const underscoreName = grammarPackage.replace(/-/g, '_');
+    const altPath = path.resolve(
+      __dirname,
+      `../node_modules/${grammarPackage}/${underscoreName}.wasm`
+    );
+    if (fs.existsSync(altPath)) {
+      wasmPath = altPath;
+    }
+  }
+
+  if (!fs.existsSync(wasmPath) && grammarPackage.startsWith('@')) {
+    const baseName = grammarPackage.split('/').pop()!;
+    const scopedPath = path.resolve(
+      __dirname,
+      `../node_modules/${grammarPackage}/${baseName}.wasm`
+    );
+    if (fs.existsSync(scopedPath)) {
+      wasmPath = scopedPath;
+    }
+  }
+
+  if (!fs.existsSync(wasmPath)) {
+    console.error(
+      `${grammarPackage} WASM not found at:\n  ${wasmPath}\n\n` +
+      `Run: npm install ${grammarPackage}`
+    );
+    process.exit(1);
+  }
+
+  const wasmBuffer = fs.readFileSync(wasmPath);
+  const lang = await Language.load(wasmBuffer);
+  parser.setLanguage(lang);
+
+  _parsers.set(grammarPackage, parser);
+  return parser;
+}
+
+async function getProfile(profileName: string): Promise<LanguageProfile> {
+  if (_profiles.has(profileName)) return _profiles.get(profileName)!;
+
+  const mod = await import(`./profiles/${profileName}.js`);
+  const profile = mod.default ?? mod[`${profileName}Profile`] ?? mod.profile;
+  if (!profile) {
+    console.error(`Could not load profile '${profileName}' from ./profiles/${profileName}.js`);
+    process.exit(1);
+  }
+
+  _profiles.set(profileName, profile);
+  return profile;
+}
+
+function stripTypeScriptAnnotations(source: string): string {
+  let result = source;
+
+  result = result.replace(/^import\s+type\s+.*$/gm, match => ' '.repeat(match.length));
+
+  result = result.replace(/\bimport\s*\{[^}]*\}/g, match => {
+    return match.replace(/\btype\s+/g, sub => ' '.repeat(sub.length));
+  });
+
+  result = result.replace(/^(export\s+)?(interface|type)\s+\w+[\s\S]*?(?=\n(?:export|import|const|let|var|function|class|module|\/\/|\/\*|\n|$))/gm, match => {
+    return match.replace(/[^\n]/g, ' ');
+  });
+
+  result = result.replace(/!(?=\.|\.?\[|\()/g, ' ');
+
+  result = result.replace(/\bas\s+[A-Z]\w*(\s*\[?\]?)*/g, match => ' '.repeat(match.length));
+
+  result = result.replace(/(?<=\w)<[^<>]*(?:<[^<>]*>[^<>]*)*>/g, match => ' '.repeat(match.length));
+
+  result = result.replace(/([\]}])\s*:\s*([A-Z]\w*(?:\[\]|\s*\|\s*\w+)*)\s*(?=[,)=])/g, (match, bracket) => {
+    return bracket + ' '.repeat(match.length - bracket.length);
+  });
+
+  result = result.replace(/(\w)\s*:\s*([A-Z]\w*(?:\[\]|\s*\|\s*\w+)*)\s*(?=[,)=])/g, (match, name) => {
+    return name + ' '.repeat(match.length - name.length);
+  });
+
+  result = result.replace(/(let|const|var)\s+(\w+)\s*:\s*(\w+(?:\[\]|\s*\|\s*\w+)*)\s*(?==)/g, (match, keyword, varName) => {
+    return keyword + ' ' + varName + ' '.repeat(match.length - keyword.length - 1 - varName.length);
+  });
+
+  result = result.replace(/\)\s*:\s*([A-Z]\w*(?:\[\]|\s*\|\s*\w+)*)\s*(?=[{=>])/g, (match) => {
+    return ')' + ' '.repeat(match.length - 1);
+  });
+
+  return result;
+}
+
+async function analyzeWithRealMapper(source: string, filename: string): Promise<NeuralMap> {
+  const langConfig = detectLanguage(filename);
+  const parser = await getParser(langConfig.grammarPackage);
+  const profile = await getProfile(langConfig.profileImport);
+
+  const ext = path.extname(filename).toLowerCase();
+  const parseSource = (ext === '.ts' || ext === '.tsx')
+    ? stripTypeScriptAnnotations(source)
+    : source;
+
+  const tree = parser.parse(parseSource);
+
+  if (!tree) {
+    console.error('tree-sitter failed to parse: ' + filename);
+    process.exit(1);
+  }
+
+  resetSequence();
+  const { map } = buildNeuralMap(tree, source, filename, profile);
+
+  tree.delete();
+
+  return map;
+}
+
+function printHeader(mode: string): void {
+  const cweCount = registeredCWEs().length;
+  const countLabel = `Deterministic Security Testing — ${cweCount} CWE Properties`;
+  console.log('');
+  console.log('╔══════════════════════════════════════════════════════════╗');
+  console.log('║          DST VERIFICATION ENGINE v0.2                   ║');
+  console.log(`║   ${countLabel.padEnd(53)}║`);
+  console.log('║   tree-sitter Neural Map → Graph Query → Pass/Fail     ║');
+  console.log('╠══════════════════════════════════════════════════════════╣');
+  console.log(`║   Mode: ${mode.padEnd(47)}║`);
+  console.log('╚══════════════════════════════════════════════════════════╝');
+  console.log('');
+}
+
+function printMapStats(map: NeuralMap): void {
+  const typeCounts: Record<string, number> = {};
+  for (const node of map.nodes) {
+    typeCounts[node.node_type] = (typeCounts[node.node_type] ?? 0) + 1;
+  }
+
+  const edgeTypeCounts: Record<string, number> = {};
+  for (const edge of map.edges) {
+    edgeTypeCounts[edge.edge_type] = (edgeTypeCounts[edge.edge_type] ?? 0) + 1;
+  }
+
+  const taintedFlows = map.nodes.reduce((count, n) => {
+    return count + n.data_in.filter(d => d.tainted).length +
+                   n.data_out.filter(d => d.tainted).length;
+  }, 0);
+
+  console.log(`Neural Map: ${map.nodes.length} nodes, ${map.edges.length} edges`);
+  console.log(`  Nodes by type: ${Object.entries(typeCounts).map(([t, c]) => `${t}(${c})`).join(', ')}`);
+  if (Object.keys(edgeTypeCounts).length > 0) {
+    console.log(`  Edges by type: ${Object.entries(edgeTypeCounts).map(([t, c]) => `${t}(${c})`).join(', ')}`);
+  }
+  console.log(`  Tainted data flows: ${taintedFlows}`);
+  console.log(`  CWE properties to check: ${registeredCWEs().length}`);
+  console.log('');
+}
+
+const DEMO_CODE = `
+const express = require('express');
+const db = require('./db');
+const fetch = require('node-fetch');
+const { exec } = require('child_process');
+const app = express();
+
+// SQL Injection — string concatenation
+app.post('/users/search', (req, res) => {
+  var query = "SELECT name FROM Users WHERE login='" + req.body.login + "'";
+  db.query(query, (err, results) => {
+    res.render('search', { results: results });
+  });
+});
+
+// XSS — reflected user input
+app.get('/welcome', (req, res) => {
+  res.send('<h1>Welcome, ' + req.query.name + '!</h1>');
+});
+
+// SSRF — user-controlled URL
+app.get('/proxy', (req, res) => {
+  fetch(req.query.url)
+    .then(r => r.text())
+    .then(body => res.send(body));
+});
+
+// Command injection
+app.get('/convert', (req, res) => {
+  exec("ffmpeg -i " + req.query.file + " output.mp4");
+});
+
+// Hardcoded credentials
+const dbConfig = {
+  host: "localhost",
+  password: "SuperSecretPassword123",
+  api_key: "sk_live_abc123def456"
+};
+
+// Missing auth on delete
+app.delete('/users/:id', (req, res) => {
+  db.query("DELETE FROM users WHERE id = " + req.params.id);
+  res.json({ deleted: true });
+});
+
+app.listen(3000);
+`;
+
+function collectSourceFiles(dir: string): string[] {
+  const files: string[] = [];
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+
+  for (const entry of entries) {
+    const fullPath = path.join(dir, entry.name);
+
+    if (entry.isDirectory()) {
+      if (['node_modules', '.git', 'dist', 'build', 'coverage', '.next', '__pycache__', 'venv', '.venv', 'env'].includes(entry.name)) {
+        continue;
+      }
+      files.push(...collectSourceFiles(fullPath));
+    } else if (entry.isFile()) {
+      const ext = path.extname(entry.name).toLowerCase();
+      if (!SCANNABLE_EXTENSIONS.has(ext)) continue;
+      if (entry.name.includes('.test.') || entry.name.includes('.spec.') ||
+          entry.name.includes('.min.') || entry.name.includes('.bundle.')) {
+        continue;
+      }
+      files.push(fullPath);
+    }
+  }
+
+  return files;
+}
+
+interface FileResult {
+  filename: string;
+  map: NeuralMap;
+  results: ReturnType<typeof verifyAll>;
+}
+
+function printFileReport(fr: FileResult): void {
+  const failed = fr.results.filter(r => !r.holds);
+  if (failed.length === 0) return;
+
+  console.log(`\n${'━'.repeat(60)}`);
+  console.log(`  ${fr.filename}`);
+  console.log(`  ${fr.map.nodes.length} nodes, ${fr.map.edges.length} edges`);
+  console.log(`${'━'.repeat(60)}`);
+
+  for (const r of failed) {
+    for (const f of r.findings) {
+      const icon = f.severity === 'critical' ? '!!!' :
+                   f.severity === 'high' ? ' !!' :
+                   f.severity === 'medium' ? '  !' : '   ';
+      console.log(`  ${icon} ${r.cwe}: ${r.name}`);
+      console.log(`      ${f.description.slice(0, 120)}`);
+      console.log(`      L${f.source.line}: ${f.source.code.slice(0, 80)}`);
+      console.log('');
+    }
+  }
+}
+
+function printSummary(allResults: FileResult[], elapsed: number): void {
+  const totalNodes = allResults.reduce((s, r) => s + r.map.nodes.length, 0);
+  const totalEdges = allResults.reduce((s, r) => s + r.map.edges.length, 0);
+
+  let totalFindings = 0;
+  let criticalCount = 0;
+  let highCount = 0;
+  let mediumCount = 0;
+  const cweHits = new Map<string, number>();
+
+  for (const fr of allResults) {
+    for (const r of fr.results) {
+      if (!r.holds) {
+        for (const f of r.findings) {
+          totalFindings++;
+          if (f.severity === 'critical') criticalCount++;
+          else if (f.severity === 'high') highCount++;
+          else mediumCount++;
+          cweHits.set(r.cwe, (cweHits.get(r.cwe) ?? 0) + 1);
+        }
+      }
+    }
+  }
+
+  const cleanFiles = allResults.filter(fr => fr.results.every(r => r.holds)).length;
+
+  console.log('');
+  console.log('╔══════════════════════════════════════════════════════════╗');
+  console.log('║                    SCAN COMPLETE                        ║');
+  console.log('╚══════════════════════════════════════════════════════════╝');
+  console.log('');
+  console.log(`  Files scanned:  ${allResults.length}`);
+  console.log(`  Clean files:    ${cleanFiles}`);
+  console.log(`  Total nodes:    ${totalNodes}`);
+  console.log(`  Total edges:    ${totalEdges}`);
+  console.log(`  Time:           ${elapsed}ms`);
+  console.log('');
+
+  if (totalFindings === 0) {
+    console.log(`  No findings. All ${registeredCWEs().length} CWE properties verified clean across all files.`);
+  } else {
+    console.log(`  ${totalFindings} finding(s):`);
+    if (criticalCount > 0) console.log(`    ${criticalCount} CRITICAL`);
+    if (highCount > 0) console.log(`    ${highCount} HIGH`);
+    if (mediumCount > 0) console.log(`    ${mediumCount} MEDIUM`);
+    console.log('');
+
+    const sorted = [...cweHits.entries()].sort((a, b) => b[1] - a[1]);
+    console.log('  Most common:');
+    for (const [cwe, count] of sorted.slice(0, 5)) {
+      console.log(`    ${cwe}: ${count} occurrence(s)`);
+    }
+  }
+
+  console.log('');
+  console.log('─'.repeat(50));
+  console.log('  Deterministic: same code → same report. Always.');
+  console.log('─'.repeat(50));
+}
+
+async function enrichWithProofs(
+  results: ReturnType<typeof verifyAll>,
+  map: NeuralMap,
+): Promise<void> {
+  const { generateProof } = await import('./payload-gen.js');
+  for (const result of results) {
+    if (!result.holds) {
+      for (const finding of result.findings) {
+        const proof = generateProof(map, finding, result.cwe);
+        if (proof) {
+          (finding as any).proof = proof;
+        }
+      }
+    }
+  }
+}
+
+async function main(): Promise<void> {
+  const args = process.argv.slice(2);
+  const jsonOutput = args.includes('--json');
+  const noDedup = args.includes('--no-dedup');
+  const pedantic = args.includes('--pedantic');
+  const proveMode = args.includes('--prove');
+  const target = args.find(a => !a.startsWith('--'));
+  const isDemo = args.includes('--demo') || !target;
+  const verifyOptions = (noDedup || pedantic)
+    ? { ...(noDedup ? { noDedup: true } : {}), ...(pedantic ? { pedanticMode: true } : {}) }
+    : undefined;
+
+  const startTime = Date.now();
+
+  if (isDemo) {
+    printHeader('DEMO — vulnerable Express app');
+    console.log('Parsing with tree-sitter → building Neural Map...');
+    console.log('');
+
+    const map = await analyzeWithRealMapper(DEMO_CODE, 'demo-vulnerable-app.js');
+    printMapStats(map);
+
+    const results = verifyAll(map, 'javascript', verifyOptions);
+
+    if (proveMode) await enrichWithProofs(results, map);
+
+    if (jsonOutput) {
+      console.log(JSON.stringify(results, null, 2));
+    } else {
+      console.log(formatReport(results));
+
+      const failed = results.filter(r => !r.holds);
+      const criticals = failed.filter(r => r.findings.some(f => f.severity === 'critical'));
+      const highs = failed.filter(r => r.findings.some(f => f.severity === 'high'));
+      const totalFindings = failed.reduce((sum, r) => sum + r.findings.length, 0);
+
+      console.log('');
+      console.log('─'.repeat(50));
+      console.log(`  ${totalFindings} finding(s) across ${failed.length} failed properties`);
+      if (criticals.length > 0) console.log(`  ${criticals.length} CRITICAL`);
+      if (highs.length > 0) console.log(`  ${highs.length} HIGH`);
+      console.log(`  ${results.length - failed.length}/${results.length} properties verified clean`);
+      console.log('─'.repeat(50));
+      console.log('');
+      console.log('Deterministic: same code → same report. Always.');
+    }
+    return;
+  }
+
+  const stat = fs.statSync(target!);
+
+  if (stat.isFile()) {
+    const source = fs.readFileSync(target!, 'utf-8');
+    const langConfig = detectLanguage(target!);
+    printHeader(target!);
+    console.log('Parsing with tree-sitter → building Neural Map...');
+    console.log('');
+
+    const map = await analyzeWithRealMapper(source, target!);
+    printMapStats(map);
+
+    const results = verifyAll(map, langConfig.profileImport, verifyOptions);
+
+    if (proveMode) await enrichWithProofs(results, map);
+
+    if (jsonOutput) {
+      console.log(JSON.stringify(results, null, 2));
+    } else {
+      console.log(formatReport(results));
+
+      const failed = results.filter(r => !r.holds);
+      const totalFindings = failed.reduce((sum, r) => sum + r.findings.length, 0);
+      const criticals = failed.filter(r => r.findings.some(f => f.severity === 'critical'));
+      const highs = failed.filter(r => r.findings.some(f => f.severity === 'high'));
+
+      console.log('');
+      console.log('─'.repeat(50));
+      console.log(`  ${totalFindings} finding(s) across ${failed.length} failed properties`);
+      if (criticals.length > 0) console.log(`  ${criticals.length} CRITICAL`);
+      if (highs.length > 0) console.log(`  ${highs.length} HIGH`);
+      console.log(`  ${results.length - failed.length}/${results.length} properties verified clean`);
+      console.log('─'.repeat(50));
+      console.log('');
+      console.log('Deterministic: same code → same report. Always.');
+    }
+  } else if (stat.isDirectory()) {
+    const files = collectSourceFiles(target!);
+
+    if (files.length === 0) {
+      console.error(`No scannable files found in: ${target}`);
+      process.exit(1);
+    }
+
+    printHeader(`SCAN: ${target} (${files.length} files)`);
+    console.log('Scanning with tree-sitter → building Neural Maps...');
+    console.log('');
+
+    const allResults: FileResult[] = [];
+    let scanned = 0;
+
+    for (const file of files) {
+      scanned++;
+      const shortName = path.relative(target!, file);
+      process.stdout.write(`  [${scanned}/${files.length}] ${shortName}...`);
+
+      try {
+        const source = fs.readFileSync(file, 'utf-8');
+        const fileLangConfig = detectLanguage(file);
+        const map = await analyzeWithRealMapper(source, file);
+        const results = verifyAll(map, fileLangConfig.profileImport, verifyOptions);
+
+        if (proveMode) await enrichWithProofs(results, map);
+
+        const findings = results.filter(r => !r.holds).reduce((s, r) => s + r.findings.length, 0);
+
+        allResults.push({ filename: shortName, map, results });
+
+        if (findings > 0) {
+          console.log(` ${findings} finding(s)`);
+        } else {
+          console.log(' clean');
+        }
+      } catch (err) {
+        console.log(` ERROR: ${(err as Error).message?.slice(0, 60)}`);
+      }
+    }
+
+    let crossFileResult: CrossFileResult | null = null;
+    let crossFileFindings: FileResult | null = null;
+
+    if (allResults.length >= 2) {
+      console.log('');
+      console.log('Cross-file analysis: merging Neural Maps...');
+
+      try {
+        const fileMaps = new Map<string, NeuralMap>();
+        for (const fr of allResults) {
+          const fullPath = path.resolve(target!, fr.filename).replace(/\\/g, '/');
+          fileMaps.set(fullPath, fr.map);
+        }
+
+        crossFileResult = analyzeCrossFile(fileMaps, files.map(f => f.replace(/\\/g, '/')));
+
+        console.log(`  Dependency edges: ${crossFileResult.depGraph.edges.length}`);
+        console.log(`  Cross-file edges: ${crossFileResult.crossFileEdges}`);
+        console.log(`  Resolved imports: ${crossFileResult.resolvedImports.length}`);
+
+        if (crossFileResult.resolvedImports.length > 0) {
+          console.log('  Import chains:');
+          for (const ri of crossFileResult.resolvedImports) {
+            const fromShort = path.relative(target!, ri.from);
+            const toShort = path.relative(target!, ri.to);
+            console.log(`    ${fromShort} -> ${toShort} [${ri.symbols.join(', ')}]`);
+          }
+        }
+
+        const langCounts = new Map<string, number>();
+        for (const fr of allResults) {
+          const lang = detectLanguage(path.resolve(target!, fr.filename)).profileImport;
+          langCounts.set(lang, (langCounts.get(lang) ?? 0) + 1);
+        }
+        const dominantLang = [...langCounts.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? 'javascript';
+        const mergedResults = verifyAll(crossFileResult.mergedMap, dominantLang, verifyOptions);
+
+        if (proveMode) await enrichWithProofs(mergedResults, crossFileResult.mergedMap);
+
+        const mergedFindings = mergedResults.filter(r => !r.holds).reduce((s, r) => s + r.findings.length, 0);
+
+        crossFileFindings = {
+          filename: '[cross-file merged]',
+          map: crossFileResult.mergedMap,
+          results: mergedResults,
+        };
+
+        console.log(`  Merged map: ${crossFileResult.mergedMap.nodes.length} nodes, ${crossFileResult.mergedMap.edges.length} edges`);
+        console.log(`  Cross-file findings: ${mergedFindings}`);
+      } catch (err) {
+        console.log(`  Cross-file analysis error: ${(err as Error).message?.slice(0, 80)}`);
+      }
+    }
+
+    if (jsonOutput) {
+      const jsonResults = allResults.map(fr => ({
+        file: fr.filename,
+        nodes: fr.map.nodes.length,
+        results: fr.results,
+      }));
+      if (crossFileFindings) {
+        jsonResults.push({
+          file: '[cross-file merged]',
+          nodes: crossFileFindings.map.nodes.length,
+          results: crossFileFindings.results,
+        });
+      }
+      console.log(JSON.stringify(jsonResults, null, 2));
+    } else {
+      for (const fr of allResults) {
+        printFileReport(fr);
+      }
+
+      if (crossFileFindings) {
+        const crossFailed = crossFileFindings.results.filter(r => !r.holds);
+        if (crossFailed.length > 0) {
+          console.log(`\n${'='.repeat(60)}`);
+          console.log('  CROSS-FILE FINDINGS (merged Neural Map)');
+          console.log(`${'='.repeat(60)}`);
+          printFileReport(crossFileFindings);
+        }
+      }
+
+      printSummary(allResults, Date.now() - startTime);
+
+      if (crossFileFindings) {
+        const crossFailed = crossFileFindings.results.filter(r => !r.holds);
+        const crossTotal = crossFailed.reduce((s, r) => s + r.findings.length, 0);
+        if (crossTotal > 0) {
+          console.log(`  Cross-file analysis found ${crossTotal} additional finding(s) from ${crossFileResult!.crossFileEdges} cross-file edges.`);
+          console.log('');
+        }
+      }
+    }
+  }
+}
+
+main().catch(err => {
+  console.error('DST CLI error:', err);
+  process.exit(1);
+});

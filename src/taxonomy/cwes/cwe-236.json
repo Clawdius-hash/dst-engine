@@ -1,0 +1,16 @@
+{
+  "id": "CWE-236",
+  "name": "Improper Handling of Undefined Parameters",
+  "status": "filled",
+  "description": "The product does not handle or incorrectly handles when a particular parameter, field, or argument name is not defined or supported by the product. Processing unexpected or unsupported parameters without rejection can cause crashes, unexpected behavior, or protocol violations.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "Look for INGRESS nodes (requests with unknown parameter names) flowing to CONTROL or TRANSFORM nodes (request processing, protocol handlers) without a CONTROL mediator (allowed parameter whitelist, unknown parameter rejection) that validates parameter names against a known set and rejects or ignores undefined ones.",
+  "graph_query": "INGRESS(unknown_param)→CONTROL(handler) without CONTROL(param_whitelist)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-233", "CWE-228"],
+  "references": ["https://cwe.mitre.org/data/definitions/236.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-402",
+  "name": "Transmission of Private Resources into a New Sphere ('Resource Leak')",
+  "status": "filled",
+  "description": "The product makes resources available to untrusted parties when those resources are only intended to be accessed by the product itself, leaking private data or handles into an unauthorized control sphere.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "STORAGE or TRANSFORM node holding private resources (file descriptors, database cursors, internal handles) flows to an EGRESS or EXTERNAL node that crosses a trust boundary without an AUTH or CONTROL node restricting resource visibility",
+  "graph_query": "STORAGE|TRANSFORM[private_resource]→EGRESS|EXTERNAL without AUTH|CONTROL[access_restriction]",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-668", "CWE-403", "CWE-619"],
+  "references": ["https://cwe.mitre.org/data/definitions/402.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:25:00Z"
+}

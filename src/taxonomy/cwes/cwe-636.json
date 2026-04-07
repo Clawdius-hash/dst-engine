@@ -1,0 +1,16 @@
+{
+  "id": "CWE-636",
+  "name": "Not Failing Securely ('Failing Open')",
+  "status": "filled",
+  "description": "When the product encounters an error condition or failure, its design requires it to fall back to a state that is less secure than other options. This 'failing open' behavior can result in weaker encryption, permissive access controls, or bypassed security checks during error conditions.",
+  "severity": "high",
+  "category": "error_handling",
+  "detection_pattern": "CONTROL node handling error/exception conditions routes execution to a path that bypasses AUTH or other security-critical nodes. Look for error handlers that disable security checks, fall back to weaker protections, or grant default access when failures occur.",
+  "graph_query": "CONTROL(error_handler)→EGRESS without AUTH(security_check)",
+  "owasp_top10": "A04:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-657", "CWE-755", "CWE-455", "CWE-280"],
+  "references": ["https://cwe.mitre.org/data/definitions/636.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:00:00Z"
+}

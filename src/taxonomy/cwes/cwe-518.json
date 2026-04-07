@@ -1,0 +1,16 @@
+{
+  "id": "CWE-518",
+  "name": "DEPRECATED: Inadvertently Introduced Weakness",
+  "status": "needs_review",
+  "description": "Deprecated category CWE. Introduced unnecessary complexity. Vulnerability mapping is prohibited.",
+  "severity": "low",
+  "category": "reliability",
+  "detection_pattern": "N/A — deprecated category CWE",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": [],
+  "references": ["https://cwe.mitre.org/data/definitions/518.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:10:00Z"
+}

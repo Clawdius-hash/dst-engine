@@ -1,0 +1,16 @@
+{
+  "id": "CWE-19",
+  "name": "Data Processing Errors",
+  "status": "needs_review",
+  "description": "Active category for weaknesses in data processing functionality. Not an actual weakness — mapping is prohibited since CWE 4.9. Member weaknesses include CWE-130, CWE-166, CWE-611.",
+  "severity": "low",
+  "category": "input_output",
+  "detection_pattern": "N/A — category, not a scannable weakness",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-130", "CWE-166", "CWE-611"],
+  "references": ["https://cwe.mitre.org/data/definitions/19.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

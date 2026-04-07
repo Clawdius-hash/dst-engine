@@ -1,0 +1,16 @@
+{
+  "id": "CWE-356",
+  "name": "Product UI does not Warn User of Unsafe Actions",
+  "status": "filled",
+  "description": "The product's user interface does not warn or alert users before performing potentially dangerous operations, such as executing untrusted files, accepting problematic certificates, or extracting setuid files.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "INGRESS node triggers a dangerous action through CONTROL node that reaches EGRESS or TRANSFORM without a META node providing user warning or confirmation dialog",
+  "graph_query": "INGRESS(user_action)→CONTROL(dangerous_op) without META(user_warning)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-221", "CWE-355"],
+  "references": ["https://cwe.mitre.org/data/definitions/356.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:30:00Z"
+}

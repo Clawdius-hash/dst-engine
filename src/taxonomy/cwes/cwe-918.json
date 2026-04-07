@@ -1,0 +1,18 @@
+{
+  "id": "CWE-918",
+  "name": "Server-Side Request Forgery (SSRF)",
+  "status": "implemented",
+  "description": "The server receives a URL or similar request from an upstream component and retrieves its contents without sufficiently validating the destination, allowing attackers to make the server access internal services, cloud metadata endpoints, or arbitrary external resources.",
+  "severity": "critical",
+  "category": "input_output",
+  "detection_pattern": "INGRESS node provides a URL or hostname that flows to an EXTERNAL[http_request] node where the server fetches remote content (file_get_contents, fetch, curl, HTTP client) without a CONTROL node that validates the destination against an allowlist or blocks internal/private IP ranges and metadata endpoints",
+  "graph_query": "INGRESS[url]→EXTERNAL[http_request] without CONTROL[url_destination_validation]",
+  "owasp_top10": "A10:2021",
+  "sans_top25": true,
+  "related_cwes": ["CWE-441", "CWE-610", "CWE-611"],
+  "references": ["https://cwe.mitre.org/data/definitions/918.html"],
+  "implemented_in": ["verifier.ts"],
+  "verified_at": "2026-03-23T00:00:00Z",
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

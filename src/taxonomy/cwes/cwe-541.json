@@ -1,0 +1,16 @@
+{
+  "id": "CWE-541",
+  "name": "Inclusion of Sensitive Information in an Include File",
+  "status": "filled",
+  "description": "Include files (e.g., .inc, .h) contain sensitive information such as database credentials or passwords. If the web server serves these files without proper handling, attackers can retrieve and view the sensitive contents directly.",
+  "severity": "high",
+  "category": "data_protection",
+  "detection_pattern": "STORAGE[credentials] or META[sensitive_config] embedded within STRUCTURAL[include_file] nodes that can be served by EGRESS[web_server] without CONTROL[file_handler] preventing direct access. The include file is accessible to external users without server-side processing.",
+  "graph_query": "META[credentials]→STRUCTURAL[include_file]→EGRESS[http] without CONTROL[file_handler]",
+  "owasp_top10": "A05:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-540", "CWE-538"],
+  "references": ["https://cwe.mitre.org/data/definitions/541.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

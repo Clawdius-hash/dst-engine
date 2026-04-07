@@ -1,0 +1,16 @@
+{
+  "id": "CWE-228",
+  "name": "Improper Handling of Syntactically Invalid Structure",
+  "status": "filled",
+  "description": "The product does not handle or incorrectly handles input that is not syntactically well-formed with respect to the associated specification. Malformed input can trigger unexpected behavior, crashes, or resource exhaustion when the product assumes valid structure.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "Look for INGRESS nodes (user input, API requests, file uploads) flowing to TRANSFORM or CONTROL nodes (parsers, deserializers, processors) without a CONTROL mediator (syntax validator, schema checker, well-formedness verifier) that rejects syntactically invalid structures before processing.",
+  "graph_query": "INGRESS(raw_input)→TRANSFORM(parser) without CONTROL(syntax_validation)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-703", "CWE-707", "CWE-229", "CWE-233"],
+  "references": ["https://cwe.mitre.org/data/definitions/228.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

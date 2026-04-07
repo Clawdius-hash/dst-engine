@@ -1,0 +1,16 @@
+{
+  "id": "CWE-49",
+  "name": "Path Equivalence: 'filename/' (Trailing Slash)",
+  "status": "filled",
+  "description": "The product does not properly handle filenames with trailing slashes, which some systems strip or interpret as directory indicators, allowing attackers to bypass access controls that match against the slash-suffixed form differently from the canonical form.",
+  "severity": "medium",
+  "category": "file_handling",
+  "detection_pattern": "INGRESS node provides a path with a trailing slash that bypasses CONTROL[path_check] because the check treats 'filename/' differently from 'filename' while the filesystem resolves them equivalently at STORAGE[file_access]",
+  "graph_query": "INGRESS[path 'file/']→CONTROL[path_check]→STORAGE[file_access] without TRANSFORM[strip_trailing_slash]",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-41", "CWE-162"],
+  "references": ["https://cwe.mitre.org/data/definitions/49.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

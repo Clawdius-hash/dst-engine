@@ -1,0 +1,16 @@
+{
+  "id": "CWE-55",
+  "name": "Path Equivalence: '/./' (Single Dot Directory)",
+  "status": "filled",
+  "description": "The product does not properly handle '/./' (single dot directory) sequences in paths, which resolve to the current directory and are effectively no-ops, allowing attackers to bypass path-based access controls that match the literal '/./' form but not the canonical resolved form.",
+  "severity": "medium",
+  "category": "file_handling",
+  "detection_pattern": "INGRESS node provides a path containing '/./' sequences that bypasses CONTROL[path_check] because the check matches the literal form while the OS resolves '/./' to '/' at STORAGE[file_access], creating a check-vs-use mismatch",
+  "graph_query": "INGRESS[path '/./file']→CONTROL[path_check]→STORAGE[file_access] without TRANSFORM[canonicalize]",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-41"],
+  "references": ["https://cwe.mitre.org/data/definitions/55.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

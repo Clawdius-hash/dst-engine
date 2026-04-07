@@ -1,0 +1,16 @@
+{
+  "id": "CWE-274",
+  "name": "Improper Handling of Insufficient Privileges",
+  "status": "filled",
+  "description": "The product does not handle or incorrectly handles when it has insufficient privileges to perform an operation, leading to resultant weaknesses. The failure to gracefully handle insufficient permissions can force the application into unanticipated execution paths.",
+  "severity": "medium",
+  "category": "authorization",
+  "detection_pattern": "Look for AUTH nodes (permission checks, privilege verifications) that return insufficient-privilege results flowing to TRANSFORM or CONTROL nodes (operation execution, fallback logic) without a CONTROL mediator (graceful denial, fail-secure handling, insufficient privilege error handler) that ensures the system fails securely when privileges are lacking.",
+  "graph_query": "AUTH(privilege_check_fail)→TRANSFORM(operation) without CONTROL(fail_secure_handler)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-269", "CWE-755", "CWE-271", "CWE-280"],
+  "references": ["https://cwe.mitre.org/data/definitions/274.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

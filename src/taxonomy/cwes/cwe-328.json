@@ -1,0 +1,16 @@
+{
+  "id": "CWE-328",
+  "name": "Use of Weak Hash",
+  "status": "filled",
+  "description": "The product uses a hashing algorithm that does not meet security standards, allowing attackers to recover original inputs through preimage attacks, find collisions, or conduct birthday attacks against the hash output.",
+  "severity": "high",
+  "category": "cryptography",
+  "detection_pattern": "INGRESS or STORAGE node feeds data into a TRANSFORM node using a weak hash algorithm (MD5, SHA-1) without a CONTROL node enforcing use of strong adaptive hashing (bcrypt, scrypt, PBKDF2, Argon2)",
+  "graph_query": "INGRESS→TRANSFORM(weak_hash) without CONTROL(hash_strength_policy)",
+  "owasp_top10": "A02:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-326", "CWE-327", "CWE-916"],
+  "references": ["https://cwe.mitre.org/data/definitions/328.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:15:00Z"
+}

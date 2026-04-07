@@ -1,0 +1,16 @@
+{
+  "id": "CWE-252",
+  "name": "Unchecked Return Value",
+  "status": "filled",
+  "description": "The product does not check the return value from a function call, preventing detection of unexpected states or errors. When functions fail silently without return value checking, the program may continue in a dangerous state, such as retaining elevated privileges when a privilege-dropping function fails.",
+  "severity": "medium",
+  "category": "error_handling",
+  "detection_pattern": "Look for EXTERNAL or TRANSFORM nodes (function calls, system calls, API invocations) whose return values flow to CONTROL nodes (decision points, branching logic) but the return value is discarded or ignored, without a CONTROL mediator (return value check, error status validation) that inspects the result before proceeding.",
+  "graph_query": "TRANSFORM(function_call)→CONTROL(next_action) without CONTROL(return_value_check)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-754", "CWE-690", "CWE-253"],
+  "references": ["https://cwe.mitre.org/data/definitions/252.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

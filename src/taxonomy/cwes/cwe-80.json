@@ -1,0 +1,16 @@
+{
+  "id": "CWE-80",
+  "name": "Improper Neutralization of Script-Related HTML Tags in a Web Page (Basic XSS)",
+  "status": "filled",
+  "description": "The product receives input from an upstream component but does not neutralize or incorrectly neutralizes special characters such as '<', '>', and '&' before placing the input into output used as a web page, enabling basic script injection.",
+  "severity": "high",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides user input containing HTML metacharacters (<, >, &, quotes) that flows to EGRESS[html_output] without a TRANSFORM[html_entity_encoding] node that encodes these characters before insertion into the page",
+  "graph_query": "INGRESS[html_metacharacters]→EGRESS[html_output] without TRANSFORM[html_entity_encoding]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-79"],
+  "references": ["https://cwe.mitre.org/data/definitions/80.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

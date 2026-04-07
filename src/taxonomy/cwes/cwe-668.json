@@ -1,0 +1,18 @@
+{
+  "id": "CWE-668",
+  "name": "Exposure of Resource to Wrong Sphere",
+  "status": "implemented",
+  "description": "The product exposes a resource to the wrong control sphere, making it accessible to actors outside the intended access boundary through insufficient permission restrictions or incorrect resource targeting in program logic.",
+  "severity": "high",
+  "category": "authorization",
+  "detection_pattern": "STORAGE or STRUCTURAL node containing a protected resource (file, directory, database, API endpoint) is accessible via an EGRESS or EXTERNAL path without passing through an AUTH or CONTROL[access_control] node that enforces proper sphere boundaries and permission checks",
+  "graph_query": "STORAGE[protected_resource]→EGRESS|EXTERNAL without AUTH|CONTROL[access_control]",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-664", "CWE-200", "CWE-552", "CWE-732", "CWE-522"],
+  "references": ["https://cwe.mitre.org/data/definitions/668.html"],
+  "implemented_in": ["verifier.ts"],
+  "verified_at": "2026-03-23T00:00:00Z",
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

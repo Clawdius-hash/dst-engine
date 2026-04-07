@@ -1,0 +1,16 @@
+{
+  "id": "CWE-309",
+  "name": "Use of Password System for Primary Authentication",
+  "status": "filled",
+  "description": "The product relies on passwords as the primary authentication mechanism, which is subject to numerous practical weaknesses including brute force, credential stuffing, phishing, and poor user password hygiene. Password-only systems are insufficient for security-critical applications.",
+  "severity": "medium",
+  "category": "authentication",
+  "detection_pattern": "Look for AUTH nodes (primary authentication) that rely solely on INGRESS password data without additional CONTROL or AUTH mediators (multi-factor verification, rate limiting, adaptive authentication) to strengthen the authentication beyond simple password comparison.",
+  "graph_query": "INGRESS(password)→AUTH(primary_authentication) without CONTROL(additional_auth_strength)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-654", "CWE-1390", "CWE-262", "CWE-308"],
+  "references": ["https://cwe.mitre.org/data/definitions/309.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

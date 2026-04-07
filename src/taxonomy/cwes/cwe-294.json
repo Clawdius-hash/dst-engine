@@ -1,0 +1,16 @@
+{
+  "id": "CWE-294",
+  "name": "Authentication Bypass by Capture-replay",
+  "status": "filled",
+  "description": "A capture-replay flaw exists when the design of the product makes it possible for a malicious user to sniff network traffic and bypass authentication by replaying it to the server. The attacker intercepts valid authentication credentials or tokens and resubmits them to gain unauthorized access.",
+  "severity": "high",
+  "category": "authentication",
+  "detection_pattern": "Look for INGRESS nodes (authentication tokens, credentials, session data) that flow to AUTH nodes (authentication verification) without a CONTROL mediator (replay protection, nonce validation, timestamp freshness check, sequence number verification) that ensures each authentication exchange is unique and cannot be reused.",
+  "graph_query": "INGRESS(captured_credentials)→AUTH(authentication) without CONTROL(replay_protection)",
+  "owasp_top10": "A07:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-1390", "CWE-287"],
+  "references": ["https://cwe.mitre.org/data/definitions/294.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-329",
+  "name": "Generation of Predictable IV with CBC Mode",
+  "status": "filled",
+  "description": "The product generates and uses a predictable initialization vector (IV) with Cipher Block Chaining (CBC) mode, making the encryption susceptible to dictionary attacks and chosen-plaintext attacks when identical keys are used.",
+  "severity": "medium",
+  "category": "cryptography",
+  "detection_pattern": "TRANSFORM node performing CBC-mode encryption receives an IV from a TRANSFORM node that uses predictable generation (sequential, timestamp-based, or static values) without a CONTROL node enforcing cryptographically random IV generation",
+  "graph_query": "TRANSFORM(predictable_iv)→TRANSFORM(cbc_encryption) without CONTROL(random_iv_policy)",
+  "owasp_top10": "A02:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-327", "CWE-330", "CWE-573"],
+  "references": ["https://cwe.mitre.org/data/definitions/329.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:20:00Z"
+}

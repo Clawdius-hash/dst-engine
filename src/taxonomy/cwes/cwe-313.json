@@ -1,0 +1,16 @@
+{
+  "id": "CWE-313",
+  "name": "Cleartext Storage in a File or on Disk",
+  "status": "filled",
+  "description": "The product stores sensitive information in cleartext in a file or on disk. Attackers with access to the file system or physical/administrative access to the raw disk can read the sensitive data directly.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "Look for STORAGE nodes (file write, disk persistence) receiving sensitive data from TRANSFORM or INGRESS nodes without a TRANSFORM mediator (encryption, hashing) that protects the data before it reaches persistent storage.",
+  "graph_query": "INGRESS(sensitive_data)→STORAGE(file_or_disk) without TRANSFORM(encryption)",
+  "owasp_top10": "A04:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-312", "CWE-311"],
+  "references": ["https://cwe.mitre.org/data/definitions/313.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

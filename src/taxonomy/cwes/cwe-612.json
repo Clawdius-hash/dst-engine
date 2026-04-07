@@ -1,0 +1,16 @@
+{
+  "id": "CWE-612",
+  "name": "Improper Authorization of Index Containing Sensitive Information",
+  "status": "filled",
+  "description": "The product indexes private or sensitive documents but fails to restrict index access, allowing unauthorized parties to retrieve portions of those documents through targeted searches including surrounding context.",
+  "severity": "medium",
+  "category": "authorization",
+  "detection_pattern": "TRANSFORM node indexes sensitive STORAGE documents into a search index accessible to EXTERNAL actors via INGRESS without AUTH node restricting index access based on document-level permissions",
+  "graph_query": "INGRESS(search_query)→STORAGE(sensitive_index)→EGRESS(results) without AUTH(document_level_access_control)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-1230"],
+  "references": ["https://cwe.mitre.org/data/definitions/612.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:45:00Z"
+}

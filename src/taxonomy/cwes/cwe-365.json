@@ -1,0 +1,16 @@
+{
+  "id": "CWE-365",
+  "name": "DEPRECATED: Race Condition in Switch",
+  "status": "needs_review",
+  "description": "Deprecated CWE. No documented cases exist where a switch control expression evaluates multiple times. The concern is already covered by CWE-367 (TOCTOU). Vulnerability mapping is prohibited.",
+  "severity": "low",
+  "category": "concurrency",
+  "detection_pattern": "N/A — deprecated CWE",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-367"],
+  "references": ["https://cwe.mitre.org/data/definitions/365.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:40:00Z"
+}

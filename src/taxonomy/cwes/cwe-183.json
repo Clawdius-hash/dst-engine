@@ -1,0 +1,16 @@
+{
+  "id": "CWE-183",
+  "name": "Permissive List of Allowed Inputs",
+  "status": "filled",
+  "description": "The product uses an allowlist that is too broad, permitting inputs that should be rejected because the list includes overly general patterns, wildcards, or categories that encompass dangerous values alongside safe ones.",
+  "severity": "high",
+  "category": "input_output",
+  "detection_pattern": "CONTROL[allowlist_check] uses an overly permissive pattern (broad regex, wildcard, entire category) that allows dangerous INGRESS data to pass through to TRANSFORM or STORAGE, when a more restrictive allowlist would reject it",
+  "graph_query": "INGRESS→CONTROL[permissive_allowlist]→TRANSFORM|STORAGE without CONTROL[strict_allowlist]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-697", "CWE-20"],
+  "references": ["https://cwe.mitre.org/data/definitions/183.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

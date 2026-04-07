@@ -1,0 +1,11 @@
+{
+  "id": "CWE-928",
+  "name": "Weaknesses in OWASP Top Ten (2013)",
+  "status": "needs_review",
+  "description": "View: Hierarchical view mapping software vulnerabilities to the OWASP Top Ten 2013 categories. A navigational framework, not a weakness itself. Now considered obsolete.",
+  "category_type": "view",
+  "related_cwes": ["CWE-929", "CWE-930", "CWE-931", "CWE-932", "CWE-933"],
+  "references": ["https://cwe.mitre.org/data/definitions/928.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

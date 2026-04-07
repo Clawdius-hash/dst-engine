@@ -1,0 +1,16 @@
+{
+  "id": "CWE-187",
+  "name": "Partial String Comparison",
+  "status": "filled",
+  "description": "The product performs string comparisons that only examine a portion of the data before determining a match. An attacker could succeed in authentication by providing a short password that matches just the compared portion of the larger correct password.",
+  "severity": "high",
+  "category": "authentication",
+  "detection_pattern": "Look for INGRESS nodes carrying credentials flowing to AUTH nodes where the comparison logic (CONTROL) uses partial/prefix string matching (e.g., strncmp with short length) instead of full-length comparison. The mediator (full-length comparison) is missing.",
+  "graph_query": "INGRESS→AUTH without CONTROL(full_string_comparison)",
+  "owasp_top10": "A07:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-1023", "CWE-625", "CWE-185"],
+  "references": ["https://cwe.mitre.org/data/definitions/187.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

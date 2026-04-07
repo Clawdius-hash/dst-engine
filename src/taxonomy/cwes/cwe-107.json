@@ -1,0 +1,16 @@
+{
+  "id": "CWE-107",
+  "name": "Struts: Unused Validation Form",
+  "status": "filled",
+  "description": "A Struts validation form definition exists in the validation configuration but has no corresponding Action Form, indicating the validation logic is out of date and may not cover current form inputs.",
+  "severity": "low",
+  "category": "input_output",
+  "detection_pattern": "META[struts_validation_config] contains a validation form definition with no matching STRUCTURAL[action_form] in the application, indicating stale configuration that may mask missing validation for current forms",
+  "graph_query": "META[validation_form]→no matching STRUCTURAL[action_form]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-1164", "CWE-20"],
+  "references": ["https://cwe.mitre.org/data/definitions/107.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

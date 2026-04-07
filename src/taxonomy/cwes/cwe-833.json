@@ -1,0 +1,21 @@
+{
+  "id": "CWE-833",
+  "name": "Deadlock",
+  "status": "filled",
+  "description": "The product contains multiple threads or executable segments that are waiting for each other to release a necessary lock, resulting in a deadlock where no thread can proceed, causing denial of service through resource consumption or system hang.",
+  "severity": "medium",
+  "category": "concurrency",
+  "detection_pattern": "Multiple CONTROL[thread] nodes each hold a CONTROL[lock] on different STORAGE[resource] nodes while waiting for the other's lock, creating a circular dependency without a CONTROL[lock_ordering] or CONTROL[timeout] mechanism to prevent or break the cycle",
+  "graph_query": "CONTROL[thread_A lock_X]→CONTROL[wait lock_Y] and CONTROL[thread_B lock_Y]→CONTROL[wait lock_X] without CONTROL[lock_ordering|deadlock_prevention]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": [
+    "CWE-667",
+    "CWE-662"
+  ],
+  "references": [
+    "https://cwe.mitre.org/data/definitions/833.html"
+  ],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

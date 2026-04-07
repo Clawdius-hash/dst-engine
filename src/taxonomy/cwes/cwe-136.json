@@ -1,0 +1,16 @@
+{
+  "id": "CWE-136",
+  "name": "Type Errors",
+  "status": "needs_review",
+  "description": "Category for type-related weaknesses (improper data type transformation, incorrect type handling). Not an actual weakness — mapping is discouraged.",
+  "severity": "low",
+  "category": "memory",
+  "detection_pattern": "N/A — category, not a scannable weakness",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-681", "CWE-843", "CWE-1287"],
+  "references": ["https://cwe.mitre.org/data/definitions/136.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

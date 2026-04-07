@@ -1,0 +1,16 @@
+{
+  "id": "CWE-129",
+  "name": "Improper Validation of Array Index",
+  "status": "filled",
+  "description": "The product uses untrusted input as an array index without validating that the value falls within the valid range of the array, potentially causing out-of-bounds read/write, crashes, or arbitrary code execution.",
+  "severity": "high",
+  "category": "memory",
+  "detection_pattern": "INGRESS node provides a value used as an array index at STORAGE[array_access] without a CONTROL[bounds_check] node that validates the index is >= 0 and < array.length before the access operation",
+  "graph_query": "INGRESS[index_value]→STORAGE[array_access] without CONTROL[bounds_check]",
+  "owasp_top10": null,
+  "sans_top25": true,
+  "related_cwes": ["CWE-1285", "CWE-20", "CWE-119"],
+  "references": ["https://cwe.mitre.org/data/definitions/129.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

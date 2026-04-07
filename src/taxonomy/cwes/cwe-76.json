@@ -1,0 +1,16 @@
+{
+  "id": "CWE-76",
+  "name": "Improper Neutralization of Equivalent Special Elements",
+  "status": "filled",
+  "description": "The product correctly neutralizes certain special characters but fails to account for alternate encodings or equivalent representations (Unicode, URL-encoding, HTML entities, double-encoding) that have the same semantic meaning, allowing attackers to bypass input filters.",
+  "severity": "high",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides data with alternate-encoded special elements that bypasses a CONTROL[input_filter] because the filter only checks one encoding form, while the downstream EXTERNAL or EGRESS component decodes the alternate representation and interprets the special elements",
+  "graph_query": "INGRESS[encoded_special]→CONTROL[input_filter]→EXTERNAL|EGRESS without TRANSFORM[decode_before_filter]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-75", "CWE-74"],
+  "references": ["https://cwe.mitre.org/data/definitions/76.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

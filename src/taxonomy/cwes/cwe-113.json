@@ -1,0 +1,16 @@
+{
+  "id": "CWE-113",
+  "name": "Improper Neutralization of CRLF Sequences in HTTP Headers ('HTTP Request/Response Splitting')",
+  "status": "filled",
+  "description": "The product includes user-controlled data in HTTP headers without neutralizing CR and LF characters, allowing attackers to inject additional HTTP headers or split the response to create a second forged HTTP message (response splitting).",
+  "severity": "high",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides user-controlled data that is placed into EGRESS[http_header] values without a TRANSFORM[crlf_strip] node that removes or rejects CR (\\r) and LF (\\n) characters before the header is written to the HTTP response",
+  "graph_query": "INGRESS→EGRESS[http_header] without TRANSFORM[crlf_neutralization]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-93", "CWE-436"],
+  "references": ["https://cwe.mitre.org/data/definitions/113.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

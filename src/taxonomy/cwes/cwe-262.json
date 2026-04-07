@@ -1,0 +1,16 @@
+{
+  "id": "CWE-262",
+  "name": "Not Using Password Aging",
+  "status": "filled",
+  "description": "The product does not have a mechanism for managing password aging, meaning passwords never expire. While modern guidance (NIST) increasingly disfavors forced rotation, lack of any aging mechanism means compromised credentials remain valid indefinitely, and some compliance frameworks (PCI DSS) still require it.",
+  "severity": "low",
+  "category": "authentication",
+  "detection_pattern": "Look for AUTH nodes (user authentication, password management) where credentials in STORAGE nodes (user database, credential store) have no META mediator (password age tracking, expiration policy, rotation schedule) that enforces periodic credential renewal or flags stale passwords.",
+  "graph_query": "AUTH(password_login)→STORAGE(credential_store) without META(password_age_policy)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-1390", "CWE-263", "CWE-309", "CWE-324"],
+  "references": ["https://cwe.mitre.org/data/definitions/262.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

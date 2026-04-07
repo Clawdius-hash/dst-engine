@@ -1,0 +1,16 @@
+{
+  "id": "CWE-766",
+  "name": "Critical Data Element Declared Public",
+  "status": "filled",
+  "description": "The product declares critical variables, fields, or members as public when they should be private, allowing unauthorized external code to read or modify sensitive data and undermining encapsulation and security boundaries.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "STRUCTURAL(class_definition) contains a STORAGE(critical_data_field) with public access modifier that holds sensitive data (credentials, keys, security state). Look for public fields in STRUCTURAL nodes that should be restricted by AUTH(access_control) or encapsulated as private.",
+  "graph_query": "STRUCTURAL(class)→STORAGE(public_critical_field)→EXTERNAL(any_caller) without AUTH(access_restriction)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-732", "CWE-1061"],
+  "references": ["https://cwe.mitre.org/data/definitions/766.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:15:00Z"
+}

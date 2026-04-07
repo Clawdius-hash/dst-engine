@@ -1,0 +1,16 @@
+{
+  "id": "CWE-925",
+  "name": "Improper Verification of Intent by Broadcast Receiver",
+  "status": "filled",
+  "description": "An Android application registers a Broadcast Receiver to handle system intents but also receives explicit intents from malicious applications. Without proper verification of intent origin, the app may mistake a spoofed intent for a legitimate system broadcast, leading to unintended actions or privilege escalation.",
+  "severity": "medium",
+  "category": "authorization",
+  "detection_pattern": "INGRESS[broadcast_receiver] accepts intents from EXTERNAL[any_app] and forwards data to CONTROL or TRANSFORM nodes without an AUTH[intent_verification] node that checks the intent source, action, or permissions",
+  "graph_query": "INGRESS[broadcast_receiver]→TRANSFORM without AUTH[intent_verification]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-940"],
+  "references": ["https://cwe.mitre.org/data/definitions/925.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

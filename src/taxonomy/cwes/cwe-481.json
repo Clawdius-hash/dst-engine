@@ -1,0 +1,16 @@
+{
+  "id": "CWE-481",
+  "name": "Assigning instead of Comparing",
+  "status": "filled",
+  "description": "The code uses an assignment operator (=) instead of a comparison operator (==) in a conditional expression. This causes the variable to be overwritten and the condition to evaluate based on the assigned value rather than performing the intended comparison, leading to incorrect program logic.",
+  "severity": "medium",
+  "category": "reliability",
+  "detection_pattern": "CONTROL node containing an assignment operation where a comparison was intended. Look for TRANSFORM (assignment) inside a CONTROL (conditional branch) where the data flow overwrites a variable instead of evaluating it.",
+  "graph_query": "TRANSFORM(assignment)→CONTROL(conditional) without TRANSFORM(comparison)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-480", "CWE-697"],
+  "references": ["https://cwe.mitre.org/data/definitions/481.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

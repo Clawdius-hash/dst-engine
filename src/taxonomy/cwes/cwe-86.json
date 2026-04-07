@@ -1,0 +1,16 @@
+{
+  "id": "CWE-86",
+  "name": "Improper Neutralization of Invalid Characters in Identifiers in Web Pages",
+  "status": "filled",
+  "description": "The product does not properly remove invalid characters or null bytes within tag names and URI schemes (e.g., 'java%00script:'), allowing attackers to bypass XSS filters because browsers may still interpret the malformed identifier as executable code.",
+  "severity": "high",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides input with null bytes or invalid characters embedded in script identifiers that bypasses CONTROL[xss_filter] pattern matching, but the browser strips the invalid characters and executes the script at EGRESS[html_output]",
+  "graph_query": "INGRESS[null_byte_script]→CONTROL[xss_filter]→EGRESS[html_output] without TRANSFORM[strip_invalid_chars_before_filter]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-79", "CWE-436"],
+  "references": ["https://cwe.mitre.org/data/definitions/86.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

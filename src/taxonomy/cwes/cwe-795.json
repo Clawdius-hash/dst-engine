@@ -1,0 +1,16 @@
+{
+  "id": "CWE-795",
+  "name": "Only Filtering Special Elements at a Specified Location",
+  "status": "filled",
+  "description": "The product filters special elements only at particular locations (e.g., beginning or end of string, or at a specific byte offset) rather than comprehensively throughout the input. This allows dangerous elements at other positions to bypass the filter.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "INGRESS node provides data that flows through a CONTROL node performing position-specific filtering (only at start, end, or fixed offset) to an EGRESS or TRANSFORM node, leaving special elements at other positions unfiltered.",
+  "graph_query": "INGRESS→CONTROL[positional_filter]→EGRESS without CONTROL[comprehensive_filter]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-791", "CWE-796", "CWE-797"],
+  "references": ["https://cwe.mitre.org/data/definitions/795.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

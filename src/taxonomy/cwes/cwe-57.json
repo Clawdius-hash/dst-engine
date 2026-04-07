@@ -1,0 +1,16 @@
+{
+  "id": "CWE-57",
+  "name": "Path Equivalence: 'fakedir/../realdir/filename'",
+  "status": "filled",
+  "description": "The product restricts access to 'realdir/filename' but does not handle the equivalent path 'fakedir/../realdir/filename', where prepending a fake directory followed by traversal resolves to the same restricted file and bypasses the protection.",
+  "severity": "high",
+  "category": "file_handling",
+  "detection_pattern": "INGRESS node provides a path in the form 'fakedir/../realdir/filename' that bypasses CONTROL[path_check] matching against 'realdir/filename' because the check doesn't canonicalize before comparison, while the OS resolves the traversal to the restricted path at STORAGE[file_access]",
+  "graph_query": "INGRESS[path 'fake/../real']→CONTROL[path_check]→STORAGE[file_access] without TRANSFORM[canonicalize]",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-41"],
+  "references": ["https://cwe.mitre.org/data/definitions/57.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

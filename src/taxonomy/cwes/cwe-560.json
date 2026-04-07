@@ -1,0 +1,16 @@
+{
+  "id": "CWE-560",
+  "name": "Use of umask() with chmod-style Argument",
+  "status": "filled",
+  "description": "The product calls umask() with an argument specified as if for chmod(), misunderstanding that umask uses inverse logic. This results in unintended file permissions that may expose files to unauthorized read or write access.",
+  "severity": "medium",
+  "category": "file_handling",
+  "detection_pattern": "CONTROL node calling umask() uses a TRANSFORM argument with chmod-style bitmask instead of the inverted umask format. The resulting STORAGE node (file) has permissions more permissive than intended.",
+  "graph_query": "CONTROL(umask)→STORAGE(file) without TRANSFORM(correct_mask)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-687"],
+  "references": ["https://cwe.mitre.org/data/definitions/560.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

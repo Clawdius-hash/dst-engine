@@ -1,0 +1,16 @@
+{
+  "id": "CWE-336",
+  "name": "Same Seed in Pseudo-Random Number Generator (PRNG)",
+  "status": "filled",
+  "description": "A Pseudo-Random Number Generator (PRNG) uses the same seed each time the product is initialized. Because PRNGs are deterministic, reusing the same seed produces identical output sequences across runs, enabling attackers who discover the seed to predict all generated values including session IDs, tokens, and cryptographic keys.",
+  "severity": "high",
+  "category": "cryptography",
+  "detection_pattern": "Look for STORAGE[hardcoded_constant] or META[static_config] nodes providing a fixed seed value to a TRANSFORM[prng_init] node. The same seed flows into TRANSFORM[prng] on every initialization, producing identical random sequences that feed AUTH[session_id|token] or CONTROL[crypto_key] nodes. No EXTERNAL[entropy_source] or TRANSFORM[dynamic_seed] mediator introduces variability between runs.",
+  "graph_query": "STORAGE[static_seed]→TRANSFORM[prng_init] without EXTERNAL[entropy_source]",
+  "owasp_top10": "A02:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-335", "CWE-330", "CWE-337"],
+  "references": ["https://cwe.mitre.org/data/definitions/336.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:20:00Z"
+}

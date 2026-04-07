@@ -1,0 +1,16 @@
+{
+  "id": "CWE-199",
+  "name": "Category: Information Management Errors",
+  "status": "needs_review",
+  "description": "A category for weaknesses related to improper handling of sensitive information. This is an organizational grouping, not a specific weakness. Using categories for mapping has been discouraged since 2019.",
+  "severity": "low",
+  "category": "data_protection",
+  "detection_pattern": "N/A — category",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-200", "CWE-201", "CWE-204", "CWE-209", "CWE-312", "CWE-319"],
+  "references": ["https://cwe.mitre.org/data/definitions/199.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-239",
+  "name": "Failure to Handle Incomplete Element",
+  "status": "filled",
+  "description": "The product does not properly handle when a particular element is not completely specified, such as HTTP requests missing CRLF terminators, partial protocol frames, or incomplete data chunks. This can cause indefinite waiting, CPU exhaustion, or resource depletion through partial requests left open.",
+  "severity": "medium",
+  "category": "reliability",
+  "detection_pattern": "Look for INGRESS nodes (network connections, protocol streams, partial requests) flowing to CONTROL or TRANSFORM nodes (request handlers, parsers, connection managers) without a CONTROL mediator (timeout enforcement, incomplete element detection, connection cleanup) that detects and properly terminates processing when an element is not fully received within expected bounds.",
+  "graph_query": "INGRESS(partial_request)→CONTROL(handler) without CONTROL(timeout_incomplete_detection)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-237", "CWE-238", "CWE-404"],
+  "references": ["https://cwe.mitre.org/data/definitions/239.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

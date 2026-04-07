@@ -1,0 +1,16 @@
+{
+  "id": "CWE-98",
+  "name": "Improper Control of Filename for Include/Require Statement in PHP Program ('PHP Remote File Inclusion')",
+  "status": "filled",
+  "description": "A PHP application uses user-controlled input in include() or require() statements without proper restriction, allowing attackers to include and execute arbitrary remote files or local files containing malicious code.",
+  "severity": "critical",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides a user-controlled filename or URL that flows to a TRANSFORM[php_include|require] statement without a CONTROL node that restricts the path to a local allowlist, disables allow_url_include, or validates the filename against known safe includes",
+  "graph_query": "INGRESS[filename]→TRANSFORM[include|require] without CONTROL[path_allowlist|disable_url_include]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-706", "CWE-829", "CWE-94"],
+  "references": ["https://cwe.mitre.org/data/definitions/98.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-768",
+  "name": "Incorrect Short Circuit Evaluation",
+  "status": "filled",
+  "description": "A product's conditional expression contains multiple logical sub-expressions where non-leading expressions produce side effects. Short-circuit evaluation may skip these side effects, leaving the program in an unexpected state that attackers could exploit.",
+  "severity": "medium",
+  "category": "reliability",
+  "detection_pattern": "CONTROL(conditional_expression) contains TRANSFORM(side_effect_operation) in a non-leading position of a short-circuit logical expression (&&, ||). When the leading condition short-circuits, the TRANSFORM side effect is skipped, leaving STORAGE(program_state) inconsistent.",
+  "graph_query": "CONTROL(short_circuit_conditional)→TRANSFORM(side_effect_in_trailing_expression) without CONTROL(guaranteed_execution_of_side_effect)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-691"],
+  "references": ["https://cwe.mitre.org/data/definitions/768.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:15:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-589",
+  "name": "Call to Non-ubiquitous API",
+  "status": "filled",
+  "description": "The product uses an API function that is not available on all versions of the target platform. This creates portability issues and can lead to denial of service or degraded functionality when deployed on platforms where the API is unavailable.",
+  "severity": "low",
+  "category": "api",
+  "detection_pattern": "EXTERNAL call node that invokes a platform-specific API not guaranteed to be available across all target environments. Look for EXTERNAL calls to version-specific or platform-dependent functions without CONTROL nodes checking for API availability.",
+  "graph_query": "EXTERNAL[platform_specific_api]→EGRESS without CONTROL[availability_check]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-474"],
+  "references": ["https://cwe.mitre.org/data/definitions/589.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

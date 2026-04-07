@@ -1,0 +1,16 @@
+{
+  "id": "CWE-47",
+  "name": "Path Equivalence: ' filename' (Leading Space)",
+  "status": "filled",
+  "description": "The product does not properly handle filenames with leading spaces, which some systems treat as distinct from the unspaced equivalent while others strip them, allowing attackers to bypass path-based access controls through this ambiguity.",
+  "severity": "medium",
+  "category": "file_handling",
+  "detection_pattern": "INGRESS node provides a filename with leading spaces that bypasses CONTROL[path_check] because the check and the filesystem resolve the name differently, allowing access to STORAGE[file_access] that should be restricted",
+  "graph_query": "INGRESS[path ' file']→CONTROL[path_check]→STORAGE[file_access] without TRANSFORM[trim_whitespace]",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-41"],
+  "references": ["https://cwe.mitre.org/data/definitions/47.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

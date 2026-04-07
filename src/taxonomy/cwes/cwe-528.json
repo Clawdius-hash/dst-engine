@@ -1,0 +1,16 @@
+{
+  "id": "CWE-528",
+  "name": "Exposure of Core Dump File to an Unauthorized Control Sphere",
+  "status": "filled",
+  "description": "The product creates core dump files in locations accessible to unauthorized users, potentially exposing sensitive application data and internal system information to attackers.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "TRANSFORM node generates core dump to STORAGE location accessible to unauthorized EXTERNAL actors without CONTROL node restricting dump file permissions or location",
+  "graph_query": "TRANSFORM(core_dump)→STORAGE(accessible_location) without CONTROL(dump_file_restriction)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-552"],
+  "references": ["https://cwe.mitre.org/data/definitions/528.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:25:00Z"
+}

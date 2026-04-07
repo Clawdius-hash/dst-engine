@@ -1,0 +1,16 @@
+{
+  "id": "CWE-537",
+  "name": "Java Runtime Error Message Containing Sensitive Information",
+  "status": "filled",
+  "description": "A Java runtime exception exposes sensitive system information such as file paths, stack traces, or user credentials to the end user. Attackers can leverage these details to gain unauthorized access or further exploit the system.",
+  "severity": "medium",
+  "category": "error_handling",
+  "detection_pattern": "EXTERNAL[java_runtime] or STRUCTURAL[exception_handler] producing error output that flows to EGRESS without a TRANSFORM node that sanitizes or masks the sensitive details. Unhandled Java exceptions reaching the user response directly.",
+  "graph_query": "EXTERNAL[java_runtime]→EGRESS without TRANSFORM[error_sanitize]",
+  "owasp_top10": "A05:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-211", "CWE-209"],
+  "references": ["https://cwe.mitre.org/data/definitions/537.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

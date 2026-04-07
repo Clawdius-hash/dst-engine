@@ -1,0 +1,16 @@
+{
+  "id": "CWE-249",
+  "name": "DEPRECATED: Often Misused: Path Manipulation",
+  "status": "needs_review",
+  "description": "This entry has been deprecated due to naming confusion and accidental combination of multiple weaknesses. The term 'path manipulation' was overloaded with conflicting definitions across security frameworks, and the entry improperly combined buffer-handling issues with pathname control problems. Most content has been transferred to CWE-785.",
+  "severity": "low",
+  "category": "file_handling",
+  "detection_pattern": "N/A — deprecated",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-785", "CWE-73", "CWE-222"],
+  "references": ["https://cwe.mitre.org/data/definitions/249.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

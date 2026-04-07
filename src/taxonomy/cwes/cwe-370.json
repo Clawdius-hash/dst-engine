@@ -1,0 +1,16 @@
+{
+  "id": "CWE-370",
+  "name": "Missing Check for Certificate Revocation after Initial Check",
+  "status": "filled",
+  "description": "The product checks certificate revocation status once but fails to re-verify before each subsequent privileged action, creating a race condition where a revoked certificate can be used maliciously between the initial check and later operations.",
+  "severity": "medium",
+  "category": "cryptography",
+  "detection_pattern": "AUTH node performs initial certificate revocation check but subsequent CONTROL nodes executing privileged operations do not re-verify revocation status via EXTERNAL CRL/OCSP check",
+  "graph_query": "AUTH(initial_cert_check)→CONTROL(privileged_action) without AUTH(recurrent_revocation_check)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-299", "CWE-296", "CWE-297", "CWE-298"],
+  "references": ["https://cwe.mitre.org/data/definitions/370.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:50:00Z"
+}

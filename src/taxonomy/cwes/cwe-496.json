@@ -1,0 +1,16 @@
+{
+  "id": "CWE-496",
+  "name": "Public Data Assigned to Private Array-Typed Field",
+  "status": "filled",
+  "description": "Public data is assigned directly to a private array-typed field without creating a defensive copy, which is equivalent to giving public access to the array. External code retaining the original reference can modify the private field's contents, breaking encapsulation.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "INGRESS(public_parameter) assigned directly to STORAGE(private_array_field) without TRANSFORM(defensive_copy). Look for method parameters or external data being stored in private fields by direct reference assignment.",
+  "graph_query": "INGRESS(public_data)→STORAGE(private_array) without TRANSFORM(copy)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-664"],
+  "references": ["https://cwe.mitre.org/data/definitions/496.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

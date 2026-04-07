@@ -1,0 +1,16 @@
+{
+  "id": "CWE-124",
+  "name": "Buffer Underwrite ('Buffer Underflow')",
+  "status": "filled",
+  "description": "The product writes to a buffer using an index or pointer that references a memory location before the beginning of the buffer, corrupting data in adjacent lower memory addresses.",
+  "severity": "critical",
+  "category": "memory",
+  "detection_pattern": "TRANSFORM[index_calculation] produces a negative index or a pointer decremented below the buffer base address, which is used to write to STORAGE[buffer] without a CONTROL[lower_bounds_check] that validates the index/pointer is >= 0 or >= buffer start",
+  "graph_query": "TRANSFORM[negative_index]→STORAGE[buffer_write] without CONTROL[lower_bounds_check]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-786", "CWE-787", "CWE-119"],
+  "references": ["https://cwe.mitre.org/data/definitions/124.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

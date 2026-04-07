@@ -1,0 +1,16 @@
+{
+  "id": "CWE-397",
+  "name": "Declaration of Throws for Generic Exception",
+  "status": "filled",
+  "description": "The product declares methods to throw overly broad exception classes like Exception or Throwable, defeating the exception type system and making it difficult for callers to perform proper error handling and recovery.",
+  "severity": "low",
+  "category": "error_handling",
+  "detection_pattern": "EGRESS node declares generic exception type in method signature instead of specific exception types, preventing calling CONTROL nodes from distinguishing between different error conditions",
+  "graph_query": "TRANSFORM(method)→EGRESS(throws_generic) without EGRESS(throws_specific)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-221", "CWE-703", "CWE-705"],
+  "references": ["https://cwe.mitre.org/data/definitions/397.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:20:00Z"
+}

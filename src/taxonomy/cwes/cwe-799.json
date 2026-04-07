@@ -1,0 +1,16 @@
+{
+  "id": "CWE-799",
+  "name": "Improper Control of Interaction Frequency",
+  "status": "filled",
+  "description": "The product does not properly restrict how many times or how frequently an actor can perform actions. This enables brute force attacks on passwords, repeated voting, excessive request flooding, and other abuse scenarios involving both human users and automated bots.",
+  "severity": "medium",
+  "category": "configuration",
+  "detection_pattern": "INGRESS node accepts repeated requests from the same actor that flow to AUTH or TRANSFORM nodes performing sensitive operations without a CONTROL node enforcing rate limiting, throttling, or interaction frequency caps.",
+  "graph_query": "INGRESS[repeated_requests]→AUTH[sensitive_operation] without CONTROL[rate_limiting]",
+  "owasp_top10": "A04:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-691", "CWE-307", "CWE-837"],
+  "references": ["https://cwe.mitre.org/data/definitions/799.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-163",
+  "name": "Improper Neutralization of Multiple Trailing Special Elements",
+  "status": "filled",
+  "description": "The product does not properly handle multiple consecutive trailing special characters in user input, where the OS or parser strips or normalizes them differently from the security check, creating a bypass.",
+  "severity": "medium",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides data with multiple consecutive trailing special characters that bypasses CONTROL[name_check] because the check and the filesystem resolve the trailing characters differently at STORAGE[access]",
+  "graph_query": "INGRESS[multiple_trailing]→CONTROL[check]→STORAGE without TRANSFORM[normalize_trailing]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-162", "CWE-43", "CWE-52"],
+  "references": ["https://cwe.mitre.org/data/definitions/163.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

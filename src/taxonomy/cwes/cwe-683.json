@@ -1,0 +1,16 @@
+{
+  "id": "CWE-683",
+  "name": "Function Call With Incorrect Order of Arguments",
+  "status": "filled",
+  "description": "The product calls a function, procedure, or routine with the arguments specified in an incorrect order, leading to resultant weaknesses. This commonly occurs through programmer mistakes like typos or copy-paste errors, especially in languages lacking strong type enforcement.",
+  "severity": "medium",
+  "category": "api",
+  "detection_pattern": "TRANSFORM[function_call] node passes arguments to EXTERNAL or TRANSFORM[callee] in an order that does not match the expected parameter signature defined in META[function_signature], potentially swapping security-critical values",
+  "graph_query": "TRANSFORM[function_call]→TRANSFORM[callee] without META[argument_order_validation]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-628"],
+  "references": ["https://cwe.mitre.org/data/definitions/683.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:00:00Z"
+}

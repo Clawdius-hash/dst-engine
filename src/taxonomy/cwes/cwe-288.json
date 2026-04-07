@@ -1,0 +1,16 @@
+{
+  "id": "CWE-288",
+  "name": "Authentication Bypass Using an Alternate Path or Channel",
+  "status": "filled",
+  "description": "The product requires authentication but does not enforce it across all access routes. An attacker can bypass authentication by using an alternate, unprotected path or channel (e.g., direct URL access, secondary API endpoint, hardware debug interface) to reach the same protected resource.",
+  "severity": "high",
+  "category": "authentication",
+  "detection_pattern": "Look for INGRESS nodes (alternate paths, secondary endpoints, debug interfaces, direct URLs) that reach STORAGE or CONTROL nodes (protected resources, critical functions) without passing through the AUTH node (authentication check) that guards the primary access path. The missing mediator is an AUTH node on the alternate channel.",
+  "graph_query": "INGRESS(alternate_path)→STORAGE(protected_resource) without AUTH(authentication_check)",
+  "owasp_top10": "A07:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-306", "CWE-425", "CWE-420", "CWE-1299"],
+  "references": ["https://cwe.mitre.org/data/definitions/288.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

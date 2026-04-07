@@ -1,0 +1,31 @@
+{
+  "id": "CWE-868",
+  "name": "View: Weaknesses Addressed by the SEI CERT C++ Coding Standard (2016 Version)",
+  "status": "needs_review",
+  "description": "This is a View that catalogs weaknesses addressed by the SEI CERT C++ Coding Standard (2016). It is no longer actively maintained as it represents a static snapshot of 2016 guidelines.",
+  "severity": "low",
+  "category": "configuration",
+  "detection_pattern": "N/A — view",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": [
+    "CWE-869",
+    "CWE-870",
+    "CWE-871",
+    "CWE-872",
+    "CWE-873",
+    "CWE-874",
+    "CWE-875",
+    "CWE-876",
+    "CWE-877",
+    "CWE-878",
+    "CWE-879",
+    "CWE-880"
+  ],
+  "references": [
+    "https://cwe.mitre.org/data/definitions/868.html"
+  ],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

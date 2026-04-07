@@ -1,0 +1,16 @@
+{
+  "id": "CWE-114",
+  "name": "Process Control",
+  "status": "filled",
+  "description": "The product loads code from an untrusted source or executes commands that are influenced by external input, allowing attackers to inject malicious libraries, scripts, or executables that run with the application's privileges.",
+  "severity": "critical",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides user-controlled data that determines which library, module, or executable is loaded by EXTERNAL[dynamic_load|dlopen|loadLibrary|require] without a CONTROL node that restricts loaded resources to an allowlist of trusted paths or verified sources",
+  "graph_query": "INGRESS→EXTERNAL[dynamic_load] without CONTROL[trusted_source_allowlist]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-73", "CWE-426", "CWE-427"],
+  "references": ["https://cwe.mitre.org/data/definitions/114.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

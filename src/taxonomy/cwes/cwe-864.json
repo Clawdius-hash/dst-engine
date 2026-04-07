@@ -1,0 +1,26 @@
+{
+  "id": "CWE-864",
+  "name": "Category: 2011 Top 25 - Insecure Interaction Between Components",
+  "status": "needs_review",
+  "description": "This is a category from the 2011 CWE/SANS Top 25 grouping weaknesses related to insecure interactions between software components, including injection flaws, XSS, CSRF, and unsafe file uploads.",
+  "severity": "low",
+  "category": "input_output",
+  "detection_pattern": "N/A — category",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": true,
+  "related_cwes": [
+    "CWE-78",
+    "CWE-79",
+    "CWE-89",
+    "CWE-352",
+    "CWE-434",
+    "CWE-601",
+    "CWE-829"
+  ],
+  "references": [
+    "https://cwe.mitre.org/data/definitions/864.html"
+  ],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

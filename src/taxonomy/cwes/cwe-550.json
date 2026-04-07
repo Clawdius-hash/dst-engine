@@ -1,0 +1,16 @@
+{
+  "id": "CWE-550",
+  "name": "Server-generated Error Message Containing Sensitive Information",
+  "status": "filled",
+  "description": "Server-generated error messages during failures (e.g., network errors, exceptions) expose sensitive information such as internal paths, stack traces, or configuration details. Attackers can use this information to map the system and plan further attacks.",
+  "severity": "medium",
+  "category": "error_handling",
+  "detection_pattern": "EXTERNAL[server_error] or STRUCTURAL[error_handler] generating error output that flows to EGRESS[http_response] without a TRANSFORM[error_sanitize] node that replaces sensitive details with generic messages. Server error details reaching the client unfiltered.",
+  "graph_query": "EXTERNAL[server_error]→EGRESS[http_response] without TRANSFORM[error_sanitize]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-209", "CWE-211"],
+  "references": ["https://cwe.mitre.org/data/definitions/550.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

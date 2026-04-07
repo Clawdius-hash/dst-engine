@@ -1,0 +1,16 @@
+{
+  "id": "CWE-425",
+  "name": "Direct Request ('Forced Browsing')",
+  "status": "filled",
+  "description": "The web application does not adequately enforce authorization on all restricted URLs, scripts, or files, assuming that resources can only be reached through intended navigation paths. Attackers can directly request restricted resources by guessing or discovering URLs, bypassing access controls.",
+  "severity": "high",
+  "category": "authorization",
+  "detection_pattern": "INGRESS node with a direct HTTP request to a restricted STRUCTURAL endpoint (URL, script, file) that reaches STORAGE or TRANSFORM nodes containing sensitive resources, without an AUTH node enforcing per-request authorization checks independent of navigation path",
+  "graph_query": "INGRESS[direct_request]→STRUCTURAL[restricted_endpoint]→STORAGE|TRANSFORM[sensitive_resource] without AUTH[per_request_authz]",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-288", "CWE-424", "CWE-862"],
+  "references": ["https://cwe.mitre.org/data/definitions/425.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:25:00Z"
+}

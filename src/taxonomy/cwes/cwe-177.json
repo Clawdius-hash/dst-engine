@@ -1,0 +1,16 @@
+{
+  "id": "CWE-177",
+  "name": "Improper Handling of URL Encoding (Hex Encoding)",
+  "status": "filled",
+  "description": "The product does not properly handle URL-encoded (percent-encoded) characters in input, allowing attackers to bypass security filters by encoding dangerous characters as %XX hex sequences that are decoded after the filter runs.",
+  "severity": "high",
+  "category": "input_output",
+  "detection_pattern": "INGRESS node provides URL-encoded data (%XX hex sequences) that bypasses CONTROL[input_filter] checking the encoded form, while a downstream TRANSFORM[url_decode] reveals the dangerous characters, without a TRANSFORM[decode_before_filter] normalizing the encoding before the security check",
+  "graph_query": "INGRESS[url_encoded]→CONTROL[filter]→TRANSFORM[url_decode] without TRANSFORM[decode_before_filter]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-172"],
+  "references": ["https://cwe.mitre.org/data/definitions/177.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-40",
+  "name": "Path Traversal: '\\\\UNC\\share\\name\\' (Windows UNC Share)",
+  "status": "filled",
+  "description": "The product does not properly neutralize Windows UNC share paths ('\\\\server\\share\\') in user-supplied input, allowing attackers to redirect file access to remote network shares or arbitrary locations.",
+  "severity": "high",
+  "category": "file_handling",
+  "detection_pattern": "INGRESS node provides a path starting with '\\\\' (UNC prefix) that flows to STORAGE[file_access] or EXTERNAL[network_file] without a CONTROL node that rejects UNC paths or restricts access to local filesystem only",
+  "graph_query": "INGRESS[path '\\\\\\\\UNC']→STORAGE[file_access] without CONTROL[reject_unc|local_only]",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-36", "CWE-22"],
+  "references": ["https://cwe.mitre.org/data/definitions/40.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

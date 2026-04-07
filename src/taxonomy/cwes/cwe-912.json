@@ -1,0 +1,16 @@
+{
+  "id": "CWE-912",
+  "name": "Hidden Functionality",
+  "status": "filled",
+  "description": "The product contains undocumented functionality that is not part of specifications or accessible through obvious interfaces. Such hidden features increase attack surface and may expose additional vulnerabilities beyond intended capabilities, ranging from malicious code to debug backdoors.",
+  "severity": "high",
+  "category": "configuration",
+  "detection_pattern": "STRUCTURAL or CONTROL node representing undocumented entry points or functionality that is not connected to any documented INGRESS path, or an EXTERNAL node invoking hidden TRANSFORM operations not referenced in META[specification] nodes",
+  "graph_query": "STRUCTURAL[undocumented]→TRANSFORM without META[specification]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-684", "CWE-506", "CWE-1242"],
+  "references": ["https://cwe.mitre.org/data/definitions/912.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

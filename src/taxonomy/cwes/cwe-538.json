@@ -1,0 +1,16 @@
+{
+  "id": "CWE-538",
+  "name": "Insertion of Sensitive Information into Externally-Accessible File or Directory",
+  "status": "filled",
+  "description": "The application stores sensitive information (e.g., credentials, personal data) in files or directories that are accessible to actors who should not have access. This enables unauthorized disclosure of confidential data.",
+  "severity": "high",
+  "category": "data_protection",
+  "detection_pattern": "Sensitive data from INGRESS or STORAGE flows into a STORAGE[file] or STORAGE[directory] node that is linked to an EGRESS or EXTERNAL[public_access] node without AUTH or CONTROL restricting access. The sensitive data reaches an externally-accessible location without access control mediation.",
+  "graph_query": "STORAGE[sensitive_data]→STORAGE[external_file] without AUTH[access_control]",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-200", "CWE-532", "CWE-540", "CWE-651"],
+  "references": ["https://cwe.mitre.org/data/definitions/538.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

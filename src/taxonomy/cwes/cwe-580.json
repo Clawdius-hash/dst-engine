@@ -1,0 +1,16 @@
+{
+  "id": "CWE-580",
+  "name": "clone() Method Without super.clone()",
+  "status": "filled",
+  "description": "A class's clone() method does not call super.clone() to obtain the new object. This causes subclasses to receive objects of the wrong type when cloning, violating the clone contract and potentially leading to type confusion or unexpected behavior.",
+  "severity": "low",
+  "category": "reliability",
+  "detection_pattern": "STRUCTURAL node representing a class with a clone() method that creates a new object via constructor instead of calling super.clone(). Look for clone() implementations that use 'new' keyword instead of delegating to super.clone().",
+  "graph_query": "STRUCTURAL[clone()]→TRANSFORM[new_constructor] without EXTERNAL[super.clone()]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-573", "CWE-664"],
+  "references": ["https://cwe.mitre.org/data/definitions/580.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:35:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-343",
+  "name": "Predictable Value Range from Previous Values",
+  "status": "filled",
+  "description": "The product's random number generator produces values that, based on observing previous outputs, allow an attacker to determine a relatively small range of possibilities for the next value. This reduces the brute-force effort needed to guess security-sensitive values such as tokens or session identifiers.",
+  "severity": "medium",
+  "category": "cryptography",
+  "detection_pattern": "TRANSFORM[rng_output] produces values where observing prior EGRESS outputs allows narrowing the next value to a small range rather than the full output space. Look for generators with monotonic, bounded, or patterned output sequences that flow into AUTH[token], EGRESS[identifier], or STORAGE[key] nodes where reduced entropy enables practical brute-force attacks.",
+  "graph_query": "TRANSFORM[weak_rng]→EGRESS[observable_output]→AUTH[security_value] without TRANSFORM[csprng]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-340", "CWE-342", "CWE-330"],
+  "references": ["https://cwe.mitre.org/data/definitions/343.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:20:00Z"
+}

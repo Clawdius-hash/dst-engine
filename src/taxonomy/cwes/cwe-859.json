@@ -1,0 +1,31 @@
+{
+  "id": "CWE-859",
+  "name": "Category: CERT Oracle Secure Coding Standard for Java (2011) Chapter 16 - Platform Security (SEC)",
+  "status": "needs_review",
+  "description": "This is a category grouping weaknesses related to platform security from the CERT Oracle Secure Coding Standard for Java (2011). Categories cannot be used for vulnerability mapping.",
+  "severity": "low",
+  "category": "configuration",
+  "detection_pattern": "N/A — category",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": [
+    "CWE-844",
+    "CWE-111",
+    "CWE-266",
+    "CWE-272",
+    "CWE-300",
+    "CWE-302",
+    "CWE-319",
+    "CWE-347",
+    "CWE-470",
+    "CWE-494",
+    "CWE-732",
+    "CWE-807"
+  ],
+  "references": [
+    "https://cwe.mitre.org/data/definitions/859.html"
+  ],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

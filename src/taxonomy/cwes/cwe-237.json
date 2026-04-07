@@ -1,0 +1,16 @@
+{
+  "id": "CWE-237",
+  "name": "Improper Handling of Structural Elements",
+  "status": "filled",
+  "description": "The product does not properly handle or validate structural elements within complex input data, such as message length fields, data format indicators, or nested structure markers. This can lead to buffer overreads, processing errors, or unexpected application state when structural metadata is untrusted.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "Look for INGRESS nodes (protocol messages, structured data, serialized objects) where structural metadata (length fields, type indicators, nesting depth) flows to TRANSFORM or CONTROL nodes (parsers, deserializers, buffer operations) without a TRANSFORM mediator (structural validation, bounds checking on metadata fields) ensuring the structural elements are consistent and within expected ranges.",
+  "graph_query": "INGRESS(structured_input)→TRANSFORM(parser) without TRANSFORM(structural_validation)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-228", "CWE-238", "CWE-239", "CWE-240"],
+  "references": ["https://cwe.mitre.org/data/definitions/237.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

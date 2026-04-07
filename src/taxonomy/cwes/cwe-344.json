@@ -1,0 +1,16 @@
+{
+  "id": "CWE-344",
+  "name": "Use of Invariant Value in Dynamically Changing Context",
+  "status": "filled",
+  "description": "The product uses a constant value, name, or reference in a context where the value should vary across different environments or sessions. This enables attackers to predict or reuse values like hardcoded credentials, fixed nonces, or static addresses, undermining security controls that depend on unpredictability.",
+  "severity": "high",
+  "category": "cryptography",
+  "detection_pattern": "INGRESS or EXTERNAL node provides data that flows through a TRANSFORM or AUTH node which relies on a static/invariant value (hardcoded credential, fixed nonce, constant token) rather than a dynamically generated value from a STORAGE or EXTERNAL[secure_random] source. Look for CONTROL or AUTH nodes that compare against invariant literals instead of dynamically retrieved secrets.",
+  "graph_query": "INGRESS→AUTH|CONTROL[invariant_value] without EXTERNAL[dynamic_source]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-330", "CWE-323", "CWE-587", "CWE-798"],
+  "references": ["https://cwe.mitre.org/data/definitions/344.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:20:00Z"
+}

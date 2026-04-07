@@ -1,0 +1,20 @@
+{
+  "id": "CWE-838",
+  "name": "Inappropriate Encoding for Output Context",
+  "status": "filled",
+  "description": "The product uses an encoding for output that differs from what the downstream component expects, causing incorrect decoding that can break control/data boundaries and enable injection attacks that bypass input validation.",
+  "severity": "medium",
+  "category": "input_output",
+  "detection_pattern": "TRANSFORM[encoding] applies an encoding scheme that does not match what EGRESS[output_context] or the downstream EXTERNAL[consumer] expects, without a CONTROL[encoding_validation] node ensuring encoding compatibility between producer and consumer",
+  "graph_query": "TRANSFORM[wrong_encoding]→EGRESS[output] without CONTROL[encoding_match_validation]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": [
+    "CWE-116"
+  ],
+  "references": [
+    "https://cwe.mitre.org/data/definitions/838.html"
+  ],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:30:00Z"
+}

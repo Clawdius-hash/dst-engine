@@ -1,0 +1,16 @@
+{
+  "id": "CWE-456",
+  "name": "Missing Initialization of a Variable",
+  "status": "filled",
+  "description": "The product does not initialize critical variables, which causes the execution environment to use unexpected values. Uninitialized data may contain invalid or previous values, potentially causing logic errors that lead to security vulnerabilities including SQL injection, buffer overflow, or remote file inclusion.",
+  "severity": "medium",
+  "category": "reliability",
+  "detection_pattern": "STORAGE node (variable) is used by a CONTROL or TRANSFORM node without a prior TRANSFORM(initialization) node that assigns a known-safe value. Look for data flow paths where a STORAGE node reaches a sensitive operation (EGRESS, EXTERNAL, or CONTROL) without being initialized.",
+  "graph_query": "STORAGE(uninitialized_var)→CONTROL(usage) without TRANSFORM(initialization)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-909", "CWE-665", "CWE-89", "CWE-98", "CWE-120", "CWE-457"],
+  "references": ["https://cwe.mitre.org/data/definitions/456.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:50:00Z"
+}

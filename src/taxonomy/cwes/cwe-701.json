@@ -1,0 +1,16 @@
+{
+  "id": "CWE-701",
+  "name": "Weaknesses Introduced During Design (View)",
+  "status": "needs_review",
+  "description": "CWE View cataloguing weaknesses that originate during architecture and design phases. This is a View, not a weakness — vulnerability mapping is prohibited.",
+  "severity": "low",
+  "category": "reliability",
+  "detection_pattern": "N/A — CWE View, not a weakness",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": [],
+  "references": ["https://cwe.mitre.org/data/definitions/701.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:00:00Z"
+}

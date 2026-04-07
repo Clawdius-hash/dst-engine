@@ -1,0 +1,16 @@
+{
+  "id": "CWE-359",
+  "name": "Exposure of Private Personal Information to an Unauthorized Actor",
+  "status": "filled",
+  "description": "The product does not properly prevent private personal information from being accessed by actors who are not explicitly authorized or who have not been given implicit consent by the individual whose information is exposed.",
+  "severity": "high",
+  "category": "data_protection",
+  "detection_pattern": "STORAGE node containing personal data flows to EGRESS node reaching an unauthorized EXTERNAL actor without AUTH node verifying access rights or consent",
+  "graph_query": "STORAGE(personal_data)→EGRESS without AUTH(access_authorization)",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-200", "CWE-212"],
+  "references": ["https://cwe.mitre.org/data/definitions/359.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:35:00Z"
+}

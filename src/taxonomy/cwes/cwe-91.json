@@ -1,0 +1,16 @@
+{
+  "id": "CWE-91",
+  "name": "XML Injection (aka Blind XPath Injection)",
+  "status": "filled",
+  "description": "The product does not properly neutralize special XML characters in user-controlled input before incorporating it into XML documents or XPath queries, allowing attackers to alter XML structure, inject new elements, or modify query logic.",
+  "severity": "high",
+  "category": "injection",
+  "detection_pattern": "INGRESS node provides user-controlled data containing XML metacharacters (<, >, &, ', \") that is incorporated into XML documents or XPath queries at TRANSFORM[xml_construction] or EXTERNAL[xpath_query] without a TRANSFORM[xml_encoding] node that escapes XML-significant characters",
+  "graph_query": "INGRESS→TRANSFORM[xml_construct]|EXTERNAL[xpath_query] without TRANSFORM[xml_encoding]",
+  "owasp_top10": "A03:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-74", "CWE-643"],
+  "references": ["https://cwe.mitre.org/data/definitions/91.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

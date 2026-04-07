@@ -1,0 +1,16 @@
+{
+  "id": "CWE-752",
+  "name": "Category: 2009 Top 25 - Risky Resource Management",
+  "status": "needs_review",
+  "description": "This is a Category grouping weaknesses from the 'Risky Resource Management' section of the 2009 CWE/SANS Top 25. Categories are informal organizational groupings and cannot be used to map real-world vulnerabilities.",
+  "severity": "low",
+  "category": "reliability",
+  "detection_pattern": "N/A — category, not a weakness",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-750", "CWE-73", "CWE-94", "CWE-119", "CWE-404", "CWE-426", "CWE-494", "CWE-642", "CWE-665", "CWE-682"],
+  "references": ["https://cwe.mitre.org/data/definitions/752.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:15:00Z"
+}

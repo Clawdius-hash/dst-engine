@@ -1,0 +1,16 @@
+{
+  "id": "CWE-647",
+  "name": "Use of Non-Canonical URL Paths for Authorization Decisions",
+  "status": "filled",
+  "description": "The product makes authorization decisions based on URL paths without first converting them to canonical form. Attackers can bypass access controls by using equivalent but non-canonical URLs such as IP addresses instead of hostnames, URL-encoded characters, mixed case, double slashes, or trailing dots.",
+  "severity": "high",
+  "category": "authorization",
+  "detection_pattern": "INGRESS node provides a URL path that flows directly to an AUTH node making authorization decisions without first passing through a TRANSFORM node that canonicalizes the path. Look for URL-based access control that does not normalize paths before comparison against access rules.",
+  "graph_query": "INGRESS(url_path)→AUTH(access_decision) without TRANSFORM(canonicalization)",
+  "owasp_top10": "A01:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-180", "CWE-863"],
+  "references": ["https://cwe.mitre.org/data/definitions/647.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:00:00Z"
+}

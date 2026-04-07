@@ -1,0 +1,16 @@
+{
+  "id": "CWE-729",
+  "name": "Category: OWASP Top Ten 2004 Category A8 - Insecure Storage",
+  "status": "needs_review",
+  "description": "This is a category grouping weaknesses related to the A8 category in the OWASP Top Ten 2004, covering insecure storage including missing encryption of sensitive data, hard-coded cryptographic keys, inadequate encryption strength, and use of broken cryptographic algorithms. Categories are informal organizational groupings and are prohibited for vulnerability mapping since 2019.",
+  "severity": "low",
+  "category": "cryptography",
+  "detection_pattern": "N/A — category, not a weakness",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-711", "CWE-14", "CWE-226", "CWE-261", "CWE-311", "CWE-321", "CWE-326", "CWE-327", "CWE-539", "CWE-591", "CWE-598"],
+  "references": ["https://cwe.mitre.org/data/definitions/729.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:15:00Z"
+}

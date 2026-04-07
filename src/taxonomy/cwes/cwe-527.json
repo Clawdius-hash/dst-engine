@@ -1,0 +1,16 @@
+{
+  "id": "CWE-527",
+  "name": "Exposure of Version-Control Repository to an Unauthorized Control Sphere",
+  "status": "filled",
+  "description": "The product stores a CVS, git, or other version control repository in a location accessible to unauthorized actors, potentially revealing usernames, file paths, IP addresses, and source code diffs.",
+  "severity": "medium",
+  "category": "data_protection",
+  "detection_pattern": "STORAGE node contains .git/.svn/.cvs directory under web-accessible STRUCTURAL path, allowing EXTERNAL actors to access repository via INGRESS HTTP requests without AUTH restriction",
+  "graph_query": "INGRESS(http_request)→STORAGE(vcs_repository) without AUTH(access_restriction)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-552"],
+  "references": ["https://cwe.mitre.org/data/definitions/527.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T01:20:00Z"
+}

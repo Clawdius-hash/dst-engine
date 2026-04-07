@@ -1,0 +1,16 @@
+{
+  "id": "CWE-301",
+  "name": "Reflection Attack in an Authentication Protocol",
+  "status": "filled",
+  "description": "A product uses a mutual authentication protocol that is vulnerable to reflection attacks. An attacker can open multiple connections and use the server's challenge response from one connection as the authentication response in another, impersonating a legitimate user without knowing the shared secret.",
+  "severity": "high",
+  "category": "authentication",
+  "detection_pattern": "Look for AUTH nodes (challenge-response protocol, mutual authentication) where INGRESS data (challenge from server) can flow back as EGRESS data (response to server) across different sessions without a CONTROL mediator (challenge uniqueness enforcement, session binding, asymmetric challenge-response) that prevents reflected challenges from being accepted as valid responses.",
+  "graph_query": "AUTH(challenge_response)→EXTERNAL(parallel_session) without CONTROL(reflection_prevention)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-1390", "CWE-327"],
+  "references": ["https://cwe.mitre.org/data/definitions/301.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CWE-257",
+  "name": "Storing Passwords in a Recoverable Format",
+  "status": "filled",
+  "description": "The product stores passwords in a format that allows them to be recovered or decrypted, such as reversible encryption or encoding. Recoverable encrypted passwords provide no significant benefit over plaintext since both expose credentials to unauthorized access and cross-account password reuse attacks.",
+  "severity": "high",
+  "category": "data_protection",
+  "detection_pattern": "Look for AUTH nodes (passwords, credentials) flowing through TRANSFORM nodes (reversible encryption, encoding, Base64, XOR) to STORAGE nodes (databases, files) without a TRANSFORM mediator (one-way hash function, bcrypt/scrypt/argon2 KDF) that ensures the password cannot be recovered from the stored form.",
+  "graph_query": "AUTH(password)→TRANSFORM(reversible_encryption)→STORAGE(credential_store) without TRANSFORM(one_way_hash)",
+  "owasp_top10": "A04:2021",
+  "sans_top25": false,
+  "related_cwes": ["CWE-522", "CWE-256", "CWE-259", "CWE-798"],
+  "references": ["https://cwe.mitre.org/data/definitions/257.html"],
+  "filled_by": "agent",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

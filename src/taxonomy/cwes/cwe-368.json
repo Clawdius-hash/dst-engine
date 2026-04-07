@@ -1,0 +1,16 @@
+{
+  "id": "CWE-368",
+  "name": "Context Switching Race Condition",
+  "status": "filled",
+  "description": "The product performs non-atomic actions when switching between security contexts, creating a race condition that allows attackers to perform actions using the wrong security context or trust level during the transition.",
+  "severity": "high",
+  "category": "concurrency",
+  "detection_pattern": "AUTH node switches security context through non-atomic operations, creating a window where CONTROL or TRANSFORM nodes may execute with incorrect privilege level during the transition",
+  "graph_query": "AUTH(context_switch)→CONTROL(action) without CONTROL(atomic_context_transition)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-362", "CWE-364"],
+  "references": ["https://cwe.mitre.org/data/definitions/368.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-23T23:45:00Z"
+}

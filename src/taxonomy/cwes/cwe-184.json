@@ -1,0 +1,16 @@
+{
+  "id": "CWE-184",
+  "name": "Incomplete List of Disallowed Inputs",
+  "status": "filled",
+  "description": "The product uses a denylist (blocklist) to reject dangerous inputs, but the list is incomplete and does not cover all dangerous variants, encodings, or representations, allowing attackers to bypass the filter with unlisted forms of the same attack.",
+  "severity": "high",
+  "category": "input_output",
+  "detection_pattern": "CONTROL[denylist_check] blocks known dangerous patterns but INGRESS data uses an unlisted variant (alternate encoding, case variation, new syntax) that bypasses the incomplete blocklist and reaches TRANSFORM or EXTERNAL, without a CONTROL[allowlist] approach that only permits known-safe inputs",
+  "graph_query": "INGRESS[unlisted_variant]→CONTROL[incomplete_denylist]→TRANSFORM|EXTERNAL without CONTROL[allowlist]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-693", "CWE-1023", "CWE-79", "CWE-78"],
+  "references": ["https://cwe.mitre.org/data/definitions/184.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

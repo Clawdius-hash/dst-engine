@@ -1,0 +1,16 @@
+{
+  "id": "CWE-749",
+  "name": "Exposed Dangerous Method or Function",
+  "status": "filled",
+  "description": "The product exposes a dangerous method or function through its API without proper access restrictions, allowing external actors to invoke functionality intended for limited or internal use only.",
+  "severity": "high",
+  "category": "api",
+  "detection_pattern": "STRUCTURAL(API) exposes TRANSFORM(dangerous_method) to EXTERNAL actors through EGRESS without AUTH node restricting access to the method based on caller privilege level",
+  "graph_query": "EXTERNAL(caller)→STRUCTURAL(api)→TRANSFORM(dangerous_method) without AUTH(access_restriction)",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-284", "CWE-618", "CWE-782"],
+  "references": ["https://cwe.mitre.org/data/definitions/749.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T02:10:00Z"
+}

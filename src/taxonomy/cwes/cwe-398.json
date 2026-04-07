@@ -1,0 +1,16 @@
+{
+  "id": "CWE-398",
+  "name": "7PK - Code Quality",
+  "status": "needs_review",
+  "description": "Category-level CWE from Seven Pernicious Kingdoms covering code quality issues. Vulnerability mapping is prohibited.",
+  "severity": "low",
+  "category": "reliability",
+  "detection_pattern": "N/A — category CWE, not a concrete weakness",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-401", "CWE-404", "CWE-415", "CWE-416", "CWE-457", "CWE-476"],
+  "references": ["https://cwe.mitre.org/data/definitions/398.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:20:00Z"
+}

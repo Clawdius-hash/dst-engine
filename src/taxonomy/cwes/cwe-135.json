@@ -1,0 +1,16 @@
+{
+  "id": "CWE-135",
+  "name": "Incorrect Calculation of Multi-Byte String Length",
+  "status": "filled",
+  "description": "The product incorrectly calculates the length of strings that contain multi-byte or wide characters, using byte count where character count is needed or vice versa, potentially leading to buffer overflows or truncated data.",
+  "severity": "high",
+  "category": "memory",
+  "detection_pattern": "TRANSFORM[strlen|sizeof] calculates string length using byte-oriented functions on multi-byte/wide character strings (or wide-char functions on byte strings), producing an incorrect size used in STORAGE[buffer_alloc] or TRANSFORM[buffer_copy] without a CONTROL node that ensures the length function matches the string encoding",
+  "graph_query": "TRANSFORM[wrong_length_function]→STORAGE[buffer_alloc|copy] without CONTROL[encoding_aware_length]",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-682", "CWE-131", "CWE-119"],
+  "references": ["https://cwe.mitre.org/data/definitions/135.html"],
+  "filled_by": "atreus",
+  "filled_at": "2026-03-23T00:00:00Z"
+}

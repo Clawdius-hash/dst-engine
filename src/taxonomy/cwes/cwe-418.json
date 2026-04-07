@@ -1,0 +1,16 @@
+{
+  "id": "CWE-418",
+  "name": "DEPRECATED: Channel Errors",
+  "status": "needs_review",
+  "description": "Deprecated category-level CWE that was removed because it is redundant with CWE-417 (Communication Channel Errors). Vulnerability mapping is prohibited — use CWE-417 or its specific descendants instead.",
+  "severity": "low",
+  "category": "api",
+  "detection_pattern": "N/A — deprecated category CWE",
+  "graph_query": "N/A",
+  "owasp_top10": null,
+  "sans_top25": false,
+  "related_cwes": ["CWE-417"],
+  "references": ["https://cwe.mitre.org/data/definitions/418.html"],
+  "filled_by": "night_agent",
+  "filled_at": "2026-03-24T00:25:00Z"
+}
