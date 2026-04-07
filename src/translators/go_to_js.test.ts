@@ -5,6 +5,7 @@
  * the translated output produces JS patterns the mapper recognizes.
  */
 
+import { describe, it, test, expect } from 'vitest';
 import { translateGoToJS, getRuleStats, GO_TO_JS_RULES } from './go_to_js.js';
 
 // ── Vulnerable Go program (SQL injection, XSS, command injection, etc.) ──
