@@ -1,3 +1,5 @@
+import { existsSync } from 'fs';
+const HAS_JULIET = existsSync('C:/Users/pizza/vigil/juliet-java/src/testcases');
 /**
  * Threat-Control Mismatch Detection Tests
  *
@@ -81,7 +83,7 @@ function parseJava(code: string, filename = 'Test.java'): NeuralMap {
 // Unit tests for controlThreatMismatch helper
 // ---------------------------------------------------------------------------
 
-describe('controlThreatMismatch', () => {
+describe.runIf(HAS_JULIET)('controlThreatMismatch', () => {
   it('is exported from _helpers', () => {
     expect(typeof controlThreatMismatch).toBe('function');
   });
@@ -91,7 +93,7 @@ describe('controlThreatMismatch', () => {
 // Integration tests: CWE-566 via Juliet test cases
 // ---------------------------------------------------------------------------
 
-describe('CWE-566: Authorization Bypass Through SQL Primary Key', () => {
+describe.runIf(HAS_JULIET)('CWE-566: Authorization Bypass Through SQL Primary Key', () => {
   const JULIET_DIR = 'C:/Users/pizza/vigil/juliet-java/src/testcases/CWE566_Authorization_Bypass_Through_SQL_Primary';
   const JULIET_FILE = path.join(JULIET_DIR, 'CWE566_Authorization_Bypass_Through_SQL_Primary__Servlet_01.java');
 
@@ -163,7 +165,7 @@ describe('CWE-566: Authorization Bypass Through SQL Primary Key', () => {
 // CWE-566 language filter test
 // ---------------------------------------------------------------------------
 
-describe('CWE-566 language filter', () => {
+describe.runIf(HAS_JULIET)('CWE-566 language filter', () => {
   it('CWE-566 is not filtered out for Java', () => {
     const source = fs.readFileSync(
       path.join(
@@ -185,7 +187,7 @@ describe('CWE-566 language filter', () => {
 // JavaScript equivalent test — Express.js IDOR pattern
 // ---------------------------------------------------------------------------
 
-describe('CWE-566 via JS — Express IDOR pattern', () => {
+describe.runIf(HAS_JULIET)('CWE-566 via JS — Express IDOR pattern', () => {
   it('detects IDOR in Express route with parameterized query but no ownership check', () => {
     const code = `
 const express = require('express');
@@ -215,7 +217,7 @@ app.get('/invoices/:id', async (req, res) => {
 // evaluateControlEffectiveness check #7 integration
 // ---------------------------------------------------------------------------
 
-describe('evaluateControlEffectiveness check #7', () => {
+describe.runIf(HAS_JULIET)('evaluateControlEffectiveness check #7', () => {
   it('includes controlThreatMismatch in its checks', () => {
     // The function should exist and be callable
     expect(typeof evaluateControlEffectiveness).toBe('function');

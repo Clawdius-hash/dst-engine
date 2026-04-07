@@ -1,3 +1,5 @@
+import { existsSync } from 'fs';
+const HAS_JULIET = existsSync('C:/Users/pizza/vigil/juliet-java/src/testcases');
 /**
  * Wave 1 — Batch 1: Injection CWE Juliet Detection Tests
  *
@@ -53,7 +55,7 @@ function findResult(results: { cwe: string; holds: boolean }[], cweId: string): 
   return r ? r.holds : undefined;
 }
 
-describe('Wave 1 Batch 1 — Injection CWEs on Juliet Java', () => {
+describe.runIf(HAS_JULIET)('Wave 1 Batch 1 — Injection CWEs on Juliet Java', () => {
 
   it('CWE-89: SQL Injection — Environment + executeBatch', async () => {
     await init();

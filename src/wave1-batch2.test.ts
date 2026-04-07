@@ -1,3 +1,5 @@
+import { existsSync } from 'fs';
+const HAS_JULIET = existsSync('C:/Users/pizza/vigil/juliet-java/src/testcases');
 /**
  * Wave 1 Batch 2 — Juliet Java structural CWE verifier tests
  *
@@ -49,7 +51,7 @@ beforeAll(async () => {
 // ---------------------------------------------------------------------------
 // CWE-484: Omitted Break Statement in Switch
 // ---------------------------------------------------------------------------
-describe('CWE-484: Omitted Break in Switch', () => {
+describe.runIf(HAS_JULIET)('CWE-484: Omitted Break in Switch', () => {
   it('detects missing break in Juliet basic_01', async () => {
     const map = await buildMap(
       `${JULIET_BASE}/CWE484_Omitted_Break_Statement_in_Switch/CWE484_Omitted_Break_Statement_in_Switch__basic_01.java`
@@ -64,7 +66,7 @@ describe('CWE-484: Omitted Break in Switch', () => {
 // ---------------------------------------------------------------------------
 // CWE-482: Comparing Instead of Assigning
 // ---------------------------------------------------------------------------
-describe('CWE-482: Comparing Instead of Assigning', () => {
+describe.runIf(HAS_JULIET)('CWE-482: Comparing Instead of Assigning', () => {
   it('detects == used where = was intended in Juliet basic_01', async () => {
     const map = await buildMap(
       `${JULIET_BASE}/CWE482_Comparing_Instead_of_Assigning/CWE482_Comparing_Instead_of_Assigning__basic_01.java`
@@ -79,7 +81,7 @@ describe('CWE-482: Comparing Instead of Assigning', () => {
 // ---------------------------------------------------------------------------
 // CWE-597: Wrong Operator for String Comparison (Java == vs .equals())
 // ---------------------------------------------------------------------------
-describe('CWE-597: Wrong String Comparison Operator', () => {
+describe.runIf(HAS_JULIET)('CWE-597: Wrong String Comparison Operator', () => {
   it('detects == on String objects in Juliet basic_01', async () => {
     const map = await buildMap(
       `${JULIET_BASE}/CWE597_Wrong_Operator_String_Comparison/CWE597_Wrong_Operator_String_Comparison__basic_01.java`
@@ -164,7 +166,7 @@ describe('CWE-597: Wrong String Comparison Operator', () => {
 // ---------------------------------------------------------------------------
 // CWE-398: Poor Code Quality (Empty Block)
 // ---------------------------------------------------------------------------
-describe('CWE-398: Poor Code Quality (Empty Block)', () => {
+describe.runIf(HAS_JULIET)('CWE-398: Poor Code Quality (Empty Block)', () => {
   it('detects empty block in Juliet empty_block_01', async () => {
     const map = await buildMap(
       `${JULIET_BASE}/CWE398_Poor_Code_Quality/CWE398_Poor_Code_Quality__empty_block_01.java`
@@ -179,7 +181,7 @@ describe('CWE-398: Poor Code Quality (Empty Block)', () => {
 // ---------------------------------------------------------------------------
 // CWE-563: Unused Variable Assignment
 // ---------------------------------------------------------------------------
-describe('CWE-563: Unused Variable Assignment', () => {
+describe.runIf(HAS_JULIET)('CWE-563: Unused Variable Assignment', () => {
   it('detects unused assigned variable in Juliet int_01', async () => {
     const map = await buildMap(
       `${JULIET_BASE}/CWE563_Unused_Variable/CWE563_Unused_Variable__unused_init_variable_int_01.java`
@@ -194,7 +196,7 @@ describe('CWE-563: Unused Variable Assignment', () => {
 // ---------------------------------------------------------------------------
 // CWE-570: Expression Always False
 // ---------------------------------------------------------------------------
-describe('CWE-570: Expression Always False', () => {
+describe.runIf(HAS_JULIET)('CWE-570: Expression Always False', () => {
   it('detects if(false) in Juliet false_01', async () => {
     const map = await buildMap(
       `${JULIET_BASE}/CWE570_Expression_Always_False/CWE570_Expression_Always_False__false_01.java`
@@ -218,7 +220,7 @@ describe('CWE-570: Expression Always False', () => {
 // ---------------------------------------------------------------------------
 // CWE-571: Expression Always True
 // ---------------------------------------------------------------------------
-describe('CWE-571: Expression Always True', () => {
+describe.runIf(HAS_JULIET)('CWE-571: Expression Always True', () => {
   it('detects n < Integer.MAX_VALUE in Juliet n_less_int_max_01', async () => {
     const map = await buildMap(
       `${JULIET_BASE}/CWE571_Expression_Always_True/CWE571_Expression_Always_True__n_less_int_max_01.java`
@@ -233,7 +235,7 @@ describe('CWE-571: Expression Always True', () => {
 // ---------------------------------------------------------------------------
 // CWE-546: Suspicious Comment
 // ---------------------------------------------------------------------------
-describe('CWE-546: Suspicious Comment', () => {
+describe.runIf(HAS_JULIET)('CWE-546: Suspicious Comment', () => {
   it('detects BUG comment in Juliet BUG_01', async () => {
     const map = await buildMap(
       `${JULIET_BASE}/CWE546_Suspicious_Comment/CWE546_Suspicious_Comment__BUG_01.java`
@@ -257,7 +259,7 @@ describe('CWE-546: Suspicious Comment', () => {
 // ---------------------------------------------------------------------------
 // CWE-209: Error Message Information Exposure
 // ---------------------------------------------------------------------------
-describe('CWE-209: Error Message Info Exposure', () => {
+describe.runIf(HAS_JULIET)('CWE-209: Error Message Info Exposure', () => {
   it('detects printStackTrace() in Juliet printStackTrace_01', async () => {
     const map = await buildMap(
       `${JULIET_BASE}/CWE209_Information_Leak_Error/CWE209_Information_Leak_Error__printStackTrace_01.java`
@@ -272,7 +274,7 @@ describe('CWE-209: Error Message Info Exposure', () => {
 // ---------------------------------------------------------------------------
 // CWE-476: NULL Pointer Dereference
 // ---------------------------------------------------------------------------
-describe('CWE-476: NULL Pointer Dereference', () => {
+describe.runIf(HAS_JULIET)('CWE-476: NULL Pointer Dereference', () => {
   it('detects non-short-circuit & in null check in Juliet binary_if_01', async () => {
     const map = await buildMap(
       `${JULIET_BASE}/CWE476_NULL_Pointer_Dereference/CWE476_NULL_Pointer_Dereference__binary_if_01.java`

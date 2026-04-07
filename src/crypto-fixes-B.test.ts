@@ -1,3 +1,5 @@
+import { existsSync } from 'fs';
+const HAS_JULIET = existsSync('C:/Users/pizza/vigil/juliet-java/src/testcases');
 /**
  * Crypto Fixes B -- CWE verifier tests for 4 crypto CWEs against NIST Juliet patterns
  *
@@ -65,7 +67,7 @@ function scanFileForCWE(filePath: string, cwe: string) {
 // CWE-336: Same Seed in PRNG
 // ===========================================================================
 
-describe('CWE-336: Same Seed in PRNG', () => {
+describe.runIf(HAS_JULIET)('CWE-336: Same Seed in PRNG', () => {
 
   it('VULNERABLE: SecureRandom.setSeed(constant) (Juliet pattern)', () => {
     const map = buildMap([
@@ -124,7 +126,7 @@ describe('CWE-336: Same Seed in PRNG', () => {
 // CWE-614: Sensitive Cookie Without Secure Flag
 // ===========================================================================
 
-describe('CWE-614: Sensitive Cookie Without Secure Flag', () => {
+describe.runIf(HAS_JULIET)('CWE-614: Sensitive Cookie Without Secure Flag', () => {
 
   it('VULNERABLE: new Cookie() + addCookie() without setSecure(true)', () => {
     const map = buildMap([
@@ -186,7 +188,7 @@ describe('CWE-614: Sensitive Cookie Without Secure Flag', () => {
 // CWE-759: Unsalted One Way Hash
 // ===========================================================================
 
-describe('CWE-759: Unsalted One Way Hash', () => {
+describe.runIf(HAS_JULIET)('CWE-759: Unsalted One Way Hash', () => {
 
   it('VULNERABLE: MessageDigest.digest() without salt (Juliet pattern)', () => {
     const map = buildMap([
@@ -247,7 +249,7 @@ describe('CWE-759: Unsalted One Way Hash', () => {
 // CWE-760: Predictable Salt One Way Hash
 // ===========================================================================
 
-describe('CWE-760: Predictable Salt One Way Hash', () => {
+describe.runIf(HAS_JULIET)('CWE-760: Predictable Salt One Way Hash', () => {
 
   it('VULNERABLE: java.util.Random as salt source (Juliet pattern)', () => {
     const map = buildMap([

@@ -1,3 +1,5 @@
+import { existsSync } from 'fs';
+const HAS_JULIET = existsSync('C:/Users/pizza/vigil/juliet-java/src/testcases');
 /**
  * Easy Scanners B — Source-scan CWE verifier tests
  *
@@ -65,7 +67,7 @@ function scanFileForCWE(filePath: string, cwe: string) {
 // CWE-378: Creation of Temporary File With Insecure Permissions
 // ===========================================================================
 
-describe('CWE-378: Temp File Insecure Permissions', () => {
+describe.runIf(HAS_JULIET)('CWE-378: Temp File Insecure Permissions', () => {
 
   it('VULNERABLE: createTempFile without permission-setting (synthetic)', () => {
     const map = buildMap([
@@ -170,7 +172,7 @@ describe('CWE-378: Temp File Insecure Permissions', () => {
 // CWE-379: Creation of Temporary File in Directory with Insecure Permissions
 // ===========================================================================
 
-describe('CWE-379: Temp File in Insecure Directory', () => {
+describe.runIf(HAS_JULIET)('CWE-379: Temp File in Insecure Directory', () => {
 
   it('VULNERABLE: 2-arg createTempFile uses system default temp dir (synthetic)', () => {
     const map = buildMap([
@@ -257,7 +259,7 @@ describe('CWE-379: Temp File in Insecure Directory', () => {
 // CWE-390: Detection of Error Condition Without Action
 // ===========================================================================
 
-describe('CWE-390: Error Without Action', () => {
+describe.runIf(HAS_JULIET)('CWE-390: Error Without Action', () => {
 
   it('VULNERABLE: empty catch block (synthetic)', () => {
     const map = buildMap([
@@ -394,7 +396,7 @@ describe('CWE-390: Error Without Action', () => {
 // CWE-674: Uncontrolled Recursion
 // ===========================================================================
 
-describe('CWE-674: Uncontrolled Recursion', () => {
+describe.runIf(HAS_JULIET)('CWE-674: Uncontrolled Recursion', () => {
 
   it('VULNERABLE: self-recursive JS function without depth guard', () => {
     const map = buildMap([

@@ -1,3 +1,5 @@
+import { existsSync } from 'fs';
+const HAS_JULIET = existsSync('C:/Users/pizza/vigil/juliet-java/src/testcases');
 /**
  * Merge Fixes — CWE verifier detection tests for 5 merged CWEs
  *
@@ -62,7 +64,7 @@ function buildMap(code: string, nodes: Parameters<typeof createNode>[0][]) {
 // =========================================================================
 // CWE-546: Suspicious Comment — source scan catches BUG/HACK/FIXME
 // =========================================================================
-describe('CWE-546: Suspicious Comment (merged source scan)', () => {
+describe.runIf(HAS_JULIET)('CWE-546: Suspicious Comment (merged source scan)', () => {
 
   it('detects BUG comment in Juliet bad case', async () => {
     await init();
@@ -92,7 +94,7 @@ describe('CWE-546: Suspicious Comment (merged source scan)', () => {
 // =========================================================================
 // CWE-563: Unused Variable — scope-aware "assigned but never read"
 // =========================================================================
-describe('CWE-563: Unused Variable (merged scope-aware scan)', () => {
+describe.runIf(HAS_JULIET)('CWE-563: Unused Variable (merged scope-aware scan)', () => {
 
   it('detects unused int variable in Juliet bad case', async () => {
     await init();
@@ -122,7 +124,7 @@ describe('CWE-563: Unused Variable (merged scope-aware scan)', () => {
 // =========================================================================
 // CWE-570: Expression Always False — getClass().equals() with different types
 // =========================================================================
-describe('CWE-570: Expression Always False (merged getClass pattern)', () => {
+describe.runIf(HAS_JULIET)('CWE-570: Expression Always False (merged getClass pattern)', () => {
 
   it('detects getClass().equals() with different types (Juliet bad)', async () => {
     await init();
@@ -144,7 +146,7 @@ describe('CWE-570: Expression Always False (merged getClass pattern)', () => {
 // =========================================================================
 // CWE-571: Expression Always True — !getClass().equals() with different types
 // =========================================================================
-describe('CWE-571: Expression Always True (merged getClass pattern)', () => {
+describe.runIf(HAS_JULIET)('CWE-571: Expression Always True (merged getClass pattern)', () => {
 
   it('detects !getClass().equals() with different types (Juliet bad)', async () => {
     await init();
@@ -166,7 +168,7 @@ describe('CWE-571: Expression Always True (merged getClass pattern)', () => {
 // =========================================================================
 // CWE-597: Wrong String Comparison — var == var with String tracking
 // =========================================================================
-describe('CWE-597: Wrong String Comparison (merged String var tracking)', () => {
+describe.runIf(HAS_JULIET)('CWE-597: Wrong String Comparison (merged String var tracking)', () => {
 
   it('detects String == String with readLine() variables (Juliet bad)', async () => {
     await init();

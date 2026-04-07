@@ -1,3 +1,5 @@
+import { existsSync } from 'fs';
+const HAS_JULIET = existsSync('C:/Users/pizza/vigil/juliet-java/src/testcases');
 /**
  * CWE-690: Unchecked Return Value to NULL Pointer Dereference — Juliet Tests
  *
@@ -54,7 +56,7 @@ function findResult(results: { cwe: string; holds: boolean }[], cweId: string): 
   return r ? r.holds : undefined;
 }
 
-describe('CWE-690: Unchecked Return Value to NULL Pointer Dereference — Juliet', () => {
+describe.runIf(HAS_JULIET)('CWE-690: Unchecked Return Value to NULL Pointer Dereference — Juliet', () => {
 
   // --- Baseline _01 variants (all should detect) ---
 
