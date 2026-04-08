@@ -7,7 +7,7 @@ verification oracle for each finding. No AI in the loop. Same code, same report,
 ## Quick Start
 
 ```bash
-git clone https://github.com/Clawdius-hash/dst-engine.git
+git clone https://github.com/MassDeterministicEngines/dst-engine.git
 cd dst-engine
 npm install --legacy-peer-deps
 npx tsx src/dst-cli.ts --demo --prove
