@@ -2425,11 +2425,15 @@ function classifyNode(node: SyntaxNode, ctx: MapperContextLike): void {
           const objText = calleeObj?.text?.slice(0, 40) ?? '';
           const argsText = argsNode?.text?.slice(0, 60) ?? '';
           let sentTaintClass = resolveTaintClass(resolution.nodeType, resolution.subtype, nodeIsTainted);
-          // PreparedStatement creation or parameter binding → SAFE
-          if (resolution.subtype === 'parameterized_query' || methodName === 'setString' || methodName === 'setInt' || methodName === 'setLong' || methodName === 'setObject') {
+          // PreparedStatement creation or parameter binding → SAFE with parameter-binding template.
+          // setString/setInt/etc. are parameter binds, not query executions.
+          // The phoneme resolves them as STORAGE/db_write but the SENTENCE must say parameter-binding
+          // so the V2 verifier knows to suppress findings on this statement object.
+          const isParamBinding = resolution.subtype === 'parameterized_query' || methodName === 'setString' || methodName === 'setInt' || methodName === 'setLong' || methodName === 'setObject';
+          if (isParamBinding) {
             sentTaintClass = 'SAFE';
           }
-          const templateKey = getTemplateKey(resolution.nodeType, resolution.subtype);
+          const templateKey = isParamBinding ? 'parameter-binding' : getTemplateKey(resolution.nodeType, resolution.subtype);
           // Build template-appropriate slots
           let slots: Record<string, string>;
           if (templateKey === 'retrieves-from-source') {
@@ -2601,11 +2605,14 @@ function classifyNode(node: SyntaxNode, ctx: MapperContextLike): void {
               // V2: Sentence for alias-resolved method call
               {
                 const aliasIsTainted = aliasN.data_out.some((d: any) => d.tainted);
-                const aliasTemplateKey = getTemplateKey(aliasPattern.nodeType, aliasPattern.subtype);
                 const aliasMethodName = aliasName?.text ?? '?';
                 const aliasObjText = aliasObj?.text?.slice(0, 40) ?? '';
                 const aliasArgsText = aliasArgs?.text?.slice(0, 60) ?? '';
-                const aliasSentTaintClass = resolveTaintClass(aliasPattern.nodeType, aliasPattern.subtype, aliasIsTainted);
+                // Parameter binding: setString/setInt/etc. are NOT query executions
+                const aliasIsParamBinding = aliasPattern.subtype === 'parameterized_query' || aliasMethodName === 'setString' || aliasMethodName === 'setInt' || aliasMethodName === 'setLong' || aliasMethodName === 'setObject';
+                const aliasTemplateKey = aliasIsParamBinding ? 'parameter-binding' : getTemplateKey(aliasPattern.nodeType, aliasPattern.subtype);
+                let aliasSentTaintClass = resolveTaintClass(aliasPattern.nodeType, aliasPattern.subtype, aliasIsTainted);
+                if (aliasIsParamBinding) aliasSentTaintClass = 'SAFE';
                 let aliasSlots: Record<string, string>;
                 if (aliasTemplateKey === 'executes-query') {
                   aliasSlots = { subject: aliasObjText || aliasMethodName, query_type: 'SQL', variables: collectArgVarNames(aliasArgs) || aliasArgsText, context: `line ${node.startPosition.row + 1}` };
