@@ -11,6 +11,11 @@ export interface ImportInfo {
   importedNames: string[];
   localName: string | null;
   line: number;
+  /** True when this is a re-export (`export { x } from './y'` or `export * from './y'`).
+   *  Re-exports are pointers — the margin pass follows the chain to the origin file.
+   *  For star re-exports (importedNames: ['*']), the margin pass expands to actual
+   *  names using the source file's functionRegistry at resolution time. */
+  isReExport?: boolean;
 }
 
 export interface FileImports {
@@ -140,6 +145,44 @@ export function extractImports(source: string, filePath: string): ImportInfo[] {
         importedNames: ['*'],
         localName: esStarMatch[1],
         line: lineNum,
+      });
+      continue;
+    }
+
+    // Re-export: export { name1, name2 } from './module'
+    const reExportNamedMatch = line.match(
+      /export\s*\{([^}]+)\}\s*from\s+['"]([^'"]+)['"]/
+    );
+    if (reExportNamedMatch) {
+      const names = reExportNamedMatch[1].split(',').map(n => {
+        const parts = n.trim().split(/\s+as\s+/);
+        return parts[0].trim();
+      }).filter(n => n.length > 0);
+      imports.push({
+        specifier: reExportNamedMatch[2],
+        resolvedPath: null,
+        importedNames: names,
+        localName: null,
+        line: lineNum,
+        isReExport: true,
+      });
+      continue;
+    }
+
+    // Re-export: export * from './module'
+    // importedNames is ['*'] — the margin pass expands to actual names
+    // using the source file's functionRegistry at resolution time.
+    const reExportStarMatch = line.match(
+      /export\s+\*\s+from\s+['"]([^'"]+)['"]/
+    );
+    if (reExportStarMatch) {
+      imports.push({
+        specifier: reExportStarMatch[1],
+        resolvedPath: null,
+        importedNames: ['*'],
+        localName: null,
+        line: lineNum,
+        isReExport: true,
       });
       continue;
     }
