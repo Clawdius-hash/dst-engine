@@ -147,7 +147,21 @@ function stripTypeScriptAnnotations(source: string): string {
   return result;
 }
 
-async function analyzeWithRealMapper(source: string, filename: string): Promise<NeuralMap> {
+/** Summary data extracted from the mapper context after scanning one file.
+ *  Used by the cross-file margin pass to propagate taint across file boundaries.
+ *
+ *  Kept: functionReturnTaint, functionRegistry (needed for cross-file resolution).
+ *  Dropped: scopeStack (walk-time only), nodeById (rebuildable from map.nodes),
+ *  edgeSet (derived), sentences (on map.story), taintLog (debug provenance —
+ *  add back if proof system needs it), pendingCallbackTaint (usually empty post-walk),
+ *  diagnostics (per-file stats), profile (stateless, re-created per file). */
+interface FileSummary {
+  map: NeuralMap;
+  functionReturnTaint: Map<string, boolean>;
+  functionRegistry: Map<string, string>;
+}
+
+async function analyzeWithRealMapper(source: string, filename: string): Promise<FileSummary> {
   const langConfig = detectLanguage(filename);
   const parser = await getParser(langConfig.grammarPackage);
   const profile = await getProfile(langConfig.profileImport);
@@ -165,11 +179,15 @@ async function analyzeWithRealMapper(source: string, filename: string): Promise<
   }
 
   resetSequence();
-  const { map } = buildNeuralMap(tree, source, filename, profile);
+  const { map, ctx } = buildNeuralMap(tree, source, filename, profile);
 
   tree.delete();
 
-  return map;
+  return {
+    map,
+    functionReturnTaint: ctx.functionReturnTaint,
+    functionRegistry: ctx.functionRegistry,
+  };
 }
 
 function printHeader(mode: string): void {
@@ -410,7 +428,7 @@ async function main(): Promise<void> {
     console.log('Parsing with tree-sitter → building Neural Map...');
     console.log('');
 
-    const map = await analyzeWithRealMapper(DEMO_CODE, 'demo-vulnerable-app.js');
+    const { map } = await analyzeWithRealMapper(DEMO_CODE, 'demo-vulnerable-app.js');
     printMapStats(map);
 
     const results = verifyAll(map, 'javascript', verifyOptions);
@@ -449,7 +467,7 @@ async function main(): Promise<void> {
     console.log('Parsing with tree-sitter → building Neural Map...');
     console.log('');
 
-    const map = await analyzeWithRealMapper(source, target!);
+    const { map } = await analyzeWithRealMapper(source, target!);
     printMapStats(map);
 
     const results = verifyAll(map, langConfig.profileImport, verifyOptions);
@@ -489,6 +507,7 @@ async function main(): Promise<void> {
     console.log('');
 
     const allResults: FileResult[] = [];
+    const fileSummaries = new Map<string, FileSummary>();
     let scanned = 0;
 
     for (const file of files) {
@@ -499,14 +518,15 @@ async function main(): Promise<void> {
       try {
         const source = fs.readFileSync(file, 'utf-8');
         const fileLangConfig = detectLanguage(file);
-        const map = await analyzeWithRealMapper(source, file);
-        const results = verifyAll(map, fileLangConfig.profileImport, verifyOptions);
+        const summary = await analyzeWithRealMapper(source, file);
+        const results = verifyAll(summary.map, fileLangConfig.profileImport, verifyOptions);
 
-        if (proveMode) await enrichWithProofs(results, map);
+        if (proveMode) await enrichWithProofs(results, summary.map);
 
         const findings = results.filter(r => !r.holds).reduce((s, r) => s + r.findings.length, 0);
 
-        allResults.push({ filename: shortName, map, results });
+        fileSummaries.set(file.replace(/\\/g, '/'), summary);
+        allResults.push({ filename: shortName, map: summary.map, results });
 
         if (findings > 0) {
           console.log(` ${findings} finding(s)`);
