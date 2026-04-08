@@ -53,7 +53,7 @@ you the payload to prove it.
 | Benchmark | Result |
 |-----------|--------|
 | OWASP BenchmarkJava (SQLi, 504 files) | **92.7%** score (100% TPR, 7.3% FPR) |
-| OWASP BenchmarkJava (all 2,740 files) | **75.4%** composite (94.9% TPR, 19.5% FPR) |
+| OWASP BenchmarkJava (all 2,740 files) | **83.7%** composite (99.6% TPR, 15.8% FPR) |
 | OWASP weakrand/crypto/hash/securecookie | **100/100** (1,042 files, 0% FPR) |
 | NIST Juliet Java baseline | 100% (103/103 CWE categories) |
 | WebGoat (real app, 399 files) | 11,197 findings across 321 CWE categories |
