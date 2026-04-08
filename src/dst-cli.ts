@@ -5,8 +5,7 @@ import { buildNeuralMap } from './mapper';
 import { resetSequence } from './types';
 import type { NeuralMap } from './types';
 import type { LanguageProfile } from './languageProfile';
-import { analyzeCrossFile } from './cross-file';
-import type { CrossFileResult } from './cross-file';
+import { buildDependencyGraph } from './cross-file';
 import * as fs from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
@@ -519,57 +518,30 @@ async function main(): Promise<void> {
       }
     }
 
-    let crossFileResult: CrossFileResult | null = null;
-    let crossFileFindings: FileResult | null = null;
-
+    // ─── Dependency graph (informational) ─────────────────────
+    // Build the import graph for display but do NOT merge neural maps.
+    // Per-file verification is accurate. The global merge produced garbage
+    // (65,000 false findings on DVWA from cartesian node explosion).
+    // Cross-file taint propagation will use function summaries (marginalia)
+    // in a future release — not graph merging.
+    // ─────────────────────────────────────────────────────────────
     if (allResults.length >= 2) {
-      console.log('');
-      console.log('Cross-file analysis: merging Neural Maps...');
-
       try {
-        const fileMaps = new Map<string, NeuralMap>();
-        for (const fr of allResults) {
-          const fullPath = path.resolve(target!, fr.filename).replace(/\\/g, '/');
-          fileMaps.set(fullPath, fr.map);
-        }
-
-        crossFileResult = analyzeCrossFile(fileMaps, files.map(f => f.replace(/\\/g, '/')));
-
-        console.log(`  Dependency edges: ${crossFileResult.depGraph.edges.length}`);
-        console.log(`  Cross-file edges: ${crossFileResult.crossFileEdges}`);
-        console.log(`  Resolved imports: ${crossFileResult.resolvedImports.length}`);
-
-        if (crossFileResult.resolvedImports.length > 0) {
-          console.log('  Import chains:');
-          for (const ri of crossFileResult.resolvedImports) {
-            const fromShort = path.relative(target!, ri.from);
-            const toShort = path.relative(target!, ri.to);
-            console.log(`    ${fromShort} -> ${toShort} [${ri.symbols.join(', ')}]`);
+        const depGraph = buildDependencyGraph(files.map(f => f.replace(/\\/g, '/')));
+        const depEdgeCount = depGraph.edges.length;
+        if (depEdgeCount > 0) {
+          console.log('');
+          console.log(`Dependency graph: ${depEdgeCount} import edges detected`);
+          for (const edge of depGraph.edges.slice(0, 10)) {
+            const fromShort = path.relative(target!, edge.from);
+            const toShort = path.relative(target!, edge.to);
+            console.log(`  ${fromShort} → ${toShort}`);
           }
+          if (depEdgeCount > 10) console.log(`  ... and ${depEdgeCount - 10} more`);
+          console.log('  (Per-file analysis complete. Cross-file taint propagation coming soon.)');
         }
-
-        const langCounts = new Map<string, number>();
-        for (const fr of allResults) {
-          const lang = detectLanguage(path.resolve(target!, fr.filename)).profileImport;
-          langCounts.set(lang, (langCounts.get(lang) ?? 0) + 1);
-        }
-        const dominantLang = [...langCounts.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? 'javascript';
-        const mergedResults = verifyAll(crossFileResult.mergedMap, dominantLang, verifyOptions);
-
-        if (proveMode) await enrichWithProofs(mergedResults, crossFileResult.mergedMap);
-
-        const mergedFindings = mergedResults.filter(r => !r.holds).reduce((s, r) => s + r.findings.length, 0);
-
-        crossFileFindings = {
-          filename: '[cross-file merged]',
-          map: crossFileResult.mergedMap,
-          results: mergedResults,
-        };
-
-        console.log(`  Merged map: ${crossFileResult.mergedMap.nodes.length} nodes, ${crossFileResult.mergedMap.edges.length} edges`);
-        console.log(`  Cross-file findings: ${mergedFindings}`);
-      } catch (err) {
-        console.log(`  Cross-file analysis error: ${(err as Error).message?.slice(0, 80)}`);
+      } catch {
+        // Dependency graph is informational — don't fail the scan
       }
     }
 
@@ -579,39 +551,13 @@ async function main(): Promise<void> {
         nodes: fr.map.nodes.length,
         results: fr.results,
       }));
-      if (crossFileFindings) {
-        jsonResults.push({
-          file: '[cross-file merged]',
-          nodes: crossFileFindings.map.nodes.length,
-          results: crossFileFindings.results,
-        });
-      }
       console.log(JSON.stringify(jsonResults, null, 2));
     } else {
       for (const fr of allResults) {
         printFileReport(fr);
       }
 
-      if (crossFileFindings) {
-        const crossFailed = crossFileFindings.results.filter(r => !r.holds);
-        if (crossFailed.length > 0) {
-          console.log(`\n${'='.repeat(60)}`);
-          console.log('  CROSS-FILE FINDINGS (merged Neural Map)');
-          console.log(`${'='.repeat(60)}`);
-          printFileReport(crossFileFindings);
-        }
-      }
-
       printSummary(allResults, Date.now() - startTime);
-
-      if (crossFileFindings) {
-        const crossFailed = crossFileFindings.results.filter(r => !r.holds);
-        const crossTotal = crossFailed.reduce((s, r) => s + r.findings.length, 0);
-        if (crossTotal > 0) {
-          console.log(`  Cross-file analysis found ${crossTotal} additional finding(s) from ${crossFileResult!.crossFileEdges} cross-file edges.`);
-          console.log('');
-        }
-      }
     }
   }
 }
