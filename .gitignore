@@ -5,3 +5,8 @@ dist/
 *.map
 *.tsbuildinfo
 .DS_Store
+WebGoat.NET
+go-test-bench
+rust-sast-benchmark
+InsecureShop
+BenchmarkPython
