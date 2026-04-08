@@ -163,7 +163,12 @@ to a database.
 
 ## Status
 
-Alpha v2. 100% SQL injection detection on OWASP Benchmark. Pure semantic sentences — no regex, no confidence scores. The engine works. The proof system is v1. Open source.
+Alpha v2. 100% SQL injection detection on OWASP Benchmark. Pure semantic sentences — no regex, no confidence scores. The engine works. Open source.
+
+**Proof certificates:** ~80% of findings include a generated proof-of-exploit payload. Test it yourself:
+```bash
+npx tsx src/dst-cli.ts --demo --prove
+```
 
 **Help welcome:**
 - Expanding payload dictionaries for more injection contexts
