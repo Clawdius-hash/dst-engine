@@ -202,10 +202,10 @@ function verifyCWE89_sentences(map: NeuralMap): VerificationResult {
  * Property: All database queries use parameterized statements when handling user input
  */
 function verifyCWE89(map: NeuralMap): VerificationResult {
-  // V2: Sentence-based detection is authoritative when a story exists.
-  // V2 has resolver + HashMap tracking + assignment clearing — trust its verdict.
-  // Only fall back to V1 when there is NO story (no sentences emitted).
-  if (map.story && map.story.length > 0) {
+  // V2: Sentence-based detection is authoritative ONLY when the story contains
+  // relevant sink sentences (executes-query). Languages without sentence emission
+  // (Python, Go, etc.) must fall through to V1.
+  if (map.story && map.story.some(s => s.templateKey === 'executes-query')) {
     return verifyCWE89_sentences(map);
   }
   // V1: Legacy BFS + regex path (fallback when no story exists)
@@ -561,10 +561,9 @@ function verifyCWE79_sentences(map: NeuralMap): VerificationResult {
 }
 
 function verifyCWE79(map: NeuralMap): VerificationResult {
-  // V2: Sentence-based detection is authoritative when a story exists.
-  // 100% TPR on OWASP Benchmark (246/246). V2 reads writes-response sentences
-  // with variables slots — no regex, no BFS. Same architecture as CWE-89.
-  if (map.story && map.story.length > 0) {
+  // V2: Sentence-based detection is authoritative ONLY when the story contains
+  // writes-response sentences. Languages without sentence emission fall through to V1.
+  if (map.story && map.story.some(s => s.templateKey === 'writes-response')) {
     return verifyCWE79_sentences(map);
   }
   // V1: BFS + regex fallback (only when no story exists)
@@ -1190,8 +1189,8 @@ function verifyCWE22_sentences(map: NeuralMap): VerificationResult {
 }
 
 function verifyCWE22(map: NeuralMap): VerificationResult {
-  // V2: Try sentence-based detection first. V1 fallback — 22 FNs remain in V2.
-  if (map.story && map.story.length > 0) {
+  // V2: Try sentence-based detection first. Only when accesses-path sentences exist.
+  if (map.story && map.story.some(s => s.templateKey === 'accesses-path')) {
     const v2 = verifyCWE22_sentences(map);
     if (v2.findings.length > 0) return v2;
   }
