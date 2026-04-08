@@ -6,6 +6,7 @@ import { resetSequence } from './types';
 import type { NeuralMap } from './types';
 import type { LanguageProfile } from './languageProfile';
 import { buildDependencyGraph } from './cross-file';
+import { runMarginPass } from './margin-pass';
 import * as fs from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
@@ -538,30 +539,48 @@ async function main(): Promise<void> {
       }
     }
 
-    // ─── Dependency graph (informational) ─────────────────────
-    // Build the import graph for display but do NOT merge neural maps.
-    // Per-file verification is accurate. The global merge produced garbage
-    // (65,000 false findings on DVWA from cartesian node explosion).
-    // Cross-file taint propagation will use function summaries (marginalia)
-    // in a future release — not graph merging.
+    // ─── Cross-file margin pass ────────────────────────────────
+    // Build dependency graph, then resolve PENDING sentences across
+    // file boundaries using imported functions' summaries.
+    // Same resolver mechanism as intra-file — different data source.
     // ─────────────────────────────────────────────────────────────
-    if (allResults.length >= 2) {
+    if (allResults.length >= 2 && fileSummaries.size >= 2) {
       try {
         const depGraph = buildDependencyGraph(files.map(f => f.replace(/\\/g, '/')));
         const depEdgeCount = depGraph.edges.length;
+
         if (depEdgeCount > 0) {
           console.log('');
-          console.log(`Dependency graph: ${depEdgeCount} import edges detected`);
-          for (const edge of depGraph.edges.slice(0, 10)) {
-            const fromShort = path.relative(target!, edge.from);
-            const toShort = path.relative(target!, edge.to);
-            console.log(`  ${fromShort} → ${toShort}`);
+          console.log(`Cross-file analysis: ${depEdgeCount} import edges`);
+
+          const dirty = runMarginPass(fileSummaries, depGraph);
+
+          if (dirty.size > 0) {
+            console.log(`  Margin pass resolved cross-file taint in ${dirty.size} file(s)`);
+
+            // Re-verify dirty files — their sentences changed
+            for (const dirtyFile of dirty) {
+              const normalizedDirty = dirtyFile.replace(/\\/g, '/');
+              const idx = allResults.findIndex(r =>
+                dirtyFile.endsWith(r.filename.replace(/\\/g, '/')) ||
+                normalizedDirty.endsWith(r.filename.replace(/\\/g, '/'))
+              );
+              if (idx === -1) continue;
+              const summary = fileSummaries.get(normalizedDirty);
+              if (!summary) continue;
+              const fileLangConfig = detectLanguage(dirtyFile);
+              const results = verifyAll(summary.map, fileLangConfig.profileImport, verifyOptions);
+              if (proveMode) await enrichWithProofs(results, summary.map);
+              allResults[idx] = { filename: allResults[idx].filename, map: summary.map, results };
+            }
+
+            console.log(`  Re-verified ${dirty.size} file(s) with updated taint`);
+          } else {
+            console.log('  No cross-file taint propagation needed');
           }
-          if (depEdgeCount > 10) console.log(`  ... and ${depEdgeCount - 10} more`);
-          console.log('  (Per-file analysis complete. Cross-file taint propagation coming soon.)');
         }
-      } catch {
-        // Dependency graph is informational — don't fail the scan
+      } catch (err) {
+        console.log(`  Cross-file analysis error: ${(err as Error).message?.slice(0, 80)}`);
       }
     }
 
