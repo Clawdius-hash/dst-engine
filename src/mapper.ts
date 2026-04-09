@@ -1211,7 +1211,8 @@ function walkWithScopes(node: SyntaxNode, ctx: MapperContext, profile: LanguageP
       const isSanitizer = n.node_type === 'TRANSFORM' && n.node_subtype === 'sanitize' && !isTainted;
       const isSinkNode =
         (n.node_type === 'STORAGE' && /^(sql_query|db_read|db_write|db_stored_proc|file_write|file_access)$/.test(n.node_subtype)) ||
-        (n.node_type === 'EGRESS' && /^(http_response|redirect|file_write|file_serve)$/.test(n.node_subtype));
+        (n.node_type === 'EGRESS' && /^(http_response|redirect|file_write|file_serve)$/.test(n.node_subtype)) ||
+        (n.node_type === 'EXTERNAL' && n.node_subtype === 'system_exec');
       const taintClass: SemanticSentence['taintClass'] =
         n.node_type === 'INGRESS' ? 'TAINTED' :
         isSanitizer ? 'SAFE' :
@@ -1252,6 +1253,9 @@ function walkWithScopes(node: SyntaxNode, ctx: MapperContext, profile: LanguageP
         }
         const varNames = args.replace(/"[^"]*"|'[^']*'/g, '').match(/\b[a-z_]\w*\b/gi) || [];
         slots = { subject: obj || method, query_type: 'SQL', variables: varNames.join(', '), context: `line ${n.line_start}` };
+      } else if (templateKey === 'executes-command') {
+        const varNames = args.replace(/"[^"]*"|'[^']*'/g, '').match(/\b[a-z_]\w*\b/gi) || [];
+        slots = { subject: obj || method, variables: varNames.join(', '), context: `line ${n.line_start}` };
       } else if (templateKey === 'writes-response') {
         const varNames = args.replace(/"[^"]*"|'[^']*'/g, '').match(/\b[a-z_]\w*\b/gi) || [];
         slots = { subject: assignedVarName || obj || n.label, method, object: obj, args, variables: varNames.filter(v => !v.match(/^[A-Z][A-Z_0-9]*$/)).join(', '), context: `line ${n.line_start}` };

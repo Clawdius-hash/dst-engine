@@ -17,6 +17,7 @@ export const SENTENCE_TEMPLATES: Record<string, string> = {
   'creates-instance': '{subject} creates new {class} with {args}, {context}',
   'writes-response': '{subject} writes {args} to client response containing {variables}, {context}',
   'accesses-path': '{subject} accesses filesystem path containing {variables}, {context}',
+  'executes-command': '{subject} executes OS command containing {variables}, {context}',
 };
 
 /**

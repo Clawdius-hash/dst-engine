@@ -34,7 +34,7 @@ const NODE_TYPE_TO_TEMPLATE: Record<string, Record<string, string>> = {
     _default: 'gate-conditional',
   },
   EXTERNAL: {
-    system_exec: 'calls-method',
+    system_exec: 'executes-command',
     http_request: 'calls-method',
     _default: 'calls-method',
   },
