@@ -11,8 +11,16 @@ interface ResolverContext {
  * Resolve PENDING taint in sentences using the completed functionReturnTaint map.
  */
 export function resolveSentences(ctx: ResolverContext): void {
+  // Fixpoint loop: resolving one sentence may unblock another that depends on the
+  // now-resolved function (A calls B calls C — resolving C unblocks B unblocks A).
+  // Max 10 iterations to guard against circular taint.
+  let changed = true;
+  let iterations = 0;
+  while (changed && iterations < 10) {
+    changed = false;
+    iterations++;
   for (const sentence of ctx.sentences) {
-    if (sentence.taintBasis !== 'PENDING') continue;
+    if (sentence.taintBasis !== 'PENDING' || sentence.reconciled) continue;
 
     const calledMethod = sentence.slots?.method || sentence.slots?.value || '';
 
@@ -35,6 +43,7 @@ export function resolveSentences(ctx: ResolverContext): void {
           }
         }
         resolved = true;
+        changed = true;
         break;
       }
     }
@@ -60,9 +69,11 @@ export function resolveSentences(ctx: ResolverContext): void {
               sentence.reconciliationReason = `Resolved tainted: ${funcName} returns tainted data`;
             }
           }
+          changed = true;
           break;
         }
       }
     }
   }
+  } // end fixpoint while
 }
