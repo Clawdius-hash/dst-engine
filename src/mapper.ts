@@ -1085,11 +1085,13 @@ function walkWithScopes(node: SyntaxNode, ctx: MapperContext, profile: LanguageP
       // Java's 14 profile-emitted sentences still take priority (line 1077 skips nodes
       // that already have sentences).
       const isTainted = n.data_out.some((d: any) => d.tainted) || n.node_type === 'INGRESS';
+      const isSanitizer = n.node_type === 'TRANSFORM' && n.node_subtype === 'sanitize' && !isTainted;
       const isSinkNode =
         (n.node_type === 'STORAGE' && /^(sql_query|db_read|db_write|db_stored_proc|file_write|file_access)$/.test(n.node_subtype)) ||
         (n.node_type === 'EGRESS' && /^(http_response|redirect|file_write|file_serve)$/.test(n.node_subtype));
       const taintClass: SemanticSentence['taintClass'] =
         n.node_type === 'INGRESS' ? 'TAINTED' :
+        isSanitizer ? 'SAFE' :
         isSinkNode ? 'SINK' :
         isTainted ? 'TAINTED' : 'NEUTRAL';
       const snap = n.code_snapshot || n.label || '';
@@ -1099,20 +1101,28 @@ function walkWithScopes(node: SyntaxNode, ctx: MapperContext, profile: LanguageP
       const obj = objMatch?.[1] ?? '';
       const argsMatch = snap.match(/\(([^)]*)\)/);
       const args = argsMatch?.[1]?.slice(0, 60) ?? '';
+      // Find the variable this node produces (for correct subject tracking)
+      // If a scope variable's producingNodeId matches this node, use the variable name
+      let assignedVarName: string | null = null;
+      if (ctx.currentScope) {
+        for (const [vName, vInfo] of ctx.currentScope.variables) {
+          if (vInfo.producingNodeId === n.id) { assignedVarName = vName; break; }
+        }
+      }
       let slots: Record<string, string>;
       if (templateKey === 'retrieves-from-source') {
-        slots = { subject: n.label, data_type: 'user input', source: snap.slice(0, 60), context: `line ${n.line_start}` };
+        slots = { subject: assignedVarName || n.label, data_type: 'user input', source: snap.slice(0, 60), context: `line ${n.line_start}` };
       } else if (templateKey === 'executes-query') {
         const varNames = args.replace(/"[^"]*"|'[^']*'/g, '').match(/\b[a-z_]\w*\b/gi) || [];
         slots = { subject: obj || method, query_type: 'SQL', variables: varNames.join(', '), context: `line ${n.line_start}` };
       } else if (templateKey === 'writes-response') {
         const varNames = args.replace(/"[^"]*"|'[^']*'/g, '').match(/\b[a-z_]\w*\b/gi) || [];
-        slots = { subject: obj || n.label, method, object: obj, args, variables: varNames.filter(v => !v.match(/^[A-Z][A-Z_0-9]*$/)).join(', '), context: `line ${n.line_start}` };
+        slots = { subject: assignedVarName || obj || n.label, method, object: obj, args, variables: varNames.filter(v => !v.match(/^[A-Z][A-Z_0-9]*$/)).join(', '), context: `line ${n.line_start}` };
       } else if (templateKey === 'accesses-path') {
         const varNames = args.replace(/"[^"]*"|'[^']*'/g, '').match(/\b[a-z_]\w*\b/gi) || [];
         slots = { subject: n.label, variables: varNames.join(', '), context: `line ${n.line_start}` };
       } else {
-        slots = { subject: obj || n.label, method, object: obj, args, context: `line ${n.line_start}` };
+        slots = { subject: assignedVarName || obj || n.label, method, object: obj, args, context: `line ${n.line_start}` };
       }
       const sentence = generateSentence(templateKey, slots, n.line_start, n.id, taintClass);
       sentence.taintBasis = 'PHONEME_RESOLUTION';

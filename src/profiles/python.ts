@@ -938,6 +938,115 @@ function extractTaintSources(expr: SyntaxNode, ctx: MapperContextLike): TaintSou
 }
 
 // ---------------------------------------------------------------------------
+// tryFoldNumeric / tryEvalCondition — constant-fold Python conditions
+// ---------------------------------------------------------------------------
+
+function tryFoldNumeric(n: SyntaxNode, ctx: MapperContextLike): number | null {
+  if (n.type === 'integer') {
+    const val = parseInt(n.text, 10);
+    return isNaN(val) ? null : val;
+  }
+  if (n.type === 'float') {
+    const val = parseFloat(n.text);
+    return isNaN(val) ? null : val;
+  }
+  if (n.type === 'parenthesized_expression') {
+    const inner = n.namedChild(0);
+    return inner ? tryFoldNumeric(inner, ctx) : null;
+  }
+  // Python: binary_operator for arithmetic (+, -, *, /, //, %)
+  if (n.type === 'binary_operator') {
+    // Children: left, operator_token, right (unnamed children for operator)
+    const left = n.namedChild(0);
+    const right = n.namedChild(1);
+    if (!left || !right) return null;
+    // Find the operator token between them
+    let op: string | null = null;
+    for (let i = 0; i < n.childCount; i++) {
+      const child = n.child(i);
+      if (child && !child.isNamed && /^[+\-*/%]|\/\//.test(child.text)) {
+        op = child.text;
+        break;
+      }
+    }
+    if (!op) return null;
+    const lv = tryFoldNumeric(left, ctx);
+    const rv = tryFoldNumeric(right, ctx);
+    if (lv === null || rv === null) return null;
+    switch (op) {
+      case '+': return lv + rv;
+      case '-': return lv - rv;
+      case '*': return lv * rv;
+      case '/': return rv !== 0 ? Math.trunc(lv / rv) : null;
+      case '//': return rv !== 0 ? Math.floor(lv / rv) : null;
+      case '%': return rv !== 0 ? lv % rv : null;
+      default: return null;
+    }
+  }
+  // Identifier: resolve from scope
+  if (n.type === 'identifier') {
+    const v = ctx.resolveVariable(n.text);
+    if (v?.numericValue !== undefined) return v.numericValue;
+    return null;
+  }
+  // Unary: -N
+  if (n.type === 'unary_operator') {
+    const op = n.child(0)?.text;
+    const operand = n.namedChild(0);
+    if (op === '-' && operand) {
+      const v = tryFoldNumeric(operand, ctx);
+      return v !== null ? -v : null;
+    }
+  }
+  return null;
+}
+
+function tryEvalCondition(cond: SyntaxNode, ctx: MapperContextLike): boolean | null {
+  if (cond.type === 'parenthesized_expression') {
+    const inner = cond.namedChild(0);
+    return inner ? tryEvalCondition(inner, ctx) : null;
+  }
+  // Python: comparison_operator for >, <, >=, <=, ==, !=
+  if (cond.type === 'comparison_operator') {
+    const left = cond.namedChild(0);
+    const right = cond.namedChild(1);
+    if (!left || !right) return null;
+    // Find the comparison operator token
+    let op: string | null = null;
+    for (let i = 0; i < cond.childCount; i++) {
+      const child = cond.child(i);
+      if (child && !child.isNamed && /^[><=!]+$/.test(child.text)) {
+        op = child.text;
+        break;
+      }
+    }
+    if (!op) return null;
+    const lv = tryFoldNumeric(left, ctx);
+    const rv = tryFoldNumeric(right, ctx);
+    if (lv !== null && rv !== null) {
+      switch (op) {
+        case '>':  return lv > rv;
+        case '<':  return lv < rv;
+        case '>=': return lv >= rv;
+        case '<=': return lv <= rv;
+        case '==': return lv === rv;
+        case '!=': return lv !== rv;
+        default:   return null;
+      }
+    }
+  }
+  // Python: not_operator for `not cond`
+  if (cond.type === 'not_operator') {
+    const inner = cond.namedChild(0);
+    if (inner) {
+      const result = tryEvalCondition(inner, ctx);
+      return result !== null ? !result : null;
+    }
+  }
+  return null;
+}
+
+// ---------------------------------------------------------------------------
 // processVariableDeclaration — Python assignment/augmented_assignment
 // ---------------------------------------------------------------------------
 
@@ -2537,6 +2646,8 @@ export const pythonProfile: LanguageProfile = {
   // Matches: def name(params):  |  async def name(params):
   // Group 1 captures the full parameter list between parentheses.
   functionParamPattern: /(?:async\s+)?def\s+\w+\s*\(([^)]*)\)\s*(?:->.*?)?:/,
+
+  tryEvalCondition: (condNode: any, ctx: any) => tryEvalCondition(condNode, ctx),
 };
 
 export default pythonProfile;
