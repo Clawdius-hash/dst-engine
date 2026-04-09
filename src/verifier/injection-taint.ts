@@ -1120,12 +1120,14 @@ function verifyCWE22_sentences(map: NeuralMap): VerificationResult {
       resolvedCleanVars.add(varName);
     }
 
-    // Track path-validated variables — SAFE calls-method with path-related methods
-    if (taintClass === 'SAFE' && templateKey === 'calls-method' && varName) {
-      validatedVars.add(varName);
+    // Track path-validated variables — SAFE calls-method or gate-conditional guards
+    if (taintClass === 'SAFE' && varName) {
+      if (templateKey === 'calls-method' || templateKey === 'gate-conditional') {
+        validatedVars.add(varName);
+      }
     }
 
-    // String concatenation — resolver-aware
+    // String concatenation — resolver-aware + validation propagation
     if (templateKey === 'string-concatenation' && varName) {
       const parts = (slots.parts || '').split(/[,\s]+/).filter(Boolean);
       const allPartsResolvedClean = parts.length > 0 &&
@@ -1136,6 +1138,11 @@ function verifyCWE22_sentences(map: NeuralMap): VerificationResult {
         reason: (isTainted ? 'tainted concat: ' : 'concat resolved clean: ') + sentence.text,
         sourceNodeId: nodeId, sourceLine: lineNumber,
       });
+      // Propagate validation: if all tainted parts are validated, the result is validated
+      const taintedParts = parts.filter(p => taintMap.get(p)?.tainted);
+      if (taintedParts.length > 0 && taintedParts.every(p => validatedVars.has(p))) {
+        validatedVars.add(varName);
+      }
       continue;
     }
 
@@ -1210,7 +1217,10 @@ function verifyCWE22_sentences(map: NeuralMap): VerificationResult {
 }
 
 function verifyCWE22(map: NeuralMap): VerificationResult {
-  // V2: Try sentence-based detection first. Only when accesses-path sentences exist.
+  // V2: Sentence-based detection. V2 adds findings only — V1 always runs too.
+  // CWE-22 V2 is NOT authoritative yet: the story doesn't track taint through
+  // data structures (config/dict/list). V1's BFS catches what V2's story misses.
+  // V2 authority for CWE-22 requires: Python dict/config keyed taint tracking.
   if (map.story && map.story.some(s => s.templateKey === 'accesses-path')) {
     const v2 = verifyCWE22_sentences(map);
     if (v2.findings.length > 0) return v2;

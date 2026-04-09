@@ -1287,6 +1287,50 @@ function walkWithScopes(node: SyntaxNode, ctx: MapperContext, profile: LanguageP
           }
         }
       }
+      // Guard pattern detection: if CONDITION cannot be statically evaluated but
+      // is a containment/validation check (e.g., '../' in bar, bar.startswith('/'))
+      // followed by an early return, emit a gate-conditional sentence marking the
+      // checked variable as validated. This is a STORY fix — the verifier reads it.
+      if (condResult === null && ctx.addSentence) {
+        const consequence = node.childForFieldName('consequence') || node.childForFieldName('body');
+        const hasEarlyReturn = consequence?.text?.includes('return ') || consequence?.text?.includes('raise ');
+        if (hasEarlyReturn) {
+          // Check for containment pattern: 'literal' in var (Python), var.includes('literal')
+          let guardVar: string | null = null;
+          let guardToken: string | null = null;
+          // Python: comparison_operator with 'in' → left is string, right is identifier
+          if (condNode.type === 'comparison_operator' || condNode.type === 'not_operator') {
+            const inner = condNode.type === 'not_operator' ? condNode.namedChild(0) : condNode;
+            if (inner) {
+              const left = inner.namedChild(0);
+              const right = inner.namedChild(1);
+              const hasIn = inner.text?.includes(' in ') || inner.text?.includes(' not in ');
+              if (hasIn && left && right) {
+                // 'string' in var → left is string literal, right is identifier
+                if (left.type === 'string' && right.type === 'identifier') {
+                  guardVar = right.text;
+                  guardToken = left.text;
+                }
+                // var in 'string' or containment check (less common but valid)
+                if (right.type === 'string' && left.type === 'identifier') {
+                  guardVar = left.text;
+                  guardToken = right.text;
+                }
+              }
+            }
+          }
+          // Future: JS/Java guard detection via AST call_expression matching
+          // (not regex on condNode.text — that's hardcoding)
+          if (guardVar && guardToken) {
+            const lineNum = node.startPosition.row + 1;
+            const sentence = generateSentence('gate-conditional',
+              { condition: `${guardToken} in ${guardVar}`, gate_type: 'guard_return', subject: guardVar },
+              lineNum, '', 'SAFE' as SemanticSentence['taintClass']);
+            sentence.taintBasis = 'PHONEME_RESOLUTION';
+            ctx.addSentence(sentence);
+          }
+        }
+      }
     }
   }
 
