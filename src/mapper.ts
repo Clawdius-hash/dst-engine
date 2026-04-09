@@ -5,6 +5,7 @@ import { createNode, createNeuralMap, resetSequence } from './types.js';
 import type { LanguageProfile } from './languageProfile.js';
 import { javascriptProfile } from './profiles/javascript.js';
 import { resolveSentences } from './sentence-resolver.js';
+import { getTemplateKey, generateSentence } from './sentence-generator.js';
 
 const CALL_NODE_TYPES = new Set([
   'call_expression',
@@ -1057,10 +1058,63 @@ function walkWithScopes(node: SyntaxNode, ctx: MapperContext, profile: LanguageP
   const prevNodeId = isCallNode ? ctx.lastCreatedNodeId : null;
   if (isCallNode) ctx.diagnostics.totalCalls++;
 
+  const nodeCountBefore = ctx.neuralMap.nodes.length;
   profile.classifyNode(node, ctx);
 
   if (isCallNode && ctx.lastCreatedNodeId === prevNodeId) {
     ctx.diagnostics.unmappedCalls++;
+  }
+
+  // ── Generic sentence emission ─────────────────────────────────
+  // For nodes created by classifyNode that DON'T already have profile-emitted
+  // sentences, emit a default sentence based on nodeType/subtype.
+  // This gives every language V2 sentences without per-profile changes.
+  // Java's 14 specialized emission sites still take priority (they attach
+  // sentences to nodes before this runs).
+  if (ctx.addSentence) {
+    const newNodes = ctx.neuralMap.nodes.slice(nodeCountBefore);
+    for (const n of newNodes) {
+      if (n.sentences && n.sentences.length > 0) continue;
+      const templateKey = getTemplateKey(n.node_type, n.node_subtype);
+      if (templateKey === 'gate-conditional' || templateKey === 'iterates-over') continue;
+      // Don't emit sink templates generically — they trigger V2 authority.
+      // V2 verifiers need profile-quality sentences with proper variables slots.
+      // Generic sentences are for informational/taint-tracking purposes only.
+      // Sink detection stays with V1 until the profile emits proper sentences.
+      if (templateKey === 'executes-query' || templateKey === 'writes-response' || templateKey === 'accesses-path') continue;
+      const isTainted = n.data_out.some((d: any) => d.tainted) || n.node_type === 'INGRESS';
+      const taintClass: SemanticSentence['taintClass'] =
+        n.node_type === 'INGRESS' ? 'TAINTED' :
+        n.node_type === 'STORAGE' && (n.node_subtype === 'sql_query' || n.node_subtype === 'db_read' || n.node_subtype === 'db_write') ? 'SINK' :
+        isTainted ? 'TAINTED' : 'NEUTRAL';
+      const snap = n.code_snapshot || n.label || '';
+      const methodMatch = snap.match(/\.(\w+)\s*\(/);
+      const method = methodMatch?.[1] ?? n.node_subtype;
+      const objMatch = snap.match(/^(\w+(?:\.\w+)*)\.\w+\s*\(/);
+      const obj = objMatch?.[1] ?? '';
+      const argsMatch = snap.match(/\(([^)]*)\)/);
+      const args = argsMatch?.[1]?.slice(0, 60) ?? '';
+      let slots: Record<string, string>;
+      if (templateKey === 'retrieves-from-source') {
+        slots = { subject: n.label, data_type: 'user input', source: snap.slice(0, 60), context: `line ${n.line_start}` };
+      } else if (templateKey === 'executes-query') {
+        const varNames = args.replace(/"[^"]*"|'[^']*'/g, '').match(/\b[a-z_]\w*\b/gi) || [];
+        slots = { subject: obj || method, query_type: 'SQL', variables: varNames.join(', '), context: `line ${n.line_start}` };
+      } else if (templateKey === 'writes-response') {
+        const varNames = args.replace(/"[^"]*"|'[^']*'/g, '').match(/\b[a-z_]\w*\b/gi) || [];
+        slots = { subject: obj || n.label, method, object: obj, args, variables: varNames.filter(v => !v.match(/^[A-Z][A-Z_0-9]*$/)).join(', '), context: `line ${n.line_start}` };
+      } else if (templateKey === 'accesses-path') {
+        const varNames = args.replace(/"[^"]*"|'[^']*'/g, '').match(/\b[a-z_]\w*\b/gi) || [];
+        slots = { subject: n.label, variables: varNames.join(', '), context: `line ${n.line_start}` };
+      } else {
+        slots = { subject: obj || n.label, method, object: obj, args, context: `line ${n.line_start}` };
+      }
+      const sentence = generateSentence(templateKey, slots, n.line_start, n.id, taintClass);
+      sentence.taintBasis = 'PHONEME_RESOLUTION';
+      if (!n.sentences) n.sentences = [];
+      n.sentences.push(sentence);
+      ctx.addSentence(sentence);
+    }
   }
 
   const isIfNode = node.type === 'if_statement' || node.type === 'if_expression';
