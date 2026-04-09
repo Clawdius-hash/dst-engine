@@ -202,11 +202,23 @@ function verifyCWE89_sentences(map: NeuralMap): VerificationResult {
  * Property: All database queries use parameterized statements when handling user input
  */
 function verifyCWE89(map: NeuralMap): VerificationResult {
-  // V2: Sentence-based detection is authoritative ONLY when the story contains
-  // relevant sink sentences (executes-query). Languages without sentence emission
-  // (Python, Go, etc.) must fall through to V1.
+  // V2: Sentence-based detection — runs when the story contains executes-query.
+  // V2 is authoritative when the story is RICH enough to track taint chains
+  // (has assignment/concatenation sentences). When the story is sparse (only
+  // generic sink + INGRESS, no intermediate assignments), V2 can't reason about
+  // data flow and falls through to V1 for safety.
   if (map.story && map.story.some(s => s.templateKey === 'executes-query')) {
-    return verifyCWE89_sentences(map);
+    const v2 = verifyCWE89_sentences(map);
+    if (v2.findings.length > 0) return v2; // V2 proved vulnerability — trust it
+    // V2 found nothing. Trust it only if story tracks taint chains.
+    const storyTracksTaint = map.story.some(s =>
+      s.templateKey === 'assigned-from-call' ||
+      s.templateKey === 'string-concatenation' ||
+      s.templateKey === 'assigned-literal' ||
+      s.templateKey === 'parameter-binding'
+    );
+    if (storyTracksTaint) return v2; // Rich story — V2 authoritative (code is clean)
+    // Sparse story — fall through to V1
   }
   // V1: Legacy BFS + regex path (fallback when no story exists)
   const findings: Finding[] = [];
@@ -561,10 +573,19 @@ function verifyCWE79_sentences(map: NeuralMap): VerificationResult {
 }
 
 function verifyCWE79(map: NeuralMap): VerificationResult {
-  // V2: Sentence-based detection is authoritative ONLY when the story contains
-  // writes-response sentences. Languages without sentence emission fall through to V1.
+  // V2: Sentence-based detection — runs when the story contains writes-response.
+  // Same sparse-story fallback as CWE-89: V2 is authoritative only when the
+  // story has taint-chain sentences. Sparse stories fall through to V1.
   if (map.story && map.story.some(s => s.templateKey === 'writes-response')) {
-    return verifyCWE79_sentences(map);
+    const v2 = verifyCWE79_sentences(map);
+    if (v2.findings.length > 0) return v2;
+    const storyTracksTaint = map.story.some(s =>
+      s.templateKey === 'assigned-from-call' ||
+      s.templateKey === 'string-concatenation' ||
+      s.templateKey === 'assigned-literal' ||
+      s.templateKey === 'parameter-binding'
+    );
+    if (storyTracksTaint) return v2;
   }
   // V1: BFS + regex fallback (only when no story exists)
   const findings: Finding[] = [];

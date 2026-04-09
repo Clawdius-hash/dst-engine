@@ -1077,15 +1077,20 @@ function walkWithScopes(node: SyntaxNode, ctx: MapperContext, profile: LanguageP
       if (n.sentences && n.sentences.length > 0) continue;
       const templateKey = getTemplateKey(n.node_type, n.node_subtype);
       if (templateKey === 'gate-conditional' || templateKey === 'iterates-over') continue;
-      // Don't emit sink templates generically — they trigger V2 authority.
-      // V2 verifiers need profile-quality sentences with proper variables slots.
-      // Generic sentences are for informational/taint-tracking purposes only.
-      // Sink detection stays with V1 until the profile emits proper sentences.
-      if (templateKey === 'executes-query' || templateKey === 'writes-response' || templateKey === 'accesses-path') continue;
+      // Sink templates (executes-query, writes-response, accesses-path) ARE now
+      // emitted generically with variables slots extracted from args. This enables
+      // V2 detection for all languages. The V2 verifiers have a sparse-story fallback:
+      // if the story lacks taint-chain sentences (assigned-from-call, string-concatenation),
+      // V2 defers to V1 instead of producing false negatives.
+      // Java's 14 profile-emitted sentences still take priority (line 1077 skips nodes
+      // that already have sentences).
       const isTainted = n.data_out.some((d: any) => d.tainted) || n.node_type === 'INGRESS';
+      const isSinkNode =
+        (n.node_type === 'STORAGE' && /^(sql_query|db_read|db_write|db_stored_proc|file_write|file_access)$/.test(n.node_subtype)) ||
+        (n.node_type === 'EGRESS' && /^(http_response|redirect|file_write|file_serve)$/.test(n.node_subtype));
       const taintClass: SemanticSentence['taintClass'] =
         n.node_type === 'INGRESS' ? 'TAINTED' :
-        n.node_type === 'STORAGE' && (n.node_subtype === 'sql_query' || n.node_subtype === 'db_read' || n.node_subtype === 'db_write') ? 'SINK' :
+        isSinkNode ? 'SINK' :
         isTainted ? 'TAINTED' : 'NEUTRAL';
       const snap = n.code_snapshot || n.label || '';
       const methodMatch = snap.match(/\.(\w+)\s*\(/);
