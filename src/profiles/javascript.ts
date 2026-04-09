@@ -2565,6 +2565,16 @@ export const javascriptProfile: LanguageProfile = {
 
   // Utility predicates
   isValueFirstDeclaration: (nodeType: string) => nodeType === 'lexical_declaration' || nodeType === 'variable_declaration',
+  getDeclarationValueNode: (node) => {
+    // JS: lexical_declaration/variable_declaration → variable_declarator children → 'value' field
+    for (let i = 0; i < node.namedChildCount; i++) {
+      const child = node.namedChild(i);
+      if (child?.type === 'variable_declarator') {
+        return child.childForFieldName('value');
+      }
+    }
+    return null;
+  },
   isStatementContainer: (nodeType: string) => nodeType === 'program' || nodeType === 'statement_block',
 };
 

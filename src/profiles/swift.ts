@@ -1844,6 +1844,7 @@ export const swiftProfile: LanguageProfile = {
 
   // Utility predicates
   isValueFirstDeclaration: (nodeType: string) => nodeType === 'property_declaration',
+  getDeclarationValueNode: (node) => node.childForFieldName('value'),
   isStatementContainer: (nodeType: string) => nodeType === 'source_file' || nodeType === 'statements',
 
   // Swift function parameter pattern for inter-procedural taint

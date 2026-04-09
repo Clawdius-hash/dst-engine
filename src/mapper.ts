@@ -17,6 +17,54 @@ const CALL_NODE_TYPES = new Set([
   'scoped_call_expression',
 ]);
 
+const STRING_BUILDING_NODE_TYPES = new Set([
+  'binary_expression',     // JS, Java, Go, C#, Kotlin, Swift
+  'binary_operator',       // Python
+  'template_string',       // JS template literals
+  'template_literal_type', // TS template literals
+  'formatted_string',      // Python f-strings (tree-sitter-python < 0.23)
+  'concatenated_string',   // Python implicit concat "a" "b"
+  'encapsed_string',       // PHP "$var in string"
+  'interpolated_string_expression', // Kotlin "$var"
+  'string_template',       // Kotlin """..."""
+]);
+
+/** Check if an AST subtree contains a node of a given type set */
+function subtreeHas(node: SyntaxNode, types: Set<string>): SyntaxNode | null {
+  if (types.has(node.type)) return node;
+  for (let i = 0; i < node.childCount; i++) {
+    const found = subtreeHas(node.child(i)!, types);
+    if (found) return found;
+  }
+  return null;
+}
+
+/** Check if a node has interpolation children (f-strings, template literals, etc.) */
+function hasInterpolation(node: SyntaxNode): boolean {
+  if (node.type === 'interpolation' || node.type === 'template_substitution') return true;
+  for (let i = 0; i < node.childCount; i++) {
+    if (hasInterpolation(node.child(i)!)) return true;
+  }
+  return false;
+}
+
+/** Extract identifier names from a string-building expression for the parts slot */
+function extractConcatParts(node: SyntaxNode): string[] {
+  const parts: string[] = [];
+  function walk(n: SyntaxNode) {
+    if (n.type === 'identifier' || n.type === 'name') {
+      parts.push(n.text);
+    } else if (n.type === 'interpolation' || n.type === 'template_substitution') {
+      // Walk into interpolation to find the identifier
+      for (let i = 0; i < n.childCount; i++) walk(n.child(i)!);
+    } else if (STRING_BUILDING_NODE_TYPES.has(n.type) || n.type === 'string' || n.type === 'string_content') {
+      for (let i = 0; i < n.childCount; i++) walk(n.child(i)!);
+    }
+  }
+  walk(node);
+  return [...new Set(parts)];
+}
+
 export interface VariableInfo {
   name: string;
   declaringNodeId: string | null;
@@ -1045,11 +1093,86 @@ function walkWithScopes(node: SyntaxNode, ctx: MapperContext, profile: LanguageP
 
   if (profile.isValueFirstDeclaration(node.type)) {
     ctx.lastCreatedNodeId = null;
+    // Snapshot scope variables before processVariableDeclaration
+    const scopeVarsBefore = new Map<string, boolean>();
+    if (ctx.currentScope) {
+      for (const [name, info] of ctx.currentScope.variables) {
+        scopeVarsBefore.set(name, info.tainted);
+      }
+    }
     for (let i = 0; i < node.childCount; i++) {
       const child = node.child(i);
       if (child) walkWithScopes(child, ctx, profile);
     }
     profile.processVariableDeclaration(node, ctx);
+
+    // ── Assignment sentence emission (all languages) ──────────────────
+    // After processVariableDeclaration, check for new or taint-changed variables.
+    // Profiles CLASSIFY (what the variable is). Mapper EMITS (the sentence).
+    // Java profile already emits its own sentences — skip when getDeclarationValueNode
+    // is not defined (Java omits it).
+    if (ctx.addSentence && profile.getDeclarationValueNode && ctx.currentScope) {
+      const rhsNode = profile.getDeclarationValueNode(node);
+      for (const [name, info] of ctx.currentScope.variables) {
+        const wasBefore = scopeVarsBefore.has(name);
+        const taintChanged = wasBefore && scopeVarsBefore.get(name) !== info.tainted;
+        if (!wasBefore || taintChanged) {
+          // Dedup: skip if we already have a sentence for this variable at this line
+          const lineNum = node.startPosition.row + 1;
+          const alreadyEmitted = ctx.sentences.some(s =>
+            s.lineNumber === lineNum && s.slots.subject === name
+          );
+          if (alreadyEmitted) continue;
+
+          const taintClass: SemanticSentence['taintClass'] = info.tainted ? 'TAINTED' : 'NEUTRAL';
+
+          if (rhsNode) {
+            // Classify the RHS to pick the right template
+            const callNode = subtreeHas(rhsNode, CALL_NODE_TYPES);
+            const stringNode = subtreeHas(rhsNode, STRING_BUILDING_NODE_TYPES);
+            const isStringInterpolation = rhsNode.type === 'string' && hasInterpolation(rhsNode);
+            const isLiteral = /^(string|number|integer|float|true|false|null|none|nil|boolean)$/.test(rhsNode.type)
+              && !hasInterpolation(rhsNode);
+
+            if (isLiteral) {
+              const sentence = generateSentence('assigned-literal',
+                { subject: name, value: rhsNode.text.slice(0, 40), context: `line ${lineNum}` },
+                lineNum, info.producingNodeId || '', taintClass);
+              sentence.taintBasis = 'SCOPE_LOOKUP';
+              ctx.addSentence(sentence);
+            } else if (stringNode || isStringInterpolation) {
+              const parts = extractConcatParts(rhsNode);
+              const sentence = generateSentence('string-concatenation',
+                { subject: name, parts: parts.join(', '), context: `line ${lineNum}` },
+                lineNum, info.producingNodeId || '', taintClass);
+              sentence.taintBasis = 'PHONEME_RESOLUTION';
+              ctx.addSentence(sentence);
+            } else if (callNode) {
+              const methodMatch = callNode.text.match(/\.(\w+)\s*\(/);
+              const method = methodMatch?.[1] ?? callNode.text.match(/(\w+)\s*\(/)?.[1] ?? '';
+              const objMatch = callNode.text.match(/^(\w+(?:\.\w+)*)\.\w+\s*\(/);
+              const obj = objMatch?.[1] ?? '';
+              const argsMatch = callNode.text.match(/\(([^)]*)\)/);
+              const args = argsMatch?.[1]?.slice(0, 60) ?? '';
+              const sentence = generateSentence('assigned-from-call',
+                { subject: name, method, object: obj, args, context: `line ${lineNum}` },
+                lineNum, info.producingNodeId || '', taintClass);
+              sentence.taintBasis = 'PENDING';
+              ctx.addSentence(sentence);
+            } else {
+              // Conservative: something computed, treat as assigned-from-call
+              const snap = rhsNode.text.slice(0, 60);
+              const sentence = generateSentence('assigned-from-call',
+                { subject: name, method: '', object: '', args: snap, context: `line ${lineNum}` },
+                lineNum, info.producingNodeId || '', taintClass);
+              sentence.taintBasis = 'PHONEME_RESOLUTION';
+              ctx.addSentence(sentence);
+            }
+          }
+        }
+      }
+    }
+
     if (pushedScope) ctx.popScope();
     return;
   }
@@ -1113,6 +1236,20 @@ function walkWithScopes(node: SyntaxNode, ctx: MapperContext, profile: LanguageP
       if (templateKey === 'retrieves-from-source') {
         slots = { subject: assignedVarName || n.label, data_type: 'user input', source: snap.slice(0, 60), context: `line ${n.line_start}` };
       } else if (templateKey === 'executes-query') {
+        // Detect parameterized queries: SQL with ? or %s or $1 or :param placeholders
+        // The ? is inside a SQL string, so look for it in quoted context or as a general pattern
+        const sqlParam = /["'][^"']*(\?|%s|\$\d+|:\w+)[^"']*["']/.test(snap) ||
+          /\bprepare\w*\b/i.test(snap);
+        if (sqlParam) {
+          // Parameterized query — emit parameter-binding instead
+          slots = { subject: obj || method, variable: 'param', index: '?', context: `line ${n.line_start}` };
+          const sentence = generateSentence('parameter-binding', slots, n.line_start, n.id, 'SAFE' as SemanticSentence['taintClass']);
+          sentence.taintBasis = 'PHONEME_RESOLUTION';
+          if (!n.sentences) n.sentences = [];
+          n.sentences.push(sentence);
+          ctx.addSentence(sentence);
+          continue; // Don't also emit executes-query for parameterized queries
+        }
         const varNames = args.replace(/"[^"]*"|'[^']*'/g, '').match(/\b[a-z_]\w*\b/gi) || [];
         slots = { subject: obj || method, query_type: 'SQL', variables: varNames.join(', '), context: `line ${n.line_start}` };
       } else if (templateKey === 'writes-response') {

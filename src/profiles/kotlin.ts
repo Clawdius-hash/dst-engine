@@ -2323,6 +2323,16 @@ export const kotlinProfile: LanguageProfile = {
   // Utility predicates
   isValueFirstDeclaration: (nodeType: string) =>
     nodeType === 'property_declaration',
+  getDeclarationValueNode: (node) => {
+    // Kotlin: property_declaration → find expression after '=' token, skip type annotations
+    for (let i = 0; i < node.childCount; i++) {
+      const child = node.child(i);
+      if (child?.type === '=' && i + 1 < node.childCount) {
+        return node.child(i + 1);
+      }
+    }
+    return null;
+  },
   isStatementContainer: (nodeType: string) =>
     nodeType === 'source_file' || nodeType === 'block' || nodeType === 'class_body',
 

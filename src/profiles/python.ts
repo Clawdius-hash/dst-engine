@@ -2640,6 +2640,7 @@ export const pythonProfile: LanguageProfile = {
 
   // Utility predicates
   isValueFirstDeclaration: (nodeType: string) => nodeType === 'assignment' || nodeType === 'augmented_assignment',
+  getDeclarationValueNode: (node) => node.childForFieldName('right'),
   isStatementContainer: (nodeType: string) => nodeType === 'module' || nodeType === 'block',
 
   // Inter-procedural taint: Python def syntax

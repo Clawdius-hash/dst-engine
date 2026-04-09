@@ -73,6 +73,11 @@ export interface LanguageProfile {
 
   isValueFirstDeclaration: (nodeType: string) => boolean;
 
+  /** Return the RHS value node of a variable declaration. Used by the mapper
+   *  to emit assignment sentences generically for all languages.
+   *  Profiles that already emit their own assignment sentences (Java) can omit this. */
+  getDeclarationValueNode?: (node: SyntaxNode) => SyntaxNode | null;
+
   isStatementContainer: (nodeType: string) => boolean;
 
   functionParamPattern?: RegExp;

@@ -2183,6 +2183,16 @@ export const phpProfile: LanguageProfile = {
 
   // Utility predicates
   isValueFirstDeclaration: (nodeType: string) => nodeType === 'expression_statement',
+  getDeclarationValueNode: (node) => {
+    // PHP: expression_statement → assignment_expression/augmented_assignment_expression → 'right'
+    for (let i = 0; i < node.namedChildCount; i++) {
+      const child = node.namedChild(i);
+      if (child?.type === 'assignment_expression' || child?.type === 'augmented_assignment_expression') {
+        return child.childForFieldName('right');
+      }
+    }
+    return null;
+  },
   isStatementContainer: (nodeType: string) => nodeType === 'program' || nodeType === 'compound_statement' || nodeType === 'declaration_list',
 
   // Inter-procedural taint: PHP function syntax

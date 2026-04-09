@@ -2225,6 +2225,7 @@ export const rubyProfile: LanguageProfile = {
 
   // Utility predicates
   isValueFirstDeclaration: (nodeType: string) => nodeType === 'assignment' || nodeType === 'operator_assignment',
+  getDeclarationValueNode: (node) => node.childForFieldName('right'),
   isStatementContainer: (nodeType: string) => nodeType === 'program' || nodeType === 'body_statement' || nodeType === 'then' || nodeType === 'do',
 
   // Inter-procedural taint: Ruby def syntax

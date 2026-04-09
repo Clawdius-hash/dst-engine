@@ -1460,6 +1460,16 @@ export const goProfile: LanguageProfile = {
 
   // Utility predicates
   isValueFirstDeclaration: (nodeType: string) => nodeType === 'short_var_declaration' || nodeType === 'var_declaration',
+  getDeclarationValueNode: (node) => {
+    // short_var_declaration: x, err := expr → 'right' field
+    if (node.type === 'short_var_declaration') return node.childForFieldName('right');
+    // var_declaration: var x = expr → var_spec children → 'value' field
+    for (let i = 0; i < node.namedChildCount; i++) {
+      const child = node.namedChild(i);
+      if (child?.type === 'var_spec') return child.childForFieldName('value');
+    }
+    return null;
+  },
   isStatementContainer: (nodeType: string) => nodeType === 'source_file' || nodeType === 'block',
 
   // Inter-procedural taint: Go func syntax

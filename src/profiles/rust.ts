@@ -1813,6 +1813,7 @@ export const rustProfile: LanguageProfile = {
 
   // Utility predicates
   isValueFirstDeclaration: (nodeType: string) => nodeType === 'let_declaration',
+  getDeclarationValueNode: (node) => node.childForFieldName('value'),
   isStatementContainer: (nodeType: string) => nodeType === 'source_file' || nodeType === 'block',
 
   // Rust function parameter pattern for inter-procedural taint

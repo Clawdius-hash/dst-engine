@@ -2237,6 +2237,21 @@ export const csharpProfile: LanguageProfile = {
   // Utility predicates
   isValueFirstDeclaration: (nodeType: string) =>
     nodeType === 'local_declaration_statement' || nodeType === 'field_declaration',
+  getDeclarationValueNode: (node) => {
+    // C#: local_declaration_statement → variable_declaration → variable_declarator → initializer value
+    for (let i = 0; i < node.namedChildCount; i++) {
+      const child = node.namedChild(i);
+      if (child?.type === 'variable_declaration') {
+        for (let j = 0; j < child.namedChildCount; j++) {
+          const declarator = child.namedChild(j);
+          if (declarator?.type === 'variable_declarator') {
+            return declarator.childForFieldName('initializer') ?? declarator.childForFieldName('value');
+          }
+        }
+      }
+    }
+    return null;
+  },
   isStatementContainer: (nodeType: string) =>
     nodeType === 'compilation_unit' || nodeType === 'block' || nodeType === 'declaration_list',
 
