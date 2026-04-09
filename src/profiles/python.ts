@@ -1076,6 +1076,18 @@ function processVariableDeclaration(node: SyntaxNode, ctx: MapperContextLike): v
     }
   }
 
+  // Track numeric constant values for tryEvalCondition dead-branch elimination.
+  // If RHS is a numeric literal (e.g., num = 86), record numericValue so
+  // conditions like `if 7 * 42 - num > 200:` can be constant-folded.
+  const valueNode = node.childForFieldName('right');
+  if (valueNode && (valueNode.type === 'integer' || valueNode.type === 'float')) {
+    const numVal = valueNode.type === 'integer' ? parseInt(valueNode.text, 10) : parseFloat(valueNode.text);
+    if (!isNaN(numVal)) {
+      // We'll set numericValue on the VariableInfo after it's created below
+      (node as any)._numericValue = numVal;
+    }
+  }
+
   // Multi-hop taint propagation: if no producing node was found (the value
   // is a plain identifier like `b = a`), look up the source variable
   // and inherit its taint status and producing node.
@@ -1200,11 +1212,12 @@ function processVariableDeclaration(node: SyntaxNode, ctx: MapperContextLike): v
       }
     }
     ctx.declareVariable(varName, kind, null, newTainted, newProducing);
-    // Apply alias chain and constant value if detected
+    // Apply alias chain, constant value, and numeric value if detected
     const v = ctx.resolveVariable(varName);
     if (v) {
       if (aliasChain) v.aliasChain = aliasChain;
       if (constantValue) v.constantValue = constantValue;
+      if ((node as any)._numericValue !== undefined) v.numericValue = (node as any)._numericValue;
     }
   };
 
