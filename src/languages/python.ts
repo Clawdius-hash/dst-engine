@@ -95,6 +95,19 @@ const DIRECT_CALLS: Record<string, CalleePattern> = {
 
   // AUTH — FastAPI OAuth2 token extraction
   OAuth2PasswordBearer:   { nodeType: 'AUTH',        subtype: 'authenticate', tainted: false },
+
+  // ── Flask bare imports (from flask import X) ──────────────────────────────
+  // Real Flask apps use `from flask import render_template` not `flask.render_template`.
+  // These mirror the flask.* MEMBER_CALLS entries for bare-name resolution.
+  render_template:        { nodeType: 'EGRESS',     subtype: 'http_response',  tainted: false },
+  render_template_string: { nodeType: 'EXTERNAL',   subtype: 'template_exec',  tainted: false },
+  make_response:          { nodeType: 'EGRESS',     subtype: 'http_response',  tainted: false },
+  redirect:               { nodeType: 'EGRESS',     subtype: 'redirect',       tainted: false },
+  jsonify:                { nodeType: 'EGRESS',     subtype: 'http_response',  tainted: false },
+  abort:                  { nodeType: 'CONTROL',    subtype: 'guard',          tainted: false },
+  send_file:              { nodeType: 'EGRESS',     subtype: 'file_serve',     tainted: false },
+  send_from_directory:    { nodeType: 'EGRESS',     subtype: 'file_serve',     tainted: false },
+  url_for:                { nodeType: 'TRANSFORM',  subtype: 'format',         tainted: false },
 };
 
 // ── Member calls (object.method) ──────────────────────────────────────────
@@ -123,6 +136,9 @@ const MEMBER_CALLS: Record<string, CalleePattern> = {
   'request.host':             { nodeType: 'INGRESS', subtype: 'http_request', tainted: true },
   'request.remote_addr':      { nodeType: 'INGRESS', subtype: 'http_request', tainted: true },
   'request.content_type':     { nodeType: 'INGRESS', subtype: 'http_request', tainted: true },
+  'request.query_string':     { nodeType: 'INGRESS', subtype: 'http_request', tainted: true },
+  'request.stream':           { nodeType: 'INGRESS', subtype: 'http_request', tainted: true },
+  'request.referrer':         { nodeType: 'INGRESS', subtype: 'http_request', tainted: true },
 
   // ── Django request ──
   'request.POST':             { nodeType: 'INGRESS', subtype: 'http_request', tainted: true },
@@ -210,6 +226,9 @@ const MEMBER_CALLS: Record<string, CalleePattern> = {
   'root.findall':                     { nodeType: 'EXTERNAL', subtype: 'xpath_query',  tainted: false },
   'root.findtext':                    { nodeType: 'EXTERNAL', subtype: 'xpath_query',  tainted: false },
   'element.xpath':                    { nodeType: 'EXTERNAL', subtype: 'xpath_query',  tainted: false },
+  // elementpath.select: DEFERRED — adds 8 TPs but 29 FPs without V2 XPath verifier.
+  // Re-enable when CWE-643 V2 verifier is built.
+  // 'elementpath.select':               { nodeType: 'EXTERNAL', subtype: 'xpath_query',  tainted: false },
 
   // ── FastAPI WebSocket receive (persistent tainted input) ──
   'WebSocket.receive_text':   { nodeType: 'INGRESS', subtype: 'websocket_read', tainted: true },
@@ -526,6 +545,8 @@ const MEMBER_CALLS: Record<string, CalleePattern> = {
   'html.escape':              { nodeType: 'TRANSFORM', subtype: 'sanitize',  tainted: false },
   'html.unescape':            { nodeType: 'TRANSFORM', subtype: 'encode',    tainted: false },
   'markupsafe.escape':        { nodeType: 'TRANSFORM', subtype: 'sanitize',  tainted: false },
+  'flask.escape':             { nodeType: 'TRANSFORM', subtype: 'sanitize',  tainted: false },
+  'codecs.open':              { nodeType: 'INGRESS',   subtype: 'file_read', tainted: false },
   'markupsafe.Markup':        { nodeType: 'TRANSFORM', subtype: 'sanitize',  tainted: false },
   'bleach.clean':             { nodeType: 'TRANSFORM', subtype: 'sanitize',  tainted: false },
   'django.utils.safestring.mark_safe': { nodeType: 'TRANSFORM', subtype: 'sanitize', tainted: false },

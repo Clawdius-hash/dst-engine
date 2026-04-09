@@ -301,6 +301,7 @@ const TAINTED_PATHS: ReadonlySet<string> = new Set([
   'request.environ', 'request.url', 'request.path', 'request.method',
   'request.host', 'request.remote_addr', 'request.content_type',
   'request.get_json', 'request.get_data',
+  'request.query_string', 'request.stream', 'request.referrer',
   // Django
   'request.POST', 'request.GET', 'request.FILES', 'request.META',
   'request.COOKIES', 'request.body', 'request.content_params',
