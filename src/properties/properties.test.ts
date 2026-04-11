@@ -37,6 +37,13 @@ import { weakCrypto } from './weak-crypto.js';
 // Task 9: resource-lifecycle property
 import { resourceLifecycle } from './resource-lifecycle.js';
 
+// Task 10: integer-overflow property
+import { integerOverflow } from './integer-overflow.js';
+
+// Task 11: buffer-size property
+import { bufferSize } from './buffer-size.js';
+import { createRange } from '../types.js';
+
 describe('Property Engine', () => {
   beforeEach(() => {
     resetSequenceHard();
@@ -1291,6 +1298,192 @@ describe('Property Engine', () => {
       const result = resourceLifecycle.verify(map, ctx);
       expect(result.holds).toBe(false);
       expect(result.violations.length).toBeGreaterThanOrEqual(1);
+    });
+  });
+
+  // ==========================================================================
+  // Task 10: Integer-Overflow Property
+  // ==========================================================================
+  describe('integer-overflow property (Task 10)', () => {
+    const CTX: PropertyContext = {
+      language: 'javascript',
+      hasStory: false,
+      isLibrary: false,
+      pedantic: false,
+    };
+
+    beforeEach(() => resetSequenceHard());
+
+    it('detects unbounded tainted input in arithmetic', () => {
+      const map = createNeuralMap('test.js', '');
+      const node = createNode({
+        node_type: 'TRANSFORM', node_subtype: 'arithmetic',
+        label: 'add', code_snapshot: 'total = count + offset',
+        data_in: [{ name: 'count', source: 'src1', data_type: 'number', tainted: true, sensitivity: 'NONE' }],
+        edges: [],
+      });
+      map.nodes = [node];
+      const result = integerOverflow.verify(map, CTX);
+      expect(result.holds).toBe(false);
+      expect(result.violations.length).toBeGreaterThan(0);
+      expect(result.violations[0].missing).toBe('bounds_check');
+    });
+
+    it('holds when tainted input has bounded safe range', () => {
+      const map = createNeuralMap('test.js', '');
+      const node = createNode({
+        node_type: 'TRANSFORM', node_subtype: 'arithmetic',
+        label: 'add', code_snapshot: 'total = count + offset',
+        data_in: [{
+          name: 'count', source: 'src1', data_type: 'number', tainted: true, sensitivity: 'NONE',
+          range: { min: 0, max: 1000, bounded: true },
+        }],
+        edges: [],
+      });
+      map.nodes = [node];
+      const result = integerOverflow.verify(map, CTX);
+      expect(result.holds).toBe(true);
+    });
+
+    it('detects parseInt on tainted string without bounds', () => {
+      const map = createNeuralMap('test.js', '');
+      const node = createNode({
+        node_type: 'TRANSFORM', node_subtype: 'parse',
+        label: 'parseInt', code_snapshot: 'parseInt(userInput)',
+        data_in: [{ name: 'userInput', source: 'src1', data_type: 'string', tainted: true, sensitivity: 'NONE' }],
+        edges: [],
+      });
+      map.nodes = [node];
+      const result = integerOverflow.verify(map, CTX);
+      expect(result.holds).toBe(false);
+    });
+
+    it('holds when input is not tainted', () => {
+      const map = createNeuralMap('test.js', '');
+      const node = createNode({
+        node_type: 'TRANSFORM', node_subtype: 'arithmetic',
+        label: 'add', code_snapshot: 'total = CONSTANT + 5',
+        data_in: [{ name: 'CONSTANT', source: 'src1', data_type: 'number', tainted: false, sensitivity: 'NONE' }],
+        edges: [],
+      });
+      map.nodes = [node];
+      const result = integerOverflow.verify(map, CTX);
+      expect(result.holds).toBe(true);
+    });
+
+    it('CWE mappings present', () => {
+      expect(integerOverflow.cweMapping.some(m => m.cwe === 'CWE-190')).toBe(true);
+      expect(integerOverflow.cweMapping.some(m => m.cwe === 'CWE-191')).toBe(true);
+    });
+
+    it('is registered in PROPERTY_REGISTRY', () => {
+      const ids = PROPERTY_REGISTRY.map(p => p.id);
+      expect(ids).toContain('integer-overflow');
+    });
+  });
+
+  // ==========================================================================
+  // Task 11: Buffer-Size Property
+  // ==========================================================================
+  describe('buffer-size property', () => {
+    const CTX: PropertyContext = {
+      language: 'c',
+      hasStory: false,
+      isLibrary: false,
+      pedantic: false,
+    };
+
+    beforeEach(() => resetSequenceHard());
+
+    it('detects write exceeding buffer allocation (FreeBSD NFS class)', () => {
+      const map = createNeuralMap('test.c', '');
+      const writer = createNode({
+        node_type: 'EXTERNAL', node_subtype: 'system_exec',
+        label: 'memcpy', edges: [],
+      });
+      const buf = createNode({
+        node_type: 'STORAGE', node_subtype: 'buffer',
+        label: 'rpchdr[128]',
+        buffer_size: createRange(128, 128),
+        data_in: [{
+          name: 'credential_data', source: writer.id, data_type: 'bytes',
+          tainted: true, sensitivity: 'NONE',
+          write_size: createRange(0, 400),
+        }],
+        edges: [],
+      });
+      map.nodes = [writer, buf];
+      const result = bufferSize.verify(map, CTX);
+      expect(result.holds).toBe(false);
+      expect(result.violations.length).toBe(1);
+      expect(result.violations[0].description).toContain('400');
+      expect(result.violations[0].description).toContain('128');
+      expect(result.violations[0].context?.overflow).toBe('272');
+    });
+
+    it('holds when write fits within buffer', () => {
+      const map = createNeuralMap('test.c', '');
+      const writer = createNode({
+        node_type: 'EXTERNAL', node_subtype: 'system_exec',
+        label: 'memcpy', edges: [],
+      });
+      const buf = createNode({
+        node_type: 'STORAGE', node_subtype: 'buffer',
+        label: 'rpchdr[128]',
+        buffer_size: createRange(128, 128),
+        data_in: [{
+          name: 'data', source: writer.id, data_type: 'bytes',
+          tainted: true, sensitivity: 'NONE',
+          write_size: createRange(0, 96),
+        }],
+        edges: [],
+      });
+      map.nodes = [writer, buf];
+      const result = bufferSize.verify(map, CTX);
+      expect(result.holds).toBe(true);
+    });
+
+    it('skips nodes without buffer_size', () => {
+      const map = createNeuralMap('test.js', '');
+      const node = createNode({
+        node_type: 'STORAGE', node_subtype: 'sql_query',
+        label: 'db.query',
+        data_in: [{ name: 'q', source: 'src1', data_type: 'string', tainted: true, sensitivity: 'NONE' }],
+        edges: [],
+      });
+      map.nodes = [node];
+      const result = bufferSize.verify(map, CTX);
+      expect(result.holds).toBe(true);
+    });
+
+    it('detects Linux NFS class (112 bytes vs 1056)', () => {
+      const map = createNeuralMap('test.c', '');
+      const writer = createNode({ node_type: 'INGRESS', node_subtype: 'network', label: 'nfs_lock', edges: [] });
+      const buf = createNode({
+        node_type: 'STORAGE', node_subtype: 'buffer',
+        label: 'rp_ibuf[112]',
+        buffer_size: createRange(112, 112),
+        data_in: [{
+          name: 'lock_owner', source: writer.id, data_type: 'bytes',
+          tainted: true, sensitivity: 'NONE',
+          write_size: createRange(0, 1056),
+        }],
+        edges: [],
+      });
+      map.nodes = [writer, buf];
+      const result = bufferSize.verify(map, CTX);
+      expect(result.holds).toBe(false);
+      expect(result.violations[0].context?.overflow).toBe('944');
+    });
+
+    it('CWE mappings present', () => {
+      expect(bufferSize.cweMapping.some(m => m.cwe === 'CWE-119')).toBe(true);
+      expect(bufferSize.cweMapping.some(m => m.cwe === 'CWE-787')).toBe(true);
+    });
+
+    it('is registered in PROPERTY_REGISTRY', () => {
+      const ids = PROPERTY_REGISTRY.map(p => p.id);
+      expect(ids).toContain('buffer-size');
     });
   });
 });

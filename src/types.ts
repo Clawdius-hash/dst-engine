@@ -129,6 +129,8 @@ export interface DataFlow {
   tainted: boolean;
   sensitivity: Sensitivity;
   range?: RangeInfo;
+  /** Size of data being written — used by buffer overflow detection */
+  write_size?: RangeInfo;
 }
 
 export interface Edge {
@@ -154,6 +156,8 @@ export interface NeuralMapNode {
   param_names?: string[];
   callee_chain?: string[];
   algorithm_name?: string;
+  /** Buffer/allocation size interval — used by buffer overflow detection */
+  buffer_size?: RangeInfo;
   data_in: DataFlow[];
   data_out: DataFlow[];
   edges: Edge[];
@@ -228,6 +232,7 @@ export function createNode(partial: Partial<NeuralMapNode> & { node_type: NodeTy
     param_names: partial.param_names,
     callee_chain: partial.callee_chain,
     algorithm_name: partial.algorithm_name,
+    buffer_size: partial.buffer_size,
     data_in: partial.data_in ?? [],
     data_out: partial.data_out ?? [],
     edges: partial.edges ?? [],

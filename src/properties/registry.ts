@@ -12,6 +12,8 @@ import { missingAuth } from './missing-auth.js';
 import { sensitiveExposure } from './sensitive-exposure.js';
 import { weakCrypto } from './weak-crypto.js';
 import { resourceLifecycle } from './resource-lifecycle.js';
+import { integerOverflow } from './integer-overflow.js';
+import { bufferSize } from './buffer-size.js';
 
 // ---------------------------------------------------------------------------
 // Property Registry
@@ -27,4 +29,6 @@ export const PROPERTY_REGISTRY: SecurityProperty[] = [
   sensitiveExposure,
   weakCrypto,
   resourceLifecycle,
+  integerOverflow,
+  bufferSize,
 ];
