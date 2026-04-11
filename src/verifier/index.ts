@@ -16,6 +16,11 @@ import { verifyCWE336_B2, verifyCWE614_B2, verifyCWE759_B2, verifyCWE760_B2 } fr
 import { deduplicateResults, familyDedup } from '../dedup.js';
 import { filterCWEsForLanguage } from '../cwe-filter.js';
 
+// Property engine — runs semantic properties first, CWE verifiers fill remaining gaps
+import { runProperties, propertyResultsToFindings } from '../properties/index.js';
+import { PROPERTY_REGISTRY } from '../properties/index.js';
+import type { PropertyContext } from '../properties/index.js';
+
 // Extracted shared utilities
 import { stripLiterals, stripRegexLiterals, stripComments, escapeRegExp, wholeWord, detectDeadBranchNeutralization, detectStaticValueNeutralization, resolveMapKeyTaint, detectInterproceduralNeutralization90 } from './source-analysis.ts';
 import { FLOW_EDGE_TYPES, nodeRef, nodesOfType, inferMapLanguage, isLibraryCode, hasTaintedPathWithoutControl, hasPathWithoutControl, findContainingFunction, sharesFunctionScope } from './graph-helpers.ts';
@@ -538,6 +543,27 @@ export interface VerifyAllOptions {
  */
 export function verifyAll(map: NeuralMap, language?: string, options?: VerifyAllOptions): VerificationResult[] {
   const isLibrary = isLibraryCode(map);
+  const lang = language || inferMapLanguage(map) || 'javascript';
+
+  // ── PROPERTY ENGINE (runs first — semantic properties take precedence) ──
+  const propertyCtx: PropertyContext = {
+    language: lang,
+    hasStory: Array.isArray(map.story) && map.story.length > 0,
+    isLibrary,
+    pedantic: options?.pedanticMode ?? false,
+  };
+  const propertyResults = runProperties(map, propertyCtx);
+  const propertyFindings = propertyResultsToFindings(propertyResults);
+
+  // Collect CWEs actually found by the property engine.
+  // For any CWE where the property engine produced findings, the property
+  // result takes precedence — the CWE verifier for that CWE is skipped.
+  const propertyCoveredCWEs = new Set<string>();
+  for (const pf of propertyFindings) {
+    propertyCoveredCWEs.add(pf.cwe);
+  }
+
+  // ── CWE VERIFIERS (fill gaps — only CWEs NOT covered by properties) ────
   let cwes = Object.keys(CWE_REGISTRY);
 
   // Filter CWEs by language-platform overlap (MITRE-sourced, replaces WEB_LANGUAGES gate)
@@ -556,7 +582,13 @@ export function verifyAll(map: NeuralMap, language?: string, options?: VerifyAll
     cwes = cwes.filter(cwe => !CODE_QUALITY_CWES.has(cwe));
   }
 
-  const results = cwes.map(cwe => verify(map, cwe));
+  // Skip CWEs already covered by property engine
+  cwes = cwes.filter(cwe => !propertyCoveredCWEs.has(cwe));
+
+  const cweResults = cwes.map(cwe => verify(map, cwe));
+
+  // Merge: property findings first, then CWE verifier results
+  const results = [...propertyFindings, ...cweResults];
 
   // ── SECOND PASS: Evaluate controls on mediated paths ──────────────
   // When a path passes because a CONTROL mediates it, check whether

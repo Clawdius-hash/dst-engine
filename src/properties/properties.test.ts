@@ -22,6 +22,9 @@ import { taintReachability } from './taint-reachability.js';
 import { runProperties, propertyResultsToFindings } from './engine.js';
 import { PROPERTY_REGISTRY } from './index.js';
 
+// Task 5: verifyAll integration
+import { verifyAll } from '../verifier/index.js';
+
 describe('Property Engine', () => {
   beforeEach(() => {
     resetSequenceHard();
@@ -404,6 +407,33 @@ describe('Property Engine', () => {
       expect(PROPERTY_REGISTRY.length).toBeGreaterThanOrEqual(1);
       const ids = PROPERTY_REGISTRY.map(p => p.id);
       expect(ids).toContain('taint-reachability');
+    });
+  });
+
+  // ==========================================================================
+  // Task 5: Property engine integration with verifyAll
+  // ==========================================================================
+  describe('verifyAll integration (Task 5)', () => {
+    beforeEach(() => resetSequenceHard());
+
+    it('property-detected SQLi appears in verifyAll results', () => {
+      const map = createNeuralMap('test.js', '');
+      const src = createNode({
+        node_type: 'INGRESS', node_subtype: 'http_request', label: 'req.body',
+        data_in: [{ name: 'x', source: '', data_type: 'string', tainted: true, sensitivity: 'NONE' }],
+        edges: [{ target: 'sink1', edge_type: 'DATA_FLOW', conditional: false, async: false }],
+      });
+      const sink = createNode({
+        id: 'sink1', node_type: 'STORAGE', node_subtype: 'sql_query', label: 'db.query',
+        data_in: [{ name: 'q', source: src.id, data_type: 'string', tainted: true, sensitivity: 'NONE' }],
+        edges: [],
+      });
+      map.nodes = [src, sink];
+
+      const results = verifyAll(map, 'javascript');
+      const sqli = results.find(r => r.cwe === 'CWE-89' && !r.holds);
+      expect(sqli).toBeDefined();
+      expect(sqli!.findings.length).toBeGreaterThan(0);
     });
   });
 });
