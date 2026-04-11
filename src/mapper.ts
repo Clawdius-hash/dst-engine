@@ -217,6 +217,14 @@ export class MapperContext {
     if (!this.nodeById.has(fromNodeId)) this.nodeById.set(fromNodeId, fromNode);
     if (!this.nodeById.has(toNodeId)) this.nodeById.set(toNodeId, toNode);
 
+    // AUTO-BRIDGE: if no range provided, look up variable's range from scope
+    if (range === undefined && name) {
+      const varInfo = this.resolveVariable(name);
+      if (varInfo?.range) {
+        range = varInfo.range;
+      }
+    }
+
     const flow: {
       name: string; source: string; target: string;
       data_type: string; tainted: boolean; sensitivity: 'NONE';
