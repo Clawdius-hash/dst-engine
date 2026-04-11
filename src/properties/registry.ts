@@ -14,6 +14,7 @@ import { weakCrypto } from './weak-crypto.js';
 import { resourceLifecycle } from './resource-lifecycle.js';
 import { integerOverflow } from './integer-overflow.js';
 import { bufferSize } from './buffer-size.js';
+import { sentinelCollision } from './sentinel-collision.js';
 
 // ---------------------------------------------------------------------------
 // Property Registry
@@ -31,4 +32,5 @@ export const PROPERTY_REGISTRY: SecurityProperty[] = [
   resourceLifecycle,
   integerOverflow,
   bufferSize,
+  sentinelCollision,
 ];
