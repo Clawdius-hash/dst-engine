@@ -44,6 +44,9 @@ import { integerOverflow } from './integer-overflow.js';
 import { bufferSize } from './buffer-size.js';
 import { createRange } from '../types.js';
 
+// Task 12: sentinel-collision property
+import { sentinelCollision } from './sentinel-collision.js';
+
 describe('Property Engine', () => {
   beforeEach(() => {
     resetSequenceHard();
@@ -1484,6 +1487,115 @@ describe('Property Engine', () => {
     it('is registered in PROPERTY_REGISTRY', () => {
       const ids = PROPERTY_REGISTRY.map(p => p.id);
       expect(ids).toContain('buffer-size');
+    });
+  });
+
+  // ==========================================================================
+  // Task 12: Sentinel Collision Property
+  // ==========================================================================
+  describe('sentinel-collision property (Task 12)', () => {
+    const CTX: PropertyContext = {
+      language: 'javascript',
+      hasStory: false,
+      isLibrary: false,
+      pedantic: false,
+    };
+
+    beforeEach(() => resetSequenceHard());
+
+    it('detects variable range including sentinel -1', () => {
+      const map = createNeuralMap('test.js', '');
+      const producer = createNode({
+        node_type: 'TRANSFORM', node_subtype: 'arithmetic',
+        label: 'compute',
+        data_out: [{ name: 'result', source: '', data_type: 'number', tainted: true, sensitivity: 'NONE',
+          range: { min: -5, max: 100, bounded: true } }],
+        edges: [],
+      });
+      const control = createNode({
+        node_type: 'CONTROL', node_subtype: 'branch',
+        label: 'if (result == -1)',
+        code_snapshot: 'if (result == -1) { handleError(); }',
+        edges: [],
+      });
+      map.nodes = [producer, control];
+      const result = sentinelCollision.verify(map, CTX);
+      expect(result.holds).toBe(false);
+      expect(result.violations.length).toBe(1);
+      expect(result.violations[0].description).toContain('-1');
+    });
+
+    it('holds when range excludes sentinel', () => {
+      const map = createNeuralMap('test.js', '');
+      const producer = createNode({
+        node_type: 'TRANSFORM', node_subtype: 'arithmetic',
+        label: 'compute',
+        data_out: [{ name: 'result', source: '', data_type: 'number', tainted: true, sensitivity: 'NONE',
+          range: { min: 0, max: 100, bounded: true } }],
+        edges: [],
+      });
+      const control = createNode({
+        node_type: 'CONTROL', node_subtype: 'branch',
+        label: 'if (result == -1)',
+        code_snapshot: 'if (result == -1) { handleError(); }',
+        edges: [],
+      });
+      map.nodes = [producer, control];
+      const result = sentinelCollision.verify(map, CTX);
+      expect(result.holds).toBe(true);
+    });
+
+    it('detects 0xFFFF sentinel collision (FFmpeg-class)', () => {
+      const map = createNeuralMap('test.c', '');
+      const counter = createNode({
+        node_type: 'TRANSFORM', node_subtype: 'arithmetic',
+        label: 'slice_count++',
+        data_out: [{ name: 'slice_count', source: '', data_type: 'number', tainted: true, sensitivity: 'NONE',
+          range: { min: 0, max: 70000, bounded: true } }],
+        edges: [],
+      });
+      const check = createNode({
+        node_type: 'CONTROL', node_subtype: 'branch',
+        label: 'if (slice_count == 0xFFFF)',
+        code_snapshot: 'if (slice_count == 0xFFFF) { /* empty slot */ }',
+        edges: [],
+      });
+      map.nodes = [counter, check];
+      const result = sentinelCollision.verify(map, CTX);
+      expect(result.holds).toBe(false);
+      expect(result.violations[0].description).toContain('65535');
+    });
+
+    it('flags unbounded range as potential collision', () => {
+      // Unbounded range COULD include any sentinel, so this should flag
+      const map = createNeuralMap('test.js', '');
+      const producer = createNode({
+        node_type: 'TRANSFORM', node_subtype: 'arithmetic',
+        label: 'compute',
+        data_out: [{ name: 'idx', source: '', data_type: 'number', tainted: true, sensitivity: 'NONE' }],
+        // No range = unbounded
+        edges: [],
+      });
+      const control = createNode({
+        node_type: 'CONTROL', node_subtype: 'branch',
+        label: 'if (idx == -1)',
+        code_snapshot: 'if (idx == -1) { notFound(); }',
+        edges: [],
+      });
+      map.nodes = [producer, control];
+      const result = sentinelCollision.verify(map, CTX);
+      // Unbounded = could include anything = potential collision
+      expect(result.holds).toBe(false);
+    });
+
+    it('CWE mappings present', () => {
+      expect(sentinelCollision.cweMapping.some(m => m.cwe === 'CWE-138')).toBe(true);
+      expect(sentinelCollision.cweMapping.some(m => m.cwe === 'CWE-253')).toBe(true);
+    });
+
+    it('is registered in PROPERTY_REGISTRY', () => {
+      const ids = PROPERTY_REGISTRY.map(p => p.id);
+      expect(ids).toContain('sentinel-collision');
     });
   });
 });
