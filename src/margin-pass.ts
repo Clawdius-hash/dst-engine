@@ -217,5 +217,111 @@ export function runMarginPass(
     }
   }
 
+  // ── PARAMETER TAINT PROPAGATION ──────────────────────────────
+  // Second pass: for each import edge, if caller passes tainted args to an
+  // imported function, mark the function's contained nodes in the callee file
+  // as receiving tainted input.  This closes the gap where a callee file has
+  // no INGRESS of its own — e.g. Ghost CMS slugFilterOrder receives tainted
+  // filter via cross-file call but the callee map never knew about it.
+  //
+  // V1 over-approximation: if ANY argument at the call-site is tainted, ALL
+  // sink/transform nodes inside the callee function are marked tainted.
+  for (const file of order) {
+    const summary = fileSummaries.get(file);
+    if (!summary) continue;
+
+    const importEdges = depGraph.edges.filter(e => e.from === file);
+
+    for (const edge of importEdges) {
+      const importedNames = edge.importInfo.importedNames;
+      const depPath = edge.importInfo.resolvedPath ?? edge.to;
+      const depSummary = fileSummaries.get(depPath);
+      if (!depSummary) continue;
+
+      for (const funcName of importedNames) {
+        if (funcName === '*') continue;
+
+        // Find call-sites in the CALLER's map that invoke this function
+        const callSites = summary.map.nodes.filter(n =>
+          (n.code_snapshot || '').includes(funcName + '(') ||
+          (n.analysis_snapshot || '').includes(funcName + '(')
+        );
+
+        // Check if any call-site has tainted input
+        const hasTaintedArgs = callSites.some(cs =>
+          cs.data_in?.some(d => d.tainted) ||
+          cs.data_out?.some(d => d.tainted)
+        );
+
+        if (!hasTaintedArgs) continue;
+
+        // Find the function declaration in the CALLEE's map
+        const funcNodeId = depSummary.functionRegistry.get(funcName);
+        if (!funcNodeId) continue;
+
+        const funcNode = depSummary.map.nodes.find(n => n.id === funcNodeId);
+        if (!funcNode) continue;
+
+        // Mark nodes in the callee's map that are contained by this function
+        // and receive data, as having tainted input
+        let propagated = false;
+        for (const node of depSummary.map.nodes) {
+          // Skip the function declaration itself
+          if (node.id === funcNodeId) continue;
+
+          // Check if this node is "inside" the function:
+          // either via CONTAINS edge or by line range
+          const isContained = funcNode.edges.some(e =>
+            e.edge_type === 'CONTAINS' && e.target === node.id
+          ) || (
+            node.line_start >= funcNode.line_start &&
+            node.line_end <= funcNode.line_end
+          );
+
+          if (!isContained) continue;
+
+          // STORAGE, EXTERNAL, EGRESS — mark data_in as tainted
+          if (
+            node.node_type === 'STORAGE' ||
+            node.node_type === 'EXTERNAL' ||
+            node.node_type === 'EGRESS'
+          ) {
+            if (node.data_in.length > 0) {
+              for (const d of node.data_in) {
+                if (!d.tainted) {
+                  d.tainted = true;
+                  propagated = true;
+                }
+              }
+            } else {
+              node.data_in.push({
+                name: `cross_file_param_taint_via_${funcName}`,
+                source: 'EXTERNAL',
+                data_type: 'unknown',
+                tainted: true,
+                sensitivity: 'NONE',
+              });
+              propagated = true;
+            }
+          }
+
+          // TRANSFORM nodes that process parameters — mark data_in as tainted
+          if (node.node_type === 'TRANSFORM' && node.data_in.length > 0) {
+            for (const d of node.data_in) {
+              if (!d.tainted) {
+                d.tainted = true;
+                propagated = true;
+              }
+            }
+          }
+        }
+
+        if (propagated) {
+          dirty.add(depPath);
+        }
+      }
+    }
+  }
+
   return dirty;
 }

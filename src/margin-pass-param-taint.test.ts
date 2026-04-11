@@ -1,0 +1,291 @@
+import { describe, it, expect, beforeEach } from 'vitest';
+import { createNode, createNeuralMap, resetSequenceHard } from './types.js';
+import { runMarginPass, FileSummary } from './margin-pass.js';
+import type { DependencyGraph } from './cross-file.js';
+
+describe('Cross-file parameter taint propagation', () => {
+  beforeEach(() => resetSequenceHard());
+
+  it('marks callee sink as tainted when caller passes tainted arg', () => {
+    // FILE A (caller): has INGRESS, calls slugFilterOrder with tainted data
+    const mapA = createNeuralMap('routes.js', '');
+    const ingress = createNode({
+      node_type: 'INGRESS', node_subtype: 'http_request',
+      label: 'req.query.filter',
+      data_out: [{ name: 'filter', source: '', data_type: 'string', tainted: true, sensitivity: 'NONE' }],
+      edges: [],
+    });
+    const callSite = createNode({
+      node_type: 'TRANSFORM', node_subtype: 'local_call',
+      label: 'slugFilterOrder(table, filter)',
+      code_snapshot: "slugFilterOrder('posts', frame.options.filter)",
+      analysis_snapshot: "slugFilterOrder('posts', frame.options.filter)",
+      data_in: [{ name: 'filter', source: ingress.id, data_type: 'string', tainted: true, sensitivity: 'NONE' }],
+      edges: [],
+    });
+    mapA.nodes = [ingress, callSite];
+
+    // FILE B (callee): slugFilterOrder function with SQL sink, NO INGRESS
+    const mapB = createNeuralMap('slug-filter-order.js', '');
+    const funcDecl = createNode({
+      node_type: 'STRUCTURAL', node_subtype: 'function',
+      label: 'slugFilterOrder',
+      param_names: ['table', 'filter'],
+      line_start: 1, line_end: 18,
+      code_snapshot: 'const slugFilterOrder = (table, filter) => {',
+      edges: [
+        { target: 'sink_sql', edge_type: 'CONTAINS', conditional: false, async: false },
+      ],
+    });
+    const sqlSink = createNode({
+      id: 'sink_sql',
+      node_type: 'STORAGE', node_subtype: 'sql_query',
+      label: 'order += WHEN slug = filter',
+      line_start: 9, line_end: 9,
+      code_snapshot: "order += `WHEN \\`${table}\\`.\\`slug\\` = '${slug}' THEN ${index} `",
+      data_in: [],
+      edges: [],
+    });
+    mapB.nodes = [funcDecl, sqlSink];
+
+    // FileSummaries
+    const summaries = new Map<string, FileSummary>();
+    summaries.set('routes.js', {
+      map: mapA,
+      functionReturnTaint: new Map(),
+      functionRegistry: new Map(),
+    });
+    summaries.set('slug-filter-order.js', {
+      map: mapB,
+      functionReturnTaint: new Map(),
+      functionRegistry: new Map([['slugFilterOrder', funcDecl.id]]),
+    });
+
+    // Dependency graph: routes.js imports slugFilterOrder from slug-filter-order.js
+    const depGraph: DependencyGraph = {
+      files: ['routes.js', 'slug-filter-order.js'],
+      edges: [{
+        from: 'routes.js',
+        to: 'slug-filter-order.js',
+        importInfo: {
+          specifier: './utils/slug-filter-order',
+          resolvedPath: 'slug-filter-order.js',
+          importedNames: ['slugFilterOrder'],
+          localName: 'slugFilterOrder',
+          line: 1,
+        },
+      }],
+      importsOf: new Map([['routes.js', ['slug-filter-order.js']]]),
+      importedBy: new Map([['slug-filter-order.js', ['routes.js']]]),
+    };
+
+    // Run margin pass
+    const dirtyFiles = runMarginPass(summaries, depGraph);
+
+    // slug-filter-order.js should be dirty (parameter taint propagated)
+    expect(dirtyFiles.has('slug-filter-order.js')).toBe(true);
+
+    // The SQL sink in file B should now have tainted data_in
+    const sink = mapB.nodes.find(n => n.node_subtype === 'sql_query');
+    expect(sink).toBeDefined();
+    expect(sink!.data_in.some(d => d.tainted)).toBe(true);
+  });
+
+  it('does NOT propagate when caller args are clean', () => {
+    const mapA = createNeuralMap('routes.js', '');
+    const cleanCall = createNode({
+      node_type: 'TRANSFORM', node_subtype: 'local_call',
+      label: 'slugFilterOrder(table, hardcodedValue)',
+      code_snapshot: "slugFilterOrder('posts', 'safe-slug')",
+      data_in: [{ name: 'safe', source: 'lit1', data_type: 'string', tainted: false, sensitivity: 'NONE' }],
+      edges: [],
+    });
+    mapA.nodes = [cleanCall];
+
+    const mapB = createNeuralMap('slug-filter-order.js', '');
+    const funcDecl = createNode({
+      node_type: 'STRUCTURAL', node_subtype: 'function',
+      label: 'slugFilterOrder',
+      param_names: ['table', 'filter'],
+      line_start: 1, line_end: 18,
+      edges: [{ target: 'sink_sql', edge_type: 'CONTAINS', conditional: false, async: false }],
+    });
+    const sqlSink = createNode({
+      id: 'sink_sql',
+      node_type: 'STORAGE', node_subtype: 'sql_query',
+      label: 'SQL query', data_in: [], edges: [],
+      line_start: 9, line_end: 9,
+    });
+    mapB.nodes = [funcDecl, sqlSink];
+
+    const summaries = new Map<string, FileSummary>();
+    summaries.set('routes.js', { map: mapA, functionReturnTaint: new Map(), functionRegistry: new Map() });
+    summaries.set('slug-filter-order.js', { map: mapB, functionReturnTaint: new Map(), functionRegistry: new Map([['slugFilterOrder', funcDecl.id]]) });
+
+    const depGraph: DependencyGraph = {
+      files: ['routes.js', 'slug-filter-order.js'],
+      edges: [{ from: 'routes.js', to: 'slug-filter-order.js', importInfo: { specifier: './slug-filter-order', resolvedPath: 'slug-filter-order.js', importedNames: ['slugFilterOrder'], localName: 'slugFilterOrder', line: 1 } }],
+      importsOf: new Map([['routes.js', ['slug-filter-order.js']]]),
+      importedBy: new Map([['slug-filter-order.js', ['routes.js']]]),
+    };
+
+    const dirtyFiles = runMarginPass(summaries, depGraph);
+
+    // Should NOT be dirty -- no tainted args
+    expect(dirtyFiles.has('slug-filter-order.js')).toBe(false);
+    const sink = mapB.nodes.find(n => n.node_subtype === 'sql_query');
+    expect(sink!.data_in.some(d => d.tainted)).toBe(false);
+  });
+
+  it('propagates taint to TRANSFORM nodes inside callee function', () => {
+    const mapA = createNeuralMap('caller.js', '');
+    const callSite = createNode({
+      node_type: 'TRANSFORM', node_subtype: 'local_call',
+      label: 'processInput(userInput)',
+      code_snapshot: 'processInput(req.body.input)',
+      data_in: [{ name: 'input', source: 'ingress1', data_type: 'string', tainted: true, sensitivity: 'NONE' }],
+      edges: [],
+    });
+    mapA.nodes = [callSite];
+
+    const mapB = createNeuralMap('processor.js', '');
+    const funcDecl = createNode({
+      node_type: 'STRUCTURAL', node_subtype: 'function',
+      label: 'processInput',
+      param_names: ['input'],
+      line_start: 1, line_end: 10,
+      edges: [
+        { target: 'transform1', edge_type: 'CONTAINS', conditional: false, async: false },
+      ],
+    });
+    const transform = createNode({
+      id: 'transform1',
+      node_type: 'TRANSFORM', node_subtype: 'string_concat',
+      label: 'query = "SELECT * FROM " + input',
+      line_start: 3, line_end: 3,
+      data_in: [{ name: 'input', source: 'param', data_type: 'string', tainted: false, sensitivity: 'NONE' }],
+      edges: [],
+    });
+    mapB.nodes = [funcDecl, transform];
+
+    const summaries = new Map<string, FileSummary>();
+    summaries.set('caller.js', { map: mapA, functionReturnTaint: new Map(), functionRegistry: new Map() });
+    summaries.set('processor.js', { map: mapB, functionReturnTaint: new Map(), functionRegistry: new Map([['processInput', funcDecl.id]]) });
+
+    const depGraph: DependencyGraph = {
+      files: ['caller.js', 'processor.js'],
+      edges: [{ from: 'caller.js', to: 'processor.js', importInfo: { specifier: './processor', resolvedPath: 'processor.js', importedNames: ['processInput'], localName: 'processInput', line: 1 } }],
+      importsOf: new Map([['caller.js', ['processor.js']]]),
+      importedBy: new Map([['processor.js', ['caller.js']]]),
+    };
+
+    const dirtyFiles = runMarginPass(summaries, depGraph);
+
+    expect(dirtyFiles.has('processor.js')).toBe(true);
+    expect(transform.data_in.some(d => d.tainted)).toBe(true);
+  });
+
+  it('propagates taint to EGRESS nodes inside callee function', () => {
+    const mapA = createNeuralMap('caller.js', '');
+    const callSite = createNode({
+      node_type: 'TRANSFORM', node_subtype: 'local_call',
+      label: 'sendData(userInput)',
+      code_snapshot: 'sendData(req.body.data)',
+      data_in: [{ name: 'data', source: 'ingress1', data_type: 'string', tainted: true, sensitivity: 'NONE' }],
+      edges: [],
+    });
+    mapA.nodes = [callSite];
+
+    const mapB = createNeuralMap('sender.js', '');
+    const funcDecl = createNode({
+      node_type: 'STRUCTURAL', node_subtype: 'function',
+      label: 'sendData',
+      param_names: ['data'],
+      line_start: 1, line_end: 10,
+      edges: [
+        { target: 'egress1', edge_type: 'CONTAINS', conditional: false, async: false },
+      ],
+    });
+    const egress = createNode({
+      id: 'egress1',
+      node_type: 'EGRESS', node_subtype: 'http_response',
+      label: 'res.send(data)',
+      line_start: 5, line_end: 5,
+      data_in: [{ name: 'data', source: 'param', data_type: 'string', tainted: false, sensitivity: 'NONE' }],
+      edges: [],
+    });
+    mapB.nodes = [funcDecl, egress];
+
+    const summaries = new Map<string, FileSummary>();
+    summaries.set('caller.js', { map: mapA, functionReturnTaint: new Map(), functionRegistry: new Map() });
+    summaries.set('sender.js', { map: mapB, functionReturnTaint: new Map(), functionRegistry: new Map([['sendData', funcDecl.id]]) });
+
+    const depGraph: DependencyGraph = {
+      files: ['caller.js', 'sender.js'],
+      edges: [{ from: 'caller.js', to: 'sender.js', importInfo: { specifier: './sender', resolvedPath: 'sender.js', importedNames: ['sendData'], localName: 'sendData', line: 1 } }],
+      importsOf: new Map([['caller.js', ['sender.js']]]),
+      importedBy: new Map([['sender.js', ['caller.js']]]),
+    };
+
+    const dirtyFiles = runMarginPass(summaries, depGraph);
+
+    expect(dirtyFiles.has('sender.js')).toBe(true);
+    expect(egress.data_in.some(d => d.tainted)).toBe(true);
+  });
+
+  it('does not taint nodes outside the function line range', () => {
+    const mapA = createNeuralMap('caller.js', '');
+    const callSite = createNode({
+      node_type: 'TRANSFORM', node_subtype: 'local_call',
+      label: 'targetFunc(taintedInput)',
+      code_snapshot: 'targetFunc(req.body.x)',
+      data_in: [{ name: 'x', source: 'ingress1', data_type: 'string', tainted: true, sensitivity: 'NONE' }],
+      edges: [],
+    });
+    mapA.nodes = [callSite];
+
+    const mapB = createNeuralMap('target.js', '');
+    const funcDecl = createNode({
+      node_type: 'STRUCTURAL', node_subtype: 'function',
+      label: 'targetFunc',
+      param_names: ['x'],
+      line_start: 10, line_end: 20,
+      edges: [],
+    });
+    // Node INSIDE function range
+    const insideSink = createNode({
+      node_type: 'STORAGE', node_subtype: 'sql_query',
+      label: 'inside query',
+      line_start: 15, line_end: 15,
+      data_in: [{ name: 'x', source: 'param', data_type: 'string', tainted: false, sensitivity: 'NONE' }],
+      edges: [],
+    });
+    // Node OUTSIDE function range
+    const outsideSink = createNode({
+      node_type: 'STORAGE', node_subtype: 'sql_query',
+      label: 'outside query',
+      line_start: 30, line_end: 30,
+      data_in: [{ name: 'y', source: 'other', data_type: 'string', tainted: false, sensitivity: 'NONE' }],
+      edges: [],
+    });
+    mapB.nodes = [funcDecl, insideSink, outsideSink];
+
+    const summaries = new Map<string, FileSummary>();
+    summaries.set('caller.js', { map: mapA, functionReturnTaint: new Map(), functionRegistry: new Map() });
+    summaries.set('target.js', { map: mapB, functionReturnTaint: new Map(), functionRegistry: new Map([['targetFunc', funcDecl.id]]) });
+
+    const depGraph: DependencyGraph = {
+      files: ['caller.js', 'target.js'],
+      edges: [{ from: 'caller.js', to: 'target.js', importInfo: { specifier: './target', resolvedPath: 'target.js', importedNames: ['targetFunc'], localName: 'targetFunc', line: 1 } }],
+      importsOf: new Map([['caller.js', ['target.js']]]),
+      importedBy: new Map([['target.js', ['caller.js']]]),
+    };
+
+    runMarginPass(summaries, depGraph);
+
+    // Inside sink should be tainted
+    expect(insideSink.data_in.some(d => d.tainted)).toBe(true);
+    // Outside sink should NOT be tainted
+    expect(outsideSink.data_in.some(d => d.tainted)).toBe(false);
+  });
+});
