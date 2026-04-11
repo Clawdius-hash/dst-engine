@@ -30,6 +30,7 @@ export interface FileSummary {
   map: NeuralMap;
   functionReturnTaint: Map<string, boolean>;
   functionRegistry: Map<string, string>;
+  functionSinkContext?: Map<string, Set<string>>;
 }
 
 /**
@@ -351,6 +352,64 @@ export function runMarginPass(
 
         if (propagated) {
           dirty.add(depPath);
+        }
+      }
+    }
+  }
+
+  // ── PASS 3: SINK-CONTEXT CATALOGING ─────────────────────────────
+  // For each file (reverse topo order — sinks before callers), find which
+  // functions contain dangerous sink nodes (STORAGE, EXTERNAL, EGRESS).
+  // Tag each function with the set of sink subtypes it contains.
+  // Later passes will propagate this backward through import edges.
+  const backwardOrder = [...order].reverse();
+
+  for (const file of backwardOrder) {
+    const summary = fileSummaries.get(file);
+    if (!summary) continue;
+
+    // Find sink nodes in this file
+    const sinkNodes = summary.map.nodes.filter(n =>
+      n.node_type === 'STORAGE' ||
+      n.node_type === 'EXTERNAL' ||
+      n.node_type === 'EGRESS'
+    );
+
+    if (sinkNodes.length === 0) continue;
+
+    // Initialize functionSinkContext if needed
+    if (!summary.functionSinkContext) {
+      summary.functionSinkContext = new Map();
+    }
+
+    // Check each function in the registry
+    for (const [, funcNodeId] of summary.functionRegistry) {
+      const funcNode = summary.map.nodes.find(n => n.id === funcNodeId);
+      if (!funcNode) continue;
+
+      for (const sink of sinkNodes) {
+        // Skip the function node itself
+        if (sink.id === funcNodeId) continue;
+
+        // Check containment: CONTAINS edge or line range
+        const isContained = funcNode.edges.some(e =>
+          e.edge_type === 'CONTAINS' && e.target === sink.id
+        ) || (
+          funcNode.line_end > 0 &&
+          sink.line_start >= funcNode.line_start &&
+          sink.line_end <= funcNode.line_end
+        );
+
+        if (!isContained) continue;
+
+        // Tag this function with the sink's subtype
+        let subtypes = summary.functionSinkContext.get(funcNodeId);
+        if (!subtypes) {
+          subtypes = new Set<string>();
+          summary.functionSinkContext.set(funcNodeId, subtypes);
+        }
+        if (sink.node_subtype) {
+          subtypes.add(sink.node_subtype);
         }
       }
     }

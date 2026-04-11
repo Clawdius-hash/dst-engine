@@ -160,6 +160,7 @@ interface FileSummary {
   map: NeuralMap;
   functionReturnTaint: Map<string, boolean>;
   functionRegistry: Map<string, string>;
+  functionSinkContext?: Map<string, Set<string>>;
 }
 
 async function analyzeWithRealMapper(source: string, filename: string): Promise<FileSummary> {

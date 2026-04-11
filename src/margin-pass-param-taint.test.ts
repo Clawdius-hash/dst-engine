@@ -289,3 +289,97 @@ describe('Cross-file parameter taint propagation', () => {
     expect(outsideSink.data_in.some(d => d.tainted)).toBe(false);
   });
 });
+
+describe('Sink-context cataloging', () => {
+  beforeEach(() => resetSequenceHard());
+
+  it('tags function containing STORAGE/sql_query sink with sql_query in functionSinkContext', () => {
+    const map = createNeuralMap('db-utils.js', '');
+    const funcDecl = createNode({
+      node_type: 'STRUCTURAL', node_subtype: 'function',
+      label: 'runQuery',
+      param_names: ['sql'],
+      line_start: 1, line_end: 10,
+      edges: [
+        { target: 'sink_sql', edge_type: 'CONTAINS', conditional: false, async: false },
+      ],
+    });
+    const sqlSink = createNode({
+      id: 'sink_sql',
+      node_type: 'STORAGE', node_subtype: 'sql_query',
+      label: 'db.query(sql)',
+      line_start: 5, line_end: 5,
+      data_in: [{ name: 'sql', source: 'param', data_type: 'string', tainted: false, sensitivity: 'NONE' }],
+      edges: [],
+    });
+    map.nodes = [funcDecl, sqlSink];
+
+    const summaries = new Map<string, FileSummary>();
+    summaries.set('db-utils.js', {
+      map,
+      functionReturnTaint: new Map(),
+      functionRegistry: new Map([['runQuery', funcDecl.id]]),
+    });
+
+    // Minimal dep graph — single file, no edges needed for PASS 3
+    const depGraph: DependencyGraph = {
+      files: ['db-utils.js'],
+      edges: [],
+      importsOf: new Map(),
+      importedBy: new Map(),
+    };
+
+    runMarginPass(summaries, depGraph);
+
+    const summary = summaries.get('db-utils.js')!;
+    expect(summary.functionSinkContext).toBeDefined();
+    expect(summary.functionSinkContext!.has(funcDecl.id)).toBe(true);
+    expect(summary.functionSinkContext!.get(funcDecl.id)!.has('sql_query')).toBe(true);
+  });
+
+  it('does NOT tag function containing only TRANSFORM nodes', () => {
+    const map = createNeuralMap('utils.js', '');
+    const funcDecl = createNode({
+      node_type: 'STRUCTURAL', node_subtype: 'function',
+      label: 'formatString',
+      param_names: ['input'],
+      line_start: 1, line_end: 8,
+      edges: [
+        { target: 'transform1', edge_type: 'CONTAINS', conditional: false, async: false },
+      ],
+    });
+    const transformNode = createNode({
+      id: 'transform1',
+      node_type: 'TRANSFORM', node_subtype: 'string_concat',
+      label: 'result = prefix + input',
+      line_start: 3, line_end: 3,
+      data_in: [{ name: 'input', source: 'param', data_type: 'string', tainted: false, sensitivity: 'NONE' }],
+      edges: [],
+    });
+    map.nodes = [funcDecl, transformNode];
+
+    const summaries = new Map<string, FileSummary>();
+    summaries.set('utils.js', {
+      map,
+      functionReturnTaint: new Map(),
+      functionRegistry: new Map([['formatString', funcDecl.id]]),
+    });
+
+    const depGraph: DependencyGraph = {
+      files: ['utils.js'],
+      edges: [],
+      importsOf: new Map(),
+      importedBy: new Map(),
+    };
+
+    runMarginPass(summaries, depGraph);
+
+    const summary = summaries.get('utils.js')!;
+    // functionSinkContext may be undefined or may exist but NOT contain this function
+    const ctx = summary.functionSinkContext;
+    if (ctx) {
+      expect(ctx.has(funcDecl.id)).toBe(false);
+    }
+    // If ctx is undefined, that also means no sinks were cataloged — pass
+  });
+});
