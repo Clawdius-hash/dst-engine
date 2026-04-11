@@ -24,9 +24,11 @@
 
 ## REAL BLOCKERS
 
-- [ ] **Proof generation on cross-file findings** — Cross-file taint produces findings but `generateProof` isn't called on them. DST already has the payload system (`payload-gen.ts`), the delivery specs, the oracles. The tainted path from `frame.options.filter` through string concat into SQL CASE is visible. Just call `generateProof` on cross-file re-verified findings and let the proof BE the classification. A payload of `' UNION SELECT 'DST_CANARY_SQLI' --` in the slug parameter that produces a canary in the query output IS the proof it's SQL injection. No CWE label needed — the proof speaks.
+- [x] **Proof generation on cross-file findings** — Backward sink-context propagation in margin pass PASS 3 + content-aware fallback in payload-gen.ts. `generateProof` now accepts `sinkContext`, resolves payload class for cross-file findings where CWE and sink subtype alone don't match. Proof-based CWE reclassification overrides CWE label when proof demonstrates a different vulnerability class. The proof IS the classification.
 
-- [ ] **Cross-file proof delivery spec** — The delivery spec needs to trace back from the callee's sink through the caller's INGRESS to determine the HTTP method/path/parameter. Currently delivery specs are single-file. Extend to follow the cross-file taint chain back to the original INGRESS node for accurate `http.path`, `http.param` fields.
+- [x] **Cross-file proof delivery spec** — `enrichWithProofs` accepts `fileSummaries`, aggregates sink-context across all file summaries, passes to `generateProof`. Sink context flows from caller (with sinks) to its dependencies (the files it imports from) via reverse topo order in PASS 3.
+
+- [ ] **Cross-file delivery spec HTTP traceback** — The delivery spec can now identify the vulnerability class via sink-context, but still needs to trace back from the callee's `framework_handler` INGRESS to the caller's real HTTP INGRESS for accurate `http.path`, `http.param` fields. Next priority.
 
 ## PROPERTIES TO BUILD (not blockers — future capability)
 
