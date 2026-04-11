@@ -357,15 +357,23 @@ export function runMarginPass(
     }
   }
 
-  // ── PASS 3: SINK-CONTEXT CATALOGING ─────────────────────────────
-  // For each file (reverse topo order — sinks before callers), find which
-  // functions contain dangerous sink nodes (STORAGE, EXTERNAL, EGRESS).
-  // Tag each function with the set of sink subtypes it contains.
-  // Then propagate sink context backward through import edges so that
-  // importers inherit the sink context of the functions they import.
-  const backwardOrder = [...order].reverse();
+  // ── PASS 3: SINK-CONTEXT PROPAGATION ─────────────────────────────
+  // Two steps:
+  //   3.1-3.2: Catalog which functions directly CONTAIN sinks (any order).
+  //   3.3: Push sink context to DEPENDENCIES — if this file has sinks and
+  //        imports functions from other files, those imported functions'
+  //        output feeds this file's sinks. Tag them.
+  //
+  // Reverse topo order (callers/roots first): when A imports from B and
+  // B imports from C, A is processed first (pushes to B), then B (pushes
+  // to C). Multi-hop propagation works naturally.
+  //
+  // V1 over-approximation: if ANY function in this file contains sinks
+  // AND this file imports functions, ALL imported functions get tagged
+  // with ALL this file's sink types. Matches PASS 2's V1 approach.
+  const sinkPropOrder = [...order].reverse();
 
-  for (const file of backwardOrder) {
+  for (const file of sinkPropOrder) {
     const summary = fileSummaries.get(file);
     if (!summary) continue;
 
@@ -377,21 +385,17 @@ export function runMarginPass(
     );
 
     if (sinkNodes.length > 0) {
-      // Initialize functionSinkContext if needed
       if (!summary.functionSinkContext) {
         summary.functionSinkContext = new Map();
       }
 
-      // Check each function in the registry
       for (const [, funcNodeId] of summary.functionRegistry) {
         const funcNode = summary.map.nodes.find(n => n.id === funcNodeId);
         if (!funcNode) continue;
 
         for (const sink of sinkNodes) {
-          // Skip the function node itself
           if (sink.id === funcNodeId) continue;
 
-          // Check containment: CONTAINS edge or line range
           const isContained = funcNode.edges.some(e =>
             e.edge_type === 'CONTAINS' && e.target === sink.id
           ) || (
@@ -402,7 +406,6 @@ export function runMarginPass(
 
           if (!isContained) continue;
 
-          // Tag this function with the sink's subtype
           let subtypes = summary.functionSinkContext.get(funcNodeId);
           if (!subtypes) {
             subtypes = new Set<string>();
@@ -415,54 +418,51 @@ export function runMarginPass(
       }
     }
 
-    // ── Step 3.3: Backward propagation through import edges ─────
-    // Who imports this file? For each importer, propagate this file's
-    // functionSinkContext entries to the importer's functionSinkContext,
-    // keyed by the import's local name.
-    const importers = depGraph.importedBy.get(file);
-    if (!importers || !summary.functionSinkContext || summary.functionSinkContext.size === 0) continue;
+    // ── Step 3.3: Push sink context to dependencies ─────────────
+    // If this file has sink context (direct from Step 3.2 or propagated
+    // from a previous iteration), push it to the files it imports from.
+    // The imported functions' output feeds this file's sinks.
+    //
+    // This is the key insight for Ghost CMS: posts.js has sql_query sink
+    // and imports slugFilterOrder from slug-filter-order.js. Tag
+    // slugFilterOrder with sql_query so the proof system knows.
+    //
+    // Collect all known sink types for this file (direct + accumulated)
+    const allSinkTypes = new Set<string>();
+    if (summary.functionSinkContext) {
+      for (const subtypes of summary.functionSinkContext.values()) {
+        for (const s of subtypes) allSinkTypes.add(s);
+      }
+    }
 
-    for (const importer of importers) {
-      const importerSummary = fileSummaries.get(importer);
-      if (!importerSummary) continue;
+    if (allSinkTypes.size === 0) continue;
 
-      // Find edges from importer to this file
-      const edges = depGraph.edges.filter(e => e.from === importer && e.to === file);
+    // Push to files this file imports from
+    const importEdges = depGraph.edges.filter(e => e.from === file);
+    for (const edge of importEdges) {
+      const depPath = edge.importInfo.resolvedPath ?? edge.to;
+      const depSummary = fileSummaries.get(depPath);
+      if (!depSummary) continue;
 
-      for (const edge of edges) {
-        const importedNames = edge.importInfo.importedNames;
+      const importedNames = edge.importInfo.importedNames;
+      const resolvedNames = importedNames.includes('*')
+        ? [...depSummary.functionRegistry.keys()].filter(k => !k.includes(':'))
+        : importedNames;
 
-        // Expand star imports to actual function names (filter out namespaced entries)
-        const resolvedNames = importedNames.includes('*')
-          ? [...summary.functionRegistry.keys()].filter(k => !k.includes(':'))
-          : importedNames;
+      for (const name of resolvedNames) {
+        const funcNodeId = depSummary.functionRegistry.get(name);
+        if (!funcNodeId) continue;
 
-        for (const name of resolvedNames) {
-          // Look up nodeId in this file's functionRegistry
-          const funcNodeId = summary.functionRegistry.get(name);
-          if (!funcNodeId) continue;
-
-          // Check if this function has sink context
-          const sinkSubtypes = summary.functionSinkContext.get(funcNodeId);
-          if (!sinkSubtypes || sinkSubtypes.size === 0) continue;
-
-          // Propagate to importer's functionSinkContext
-          if (!importerSummary.functionSinkContext) {
-            importerSummary.functionSinkContext = new Map();
-          }
-
-          const localName = edge.importInfo.localName || name;
-          // Use the localName as a synthetic key for the importer
-          let importerSubtypes = importerSummary.functionSinkContext.get(localName);
-          if (!importerSubtypes) {
-            importerSubtypes = new Set<string>();
-            importerSummary.functionSinkContext.set(localName, importerSubtypes);
-          }
-          // Merge sink subtypes (union, not overwrite)
-          for (const subtype of sinkSubtypes) {
-            importerSubtypes.add(subtype);
-          }
+        if (!depSummary.functionSinkContext) {
+          depSummary.functionSinkContext = new Map();
         }
+
+        let subtypes = depSummary.functionSinkContext.get(funcNodeId);
+        if (!subtypes) {
+          subtypes = new Set<string>();
+          depSummary.functionSinkContext.set(funcNodeId, subtypes);
+        }
+        for (const s of allSinkTypes) subtypes.add(s);
       }
     }
   }

@@ -383,189 +383,180 @@ describe('Sink-context cataloging', () => {
     // If ctx is undefined, that also means no sinks were cataloged — pass
   });
 
-  it('propagates sink-context backward to importer', () => {
-    // File A (routes.js): has a call site node, no sinks
-    const mapA = createNeuralMap('routes.js', '');
-    const callSite = createNode({
-      node_type: 'TRANSFORM', node_subtype: 'local_call',
-      label: 'buildQuery(filter)',
-      code_snapshot: "buildQuery(filter)",
+  it('pushes caller sink-context to imported function (Ghost CMS pattern)', () => {
+    // File A (posts.js): has INGRESS + STORAGE/sql_query sink, imports slugFilterOrder
+    const mapA = createNeuralMap('posts.js', '');
+    const handlerFunc = createNode({
+      node_type: 'STRUCTURAL', node_subtype: 'function',
+      label: 'browse',
+      line_start: 1, line_end: 20,
+      edges: [
+        { target: 'sink_knex', edge_type: 'CONTAINS', conditional: false, async: false },
+      ],
+    });
+    const knexSink = createNode({
+      id: 'sink_knex',
+      node_type: 'STORAGE', node_subtype: 'sql_query',
+      label: 'knex.raw(query)',
+      line_start: 15, line_end: 15,
       data_in: [],
       edges: [],
     });
-    mapA.nodes = [callSite];
+    mapA.nodes = [handlerFunc, knexSink];
 
-    // File B (query-builder.js): has function buildQuery containing a STORAGE/sql_query sink
-    const mapB = createNeuralMap('query-builder.js', '');
-    const funcDecl = createNode({
+    // File B (slug-filter-order.js): has slugFilterOrder function, NO sinks
+    // (builds SQL string via template literal, doesn't execute it)
+    const mapB = createNeuralMap('slug-filter-order.js', '');
+    const sfoFunc = createNode({
       node_type: 'STRUCTURAL', node_subtype: 'function',
-      label: 'buildQuery',
-      param_names: ['filter'],
-      line_start: 1, line_end: 10,
-      edges: [
-        { target: 'sink_sql', edge_type: 'CONTAINS', conditional: false, async: false },
-      ],
-    });
-    const sqlSink = createNode({
-      id: 'sink_sql',
-      node_type: 'STORAGE', node_subtype: 'sql_query',
-      label: 'db.query(filter)',
-      line_start: 5, line_end: 5,
-      data_in: [{ name: 'filter', source: 'param', data_type: 'string', tainted: false, sensitivity: 'NONE' }],
+      label: 'slugFilterOrder',
+      param_names: ['table', 'filter'],
+      line_start: 1, line_end: 30,
       edges: [],
     });
-    mapB.nodes = [funcDecl, sqlSink];
+    const templateNode = createNode({
+      node_type: 'TRANSFORM', node_subtype: 'template_string',
+      label: 'template literal',
+      line_start: 10, line_end: 10,
+      code_snapshot: "`WHEN slug = '${filter}' THEN ${index}`",
+      data_in: [],
+      edges: [],
+    });
+    mapB.nodes = [sfoFunc, templateNode];
 
     const summaries = new Map<string, FileSummary>();
-    summaries.set('routes.js', {
+    summaries.set('posts.js', {
       map: mapA,
       functionReturnTaint: new Map(),
-      functionRegistry: new Map(),
+      functionRegistry: new Map([['browse', handlerFunc.id]]),
     });
-    summaries.set('query-builder.js', {
+    summaries.set('slug-filter-order.js', {
       map: mapB,
       functionReturnTaint: new Map(),
-      functionRegistry: new Map([['buildQuery', funcDecl.id]]),
+      functionRegistry: new Map([['slugFilterOrder', sfoFunc.id]]),
     });
 
-    // Dep graph: routes.js imports buildQuery from query-builder.js
     const depGraph: DependencyGraph = {
-      files: ['routes.js', 'query-builder.js'],
+      files: ['posts.js', 'slug-filter-order.js'],
       edges: [{
-        from: 'routes.js',
-        to: 'query-builder.js',
+        from: 'posts.js',
+        to: 'slug-filter-order.js',
         importInfo: {
-          specifier: './query-builder',
-          resolvedPath: 'query-builder.js',
-          importedNames: ['buildQuery'],
-          localName: 'buildQuery',
+          specifier: './slug-filter-order',
+          resolvedPath: 'slug-filter-order.js',
+          importedNames: ['slugFilterOrder'],
+          localName: 'slugFilterOrder',
           line: 1,
         },
       }],
-      importsOf: new Map([['routes.js', ['query-builder.js']]]),
-      importedBy: new Map([['query-builder.js', ['routes.js']]]),
+      importsOf: new Map([['posts.js', ['slug-filter-order.js']]]),
+      importedBy: new Map([['slug-filter-order.js', ['posts.js']]]),
     };
 
     runMarginPass(summaries, depGraph);
 
-    // routes.js should have functionSinkContext with sql_query propagated from query-builder.js
-    const routesSummary = summaries.get('routes.js')!;
-    expect(routesSummary.functionSinkContext).toBeDefined();
-    // The propagated entry should be keyed by the local import name 'buildQuery'
-    const hasSQL = [...routesSummary.functionSinkContext!.values()].some(s => s.has('sql_query'));
-    expect(hasSQL).toBe(true);
+    // posts.js should have browse tagged with sql_query (direct cataloging)
+    const postsSummary = summaries.get('posts.js')!;
+    expect(postsSummary.functionSinkContext?.get(handlerFunc.id)?.has('sql_query')).toBe(true);
+
+    // slug-filter-order.js should have slugFilterOrder tagged with sql_query
+    // (propagated from posts.js — the caller has sinks, pushes to its imports)
+    const sfoSummary = summaries.get('slug-filter-order.js')!;
+    expect(sfoSummary.functionSinkContext).toBeDefined();
+    expect(sfoSummary.functionSinkContext!.get(sfoFunc.id)?.has('sql_query')).toBe(true);
   });
 
-  it('propagates sink-context through multi-hop imports', () => {
-    // File C (db.js): has function executeQuery containing STORAGE/sql_query
-    const mapC = createNeuralMap('db.js', '');
-    const execFunc = createNode({
+  it('multi-hop: caller sink-context propagates through chain', () => {
+    // File A (controller.js): has STORAGE/sql_query, imports from B
+    const mapA = createNeuralMap('controller.js', '');
+    const ctrlFunc = createNode({
       node_type: 'STRUCTURAL', node_subtype: 'function',
-      label: 'executeQuery',
-      param_names: ['sql'],
-      line_start: 1, line_end: 10,
+      label: 'handleRequest',
+      line_start: 1, line_end: 20,
       edges: [
-        { target: 'sink_sql_c', edge_type: 'CONTAINS', conditional: false, async: false },
+        { target: 'sink_db', edge_type: 'CONTAINS', conditional: false, async: false },
       ],
     });
-    const sqlSinkC = createNode({
-      id: 'sink_sql_c',
+    const dbSink = createNode({
+      id: 'sink_db',
       node_type: 'STORAGE', node_subtype: 'sql_query',
-      label: 'db.execute(sql)',
-      line_start: 5, line_end: 5,
-      data_in: [{ name: 'sql', source: 'param', data_type: 'string', tainted: false, sensitivity: 'NONE' }],
+      line_start: 15, line_end: 15,
+      data_in: [],
       edges: [],
     });
-    mapC.nodes = [execFunc, sqlSinkC];
+    mapA.nodes = [ctrlFunc, dbSink];
 
-    // File B (query-builder.js): imports executeQuery from db.js, has function buildQuery (no direct sinks)
+    // File B (query-builder.js): imports from C, no direct sinks
     const mapB = createNeuralMap('query-builder.js', '');
     const buildFunc = createNode({
       node_type: 'STRUCTURAL', node_subtype: 'function',
       label: 'buildQuery',
-      param_names: ['filter'],
-      line_start: 1, line_end: 10,
+      line_start: 1, line_end: 15,
       edges: [],
     });
     mapB.nodes = [buildFunc];
 
-    // File A (routes.js): imports buildQuery from query-builder.js
-    const mapA = createNeuralMap('routes.js', '');
-    const callSite = createNode({
-      node_type: 'TRANSFORM', node_subtype: 'local_call',
-      label: 'buildQuery(filter)',
-      code_snapshot: "buildQuery(filter)",
-      data_in: [],
+    // File C (filter-utils.js): builds SQL strings, no sinks
+    const mapC = createNeuralMap('filter-utils.js', '');
+    const filterFunc = createNode({
+      node_type: 'STRUCTURAL', node_subtype: 'function',
+      label: 'buildFilter',
+      line_start: 1, line_end: 10,
       edges: [],
     });
-    mapA.nodes = [callSite];
+    mapC.nodes = [filterFunc];
 
     const summaries = new Map<string, FileSummary>();
-    summaries.set('routes.js', {
+    summaries.set('controller.js', {
       map: mapA,
       functionReturnTaint: new Map(),
-      functionRegistry: new Map(),
+      functionRegistry: new Map([['handleRequest', ctrlFunc.id]]),
     });
     summaries.set('query-builder.js', {
       map: mapB,
       functionReturnTaint: new Map(),
       functionRegistry: new Map([['buildQuery', buildFunc.id]]),
     });
-    summaries.set('db.js', {
+    summaries.set('filter-utils.js', {
       map: mapC,
       functionReturnTaint: new Map(),
-      functionRegistry: new Map([['executeQuery', execFunc.id]]),
+      functionRegistry: new Map([['buildFilter', filterFunc.id]]),
     });
 
-    // Dep graph: A→B→C
+    // A imports from B, B imports from C
     const depGraph: DependencyGraph = {
-      files: ['routes.js', 'query-builder.js', 'db.js'],
+      files: ['controller.js', 'query-builder.js', 'filter-utils.js'],
       edges: [
         {
-          from: 'routes.js',
-          to: 'query-builder.js',
-          importInfo: {
-            specifier: './query-builder',
-            resolvedPath: 'query-builder.js',
-            importedNames: ['buildQuery'],
-            localName: 'buildQuery',
-            line: 1,
-          },
+          from: 'controller.js', to: 'query-builder.js',
+          importInfo: { specifier: './query-builder', resolvedPath: 'query-builder.js', importedNames: ['buildQuery'], localName: 'buildQuery', line: 1 },
         },
         {
-          from: 'query-builder.js',
-          to: 'db.js',
-          importInfo: {
-            specifier: './db',
-            resolvedPath: 'db.js',
-            importedNames: ['executeQuery'],
-            localName: 'executeQuery',
-            line: 1,
-          },
+          from: 'query-builder.js', to: 'filter-utils.js',
+          importInfo: { specifier: './filter-utils', resolvedPath: 'filter-utils.js', importedNames: ['buildFilter'], localName: 'buildFilter', line: 1 },
         },
       ],
       importsOf: new Map([
-        ['routes.js', ['query-builder.js']],
-        ['query-builder.js', ['db.js']],
+        ['controller.js', ['query-builder.js']],
+        ['query-builder.js', ['filter-utils.js']],
+        ['filter-utils.js', []],
       ]),
       importedBy: new Map([
-        ['query-builder.js', ['routes.js']],
-        ['db.js', ['query-builder.js']],
+        ['query-builder.js', ['controller.js']],
+        ['filter-utils.js', ['query-builder.js']],
+        ['controller.js', []],
       ]),
     };
 
     runMarginPass(summaries, depGraph);
 
-    // db.js should have executeQuery tagged with sql_query (direct sink cataloging)
-    const dbSummary = summaries.get('db.js')!;
-    expect(dbSummary.functionSinkContext).toBeDefined();
-    expect(dbSummary.functionSinkContext!.has(execFunc.id)).toBe(true);
-    expect(dbSummary.functionSinkContext!.get(execFunc.id)!.has('sql_query')).toBe(true);
+    // controller.js: direct cataloging (handleRequest contains sql_query)
+    expect(summaries.get('controller.js')!.functionSinkContext?.get(ctrlFunc.id)?.has('sql_query')).toBe(true);
 
-    // query-builder.js should get sql_query propagated from db.js
-    const qbSummary = summaries.get('query-builder.js')!;
-    expect(qbSummary.functionSinkContext).toBeDefined();
-    const qbHasSQL = [...qbSummary.functionSinkContext!.values()].some(s => s.has('sql_query'));
-    expect(qbHasSQL).toBe(true);
+    // query-builder.js: buildQuery tagged via propagation from controller.js
+    expect(summaries.get('query-builder.js')!.functionSinkContext?.get(buildFunc.id)?.has('sql_query')).toBe(true);
+
+    // filter-utils.js: buildFilter tagged via multi-hop (controller→query-builder→filter-utils)
+    expect(summaries.get('filter-utils.js')!.functionSinkContext?.get(filterFunc.id)?.has('sql_query')).toBe(true);
   });
 });
