@@ -28,6 +28,7 @@ import {
   buildOracle,
   validatePayloadSafety,
   generateProof,
+  inferPayloadClassFromContent,
 } from './payload-gen.js';
 import {
   resolveSinkClass,
@@ -512,6 +513,7 @@ describe('generateProof', () => {
 
   it('uses sink context to resolve payload class when CWE and subtype fail', () => {
     // Create a TRANSFORM/template_string sink node with cross_file_param_taint_via_slugFilterOrder
+    // Use code_snapshot that won't trigger content-aware inference (no 2+ SQL keywords, no shell, etc.)
     const src = createNode({
       id: 'src_1',
       node_type: 'INGRESS',
@@ -523,7 +525,7 @@ describe('generateProof', () => {
       id: 'sink_1',
       node_type: 'TRANSFORM',
       node_subtype: 'template_string',
-      code_snapshot: '`SELECT * FROM ${table}`',
+      code_snapshot: '`processing ${input} through pipeline`',
       data_in: [
         { name: 'cross_file_param_taint_via_slugFilterOrder', source: 'ext', data_type: 'string', tainted: true, sensitivity: 'PII' },
       ],
@@ -532,7 +534,7 @@ describe('generateProof', () => {
     // CWE-190 has no payload class match in the dictionary
     const finding = makeFinding('src_1', 'sink_1');
 
-    // Without sinkContext -> returns null (template_string has no match, CWE-190 has no match)
+    // Without sinkContext -> returns null (template_string has no match, CWE-190 has no match, content has no match)
     const proofWithout = generateProof(map, finding, 'CWE-190');
     expect(proofWithout).toBeNull();
 
@@ -744,5 +746,66 @@ describe('buildOracle', () => {
     );
     expect(oracle.static_proof).toContain('3 nodes');
     expect(oracle.static_proof).toContain('no transforms');
+  });
+});
+
+// ---------------------------------------------------------------------------
+// inferPayloadClassFromContent
+// ---------------------------------------------------------------------------
+
+describe('inferPayloadClassFromContent', () => {
+  beforeEach(() => resetSequence());
+
+  it('detects SQL injection from template string with SELECT...WHERE', () => {
+    const src = createNode({
+      id: 'src_1',
+      node_type: 'INGRESS',
+      node_subtype: 'http_request',
+      code_snapshot: 'req.body.q',
+      edges: [{ target: 'sink_1', edge_type: 'DATA_FLOW', conditional: false, async: false }],
+    });
+    const sink = createNode({
+      id: 'sink_1',
+      node_type: 'TRANSFORM',
+      node_subtype: 'template_string',
+      code_snapshot: '`SELECT * FROM users WHERE id = ${req.body.q}`',
+    });
+    const map = buildTestMap([src, sink]);
+    const finding = makeFinding('src_1', 'sink_1');
+
+    // CWE-190 has no payload class match — will fall through to content inference
+    const proof = generateProof(map, finding, 'CWE-190');
+    expect(proof).not.toBeNull();
+    expect(proof!.primary_payload.canary).toBe('DST_CANARY_SQLI');
+  });
+
+  it('detects command injection from shell command (/bin/sh)', () => {
+    const node = createNode({
+      node_type: 'TRANSFORM',
+      node_subtype: 'template_string',
+      code_snapshot: '`/bin/sh -c "${cmd}"`',
+    });
+    const result = inferPayloadClassFromContent(node);
+    expect(result).toBe('command_injection');
+  });
+
+  it('returns null for harmless content ("Hello ${name}!")', () => {
+    const node = createNode({
+      node_type: 'TRANSFORM',
+      node_subtype: 'template_string',
+      code_snapshot: '`Hello ${name}!`',
+    });
+    const result = inferPayloadClassFromContent(node);
+    expect(result).toBeNull();
+  });
+
+  it('returns null for single SQL keyword in English context', () => {
+    const node = createNode({
+      node_type: 'TRANSFORM',
+      node_subtype: 'template_string',
+      code_snapshot: 'Please SELECT the best option',
+    });
+    const result = inferPayloadClassFromContent(node);
+    expect(result).toBeNull();
   });
 });

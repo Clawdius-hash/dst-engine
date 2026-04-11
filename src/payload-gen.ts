@@ -421,6 +421,45 @@ export function validatePayloadSafety(payload: string, payloadClass: PayloadClas
 
 
 /**
+ * Content-aware payload class inference — permanent last-resort fallback.
+ *
+ * Examines the code snapshot of a node for patterns that indicate a specific
+ * vulnerability class. Used when sink-class, CWE-class, AND sink-context all fail.
+ *
+ * SQL detection requires 2+ structural keywords to avoid false positives on
+ * English text that happens to contain words like "SELECT".
+ */
+export function inferPayloadClassFromContent(node: NeuralMapNode): PayloadClass | null {
+  const snap = node.analysis_snapshot || node.code_snapshot;
+  if (!snap) return null;
+
+  // SQL detection: require 2+ structural keywords
+  const sqlKeywords = [
+    /\bSELECT\b/i, /\bINSERT\b/i, /\bUPDATE\b/i, /\bDELETE\b/i,
+    /\bFROM\b/i, /\bWHERE\b/i, /\bUNION\b/i, /\bJOIN\b/i,
+    /\bORDER\s+BY\b/i, /\bGROUP\s+BY\b/i, /\bHAVING\b/i,
+    /\bCASE\s+WHEN\b/i, /\bVALUES\b/i, /\bINTO\b/i,
+  ];
+  const sqlHits = sqlKeywords.filter(re => re.test(snap)).length;
+  if (sqlHits >= 2) return 'sql_injection';
+
+  // Command injection: shell interpreters and child_process calls
+  if (/(\/bin\/sh|\/bin\/bash|cmd\.exe|powershell)\b/.test(snap)) return 'command_injection';
+  if (/\b(child_process|exec|execSync|spawn|spawnSync)\s*\(/.test(snap)) return 'command_injection';
+
+  // XSS: DOM manipulation
+  if (/\.(innerHTML|outerHTML)\s*=/.test(snap)) return 'xss';
+  if (/document\.(write|writeln)\s*\(/.test(snap)) return 'xss';
+
+  // Path traversal: file operations with interpolation
+  if (/\b(readFileSync|readFile|writeFileSync|writeFile|createReadStream)\s*\(/.test(snap) &&
+      /\$\{|` *\+/.test(snap)) return 'path_traversal';
+
+  return null;
+}
+
+
+/**
  * Generate a proof certificate for a finding.
  *
  * This is the entry point. Given a NeuralMap, a Finding, and the CWE that
@@ -484,6 +523,10 @@ export function generateProof(
         }
       }
     }
+  }
+
+  if (!payloadClass && sinkNode) {
+    payloadClass = inferPayloadClassFromContent(sinkNode);
   }
 
   if (!payloadClass) return null;
