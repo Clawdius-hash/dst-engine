@@ -16,6 +16,8 @@ export { PROPERTY_REGISTRY } from './registry.js';
 
 export { runProperties, propertyResultsToFindings } from './engine.js';
 export { taintReachability } from './taint-reachability.js';
+export { missingAuth } from './missing-auth.js';
+export { resourceLifecycle } from './resource-lifecycle.js';
 export type {
   SecurityProperty,
   CWEMapping,

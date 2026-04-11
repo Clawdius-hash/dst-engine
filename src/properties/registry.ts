@@ -8,6 +8,10 @@
 
 import type { SecurityProperty } from './types.js';
 import { taintReachability } from './taint-reachability.js';
+import { missingAuth } from './missing-auth.js';
+import { sensitiveExposure } from './sensitive-exposure.js';
+import { weakCrypto } from './weak-crypto.js';
+import { resourceLifecycle } from './resource-lifecycle.js';
 
 // ---------------------------------------------------------------------------
 // Property Registry
@@ -19,4 +23,8 @@ import { taintReachability } from './taint-reachability.js';
  */
 export const PROPERTY_REGISTRY: SecurityProperty[] = [
   taintReachability,
+  missingAuth,
+  sensitiveExposure,
+  weakCrypto,
+  resourceLifecycle,
 ];
