@@ -361,55 +361,107 @@ export function runMarginPass(
   // For each file (reverse topo order — sinks before callers), find which
   // functions contain dangerous sink nodes (STORAGE, EXTERNAL, EGRESS).
   // Tag each function with the set of sink subtypes it contains.
-  // Later passes will propagate this backward through import edges.
+  // Then propagate sink context backward through import edges so that
+  // importers inherit the sink context of the functions they import.
   const backwardOrder = [...order].reverse();
 
   for (const file of backwardOrder) {
     const summary = fileSummaries.get(file);
     if (!summary) continue;
 
-    // Find sink nodes in this file
+    // ── Step 3.1–3.2: Per-file sink cataloging ──────────────────
     const sinkNodes = summary.map.nodes.filter(n =>
       n.node_type === 'STORAGE' ||
       n.node_type === 'EXTERNAL' ||
       n.node_type === 'EGRESS'
     );
 
-    if (sinkNodes.length === 0) continue;
+    if (sinkNodes.length > 0) {
+      // Initialize functionSinkContext if needed
+      if (!summary.functionSinkContext) {
+        summary.functionSinkContext = new Map();
+      }
 
-    // Initialize functionSinkContext if needed
-    if (!summary.functionSinkContext) {
-      summary.functionSinkContext = new Map();
+      // Check each function in the registry
+      for (const [, funcNodeId] of summary.functionRegistry) {
+        const funcNode = summary.map.nodes.find(n => n.id === funcNodeId);
+        if (!funcNode) continue;
+
+        for (const sink of sinkNodes) {
+          // Skip the function node itself
+          if (sink.id === funcNodeId) continue;
+
+          // Check containment: CONTAINS edge or line range
+          const isContained = funcNode.edges.some(e =>
+            e.edge_type === 'CONTAINS' && e.target === sink.id
+          ) || (
+            funcNode.line_end > 0 &&
+            sink.line_start >= funcNode.line_start &&
+            sink.line_end <= funcNode.line_end
+          );
+
+          if (!isContained) continue;
+
+          // Tag this function with the sink's subtype
+          let subtypes = summary.functionSinkContext.get(funcNodeId);
+          if (!subtypes) {
+            subtypes = new Set<string>();
+            summary.functionSinkContext.set(funcNodeId, subtypes);
+          }
+          if (sink.node_subtype) {
+            subtypes.add(sink.node_subtype);
+          }
+        }
+      }
     }
 
-    // Check each function in the registry
-    for (const [, funcNodeId] of summary.functionRegistry) {
-      const funcNode = summary.map.nodes.find(n => n.id === funcNodeId);
-      if (!funcNode) continue;
+    // ── Step 3.3: Backward propagation through import edges ─────
+    // Who imports this file? For each importer, propagate this file's
+    // functionSinkContext entries to the importer's functionSinkContext,
+    // keyed by the import's local name.
+    const importers = depGraph.importedBy.get(file);
+    if (!importers || !summary.functionSinkContext || summary.functionSinkContext.size === 0) continue;
 
-      for (const sink of sinkNodes) {
-        // Skip the function node itself
-        if (sink.id === funcNodeId) continue;
+    for (const importer of importers) {
+      const importerSummary = fileSummaries.get(importer);
+      if (!importerSummary) continue;
 
-        // Check containment: CONTAINS edge or line range
-        const isContained = funcNode.edges.some(e =>
-          e.edge_type === 'CONTAINS' && e.target === sink.id
-        ) || (
-          funcNode.line_end > 0 &&
-          sink.line_start >= funcNode.line_start &&
-          sink.line_end <= funcNode.line_end
-        );
+      // Find edges from importer to this file
+      const edges = depGraph.edges.filter(e => e.from === importer && e.to === file);
 
-        if (!isContained) continue;
+      for (const edge of edges) {
+        const importedNames = edge.importInfo.importedNames;
 
-        // Tag this function with the sink's subtype
-        let subtypes = summary.functionSinkContext.get(funcNodeId);
-        if (!subtypes) {
-          subtypes = new Set<string>();
-          summary.functionSinkContext.set(funcNodeId, subtypes);
-        }
-        if (sink.node_subtype) {
-          subtypes.add(sink.node_subtype);
+        // Expand star imports to actual function names (filter out namespaced entries)
+        const resolvedNames = importedNames.includes('*')
+          ? [...summary.functionRegistry.keys()].filter(k => !k.includes(':'))
+          : importedNames;
+
+        for (const name of resolvedNames) {
+          // Look up nodeId in this file's functionRegistry
+          const funcNodeId = summary.functionRegistry.get(name);
+          if (!funcNodeId) continue;
+
+          // Check if this function has sink context
+          const sinkSubtypes = summary.functionSinkContext.get(funcNodeId);
+          if (!sinkSubtypes || sinkSubtypes.size === 0) continue;
+
+          // Propagate to importer's functionSinkContext
+          if (!importerSummary.functionSinkContext) {
+            importerSummary.functionSinkContext = new Map();
+          }
+
+          const localName = edge.importInfo.localName || name;
+          // Use the localName as a synthetic key for the importer
+          let importerSubtypes = importerSummary.functionSinkContext.get(localName);
+          if (!importerSubtypes) {
+            importerSubtypes = new Set<string>();
+            importerSummary.functionSinkContext.set(localName, importerSubtypes);
+          }
+          // Merge sink subtypes (union, not overwrite)
+          for (const subtype of sinkSubtypes) {
+            importerSubtypes.add(subtype);
+          }
         }
       }
     }

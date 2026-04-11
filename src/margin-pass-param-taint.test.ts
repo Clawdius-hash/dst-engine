@@ -382,4 +382,190 @@ describe('Sink-context cataloging', () => {
     }
     // If ctx is undefined, that also means no sinks were cataloged — pass
   });
+
+  it('propagates sink-context backward to importer', () => {
+    // File A (routes.js): has a call site node, no sinks
+    const mapA = createNeuralMap('routes.js', '');
+    const callSite = createNode({
+      node_type: 'TRANSFORM', node_subtype: 'local_call',
+      label: 'buildQuery(filter)',
+      code_snapshot: "buildQuery(filter)",
+      data_in: [],
+      edges: [],
+    });
+    mapA.nodes = [callSite];
+
+    // File B (query-builder.js): has function buildQuery containing a STORAGE/sql_query sink
+    const mapB = createNeuralMap('query-builder.js', '');
+    const funcDecl = createNode({
+      node_type: 'STRUCTURAL', node_subtype: 'function',
+      label: 'buildQuery',
+      param_names: ['filter'],
+      line_start: 1, line_end: 10,
+      edges: [
+        { target: 'sink_sql', edge_type: 'CONTAINS', conditional: false, async: false },
+      ],
+    });
+    const sqlSink = createNode({
+      id: 'sink_sql',
+      node_type: 'STORAGE', node_subtype: 'sql_query',
+      label: 'db.query(filter)',
+      line_start: 5, line_end: 5,
+      data_in: [{ name: 'filter', source: 'param', data_type: 'string', tainted: false, sensitivity: 'NONE' }],
+      edges: [],
+    });
+    mapB.nodes = [funcDecl, sqlSink];
+
+    const summaries = new Map<string, FileSummary>();
+    summaries.set('routes.js', {
+      map: mapA,
+      functionReturnTaint: new Map(),
+      functionRegistry: new Map(),
+    });
+    summaries.set('query-builder.js', {
+      map: mapB,
+      functionReturnTaint: new Map(),
+      functionRegistry: new Map([['buildQuery', funcDecl.id]]),
+    });
+
+    // Dep graph: routes.js imports buildQuery from query-builder.js
+    const depGraph: DependencyGraph = {
+      files: ['routes.js', 'query-builder.js'],
+      edges: [{
+        from: 'routes.js',
+        to: 'query-builder.js',
+        importInfo: {
+          specifier: './query-builder',
+          resolvedPath: 'query-builder.js',
+          importedNames: ['buildQuery'],
+          localName: 'buildQuery',
+          line: 1,
+        },
+      }],
+      importsOf: new Map([['routes.js', ['query-builder.js']]]),
+      importedBy: new Map([['query-builder.js', ['routes.js']]]),
+    };
+
+    runMarginPass(summaries, depGraph);
+
+    // routes.js should have functionSinkContext with sql_query propagated from query-builder.js
+    const routesSummary = summaries.get('routes.js')!;
+    expect(routesSummary.functionSinkContext).toBeDefined();
+    // The propagated entry should be keyed by the local import name 'buildQuery'
+    const hasSQL = [...routesSummary.functionSinkContext!.values()].some(s => s.has('sql_query'));
+    expect(hasSQL).toBe(true);
+  });
+
+  it('propagates sink-context through multi-hop imports', () => {
+    // File C (db.js): has function executeQuery containing STORAGE/sql_query
+    const mapC = createNeuralMap('db.js', '');
+    const execFunc = createNode({
+      node_type: 'STRUCTURAL', node_subtype: 'function',
+      label: 'executeQuery',
+      param_names: ['sql'],
+      line_start: 1, line_end: 10,
+      edges: [
+        { target: 'sink_sql_c', edge_type: 'CONTAINS', conditional: false, async: false },
+      ],
+    });
+    const sqlSinkC = createNode({
+      id: 'sink_sql_c',
+      node_type: 'STORAGE', node_subtype: 'sql_query',
+      label: 'db.execute(sql)',
+      line_start: 5, line_end: 5,
+      data_in: [{ name: 'sql', source: 'param', data_type: 'string', tainted: false, sensitivity: 'NONE' }],
+      edges: [],
+    });
+    mapC.nodes = [execFunc, sqlSinkC];
+
+    // File B (query-builder.js): imports executeQuery from db.js, has function buildQuery (no direct sinks)
+    const mapB = createNeuralMap('query-builder.js', '');
+    const buildFunc = createNode({
+      node_type: 'STRUCTURAL', node_subtype: 'function',
+      label: 'buildQuery',
+      param_names: ['filter'],
+      line_start: 1, line_end: 10,
+      edges: [],
+    });
+    mapB.nodes = [buildFunc];
+
+    // File A (routes.js): imports buildQuery from query-builder.js
+    const mapA = createNeuralMap('routes.js', '');
+    const callSite = createNode({
+      node_type: 'TRANSFORM', node_subtype: 'local_call',
+      label: 'buildQuery(filter)',
+      code_snapshot: "buildQuery(filter)",
+      data_in: [],
+      edges: [],
+    });
+    mapA.nodes = [callSite];
+
+    const summaries = new Map<string, FileSummary>();
+    summaries.set('routes.js', {
+      map: mapA,
+      functionReturnTaint: new Map(),
+      functionRegistry: new Map(),
+    });
+    summaries.set('query-builder.js', {
+      map: mapB,
+      functionReturnTaint: new Map(),
+      functionRegistry: new Map([['buildQuery', buildFunc.id]]),
+    });
+    summaries.set('db.js', {
+      map: mapC,
+      functionReturnTaint: new Map(),
+      functionRegistry: new Map([['executeQuery', execFunc.id]]),
+    });
+
+    // Dep graph: A→B→C
+    const depGraph: DependencyGraph = {
+      files: ['routes.js', 'query-builder.js', 'db.js'],
+      edges: [
+        {
+          from: 'routes.js',
+          to: 'query-builder.js',
+          importInfo: {
+            specifier: './query-builder',
+            resolvedPath: 'query-builder.js',
+            importedNames: ['buildQuery'],
+            localName: 'buildQuery',
+            line: 1,
+          },
+        },
+        {
+          from: 'query-builder.js',
+          to: 'db.js',
+          importInfo: {
+            specifier: './db',
+            resolvedPath: 'db.js',
+            importedNames: ['executeQuery'],
+            localName: 'executeQuery',
+            line: 1,
+          },
+        },
+      ],
+      importsOf: new Map([
+        ['routes.js', ['query-builder.js']],
+        ['query-builder.js', ['db.js']],
+      ]),
+      importedBy: new Map([
+        ['query-builder.js', ['routes.js']],
+        ['db.js', ['query-builder.js']],
+      ]),
+    };
+
+    runMarginPass(summaries, depGraph);
+
+    // db.js should have executeQuery tagged with sql_query (direct sink cataloging)
+    const dbSummary = summaries.get('db.js')!;
+    expect(dbSummary.functionSinkContext).toBeDefined();
+    expect(dbSummary.functionSinkContext!.has(execFunc.id)).toBe(true);
+    expect(dbSummary.functionSinkContext!.get(execFunc.id)!.has('sql_query')).toBe(true);
+
+    // query-builder.js should get sql_query propagated from db.js
+    const qbSummary = summaries.get('query-builder.js')!;
+    expect(qbSummary.functionSinkContext).toBeDefined();
+    const qbHasSQL = [...qbSummary.functionSinkContext!.values()].some(s => s.has('sql_query'));
+    expect(qbHasSQL).toBe(true);
+  });
 });
