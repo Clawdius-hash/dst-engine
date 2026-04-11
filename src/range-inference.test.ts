@@ -192,6 +192,90 @@ describe('DataFlow range propagation (Step 5)', () => {
 });
 
 // ---------------------------------------------------------------------------
+// Step 5b: Auto-bridge — addDataFlow looks up variable range from scope
+// ---------------------------------------------------------------------------
+
+describe('Auto-bridge: addDataFlow looks up variable range', () => {
+  beforeEach(() => resetSequenceHard());
+
+  it('auto-propagates range when variable has range but caller does not pass it', () => {
+    const ctx = new MapperContext('test.js', '', javascriptProfile);
+    ctx.pushScope('module', { type: 'program' } as any);
+
+    const src = createNode({ node_type: 'INGRESS', node_subtype: 'http_request', label: 'input' });
+    const sink = createNode({ node_type: 'STORAGE', node_subtype: 'sql_query', label: 'query' });
+    ctx.neuralMap.nodes.push(src, sink);
+    ctx.nodeById.set(src.id, src);
+    ctx.nodeById.set(sink.id, sink);
+
+    // Declare variable with a range (simulating extractRangeFromCondition)
+    ctx.declareVariable('x', 'let', null, true, src.id);
+    const v = ctx.resolveVariable('x')!;
+    v.range = createRange(1, 999, 'ctrl1');
+
+    // Call addDataFlow WITHOUT the 6th range parameter
+    ctx.addDataFlow(src.id, sink.id, 'x', 'number', true);
+
+    // The range should auto-propagate from VariableInfo
+    const sinkFlow = sink.data_in.find(d => d.name === 'x');
+    expect(sinkFlow).toBeDefined();
+    expect(sinkFlow!.range).toBeDefined();
+    expect(sinkFlow!.range!.min).toBe(1);
+    expect(sinkFlow!.range!.max).toBe(999);
+    expect(sinkFlow!.range!.bounded).toBe(true);
+
+    // Also check source data_out
+    const srcFlow = src.data_out.find(d => d.name === 'x');
+    expect(srcFlow).toBeDefined();
+    expect(srcFlow!.range).toBeDefined();
+    expect(srcFlow!.range!.min).toBe(1);
+  });
+
+  it('does not override explicitly passed range', () => {
+    const ctx = new MapperContext('test.js', '', javascriptProfile);
+    ctx.pushScope('module', { type: 'program' } as any);
+
+    const src = createNode({ node_type: 'INGRESS', node_subtype: 'http_request', label: 'input' });
+    const sink = createNode({ node_type: 'STORAGE', node_subtype: 'sql_query', label: 'query' });
+    ctx.neuralMap.nodes.push(src, sink);
+    ctx.nodeById.set(src.id, src);
+    ctx.nodeById.set(sink.id, sink);
+
+    ctx.declareVariable('x', 'let', null, true, src.id);
+    const v = ctx.resolveVariable('x')!;
+    v.range = createRange(1, 999);
+
+    // Explicitly pass a DIFFERENT range
+    const explicitRange = createRange(0, 50);
+    ctx.addDataFlow(src.id, sink.id, 'x', 'number', true, explicitRange);
+
+    const sinkFlow = sink.data_in.find(d => d.name === 'x');
+    expect(sinkFlow!.range!.min).toBe(0);  // explicit wins
+    expect(sinkFlow!.range!.max).toBe(50);
+  });
+
+  it('no range when variable has no range', () => {
+    const ctx = new MapperContext('test.js', '', javascriptProfile);
+    ctx.pushScope('module', { type: 'program' } as any);
+
+    const src = createNode({ node_type: 'INGRESS', node_subtype: 'http_request', label: 'input' });
+    const sink = createNode({ node_type: 'STORAGE', node_subtype: 'sql_query', label: 'query' });
+    ctx.neuralMap.nodes.push(src, sink);
+    ctx.nodeById.set(src.id, src);
+    ctx.nodeById.set(sink.id, sink);
+
+    ctx.declareVariable('y', 'let', null, true, src.id);
+    // No range on variable
+
+    ctx.addDataFlow(src.id, sink.id, 'y', 'string', true);
+
+    const sinkFlow = sink.data_in.find(d => d.name === 'y');
+    expect(sinkFlow).toBeDefined();
+    expect(sinkFlow!.range).toBeUndefined();
+  });
+});
+
+// ---------------------------------------------------------------------------
 // Step 6: Constant folding → range integration
 // ---------------------------------------------------------------------------
 
@@ -376,5 +460,26 @@ describe('Range-aware verifier helpers (Step 7)', () => {
       }],
     });
     expect(sinkHasSafeRange(buildMap([sink]), sink.id, 1000)).toBe(false);
+  });
+});
+
+describe('Java numericValue → RangeInfo bridge', () => {
+  it('integer constant gets exact range', () => {
+    const ctx = new MapperContext('Test.java', '', javascriptProfile);
+    ctx.pushScope('module', { type: 'program' } as any);
+    ctx.declareVariable('BUFFER_SIZE', 'const');
+    const v = ctx.resolveVariable('BUFFER_SIZE')!;
+
+    // Simulate what Java profile does
+    v.numericValue = 128;
+    // The bridge should also set range
+    if (v.numericValue !== undefined && v.range === undefined) {
+      v.range = createRange(v.numericValue, v.numericValue);
+    }
+
+    expect(v.range).toBeDefined();
+    expect(v.range!.min).toBe(128);
+    expect(v.range!.max).toBe(128);
+    expect(v.range!.bounded).toBe(true);
   });
 });

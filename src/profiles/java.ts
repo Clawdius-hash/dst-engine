@@ -39,7 +39,7 @@ import type {
 } from '../languageProfile.js';
 import type { ScopeType, VariableInfo } from '../mapper.js';
 import type { CalleePattern } from '../calleePatterns.js';
-import { createNode } from '../types.js';
+import { createNode, createRange } from '../types.js';
 import type { SemanticSentence } from '../types.js';
 import { generateSentence, getTemplateKey } from '../sentence-generator.js';
 import { lookupCallee as _lookupJavaCallee } from '../languages/java.js';
@@ -1607,6 +1607,9 @@ function processVariableDeclaration(node: SyntaxNode, ctx: MapperContextLike): v
         if (genericTypeArgsList) v.genericTypeArgs = genericTypeArgsList;
         if (constantValue) v.constantValue = constantValue;
         if (numericValue !== undefined) v.numericValue = numericValue;
+        if (v.numericValue !== undefined && v.range === undefined) {
+          v.range = createRange(v.numericValue, v.numericValue);
+        }
       }
 
       // V2: Emit sentence for local variable declaration
