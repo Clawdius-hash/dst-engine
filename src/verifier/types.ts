@@ -123,6 +123,8 @@ export interface ProofCertificate {
   oracle: OracleDefinition;
   proof_strength: 'conclusive' | 'strong' | 'indicative' | 'refuted';
   path_analysis: PathAnalysis | null;
+  /** When set, the proof's payload class differs from the CWE — used for reclassification */
+  inferred_class?: string;
   runtime_verification?: RuntimeVerification;
 }
 

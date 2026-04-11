@@ -576,6 +576,9 @@ export function generateProof(
     return null;
   }
 
+  const cwePayloadClass = inferPayloadClassFromCWE(cwe);
+  const inferredClass = (cwePayloadClass !== payloadClass) ? payloadClass : undefined;
+
   return {
     primary_payload: primary,
     variants,
@@ -583,5 +586,6 @@ export function generateProof(
     oracle,
     proof_strength: strength,
     path_analysis: pathAnalysis,
+    inferred_class: inferredClass,
   };
 }

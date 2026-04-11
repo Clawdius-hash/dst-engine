@@ -809,3 +809,57 @@ describe('inferPayloadClassFromContent', () => {
     expect(result).toBeNull();
   });
 });
+
+// ---------------------------------------------------------------------------
+// proof-based CWE reclassification
+// ---------------------------------------------------------------------------
+
+describe('proof-based CWE reclassification', () => {
+  beforeEach(() => resetSequence());
+
+  it('sets inferred_class when payload class differs from CWE (CWE-190 + SQL content)', () => {
+    const src = createNode({
+      id: 'src_1',
+      node_type: 'INGRESS',
+      node_subtype: 'http_request',
+      code_snapshot: 'req.body.q',
+      edges: [{ target: 'sink_1', edge_type: 'DATA_FLOW', conditional: false, async: false }],
+    });
+    const sink = createNode({
+      id: 'sink_1',
+      node_type: 'TRANSFORM',
+      node_subtype: 'template_string',
+      code_snapshot: '`SELECT * FROM users WHERE id = ${req.body.q}`',
+    });
+    const map = buildTestMap([src, sink]);
+    const finding = makeFinding('src_1', 'sink_1');
+
+    // CWE-190 (Integer Overflow) has no payload class — content inference picks up SQL
+    const proof = generateProof(map, finding, 'CWE-190');
+    expect(proof).not.toBeNull();
+    expect(proof!.inferred_class).toBe('sql_injection');
+  });
+
+  it('does not set inferred_class when CWE already matches (CWE-89 + sql_query sink)', () => {
+    const src = createNode({
+      id: 'src_1',
+      node_type: 'INGRESS',
+      node_subtype: 'http_request',
+      code_snapshot: 'req.body.login',
+      edges: [{ target: 'sink_1', edge_type: 'DATA_FLOW', conditional: false, async: false }],
+    });
+    const sink = createNode({
+      id: 'sink_1',
+      node_type: 'STORAGE',
+      node_subtype: 'db_read',
+      code_snapshot: `"SELECT * FROM users WHERE login='" + req.body.login + "'"`,
+    });
+    const map = buildTestMap([src, sink]);
+    const finding = makeFinding('src_1', 'sink_1');
+
+    // CWE-89 maps to sql_injection, sink subtype db_read also resolves to sql_injection — match
+    const proof = generateProof(map, finding, 'CWE-89');
+    expect(proof).not.toBeNull();
+    expect(proof!.inferred_class).toBeUndefined();
+  });
+});

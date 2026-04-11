@@ -427,12 +427,35 @@ async function enrichWithProofs(
     if (sinkContext.size === 0) sinkContext = undefined;
   }
 
+  const PAYLOAD_CLASS_TO_CWE: Record<string, string> = {
+    sql_injection: 'CWE-89', command_injection: 'CWE-78', xss: 'CWE-79',
+    path_traversal: 'CWE-22', ldap_injection: 'CWE-90', xpath_injection: 'CWE-643',
+    xxe: 'CWE-611', deserialization: 'CWE-502', open_redirect: 'CWE-601',
+    log_injection: 'CWE-117', ssti: 'CWE-1336',
+  };
+  const PAYLOAD_CLASS_TO_NAME: Record<string, string> = {
+    sql_injection: 'SQL Injection', command_injection: 'OS Command Injection',
+    xss: 'Cross-site Scripting (XSS)', path_traversal: 'Path Traversal',
+    ldap_injection: 'LDAP Injection', xpath_injection: 'XPath Injection',
+    xxe: 'XML External Entity (XXE)', deserialization: 'Deserialization of Untrusted Data',
+    open_redirect: 'Open Redirect', log_injection: 'Log Injection',
+    ssti: 'Server-Side Template Injection',
+  };
+
   for (const result of results) {
     if (!result.holds) {
       for (const finding of result.findings) {
         const proof = generateProof(map, finding, result.cwe, sinkContext);
         if (proof) {
           (finding as any).proof = proof;
+
+          if (proof.inferred_class) {
+            const reclassifiedCWE = PAYLOAD_CLASS_TO_CWE[proof.inferred_class];
+            if (reclassifiedCWE && reclassifiedCWE !== result.cwe) {
+              result.cwe = reclassifiedCWE;
+              result.name = PAYLOAD_CLASS_TO_NAME[proof.inferred_class] ?? result.name;
+            }
+          }
         }
       }
     }
