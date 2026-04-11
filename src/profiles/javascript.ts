@@ -881,6 +881,56 @@ function processVariableDeclaration(node: SyntaxNode, ctx: MapperContextLike): v
 }
 
 // ---------------------------------------------------------------------------
+// Handler verb detection — Ghost/Strapi/Keystone pattern
+// ---------------------------------------------------------------------------
+
+// HTTP action verbs that indicate a method is a request handler when found
+// inside module.exports. Excludes generic words (set, init, configure) to
+// avoid false positives on utility methods.
+const HANDLER_VERBS: ReadonlySet<string> = new Set([
+  'query', 'read', 'browse', 'edit', 'destroy', 'add',
+  'create', 'update', 'delete', 'list', 'find', 'search',
+  'remove', 'get', 'post', 'put', 'patch', 'handle',
+  'execute', 'run', 'process', 'fetch', 'save',
+]);
+
+/**
+ * Detect whether a method_definition is a verb-named handler inside
+ * module.exports (or export default). This covers the Ghost CMS pattern:
+ *
+ *   module.exports = {
+ *     browse: {
+ *       query(frame) { ... }  // ← verb-named method, frame is user input
+ *     }
+ *   };
+ *
+ * AST chain: method_definition → object → pair → object → assignment_expression
+ * where left = "module.exports"
+ */
+function isExportedVerbMethod(funcNode: SyntaxNode): boolean {
+  if (funcNode.type !== 'method_definition') return false;
+
+  const name = funcNode.childForFieldName('name')?.text;
+  if (!name || !HANDLER_VERBS.has(name)) return false;
+
+  // Walk up parent chain looking for module.exports assignment or export default
+  let node = funcNode.parent;
+  while (node) {
+    if (node.type === 'assignment_expression') {
+      const left = node.childForFieldName('left');
+      if (left?.text === 'module.exports') return true;
+      if (left?.type === 'member_expression') {
+        const obj = left.childForFieldName('object');
+        if (obj?.text === 'module' || obj?.text === 'exports') return true;
+      }
+    }
+    if (node.type === 'export_statement') return true;
+    node = node.parent;
+  }
+  return false;
+}
+
+// ---------------------------------------------------------------------------
 // processFunctionParams
 // ---------------------------------------------------------------------------
 
@@ -985,12 +1035,48 @@ function processFunctionParams(funcNode: SyntaxNode, ctx: MapperContextLike): vo
     (firstRealParam.type === 'object_pattern' || firstRealParam.type === 'array_pattern') &&
     isExpressHandlerSignature(paramsNode);
 
+  // Ghost/Strapi/Keystone pattern: verb-named method in module.exports
+  // Mark the first parameter as a tainted INGRESS source (e.g., `query(frame)`)
+  const isVerbHandler = isExportedVerbMethod(funcNode);
+  if (isVerbHandler && firstRealParam && firstRealParam.type === 'identifier') {
+    const paramName = firstRealParam.text;
+
+    // Create INGRESS node for the handler parameter
+    const ingressNode = createNode({
+      label: paramName,
+      node_type: 'INGRESS',
+      node_subtype: 'framework_handler',
+      language: 'javascript',
+      file: ctx.neuralMap.source_file,
+      line_start: firstRealParam.startPosition.row + 1,
+      line_end: firstRealParam.endPosition.row + 1,
+      code_snapshot: funcNode.text.slice(0, 200),
+      analysis_snapshot: funcNode.text.slice(0, 2000),
+    });
+    ingressNode.data_out.push({
+      name: paramName,
+      source: ingressNode.id,
+      data_type: 'object',
+      tainted: true,
+      sensitivity: 'NONE',
+    });
+    ingressNode.attack_surface.push('user_input');
+    ctx.neuralMap.nodes.push(ingressNode);
+    ctx.emitContainsIfNeeded(ingressNode.id);
+
+    // Declare the parameter as tainted, linked to the INGRESS node
+    ctx.declareVariable(paramName, 'param', null, true, ingressNode.id);
+  }
+
   for (let i = 0; i < paramsNode.namedChildCount; i++) {
     const param = paramsNode.namedChild(i);
     if (!param) continue;
 
     // Skip ERROR nodes from stripped TypeScript annotations (e.g., `: Request`)
     if (param.type === 'ERROR') continue;
+
+    // Skip first param if already declared as tainted by verb handler detection
+    if (isVerbHandler && i === firstRealParamIndex && param.type === 'identifier') continue;
 
     switch (param.type) {
       case 'identifier':
