@@ -510,6 +510,40 @@ describe('generateProof', () => {
     expect(proof!.primary_payload.canary).toBe('DST_CANARY_SQLI');
   });
 
+  it('uses sink context to resolve payload class when CWE and subtype fail', () => {
+    // Create a TRANSFORM/template_string sink node with cross_file_param_taint_via_slugFilterOrder
+    const src = createNode({
+      id: 'src_1',
+      node_type: 'INGRESS',
+      node_subtype: 'http_request',
+      code_snapshot: 'req.body.q',
+      edges: [{ target: 'sink_1', edge_type: 'DATA_FLOW', conditional: false, async: false }],
+    });
+    const sink = createNode({
+      id: 'sink_1',
+      node_type: 'TRANSFORM',
+      node_subtype: 'template_string',
+      code_snapshot: '`SELECT * FROM ${table}`',
+      data_in: [
+        { name: 'cross_file_param_taint_via_slugFilterOrder', source: 'ext', data_type: 'string', tainted: true, sensitivity: 'PII' },
+      ],
+    });
+    const map = buildTestMap([src, sink]);
+    // CWE-190 has no payload class match in the dictionary
+    const finding = makeFinding('src_1', 'sink_1');
+
+    // Without sinkContext -> returns null (template_string has no match, CWE-190 has no match)
+    const proofWithout = generateProof(map, finding, 'CWE-190');
+    expect(proofWithout).toBeNull();
+
+    // With sinkContext mapping 'slugFilterOrder' -> {'sql_query'} -> resolves to sql_injection
+    const sinkContext = new Map<string, Set<string>>();
+    sinkContext.set('slugFilterOrder', new Set(['sql_query']));
+    const proofWith = generateProof(map, finding, 'CWE-190', sinkContext);
+    expect(proofWith).not.toBeNull();
+    expect(proofWith!.primary_payload.canary).toBe('DST_CANARY_SQLI');
+  });
+
   it('downgrades proof_strength to "strong" when path has unknown transforms', () => {
     const src = createNode({
       id: 'src_1',

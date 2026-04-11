@@ -397,12 +397,40 @@ function printSummary(allResults: FileResult[], elapsed: number): void {
 async function enrichWithProofs(
   results: ReturnType<typeof verifyAll>,
   map: NeuralMap,
+  fileSummaries?: Map<string, FileSummary>,
 ): Promise<void> {
   const { generateProof } = await import('./payload-gen.js');
+
+  // Build name-keyed sink context for proof generation.
+  // functionSinkContext is keyed by nodeId; cross_file_param_taint_via_*
+  // data_in entries use function NAMEs, so we reverse-lookup via functionRegistry.
+  let sinkContext: Map<string, Set<string>> | undefined;
+  if (fileSummaries) {
+    sinkContext = new Map<string, Set<string>>();
+    for (const [, summary] of fileSummaries) {
+      if (!summary.functionSinkContext) continue;
+      // Reverse lookup: nodeId -> funcName from functionRegistry
+      const nodeIdToName = new Map<string, string>();
+      for (const [name, nodeId] of summary.functionRegistry) {
+        if (!name.includes(':')) nodeIdToName.set(nodeId, name);
+      }
+      for (const [nodeId, subtypes] of summary.functionSinkContext) {
+        const name = nodeIdToName.get(nodeId) || nodeId;
+        const existing = sinkContext.get(name);
+        if (existing) {
+          for (const s of subtypes) existing.add(s);
+        } else {
+          sinkContext.set(name, new Set(subtypes));
+        }
+      }
+    }
+    if (sinkContext.size === 0) sinkContext = undefined;
+  }
+
   for (const result of results) {
     if (!result.holds) {
       for (const finding of result.findings) {
-        const proof = generateProof(map, finding, result.cwe);
+        const proof = generateProof(map, finding, result.cwe, sinkContext);
         if (proof) {
           (finding as any).proof = proof;
         }
@@ -571,7 +599,7 @@ async function main(): Promise<void> {
               if (!summary) continue;
               const fileLangConfig = detectLanguage(dirtyFile);
               const results = verifyAll(summary.map, fileLangConfig.profileImport, verifyOptions);
-              if (proveMode) await enrichWithProofs(results, summary.map);
+              if (proveMode) await enrichWithProofs(results, summary.map, fileSummaries);
               allResults[idx] = { filename: allResults[idx].filename, map: summary.map, results };
             }
 

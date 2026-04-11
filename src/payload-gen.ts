@@ -437,6 +437,7 @@ export function generateProof(
   map: NeuralMap,
   finding: Finding,
   cwe: string,
+  sinkContext?: Map<string, Set<string>>,
 ): ProofCertificate | null {
   const sinkNode = lookupNode(map, finding.sink);
   const sourceNode = lookupNode(map, finding.source);
@@ -451,6 +452,38 @@ export function generateProof(
 
   if (!payloadClass) {
     payloadClass = inferPayloadClassFromCWE(cwe);
+  }
+
+  // Sink-context fallback: check if the finding's taint came through a function
+  // that feeds a known sink type. The cross_file_param_taint_via_* data_in entries
+  // tell us which function carried the taint.
+  if (!payloadClass && sinkContext && sinkNode) {
+    for (const d of sinkNode.data_in) {
+      const match = d.name.match(/^cross_file_param_taint_via_(.+)$/);
+      if (match) {
+        const funcName = match[1];
+        const sinkSubtypes = sinkContext.get(funcName);
+        if (sinkSubtypes && sinkSubtypes.size > 0) {
+          payloadClass = resolveSinkClass([...sinkSubtypes][0]);
+          if (payloadClass) break;
+        }
+      }
+    }
+  }
+
+  // ALSO check by nodeId keys (direct cataloging uses nodeId, not funcName)
+  if (!payloadClass && sinkContext) {
+    for (const [key, subtypes] of sinkContext) {
+      if (subtypes.size > 0) {
+        const candidate = resolveSinkClass([...subtypes][0]);
+        if (candidate) {
+          // Only use this if the finding's source or sink is related to this function
+          // (V1: accept any sink context — over-approximation matching PASS 2/3 philosophy)
+          payloadClass = candidate;
+          break;
+        }
+      }
+    }
   }
 
   if (!payloadClass) return null;
