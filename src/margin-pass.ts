@@ -238,8 +238,13 @@ export function runMarginPass(
       const depSummary = fileSummaries.get(depPath);
       if (!depSummary) continue;
 
-      for (const funcName of importedNames) {
-        if (funcName === '*') continue;
+      // Expand star imports to actual function names from the callee's registry
+      // (CommonJS require() resolves as ['*'] — expand to real function names)
+      const resolvedNames = importedNames.includes('*')
+        ? [...(depSummary.functionRegistry.keys())].filter(k => !k.includes(':'))
+        : importedNames;
+
+      for (const funcName of resolvedNames) {
 
         // Find call-sites in the CALLER's map that invoke this function
         const callSites = summary.map.nodes.filter(n =>
@@ -248,10 +253,26 @@ export function runMarginPass(
         );
 
         // Check if any call-site has tainted input
-        const hasTaintedArgs = callSites.some(cs =>
+        let hasTaintedArgs = callSites.some(cs =>
           cs.data_in?.some(d => d.tainted) ||
           cs.data_out?.some(d => d.tainted)
         );
+
+        // FALLBACK: if call-site nodes exist but none have tainted data_in/out,
+        // OR if no call-site node was found at all, check the raw source code.
+        // The taint may be in a scope variable (e.g., frame is tainted) but not
+        // yet on the node's data_in (the call is a sub-expression).
+        // If the source contains the call AND the file has tainted INGRESS
+        // nodes, conservatively treat the call as having tainted arguments.
+        if (!hasTaintedArgs) {
+          const sourceHasCall = (summary.map.source_code || '').includes(funcName + '(');
+          const fileHasTaint = summary.map.nodes.some(n =>
+            n.node_type === 'INGRESS' && n.data_out?.some(d => d.tainted)
+          );
+          if (sourceHasCall && fileHasTaint) {
+            hasTaintedArgs = true;
+          }
+        }
 
         if (!hasTaintedArgs) continue;
 
@@ -306,12 +327,24 @@ export function runMarginPass(
           }
 
           // TRANSFORM nodes that process parameters — mark data_in as tainted
-          if (node.node_type === 'TRANSFORM' && node.data_in.length > 0) {
-            for (const d of node.data_in) {
-              if (!d.tainted) {
-                d.tainted = true;
-                propagated = true;
+          if (node.node_type === 'TRANSFORM') {
+            if (node.data_in.length > 0) {
+              for (const d of node.data_in) {
+                if (!d.tainted) {
+                  d.tainted = true;
+                  propagated = true;
+                }
               }
+            } else {
+              // No data_in yet — add synthetic tainted entry
+              node.data_in.push({
+                name: `cross_file_param_taint_via_${funcName}`,
+                source: 'EXTERNAL',
+                data_type: 'unknown',
+                tainted: true,
+                sensitivity: 'NONE',
+              });
+              propagated = true;
             }
           }
         }
