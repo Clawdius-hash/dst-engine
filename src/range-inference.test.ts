@@ -483,3 +483,84 @@ describe('Java numericValue → RangeInfo bridge', () => {
     expect(v.range!.bounded).toBe(true);
   });
 });
+
+// ---------------------------------------------------------------------------
+// Full pipeline integration: variable range -> addDataFlow -> verifier helpers
+// ---------------------------------------------------------------------------
+
+describe('Full pipeline: variable range -> addDataFlow -> verifier helpers', () => {
+  beforeEach(() => resetSequenceHard());
+
+  it('sinkHasBoundedRange returns true after auto-bridge', () => {
+    const ctx = new MapperContext('test.js', '', javascriptProfile);
+    ctx.pushScope('module', { type: 'program' } as any);
+
+    const src = createNode({ node_type: 'INGRESS', node_subtype: 'http_request', label: 'input' });
+    const sink = createNode({ node_type: 'STORAGE', node_subtype: 'sql_query', label: 'query' });
+    ctx.neuralMap.nodes.push(src, sink);
+    ctx.nodeById.set(src.id, src);
+    ctx.nodeById.set(sink.id, sink);
+
+    ctx.declareVariable('x', 'let', null, true, src.id);
+    ctx.resolveVariable('x')!.range = createRange(1, 100);
+
+    ctx.addDataFlow(src.id, sink.id, 'x', 'number', true);
+
+    expect(sinkHasBoundedRange(ctx.neuralMap, sink.id)).toBe(true);
+  });
+
+  it('sinkHasSafeRange validates against threshold', () => {
+    const ctx = new MapperContext('test.js', '', javascriptProfile);
+    ctx.pushScope('module', { type: 'program' } as any);
+
+    const src = createNode({ node_type: 'INGRESS', node_subtype: 'http_request', label: 'input' });
+    const sink = createNode({ node_type: 'STORAGE', node_subtype: 'sql_query', label: 'query' });
+    ctx.neuralMap.nodes.push(src, sink);
+    ctx.nodeById.set(src.id, src);
+    ctx.nodeById.set(sink.id, sink);
+
+    ctx.declareVariable('size', 'let', null, true, src.id);
+    ctx.resolveVariable('size')!.range = createRange(0, 255);
+
+    ctx.addDataFlow(src.id, sink.id, 'size', 'number', true);
+
+    expect(sinkHasSafeRange(ctx.neuralMap, sink.id, 1000)).toBe(true);
+    expect(sinkHasSafeRange(ctx.neuralMap, sink.id, 200)).toBe(false);
+  });
+
+  it('sinkHasNonZeroRange works through pipeline', () => {
+    const ctx = new MapperContext('test.js', '', javascriptProfile);
+    ctx.pushScope('module', { type: 'program' } as any);
+
+    const src = createNode({ node_type: 'INGRESS', node_subtype: 'http_request', label: 'input' });
+    const sink = createNode({ node_type: 'TRANSFORM', node_subtype: 'arithmetic', label: 'divide' });
+    ctx.neuralMap.nodes.push(src, sink);
+    ctx.nodeById.set(src.id, src);
+    ctx.nodeById.set(sink.id, sink);
+
+    ctx.declareVariable('divisor', 'let', null, true, src.id);
+    ctx.resolveVariable('divisor')!.range = createRange(1, 100);
+
+    ctx.addDataFlow(src.id, sink.id, 'divisor', 'number', true);
+
+    expect(sinkHasNonZeroRange(ctx.neuralMap, sink.id)).toBe(true);
+  });
+
+  it('no range propagation when variable has no range', () => {
+    const ctx = new MapperContext('test.js', '', javascriptProfile);
+    ctx.pushScope('module', { type: 'program' } as any);
+
+    const src = createNode({ node_type: 'INGRESS', node_subtype: 'http_request', label: 'input' });
+    const sink = createNode({ node_type: 'STORAGE', node_subtype: 'sql_query', label: 'query' });
+    ctx.neuralMap.nodes.push(src, sink);
+    ctx.nodeById.set(src.id, src);
+    ctx.nodeById.set(sink.id, sink);
+
+    ctx.declareVariable('raw', 'let', null, true, src.id);
+    // No range set
+
+    ctx.addDataFlow(src.id, sink.id, 'raw', 'string', true);
+
+    expect(sinkHasBoundedRange(ctx.neuralMap, sink.id)).toBe(false);
+  });
+});
