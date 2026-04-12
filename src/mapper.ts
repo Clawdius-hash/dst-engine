@@ -1016,6 +1016,80 @@ export function buildReverseEdgeIndex(
   return reverse;
 }
 
+/** Edge types that represent data/control flow (followed during backward BFS) */
+const BFS_FOLLOW_EDGE_TYPES = new Set([
+  'DATA_FLOW', 'CALLS', 'READS', 'WRITES', 'RETURNS',
+]);
+
+/** Sink node types for security domain tagging */
+const SINK_NODE_TYPES = new Set(['STORAGE', 'EXTERNAL', 'EGRESS']);
+
+/**
+ * Backward BFS from every sink node, tagging upstream nodes' `data_out`
+ * entries with the sink's `node_subtype` as `security_domain`.
+ *
+ * Only follows DATA_FLOW, CALLS, READS, WRITES, RETURNS edges backward.
+ * First domain wins — if a data_out entry already has a security_domain,
+ * it is NOT overwritten.
+ */
+export function tagSecurityDomains(
+  map: NeuralMap,
+  reverseIndex: Map<string, Array<{ source: string; edge_type: string }>>,
+): void {
+  // Build a quick lookup: id -> node
+  const nodeById = new Map<string, NeuralMapNode>();
+  for (const node of map.nodes) {
+    nodeById.set(node.id, node);
+  }
+
+  // Find all sinks
+  for (const node of map.nodes) {
+    if (!SINK_NODE_TYPES.has(node.node_type)) continue;
+    const domain = node.node_subtype;
+    if (!domain) continue;
+
+    // BFS backward from this sink
+    const visited = new Set<string>();
+    const queue: string[] = [];
+
+    // Seed with the sink's direct predecessors (not the sink itself)
+    const sinkPreds = reverseIndex.get(node.id);
+    if (sinkPreds) {
+      for (const pred of sinkPreds) {
+        if (BFS_FOLLOW_EDGE_TYPES.has(pred.edge_type) && !visited.has(pred.source)) {
+          visited.add(pred.source);
+          queue.push(pred.source);
+        }
+      }
+    }
+
+    // Process BFS queue
+    while (queue.length > 0) {
+      const currentId = queue.shift()!;
+      const currentNode = nodeById.get(currentId);
+      if (currentNode) {
+        // Tag all data_out entries (first domain wins)
+        for (const dataOut of currentNode.data_out) {
+          if (!dataOut.security_domain) {
+            dataOut.security_domain = domain;
+          }
+        }
+      }
+
+      // Continue backward
+      const preds = reverseIndex.get(currentId);
+      if (preds) {
+        for (const pred of preds) {
+          if (BFS_FOLLOW_EDGE_TYPES.has(pred.edge_type) && !visited.has(pred.source)) {
+            visited.add(pred.source);
+            queue.push(pred.source);
+          }
+        }
+      }
+    }
+  }
+}
+
 /**
  * Build a NeuralMap from a parsed tree-sitter tree.
  *
@@ -1062,6 +1136,7 @@ export function buildNeuralMap(
 
   const reverseEdgeIndex = buildReverseEdgeIndex(ctx.neuralMap);
   ctx.neuralMap.reverseEdgeIndex = reverseEdgeIndex;
+  tagSecurityDomains(ctx.neuralMap, reverseEdgeIndex);
 
   resolveSentences(ctx);
 

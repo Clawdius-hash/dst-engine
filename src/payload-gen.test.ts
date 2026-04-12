@@ -30,7 +30,7 @@ import {
   generateProof,
   inferPayloadClassFromContent,
 } from './payload-gen.js';
-import { buildReverseEdgeIndex } from './mapper.js';
+import { buildReverseEdgeIndex, tagSecurityDomains } from './mapper.js';
 import {
   resolveSinkClass,
   inferPayloadClassFromCWE,
@@ -900,5 +900,93 @@ describe('buildReverseEdgeIndex', () => {
     expect(reverse.get('mid')).toEqual([{ source: 'src', edge_type: 'DATA_FLOW' }]);
     // src has no predecessors
     expect(reverse.get('src')).toBeUndefined();
+  });
+});
+
+// ---------------------------------------------------------------------------
+// security domain tagging via backward BFS
+// ---------------------------------------------------------------------------
+
+describe('security domain tagging via backward BFS', () => {
+  beforeEach(() => resetSequence());
+
+  it('tags data_out of nodes feeding a STORAGE/sql_query sink', () => {
+    const src = createNode({
+      id: 'src',
+      node_type: 'INGRESS',
+      node_subtype: 'http_request',
+      edges: [{ target: 'mid', edge_type: 'DATA_FLOW', conditional: false, async: false }],
+      data_out: [{ name: 'x', source: 'src', data_type: 'string', tainted: true, sensitivity: 'NONE' }],
+    });
+    const mid = createNode({
+      id: 'mid',
+      node_type: 'TRANSFORM',
+      node_subtype: 'string_op',
+      edges: [{ target: 'sink', edge_type: 'DATA_FLOW', conditional: false, async: false }],
+      data_out: [{ name: 'x', source: 'mid', data_type: 'string', tainted: true, sensitivity: 'NONE' }],
+    });
+    const sink = createNode({
+      id: 'sink',
+      node_type: 'STORAGE',
+      node_subtype: 'sql_query',
+      data_out: [{ name: 'x', source: 'sink', data_type: 'string', tainted: true, sensitivity: 'NONE' }],
+    });
+    const map = buildTestMap([src, mid, sink]);
+    const reverse = buildReverseEdgeIndex(map);
+
+    tagSecurityDomains(map, reverse);
+
+    // mid feeds the sql_query sink -> tagged
+    expect(mid.data_out[0].security_domain).toBe('sql_query');
+    // src feeds mid which feeds the sql_query sink -> tagged
+    expect(src.data_out[0].security_domain).toBe('sql_query');
+    // sink itself should NOT be tagged (only upstream nodes)
+    expect(sink.data_out[0].security_domain).toBeUndefined();
+  });
+
+  it('does NOT tag nodes not connected to any sink', () => {
+    const isolated = createNode({
+      id: 'isolated',
+      node_type: 'TRANSFORM',
+      node_subtype: 'string_op',
+      data_out: [{ name: 'x', source: 'isolated', data_type: 'string', tainted: true, sensitivity: 'NONE' }],
+    });
+    const map = buildTestMap([isolated]);
+    const reverse = buildReverseEdgeIndex(map);
+
+    tagSecurityDomains(map, reverse);
+
+    expect(isolated.data_out[0].security_domain).toBeUndefined();
+  });
+
+  it('does NOT follow CONTAINS edges backward', () => {
+    const container = createNode({
+      id: 'container',
+      node_type: 'STRUCTURAL',
+      node_subtype: 'function',
+      edges: [{ target: 'sink', edge_type: 'CONTAINS', conditional: false, async: false }],
+      data_out: [{ name: 'x', source: 'container', data_type: 'string', tainted: true, sensitivity: 'NONE' }],
+    });
+    const unrelated = createNode({
+      id: 'unrelated',
+      node_type: 'TRANSFORM',
+      node_subtype: 'string_op',
+      data_out: [{ name: 'x', source: 'unrelated', data_type: 'string', tainted: true, sensitivity: 'NONE' }],
+    });
+    const sink = createNode({
+      id: 'sink',
+      node_type: 'STORAGE',
+      node_subtype: 'sql_query',
+      data_out: [{ name: 'x', source: 'sink', data_type: 'string', tainted: true, sensitivity: 'NONE' }],
+    });
+    const map = buildTestMap([container, unrelated, sink]);
+    const reverse = buildReverseEdgeIndex(map);
+
+    tagSecurityDomains(map, reverse);
+
+    // container CONTAINS sink, but CONTAINS is not followed -> not tagged
+    expect(container.data_out[0].security_domain).toBeUndefined();
+    // unrelated has no edges to sink at all -> not tagged
+    expect(unrelated.data_out[0].security_domain).toBeUndefined();
   });
 });

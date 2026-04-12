@@ -253,14 +253,16 @@
           "target": "node_23_12",
           "data_type": "unknown",
           "tainted": true,
-          "sensitivity": "NONE"
+          "sensitivity": "NONE",
+          "security_domain": "db_read"
         },
         {
           "name": "result",
           "source": "node_23_9",
           "data_type": "unknown",
           "tainted": true,
-          "sensitivity": "NONE"
+          "sensitivity": "NONE",
+          "security_domain": "db_read"
         }
       ],
       "edges": [
@@ -339,7 +341,8 @@
           "source": "node_23_12",
           "data_type": "unknown",
           "tainted": true,
-          "sensitivity": "NONE"
+          "sensitivity": "NONE",
+          "security_domain": "http_response"
         },
         {
           "name": "user",
@@ -347,7 +350,8 @@
           "target": "node_23_17",
           "data_type": "unknown",
           "tainted": true,
-          "sensitivity": "NONE"
+          "sensitivity": "NONE",
+          "security_domain": "http_response"
         }
       ],
       "edges": [
@@ -671,7 +675,8 @@
           "target": "node_23_26",
           "data_type": "unknown",
           "tainted": true,
-          "sensitivity": "PII"
+          "sensitivity": "PII",
+          "security_domain": "db_write"
         },
         {
           "name": "password",
@@ -679,14 +684,16 @@
           "target": "node_23_28",
           "data_type": "unknown",
           "tainted": true,
-          "sensitivity": "SECRET"
+          "sensitivity": "SECRET",
+          "security_domain": "db_write"
         },
         {
           "name": "result",
           "source": "node_23_24",
           "data_type": "unknown",
           "tainted": true,
-          "sensitivity": "NONE"
+          "sensitivity": "NONE",
+          "security_domain": "db_write"
         },
         {
           "name": "username",
@@ -694,7 +701,8 @@
           "target": "node_23_25",
           "data_type": "unknown",
           "tainted": true,
-          "sensitivity": "NONE"
+          "sensitivity": "NONE",
+          "security_domain": "db_write"
         }
       ],
       "edges": [
@@ -750,7 +758,8 @@
           "target": "node_23_30",
           "data_type": "unknown",
           "tainted": false,
-          "sensitivity": "NONE"
+          "sensitivity": "NONE",
+          "security_domain": "db_write"
         },
         {
           "name": "cleanName",
@@ -758,14 +767,16 @@
           "target": "node_23_35",
           "data_type": "unknown",
           "tainted": false,
-          "sensitivity": "NONE"
+          "sensitivity": "NONE",
+          "security_domain": "db_write"
         },
         {
           "name": "result",
           "source": "node_23_25",
           "data_type": "unknown",
           "tainted": false,
-          "sensitivity": "NONE"
+          "sensitivity": "NONE",
+          "security_domain": "db_write"
         },
         {
           "name": "user._id",
@@ -773,7 +784,8 @@
           "target": "node_23_32",
           "data_type": "unknown",
           "tainted": false,
-          "sensitivity": "NONE"
+          "sensitivity": "NONE",
+          "security_domain": "db_write"
         },
         {
           "name": "user._id",
@@ -781,7 +793,8 @@
           "target": "node_23_35",
           "data_type": "unknown",
           "tainted": false,
-          "sensitivity": "NONE"
+          "sensitivity": "NONE",
+          "security_domain": "db_write"
         }
       ],
       "edges": [
@@ -841,14 +854,16 @@
           "target": "node_23_30",
           "data_type": "unknown",
           "tainted": false,
-          "sensitivity": "PII"
+          "sensitivity": "PII",
+          "security_domain": "db_write"
         },
         {
           "name": "result",
           "source": "node_23_26",
           "data_type": "unknown",
           "tainted": false,
-          "sensitivity": "NONE"
+          "sensitivity": "NONE",
+          "security_domain": "db_write"
         }
       ],
       "edges": [
@@ -915,14 +930,16 @@
           "target": "node_23_30",
           "data_type": "unknown",
           "tainted": true,
-          "sensitivity": "NONE"
+          "sensitivity": "NONE",
+          "security_domain": "db_write"
         },
         {
           "name": "result",
           "source": "node_23_28",
           "data_type": "unknown",
           "tainted": true,
-          "sensitivity": "NONE"
+          "sensitivity": "NONE",
+          "security_domain": "db_write"
         }
       ],
       "edges": [
@@ -1098,7 +1115,8 @@
           "target": "node_23_35",
           "data_type": "unknown",
           "tainted": true,
-          "sensitivity": "SECRET"
+          "sensitivity": "SECRET",
+          "security_domain": "http_response"
         }
       ],
       "edges": [
@@ -1335,14 +1353,16 @@
           "target": "node_23_47",
           "data_type": "unknown",
           "tainted": true,
-          "sensitivity": "SECRET"
+          "sensitivity": "SECRET",
+          "security_domain": "db_read"
         },
         {
           "name": "result",
           "source": "node_23_39",
           "data_type": "unknown",
           "tainted": true,
-          "sensitivity": "NONE"
+          "sensitivity": "NONE",
+          "security_domain": "db_read"
         },
         {
           "name": "username",
@@ -1350,7 +1370,8 @@
           "target": "node_23_41",
           "data_type": "unknown",
           "tainted": true,
-          "sensitivity": "NONE"
+          "sensitivity": "NONE",
+          "security_domain": "db_read"
         }
       ],
       "edges": [
@@ -1733,7 +1754,8 @@
           "target": "node_23_55",
           "data_type": "unknown",
           "tainted": true,
-          "sensitivity": "SECRET"
+          "sensitivity": "SECRET",
+          "security_domain": "http_response"
         }
       ],
       "edges": [
