@@ -28,7 +28,6 @@ import {
   buildOracle,
   validatePayloadSafety,
   generateProof,
-  inferPayloadClassFromContent,
 } from './payload-gen.js';
 import { buildReverseEdgeIndex, tagSecurityDomains } from './mapper.js';
 import {
@@ -751,63 +750,71 @@ describe('buildOracle', () => {
 });
 
 // ---------------------------------------------------------------------------
-// inferPayloadClassFromContent
+// security_domain-based payload class resolution
 // ---------------------------------------------------------------------------
 
-describe('inferPayloadClassFromContent', () => {
+describe('security_domain-based payload class resolution', () => {
   beforeEach(() => resetSequence());
 
-  it('detects SQL injection from template string with SELECT...WHERE', () => {
-    const src = createNode({
-      id: 'src_1',
-      node_type: 'INGRESS',
-      node_subtype: 'http_request',
-      code_snapshot: 'req.body.q',
+  it('resolves payload class from security_domain on data_in', () => {
+    const source = createNode({
+      id: 'src_1', node_type: 'INGRESS', node_subtype: 'framework_handler',
+      line_start: 1,
+      data_out: [{ name: 'frame', source: '', data_type: 'object', tainted: true, sensitivity: 'NONE' }],
       edges: [{ target: 'sink_1', edge_type: 'DATA_FLOW', conditional: false, async: false }],
     });
     const sink = createNode({
-      id: 'sink_1',
-      node_type: 'TRANSFORM',
-      node_subtype: 'template_string',
-      code_snapshot: '`SELECT * FROM users WHERE id = ${req.body.q}`',
+      id: 'sink_1', node_type: 'TRANSFORM', node_subtype: 'template_string',
+      line_start: 10,
+      code_snapshot: "order += `WHEN slug = '${slug}' THEN ${index}`",
+      data_in: [{
+        name: 'cross_file_param_taint_via_slugFilterOrder',
+        source: 'EXTERNAL', data_type: 'unknown',
+        tainted: true, sensitivity: 'NONE',
+        security_domain: 'sql_query',
+      }],
+      edges: [],
     });
-    const map = buildTestMap([src, sink]);
+    const map = buildTestMap([source, sink]);
     const finding = makeFinding('src_1', 'sink_1');
 
-    // CWE-190 has no payload class match — will fall through to content inference
+    // CWE-190, template_string subtype — both fail normal resolution
+    // But security_domain='sql_query' on data_in resolves it
+    const proof = generateProof(map, finding, 'CWE-190');
+    expect(proof).not.toBeNull();
+    expect(proof!.primary_payload.canary).toBe('DST_CANARY_SQLI');
+    expect(proof!.inferred_class).toBe('sql_injection');
+  });
+
+  it('resolves payload class from security_domain on data_out', () => {
+    const node = createNode({
+      id: 'n1', node_type: 'TRANSFORM', node_subtype: 'template_string',
+      line_start: 5,
+      data_in: [{ name: 'input', source: 'EXTERNAL', data_type: 'string', tainted: true, sensitivity: 'NONE' }],
+      data_out: [{ name: 'query', source: 'n1', data_type: 'string', tainted: true, sensitivity: 'NONE', security_domain: 'sql_query' }],
+      edges: [],
+    });
+    const map = buildTestMap([node]);
+    const finding = makeFinding('n1', 'n1');
+
     const proof = generateProof(map, finding, 'CWE-190');
     expect(proof).not.toBeNull();
     expect(proof!.primary_payload.canary).toBe('DST_CANARY_SQLI');
   });
 
-  it('detects command injection from shell command (/bin/sh)', () => {
+  it('returns null when no security_domain and no matching CWE', () => {
     const node = createNode({
-      node_type: 'TRANSFORM',
-      node_subtype: 'template_string',
-      code_snapshot: '`/bin/sh -c "${cmd}"`',
+      id: 'n1', node_type: 'TRANSFORM', node_subtype: 'template_string',
+      line_start: 5,
+      data_in: [{ name: 'input', source: 'EXTERNAL', data_type: 'string', tainted: true, sensitivity: 'NONE' }],
+      edges: [],
     });
-    const result = inferPayloadClassFromContent(node);
-    expect(result).toBe('command_injection');
-  });
+    const map = buildTestMap([node]);
+    const finding = makeFinding('n1', 'n1');
 
-  it('returns null for harmless content ("Hello ${name}!")', () => {
-    const node = createNode({
-      node_type: 'TRANSFORM',
-      node_subtype: 'template_string',
-      code_snapshot: '`Hello ${name}!`',
-    });
-    const result = inferPayloadClassFromContent(node);
-    expect(result).toBeNull();
-  });
-
-  it('returns null for single SQL keyword in English context', () => {
-    const node = createNode({
-      node_type: 'TRANSFORM',
-      node_subtype: 'template_string',
-      code_snapshot: 'Please SELECT the best option',
-    });
-    const result = inferPayloadClassFromContent(node);
-    expect(result).toBeNull();
+    // No security_domain, CWE-190, template_string — all fail
+    const proof = generateProof(map, finding, 'CWE-190');
+    expect(proof).toBeNull();
   });
 });
 
@@ -818,7 +825,7 @@ describe('inferPayloadClassFromContent', () => {
 describe('proof-based CWE reclassification', () => {
   beforeEach(() => resetSequence());
 
-  it('sets inferred_class when payload class differs from CWE (CWE-190 + SQL content)', () => {
+  it('sets inferred_class when payload class differs from CWE (CWE-190 + security_domain)', () => {
     const src = createNode({
       id: 'src_1',
       node_type: 'INGRESS',
@@ -831,11 +838,16 @@ describe('proof-based CWE reclassification', () => {
       node_type: 'TRANSFORM',
       node_subtype: 'template_string',
       code_snapshot: '`SELECT * FROM users WHERE id = ${req.body.q}`',
+      data_in: [{
+        name: 'input', source: 'EXTERNAL', data_type: 'string',
+        tainted: true, sensitivity: 'NONE',
+        security_domain: 'sql_query',
+      }],
     });
     const map = buildTestMap([src, sink]);
     const finding = makeFinding('src_1', 'sink_1');
 
-    // CWE-190 (Integer Overflow) has no payload class — content inference picks up SQL
+    // CWE-190 (Integer Overflow) has no payload class — security_domain picks up SQL
     const proof = generateProof(map, finding, 'CWE-190');
     expect(proof).not.toBeNull();
     expect(proof!.inferred_class).toBe('sql_injection');
