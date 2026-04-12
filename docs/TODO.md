@@ -24,7 +24,7 @@
 
 ## REAL BLOCKERS
 
-- [x] **Proof generation on cross-file findings** — Backward sink-context propagation in margin pass PASS 3 + content-aware fallback in payload-gen.ts. `generateProof` now accepts `sinkContext`, resolves payload class for cross-file findings where CWE and sink subtype alone don't match. Proof-based CWE reclassification overrides CWE label when proof demonstrates a different vulnerability class. The proof IS the classification.
+- [x] **Proof generation on cross-file findings** — Graph-derived security domains via backward BFS from sinks + reverse edge index. `generateProof` reads `security_domain` from DataFlow entries (set by `tagSecurityDomains` backward BFS and cross-file margin pass). No regex, no keyword lists — the graph tells you what each data flow feeds. Proof-based CWE reclassification overrides CWE label when proof demonstrates a different vulnerability class. `inferPayloadClassFromContent` deleted — deterministic classification only.
 
 - [x] **Cross-file proof delivery spec** — `enrichWithProofs` accepts `fileSummaries`, aggregates sink-context across all file summaries, passes to `generateProof`. Sink context flows from caller (with sinks) to its dependencies (the files it imports from) via reverse topo order in PASS 3.
 
