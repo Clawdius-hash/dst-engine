@@ -1408,16 +1408,16 @@ function walkWithScopes(node: SyntaxNode, ctx: MapperContext, profile: LanguageP
           ctx.addSentence(sentence);
           continue; // Don't also emit executes-query for parameterized queries
         }
-        const varNames = args.replace(/"[^"]*"|'[^']*'/g, '').match(/\b[a-z_]\w*\b/gi) || [];
+        const varNames = args.replace(/"[^"]*"|'[^']*'/g, '').match(/\b[a-z_]\w*(?:\.\w+)*\b/gi) || [];
         slots = { subject: obj || method, query_type: 'SQL', variables: varNames.join(', '), context: `line ${n.line_start}` };
       } else if (templateKey === 'executes-command') {
-        const varNames = args.replace(/"[^"]*"|'[^']*'/g, '').match(/\b[a-z_]\w*\b/gi) || [];
+        const varNames = args.replace(/"[^"]*"|'[^']*'/g, '').match(/\b[a-z_]\w*(?:\.\w+)*\b/gi) || [];
         slots = { subject: obj || method, variables: varNames.join(', '), context: `line ${n.line_start}` };
       } else if (templateKey === 'writes-response') {
-        const varNames = args.replace(/"[^"]*"|'[^']*'/g, '').match(/\b[a-z_]\w*\b/gi) || [];
+        const varNames = args.replace(/"[^"]*"|'[^']*'/g, '').match(/\b[a-z_]\w*(?:\.\w+)*\b/gi) || [];
         slots = { subject: assignedVarName || obj || n.label, method, object: obj, args, variables: varNames.filter(v => !v.match(/^[A-Z][A-Z_0-9]*$/)).join(', '), context: `line ${n.line_start}` };
       } else if (templateKey === 'accesses-path') {
-        const varNames = args.replace(/"[^"]*"|'[^']*'/g, '').match(/\b[a-z_]\w*\b/gi) || [];
+        const varNames = args.replace(/"[^"]*"|'[^']*'/g, '').match(/\b[a-z_]\w*(?:\.\w+)*\b/gi) || [];
         slots = { subject: n.label, variables: varNames.join(', '), context: `line ${n.line_start}` };
       } else {
         slots = { subject: assignedVarName || obj || n.label, method, object: obj, args, context: `line ${n.line_start}` };

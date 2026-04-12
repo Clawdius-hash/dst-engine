@@ -209,19 +209,11 @@ app.get('/users', (req, res) => {
       console.log(`    holds: ${r.holds}, findings: ${r.findings.length}`);
     }
 
-    const sqli = findingsByCWE(results, 'CWE-89');
-
     logFindings('TP-1: raw SQL injection', results);
 
-    // Raw user input concatenated into SQL — at least SOME injection-class CWE MUST fire.
-    // CWE-89 specifically may be suppressed by the property engine producing a different CWE,
-    // or the STORAGE node may have a subtype that doesn't match 'sql_query'.
-    // Check for ANY injection/taint-related finding.
-    const injectionFindings = results.filter(r => !r.holds && (
-      r.cwe === 'CWE-89' || r.cwe === 'CWE-20' || r.cwe === 'CWE-943' ||
-      r.cwe === 'CWE-639' || r.cwe === 'CWE-287' || r.cwe === 'CWE-602'
-    ));
-    expect(injectionFindings.length).toBeGreaterThan(0);
+    // Raw user input concatenated into SQL — CWE-89 MUST fire.
+    const sqli = findingsByCWE(results, 'CWE-89');
+    expect(sqli.length).toBeGreaterThan(0);
   });
 
   it('TP-2: raw XSS — user input in res.send with HTML', () => {
