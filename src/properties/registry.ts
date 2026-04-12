@@ -8,6 +8,7 @@
 
 import type { SecurityProperty } from './types.js';
 import { taintReachability } from './taint-reachability.js';
+import { stateVsRequirement } from './state-vs-requirement.js';
 import { missingAuth } from './missing-auth.js';
 import { sensitiveExposure } from './sensitive-exposure.js';
 import { weakCrypto } from './weak-crypto.js';
@@ -26,6 +27,7 @@ import { sentinelCollision } from './sentinel-collision.js';
  */
 export const PROPERTY_REGISTRY: SecurityProperty[] = [
   taintReachability,
+  stateVsRequirement,
   missingAuth,
   sensitiveExposure,
   weakCrypto,

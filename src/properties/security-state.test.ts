@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import {
   SecurityState,
   createUntrustedState,
@@ -7,6 +7,8 @@ import {
   isStateValidForSink,
 } from './security-state.js';
 import { isNeutralizingSubtype, getNeutralizedDomains } from './neutralizers.js';
+import { stateVsRequirement } from './state-vs-requirement.js';
+import type { PropertyContext } from './types.js';
 
 describe('SecurityState', () => {
   it('createUntrustedState has all flags false', () => {
@@ -189,5 +191,127 @@ describe('neutralizers', () => {
     expect(getNeutralizedDomains('validate')).toContain('redirect_safe');
     expect(getNeutralizedDomains('validate')).not.toContain('xxe_safe');
     expect(getNeutralizedDomains('validate')).not.toContain('deserialize_safe');
+  });
+});
+
+const ctx: PropertyContext = {
+  language: 'javascript',
+  hasStory: true,
+  isLibrary: false,
+  pedantic: false,
+};
+
+describe('state-vs-requirement property', () => {
+  let createNode: typeof import('../types.js').createNode;
+  let createNeuralMap: typeof import('../types.js').createNeuralMap;
+  let resetSequenceHard: typeof import('../types.js').resetSequenceHard;
+
+  beforeEach(async () => {
+    const types = await import('../types.js');
+    createNode = types.createNode;
+    createNeuralMap = types.createNeuralMap;
+    resetSequenceHard = types.resetSequenceHard;
+    resetSequenceHard();
+  });
+
+  it('detects UNTRUSTED data reaching sql_query sink', () => {
+    const map = createNeuralMap('test.js', '');
+    const ingress = createNode({
+      node_type: 'INGRESS', node_subtype: 'http_request',
+      label: 'req.body',
+      data_out: [{ name: 'input', source: '', data_type: 'string', tainted: true, sensitivity: 'NONE' as const,
+                   security_state: createUntrustedState() }],
+      edges: [{ target: 'sink_1', edge_type: 'DATA_FLOW' as const, conditional: false, async: false }],
+    });
+    const sink = createNode({
+      id: 'sink_1', node_type: 'STORAGE', node_subtype: 'sql_query',
+      label: 'db.query',
+      data_in: [{ name: 'input', source: ingress.id, data_type: 'string', tainted: true, sensitivity: 'NONE' as const,
+                  security_state: createUntrustedState() }],
+    });
+    map.nodes = [ingress, sink];
+    map.story = [
+      { text: 'input receives string from req.body, tainted', templateKey: 'retrieves-from-source',
+        slots: { subject: 'input', data_type: 'string', source: 'req.body', context: '' },
+        lineNumber: 1, nodeId: ingress.id, taintClass: 'TAINTED' as const },
+      { text: 'db.query executes sql_query containing input, sink', templateKey: 'executes-query',
+        slots: { subject: 'db', query_type: 'sql', variables: 'input', context: '' },
+        lineNumber: 5, nodeId: sink.id, taintClass: 'SINK' as const },
+    ];
+
+    const result = stateVsRequirement.verify(map, ctx);
+    expect(result.holds).toBe(false);
+    expect(result.violations.length).toBeGreaterThanOrEqual(1);
+    expect(result.violations[0].sinkSubtype).toBe('sql_query');
+  });
+
+  it('passes when parameterize neutralizes for sql_query', () => {
+    const map = createNeuralMap('test.js', '');
+    const ingress = createNode({
+      node_type: 'INGRESS', node_subtype: 'http_request',
+      data_out: [{ name: 'input', source: '', data_type: 'string', tainted: true, sensitivity: 'NONE' as const,
+                   security_state: createUntrustedState() }],
+      edges: [{ target: 'param_1', edge_type: 'DATA_FLOW' as const, conditional: false, async: false }],
+    });
+    const param = createNode({
+      id: 'param_1', node_type: 'TRANSFORM', node_subtype: 'parameterize',
+      data_out: [{ name: 'input', source: '', data_type: 'string', tainted: false, sensitivity: 'NONE' as const }],
+      edges: [{ target: 'sink_1', edge_type: 'DATA_FLOW' as const, conditional: false, async: false }],
+    });
+    const sink = createNode({
+      id: 'sink_1', node_type: 'STORAGE', node_subtype: 'sql_query',
+    });
+    map.nodes = [ingress, param, sink];
+    map.story = [
+      { text: 'input receives string, tainted', templateKey: 'retrieves-from-source',
+        slots: { subject: 'input' }, lineNumber: 1, nodeId: ingress.id, taintClass: 'TAINTED' as const },
+      { text: 'input parameterized', templateKey: 'parameter-binding',
+        slots: { subject: 'input', variable: 'input' }, lineNumber: 3, nodeId: param.id, taintClass: 'TRANSFORM' as const },
+      { text: 'db.query executes sql_query', templateKey: 'executes-query',
+        slots: { subject: 'db', variables: 'input' }, lineNumber: 5, nodeId: sink.id, taintClass: 'SINK' as const },
+    ];
+
+    const result = stateVsRequirement.verify(map, ctx);
+    expect(result.holds).toBe(true);
+  });
+
+  it('detects htmlEncode does NOT satisfy sql_query sink', () => {
+    const map = createNeuralMap('test.js', '');
+    const ingress = createNode({
+      node_type: 'INGRESS', node_subtype: 'http_request',
+      data_out: [{ name: 'input', source: '', data_type: 'string', tainted: true, sensitivity: 'NONE' as const,
+                   security_state: createUntrustedState() }],
+      edges: [{ target: 'enc_1', edge_type: 'DATA_FLOW' as const, conditional: false, async: false }],
+    });
+    const enc = createNode({
+      id: 'enc_1', node_type: 'TRANSFORM', node_subtype: 'sanitize_html',
+      edges: [{ target: 'sink_1', edge_type: 'DATA_FLOW' as const, conditional: false, async: false }],
+    });
+    const sink = createNode({
+      id: 'sink_1', node_type: 'STORAGE', node_subtype: 'sql_query',
+    });
+    map.nodes = [ingress, enc, sink];
+    map.story = [
+      { text: 'input receives string, tainted', templateKey: 'retrieves-from-source',
+        slots: { subject: 'input' }, lineNumber: 1, nodeId: ingress.id, taintClass: 'TAINTED' as const },
+      { text: 'input sanitized for HTML', templateKey: 'calls-method',
+        slots: { subject: 'input', method: 'htmlEscape' }, lineNumber: 3, nodeId: enc.id, taintClass: 'TRANSFORM' as const },
+      { text: 'db.query executes sql_query', templateKey: 'executes-query',
+        slots: { subject: 'db', variables: 'input' }, lineNumber: 5, nodeId: sink.id, taintClass: 'SINK' as const },
+    ];
+
+    const result = stateVsRequirement.verify(map, ctx);
+    expect(result.holds).toBe(false);
+    expect(result.violations[0].sinkSubtype).toBe('sql_query');
+  });
+
+  it('returns no violations when no story exists', () => {
+    const map = createNeuralMap('test.js', '');
+    map.nodes = [];
+
+    const noStoryCtx = { ...ctx, hasStory: false };
+    const result = stateVsRequirement.verify(map, noStoryCtx);
+    expect(result.holds).toBe(true);
+    expect(result.violations).toHaveLength(0);
   });
 });
