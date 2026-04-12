@@ -1,3 +1,5 @@
+import type { SecurityState } from './properties/security-state.js';
+
 export type NodeType =
   | 'INGRESS'
   | 'EGRESS'
@@ -136,6 +138,9 @@ export interface DataFlow {
    * 'sql_query', 'system_exec'. Set by backward traversal from sinks.
    */
   security_domain?: string;
+  /** Per-domain security state — Phase B type-state tracking.
+   *  When present, consumers check this instead of boolean tainted. */
+  security_state?: SecurityState;
 }
 
 export interface Edge {
