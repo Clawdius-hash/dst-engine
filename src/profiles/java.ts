@@ -43,6 +43,7 @@ import { createNode, createRange } from '../types.js';
 import type { SemanticSentence } from '../types.js';
 import { generateSentence, getTemplateKey } from '../sentence-generator.js';
 import { lookupCallee as _lookupJavaCallee } from '../languages/java.js';
+import { isNeutralizingSubtype } from '../properties/neutralizers.js';
 
 // ---------------------------------------------------------------------------
 // Anti-evasion: constant folding for Java
@@ -1220,12 +1221,12 @@ function extractTaintSources(expr: SyntaxNode, ctx: MapperContextLike): TaintSou
       }
 
       const callResolution = resolveCallee(expr);
-      // Sanitizer, encoder, or safe_source call stops taint.
+      // Neutralizing call (sanitize, encode, etc.) or safe_source stops taint.
       // safe_source methods (e.g., SeparateClassRequest.getTheValue()) return hardcoded
       // values independent of their arguments or receiver state.
       if (callResolution &&
           callResolution.nodeType === 'TRANSFORM' &&
-          (callResolution.subtype === 'sanitize' || callResolution.subtype === 'encode' || callResolution.subtype === 'safe_source')) {
+          (isNeutralizingSubtype(callResolution.subtype) || callResolution.subtype === 'safe_source')) {
         return [];
       }
       // If the call itself is a tainted INGRESS source (e.g. socket.getInputStream(),
@@ -1908,7 +1909,7 @@ function resolveTaintClass(
   tainted: boolean,
 ): SemanticSentence['taintClass'] {
   // Safe sources/sanitizers/encoders take priority — they neutralize taint regardless of node type
-  if (subtype === 'safe_source' || subtype === 'sanitize' || subtype === 'encode') return 'SAFE';
+  if (subtype === 'safe_source' || isNeutralizingSubtype(subtype)) return 'SAFE';
   if (nodeType === 'INGRESS' && tainted) return 'TAINTED';
   if (nodeType === 'INGRESS') return 'NEUTRAL';
   if (nodeType === 'STORAGE' && (subtype.includes('sql') || subtype.includes('query') || subtype.includes('db_'))) return 'SINK';

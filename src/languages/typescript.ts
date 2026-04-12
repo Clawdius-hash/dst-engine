@@ -275,7 +275,7 @@ const MEMBER_CALLS: Record<string, CalleePattern> = {
   'DateTime.now':             { nodeType: 'TRANSFORM', subtype: 'format',    tainted: false },
 
   // -- DOMPurify --
-  'DOMPurify.sanitize':       { nodeType: 'TRANSFORM', subtype: 'sanitize',  tainted: false },
+  'DOMPurify.sanitize':       { nodeType: 'TRANSFORM', subtype: 'sanitize_html',  tainted: false },
 
   // =========================================================================
   // CONTROL -- validation, guards, middleware

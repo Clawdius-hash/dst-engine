@@ -560,11 +560,11 @@ const MEMBER_CALLS: Record<string, CalleePattern> = {
   // -- URL --
   'URI.create':                   { nodeType: 'TRANSFORM', subtype: 'parse',    tainted: false },
 
-  // -- XML sanitization --
-  'HtmlUtils.htmlEscape':         { nodeType: 'TRANSFORM', subtype: 'sanitize', tainted: false },
-  'StringEscapeUtils.escapeHtml4':{ nodeType: 'TRANSFORM', subtype: 'sanitize', tainted: false },
-  'Jsoup.clean':                  { nodeType: 'TRANSFORM', subtype: 'sanitize', tainted: false },
-  'ESAPI.encoder':                { nodeType: 'TRANSFORM', subtype: 'sanitize', tainted: false },
+  // -- HTML sanitization --
+  'HtmlUtils.htmlEscape':         { nodeType: 'TRANSFORM', subtype: 'sanitize_html', tainted: false },
+  'StringEscapeUtils.escapeHtml4':{ nodeType: 'TRANSFORM', subtype: 'sanitize_html', tainted: false },
+  'Jsoup.clean':                  { nodeType: 'TRANSFORM', subtype: 'sanitize_html', tainted: false },
+  'ESAPI.encoder':                { nodeType: 'TRANSFORM', subtype: 'sanitize_html', tainted: false },
 
   // -- Safe sources (methods that return hardcoded/constant values) --
   // SeparateClassRequest.getTheValue() always returns a hardcoded string ("bar").

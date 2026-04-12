@@ -33,6 +33,7 @@ import type { ScopeType, VariableInfo } from '../mapper.js';
 import type { CalleePattern } from '../calleePatterns.js';
 import { createNode } from '../types.js';
 import { lookupCallee as _lookupCallee } from '../languages/go.js';
+import { isNeutralizingSubtype } from '../properties/neutralizers.js';
 
 // ---------------------------------------------------------------------------
 // AST Node Type Sets
@@ -335,10 +336,10 @@ function extractTaintSources(expr: SyntaxNode, ctx: MapperContextLike): TaintSou
     // -- Call expression: check if sanitizer, then check args --
     case 'call_expression': {
       const callResolution = resolveCallee(expr);
-      // Sanitizer or encoder call stops taint
+      // Neutralizing call (sanitize, encode, etc.) stops taint
       if (callResolution &&
           callResolution.nodeType === 'TRANSFORM' &&
-          (callResolution.subtype === 'sanitize' || callResolution.subtype === 'encode')) {
+          isNeutralizingSubtype(callResolution.subtype)) {
         return [];
       }
       // For any other call, check arguments AND receiver for taint

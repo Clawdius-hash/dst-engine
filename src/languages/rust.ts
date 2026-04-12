@@ -481,8 +481,8 @@ const MEMBER_CALLS: Record<string, CalleePattern> = {
   'path.file_name':             { nodeType: 'TRANSFORM', subtype: 'format',      tainted: false },
   'path.extension':             { nodeType: 'TRANSFORM', subtype: 'format',      tainted: false },
   'path.with_extension':        { nodeType: 'TRANSFORM', subtype: 'format',      tainted: false },
-  'path.strip_prefix':          { nodeType: 'TRANSFORM', subtype: 'sanitize',    tainted: false },
-  'path.canonicalize':          { nodeType: 'TRANSFORM', subtype: 'sanitize',    tainted: false },
+  'path.strip_prefix':          { nodeType: 'TRANSFORM', subtype: 'sanitize_path',    tainted: false },
+  'path.canonicalize':          { nodeType: 'TRANSFORM', subtype: 'sanitize_path',    tainted: false },
 
   // -- URL parsing --
   'Url.parse':                  { nodeType: 'TRANSFORM', subtype: 'parse',       tainted: false },

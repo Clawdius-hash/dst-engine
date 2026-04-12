@@ -89,12 +89,12 @@ export const PHONEMES_PYTHON_DJANGO_DEEP: Record<string, CalleePattern> = {
   // TRANSFORM: mark_safe() disables Django's auto-escaping for a string.
   // If the string contains ANY user input, this creates XSS.
   // Extremely common in form widgets, admin customizations, and template tags.
-  'django.utils.safestring.mark_safe':     { nodeType: 'TRANSFORM', subtype: 'sanitize', tainted: false },
+  'django.utils.safestring.mark_safe':     { nodeType: 'TRANSFORM', subtype: 'sanitize_html', tainted: false },
 
   // TRANSFORM: format_html() is the SAFE alternative to mark_safe + f-strings.
   // It auto-escapes arguments like Django templates do. Marking as TRANSFORM
   // so the scanner can distinguish safe (format_html) from dangerous (mark_safe).
-  'django.utils.html.format_html':         { nodeType: 'TRANSFORM', subtype: 'sanitize', tainted: false },
+  'django.utils.html.format_html':         { nodeType: 'TRANSFORM', subtype: 'sanitize_html', tainted: false },
 
   // ═══════════════════════════════════════════════════════════════════════════
   // AUTH — CSRF and permission controls

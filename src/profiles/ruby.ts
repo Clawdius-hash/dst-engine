@@ -36,6 +36,7 @@ import type { ScopeType, VariableInfo } from '../mapper.js';
 import type { CalleePattern } from '../calleePatterns.js';
 import { createNode } from '../types.js';
 import { lookupCallee as _lookupCallee } from '../languages/ruby.js';
+import { isNeutralizingSubtype } from '../properties/neutralizers.js';
 
 // ---------------------------------------------------------------------------
 // AST Node Type Sets
@@ -830,10 +831,10 @@ function extractTaintSources(expr: SyntaxNode, ctx: MapperContextLike): TaintSou
     case 'call': {
       const callResolution = resolveCallee(expr);
 
-      // If this is a sanitizer, taint STOPS
+      // If this is a neutralizing call (sanitize, encode, etc.), taint STOPS
       if (callResolution &&
           callResolution.nodeType === 'TRANSFORM' &&
-          (callResolution.subtype === 'sanitize' || callResolution.subtype === 'encode')) {
+          isNeutralizingSubtype(callResolution.subtype)) {
         return [];
       }
 

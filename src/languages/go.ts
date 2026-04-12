@@ -527,9 +527,9 @@ const MEMBER_CALLS: Record<string, CalleePattern> = {
   // template.Execute and template.ExecuteTemplate are the render calls for both packages.
   // We mark them tainted:true because when text/template is used, output is unescaped (CWE-79).
   // The scanner should flag text/template usage and treat html/template as the safe mitigation.
-  'html.EscapeString':      { nodeType: 'TRANSFORM', subtype: 'sanitize',   tainted: false },
+  'html.EscapeString':      { nodeType: 'TRANSFORM', subtype: 'sanitize_html',   tainted: false },
   'html.UnescapeString':    { nodeType: 'TRANSFORM', subtype: 'encode',     tainted: false },
-  'template.HTMLEscapeString': { nodeType: 'TRANSFORM', subtype: 'sanitize', tainted: false },
+  'template.HTMLEscapeString': { nodeType: 'TRANSFORM', subtype: 'sanitize_html', tainted: false },
   'template.HTML':          { nodeType: 'EGRESS',    subtype: 'html_output', tainted: false },
   'template.Execute':       { nodeType: 'EGRESS',    subtype: 'html_output', tainted: true },
   'template.ExecuteTemplate': { nodeType: 'EGRESS',  subtype: 'html_output', tainted: true },
@@ -540,14 +540,14 @@ const MEMBER_CALLS: Record<string, CalleePattern> = {
   'filepath.Base':          { nodeType: 'TRANSFORM', subtype: 'format',     tainted: false },
   'filepath.Dir':           { nodeType: 'TRANSFORM', subtype: 'format',     tainted: false },
   'filepath.Ext':           { nodeType: 'TRANSFORM', subtype: 'format',     tainted: false },
-  'filepath.Clean':         { nodeType: 'TRANSFORM', subtype: 'sanitize',   tainted: false },
+  'filepath.Clean':         { nodeType: 'TRANSFORM', subtype: 'sanitize_path',   tainted: false },
   'filepath.Rel':           { nodeType: 'TRANSFORM', subtype: 'format',     tainted: false },
   'filepath.Match':         { nodeType: 'TRANSFORM', subtype: 'parse',      tainted: false },
   'path.Join':              { nodeType: 'TRANSFORM', subtype: 'format',     tainted: false },
   'path.Base':              { nodeType: 'TRANSFORM', subtype: 'format',     tainted: false },
   'path.Dir':               { nodeType: 'TRANSFORM', subtype: 'format',     tainted: false },
   'path.Ext':               { nodeType: 'TRANSFORM', subtype: 'format',     tainted: false },
-  'path.Clean':             { nodeType: 'TRANSFORM', subtype: 'sanitize',   tainted: false },
+  'path.Clean':             { nodeType: 'TRANSFORM', subtype: 'sanitize_path',   tainted: false },
 
   // -- sort --
   'sort.Strings':           { nodeType: 'TRANSFORM', subtype: 'calculate',  tainted: false },

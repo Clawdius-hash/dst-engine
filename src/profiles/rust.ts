@@ -37,6 +37,7 @@ import type { ScopeType, VariableInfo } from '../mapper.js';
 import type { CalleePattern } from '../calleePatterns.js';
 import { createNode } from '../types.js';
 import { lookupCallee as _lookupRustCallee } from '../languages/rust.js';
+import { isNeutralizingSubtype } from '../properties/neutralizers.js';
 
 // ---------------------------------------------------------------------------
 // AST Node Type Sets (tree-sitter-rust)
@@ -398,10 +399,10 @@ function extractTaintSources(expr: SyntaxNode, ctx: MapperContextLike): TaintSou
     case 'call_expression': {
       const callChain = extractCalleeChain(expr);
       const callResolution = _lookupRustCallee(callChain);
-      // Sanitizer calls break taint
+      // Neutralizing calls (sanitize, encode, etc.) break taint
       if (callResolution &&
           callResolution.nodeType === 'TRANSFORM' &&
-          (callResolution.subtype === 'sanitize' || callResolution.subtype === 'encode')) {
+          isNeutralizingSubtype(callResolution.subtype)) {
         return [];
       }
       // Check arguments for taint

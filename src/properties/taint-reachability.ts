@@ -14,6 +14,7 @@
 import type { NeuralMap, NeuralMapNode, NodeType, SemanticSentence, EdgeType } from '../types.js';
 import type { NodeRef } from '../verifier/types.js';
 import type { SecurityProperty, CWEMapping, PropertyContext, PropertyResult, PropertyViolation } from './types.js';
+import { isNeutralizingSubtype } from './neutralizers.js';
 
 // ---------------------------------------------------------------------------
 // Dangerous sink types — node types that can be exploited with tainted data
@@ -332,7 +333,7 @@ function hasUnsanitizedPath(
 
     // Check if this node neutralizes taint
     let isNeutralizer = false;
-    if (node.node_type === 'TRANSFORM' && NEUTRALIZING_SUBTYPES.has(node.node_subtype)) {
+    if (node.node_type === 'TRANSFORM' && isNeutralizingSubtype(node.node_subtype)) {
       isNeutralizer = true;
     }
     if (node.node_type === 'CONTROL' &&

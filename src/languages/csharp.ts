@@ -308,11 +308,11 @@ const MEMBER_CALLS: Record<string, CalleePattern> = {
   // -- Encoding --
   'Encoding.UTF8.GetBytes':       { nodeType: 'TRANSFORM', subtype: 'encode',     tainted: false },
   'Encoding.UTF8.GetString':      { nodeType: 'TRANSFORM', subtype: 'encode',     tainted: false },
-  'WebUtility.HtmlEncode':        { nodeType: 'TRANSFORM', subtype: 'sanitize',   tainted: false },
+  'WebUtility.HtmlEncode':        { nodeType: 'TRANSFORM', subtype: 'sanitize_html',   tainted: false },
   'WebUtility.HtmlDecode':        { nodeType: 'TRANSFORM', subtype: 'encode',     tainted: false },
   'WebUtility.UrlEncode':         { nodeType: 'TRANSFORM', subtype: 'encode',     tainted: false },
   'WebUtility.UrlDecode':         { nodeType: 'TRANSFORM', subtype: 'encode',     tainted: false },
-  'HttpUtility.HtmlEncode':       { nodeType: 'TRANSFORM', subtype: 'sanitize',   tainted: false },
+  'HttpUtility.HtmlEncode':       { nodeType: 'TRANSFORM', subtype: 'sanitize_html',   tainted: false },
   'HttpUtility.UrlEncode':        { nodeType: 'TRANSFORM', subtype: 'encode',     tainted: false },
   'Uri.EscapeDataString':         { nodeType: 'TRANSFORM', subtype: 'encode',     tainted: false },
   'Uri.UnescapeDataString':       { nodeType: 'TRANSFORM', subtype: 'encode',     tainted: false },
@@ -371,7 +371,7 @@ const MEMBER_CALLS: Record<string, CalleePattern> = {
   // -- Validation (FluentValidation) --
   'AbstractValidator.RuleFor':    { nodeType: 'CONTROL', subtype: 'validation',   tainted: false },
   'ModelState.IsValid':           { nodeType: 'CONTROL', subtype: 'validation',   tainted: false },
-  'HtmlEncoder.Default.Encode':   { nodeType: 'CONTROL', subtype: 'sanitize',     tainted: false },
+  'HtmlEncoder.Default.Encode':   { nodeType: 'CONTROL', subtype: 'sanitize_html',     tainted: false },
 
   // =========================================================================
   // AUTH

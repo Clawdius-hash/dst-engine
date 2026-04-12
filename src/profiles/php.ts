@@ -41,6 +41,7 @@ import type { ScopeType, VariableInfo } from '../mapper.js';
 import type { CalleePattern } from '../calleePatterns.js';
 import { createNode } from '../types.js';
 import { lookupCallee as _lookupCallee } from '../languages/php.js';
+import { isNeutralizingSubtype } from '../properties/neutralizers.js';
 
 // ---------------------------------------------------------------------------
 // AST Node Type Sets
@@ -759,16 +760,10 @@ function extractTaintSources(expr: SyntaxNode, ctx: MapperContextLike): TaintSou
     case 'member_call_expression':
     case 'scoped_call_expression': {
       const callResolution = resolveCallee(expr);
-      // If this is a sanitizer call, taint STOPS here
+      // If this is a neutralizing call (sanitize, encode, etc.), taint STOPS here
       if (callResolution &&
           callResolution.nodeType === 'TRANSFORM' &&
-          callResolution.subtype === 'sanitize') {
-        return [];
-      }
-      // If this is an encoder, taint STOPS
-      if (callResolution &&
-          callResolution.nodeType === 'TRANSFORM' &&
-          callResolution.subtype === 'encode') {
+          isNeutralizingSubtype(callResolution.subtype)) {
         return [];
       }
       // If the callee is a known tainted source (e.g., get_nfilter_request_var), treat output as tainted

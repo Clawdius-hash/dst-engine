@@ -425,9 +425,9 @@ const MEMBER_CALLS: Record<string, CalleePattern> = {
   'Base64.urlsafe_decode64':  { nodeType: 'TRANSFORM', subtype: 'encode',    tainted: false },
 
   // -- CGI / URI --
-  'CGI.escape':               { nodeType: 'TRANSFORM', subtype: 'sanitize',  tainted: false },
+  'CGI.escape':               { nodeType: 'TRANSFORM', subtype: 'sanitize_html',  tainted: false },
   'CGI.unescape':             { nodeType: 'TRANSFORM', subtype: 'encode',    tainted: false },
-  'CGI.escapeHTML':           { nodeType: 'TRANSFORM', subtype: 'sanitize',  tainted: false },
+  'CGI.escapeHTML':           { nodeType: 'TRANSFORM', subtype: 'sanitize_html',  tainted: false },
   'CGI.unescapeHTML':         { nodeType: 'TRANSFORM', subtype: 'encode',    tainted: false },
   'URI.encode_www_form':      { nodeType: 'TRANSFORM', subtype: 'encode',    tainted: false },
   'URI.decode_www_form':      { nodeType: 'TRANSFORM', subtype: 'encode',    tainted: false },
@@ -435,14 +435,14 @@ const MEMBER_CALLS: Record<string, CalleePattern> = {
   'Addressable::URI.parse':   { nodeType: 'TRANSFORM', subtype: 'parse',     tainted: false },
 
   // -- ERB::Util --
-  'ERB::Util.html_escape':    { nodeType: 'TRANSFORM', subtype: 'sanitize',  tainted: false },
+  'ERB::Util.html_escape':    { nodeType: 'TRANSFORM', subtype: 'sanitize_html',  tainted: false },
   'ERB::Util.url_encode':     { nodeType: 'TRANSFORM', subtype: 'encode',    tainted: false },
 
   // -- Sanitize (Rails) --
-  'ActionView::Helpers.sanitize': { nodeType: 'TRANSFORM', subtype: 'sanitize', tainted: false },
-  'Sanitize.fragment':        { nodeType: 'TRANSFORM', subtype: 'sanitize',  tainted: false },
-  'Sanitize.clean':           { nodeType: 'TRANSFORM', subtype: 'sanitize',  tainted: false },
-  'Loofah.fragment':          { nodeType: 'TRANSFORM', subtype: 'sanitize',  tainted: false },
+  'ActionView::Helpers.sanitize': { nodeType: 'TRANSFORM', subtype: 'sanitize_html', tainted: false },
+  'Sanitize.fragment':        { nodeType: 'TRANSFORM', subtype: 'sanitize_html',  tainted: false },
+  'Sanitize.clean':           { nodeType: 'TRANSFORM', subtype: 'sanitize_html',  tainted: false },
+  'Loofah.fragment':          { nodeType: 'TRANSFORM', subtype: 'sanitize_html',  tainted: false },
 
   // -- Regexp --
   'Regexp.new':               { nodeType: 'TRANSFORM', subtype: 'parse',     tainted: false },

@@ -148,19 +148,19 @@ const DIRECT_CALLS: Record<string, CalleePattern> = {
 
   // == TRANSFORM ==
   // Encoding / escaping
-  escapeshellarg:    { nodeType: 'TRANSFORM', subtype: 'sanitize',      tainted: false },
-  escapeshellcmd:    { nodeType: 'TRANSFORM', subtype: 'sanitize',      tainted: false },
+  escapeshellarg:    { nodeType: 'TRANSFORM', subtype: 'sanitize_shell',      tainted: false },
+  escapeshellcmd:    { nodeType: 'TRANSFORM', subtype: 'sanitize_shell',      tainted: false },
   htmlspecialchars:  { nodeType: 'CONTROL',   subtype: 'sanitize_xss',  tainted: false },
   htmlentities:      { nodeType: 'CONTROL',   subtype: 'sanitize_xss',  tainted: false },
 
   // WordPress output escaping
-  esc_html:          { nodeType: 'TRANSFORM', subtype: 'sanitize',      tainted: false },
-  esc_attr:          { nodeType: 'TRANSFORM', subtype: 'sanitize',      tainted: false },
-  esc_url:           { nodeType: 'TRANSFORM', subtype: 'sanitize',      tainted: false },
+  esc_html:          { nodeType: 'TRANSFORM', subtype: 'sanitize_html',      tainted: false },
+  esc_attr:          { nodeType: 'TRANSFORM', subtype: 'sanitize_html',      tainted: false },
+  esc_url:           { nodeType: 'TRANSFORM', subtype: 'sanitize_html',      tainted: false },
 
   // WordPress input sanitization
-  sanitize_text_field: { nodeType: 'TRANSFORM', subtype: 'sanitize',    tainted: false },
-  wp_kses:           { nodeType: 'TRANSFORM', subtype: 'sanitize',      tainted: false },
+  sanitize_text_field: { nodeType: 'TRANSFORM', subtype: 'sanitize_html',    tainted: false },
+  wp_kses:           { nodeType: 'TRANSFORM', subtype: 'sanitize_html',      tainted: false },
   htmlspecialchars_decode: { nodeType: 'TRANSFORM', subtype: 'encode',  tainted: false },
   html_entity_decode:{ nodeType: 'TRANSFORM', subtype: 'encode',        tainted: false },
   strip_tags:        { nodeType: 'CONTROL',   subtype: 'sanitize_html', tainted: false },
@@ -500,7 +500,7 @@ const MEMBER_CALLS: Record<string, CalleePattern> = {
   // -- mysqli --
   'mysqli.query':           { nodeType: 'STORAGE', subtype: 'sql_query',    tainted: false },
   'mysqli.prepare':         { nodeType: 'STORAGE', subtype: 'sql_query',    tainted: false },
-  'mysqli.real_escape_string': { nodeType: 'TRANSFORM', subtype: 'sanitize', tainted: false },
+  'mysqli.real_escape_string': { nodeType: 'TRANSFORM', subtype: 'sanitize_sql', tainted: false },
   'mysqli.multi_query':     { nodeType: 'STORAGE', subtype: 'sql_write',    tainted: false },
   'mysqli.begin_transaction': { nodeType: 'STORAGE', subtype: 'db_write',   tainted: false },
   'mysqli.commit':          { nodeType: 'STORAGE', subtype: 'db_write',     tainted: false },

@@ -30,6 +30,7 @@ import type { ScopeType, VariableInfo } from '../mapper.js';
 import type { CalleePattern } from '../calleePatterns.js';
 import { createNode } from '../types.js';
 import { lookupCallee as _lookupCallee } from '../languages/python.js';
+import { isNeutralizingSubtype } from '../properties/neutralizers.js';
 
 // ---------------------------------------------------------------------------
 // Constant Folding — resolves string construction at parse time
@@ -722,16 +723,10 @@ function extractTaintSources(expr: SyntaxNode, ctx: MapperContextLike): TaintSou
     // -- Call: sanitize(TAINTED) breaks the chain --
     case 'call': {
       const callResolution = resolveCallee(expr);
-      // If this is a sanitizer call, taint STOPS here
+      // If this is a neutralizing call (sanitize, encode, etc.), taint STOPS here
       if (callResolution &&
           callResolution.nodeType === 'TRANSFORM' &&
-          callResolution.subtype === 'sanitize') {
-        return [];
-      }
-      // If this is an encoder, taint STOPS
-      if (callResolution &&
-          callResolution.nodeType === 'TRANSFORM' &&
-          callResolution.subtype === 'encode') {
+          isNeutralizingSubtype(callResolution.subtype)) {
         return [];
       }
       // For any other call, check arguments AND receiver for taint

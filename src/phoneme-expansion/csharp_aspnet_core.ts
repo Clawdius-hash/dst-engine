@@ -77,7 +77,7 @@ export const PHONEMES_CSHARP_ASPNET_CORE = {
   // The standard .NET mechanism for HTML-encoding user input before rendering.
   // Razor auto-encodes @Model.Property but raw HTML helpers and manual string
   // building bypass it. This is the explicit sanitization call.
-  'HtmlEncoder.Default.Encode': { nodeType: 'CONTROL', subtype: 'sanitize', tainted: false },
+  'HtmlEncoder.Default.Encode': { nodeType: 'CONTROL', subtype: 'sanitize_html', tainted: false },
   // Why: Detecting this between an INGRESS and an EGRESS (like Response.WriteAsync
   // or a Razor view) tells the mapper that XSS sanitization is present (CWE-79).
 

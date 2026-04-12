@@ -26,6 +26,7 @@ import type { RangeInfo } from '../types.js';
 import { resolveCallee as _resolveCallee, resolvePropertyAccess as _resolvePropertyAccess } from '../resolveCallee.js';
 import { lookupCallee as _lookupCallee } from '../calleePatterns.js';
 import { analyzeStructure as _analyzeStructure } from '../structuralPatterns.js';
+import { isNeutralizingSubtype } from '../properties/neutralizers.js';
 
 // ---------------------------------------------------------------------------
 // Constant Folding — resolves string concatenation at parse time
@@ -566,16 +567,10 @@ function extractTaintSources(expr: SyntaxNode, ctx: MapperContextLike): TaintSou
     // -- Call expression: sanitize(TAINTED) breaks the chain --
     case 'call_expression': {
       const callResolution = _resolveCallee(expr);
-      // If this is a sanitizer call, taint STOPS here
+      // If this is a neutralizing call (sanitize, encode, etc.), taint STOPS here
       if (callResolution &&
           callResolution.nodeType === 'TRANSFORM' &&
-          callResolution.subtype === 'sanitize') {
-        return [];
-      }
-      // If this is an encoder, taint STOPS
-      if (callResolution &&
-          callResolution.nodeType === 'TRANSFORM' &&
-          callResolution.subtype === 'encode') {
+          isNeutralizingSubtype(callResolution.subtype)) {
         return [];
       }
       // For any other call, check arguments AND receiver for taint

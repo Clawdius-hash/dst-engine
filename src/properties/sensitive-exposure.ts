@@ -26,12 +26,14 @@ const SENSITIVE_LEVELS: ReadonlySet<Sensitivity> = new Set([
 ]);
 
 /**
- * TRANSFORM subtypes that neutralize sensitive data exposure.
- * encrypt, hash, and sanitize (redaction) all protect sensitive data.
+ * Check if a TRANSFORM subtype protects sensitive data from exposure.
+ * Covers encrypt, hash, and sanitize (redaction) — including domain-aware
+ * variants like sanitize_html, encrypt_aes, etc.
  */
-const PROTECTING_SUBTYPES: ReadonlySet<string> = new Set([
-  'encrypt', 'hash', 'sanitize',
-]);
+const isProtectingSubtype = (s: string): boolean =>
+  s === 'encrypt' || s.startsWith('encrypt_') ||
+  s === 'hash' || s.startsWith('hash_') ||
+  s === 'sanitize' || s.startsWith('sanitize_');
 
 /**
  * Edge types that represent actual data flow (same as taint-reachability).
@@ -152,7 +154,7 @@ function hasUnprotectedPath(
 
     // Check if this node protects the data (encrypt, hash, or sanitize/redact)
     let protectsData = false;
-    if (node.node_type === 'TRANSFORM' && PROTECTING_SUBTYPES.has(node.node_subtype)) {
+    if (node.node_type === 'TRANSFORM' && isProtectingSubtype(node.node_subtype)) {
       protectsData = true;
     }
 

@@ -7,6 +7,7 @@ import { javascriptProfile } from './profiles/javascript.js';
 import { resolveSentences } from './sentence-resolver.js';
 import { getTemplateKey, generateSentence } from './sentence-generator.js';
 import { createUntrustedState, applyNeutralizer } from './properties/security-state.js';
+import { isNeutralizingSubtype } from './properties/neutralizers.js';
 
 const CALL_NODE_TYPES = new Set([
   'call_expression',
@@ -1353,7 +1354,7 @@ function walkWithScopes(node: SyntaxNode, ctx: MapperContext, profile: LanguageP
       // Java's 14 profile-emitted sentences still take priority (line 1077 skips nodes
       // that already have sentences).
       const isTainted = n.data_out.some((d: any) => d.tainted) || n.node_type === 'INGRESS';
-      const isSanitizer = n.node_type === 'TRANSFORM' && n.node_subtype === 'sanitize' && !isTainted;
+      const isSanitizer = n.node_type === 'TRANSFORM' && isNeutralizingSubtype(n.node_subtype) && !isTainted;
       const isSinkNode =
         (n.node_type === 'STORAGE' && /^(sql_query|db_read|db_write|db_stored_proc|file_write|file_access)$/.test(n.node_subtype)) ||
         (n.node_type === 'EGRESS' && /^(http_response|redirect|file_write|file_serve)$/.test(n.node_subtype)) ||

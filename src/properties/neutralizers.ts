@@ -18,7 +18,8 @@ const NEUTRALIZING_PREFIXES: readonly string[] = [
  * Check if a TRANSFORM subtype is a neutralizing operation.
  * Matches exact values AND domain-aware variants (e.g., sanitize_html).
  */
-export function isNeutralizingSubtype(subtype: string): boolean {
+export function isNeutralizingSubtype(subtype: string | undefined): boolean {
+  if (!subtype) return false;
   if (subtype === 'prepared_statement') return true;
   return NEUTRALIZING_PREFIXES.some(p => subtype === p || subtype.startsWith(p + '_'));
 }

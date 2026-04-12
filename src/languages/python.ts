@@ -542,15 +542,15 @@ const MEMBER_CALLS: Record<string, CalleePattern> = {
   'base64.b32decode':         { nodeType: 'TRANSFORM', subtype: 'encode',    tainted: false },
 
   // ── html ──
-  'html.escape':              { nodeType: 'TRANSFORM', subtype: 'sanitize',  tainted: false },
+  'html.escape':              { nodeType: 'TRANSFORM', subtype: 'sanitize_html',  tainted: false },
   'html.unescape':            { nodeType: 'TRANSFORM', subtype: 'encode',    tainted: false },
-  'markupsafe.escape':        { nodeType: 'TRANSFORM', subtype: 'sanitize',  tainted: false },
-  'flask.escape':             { nodeType: 'TRANSFORM', subtype: 'sanitize',  tainted: false },
+  'markupsafe.escape':        { nodeType: 'TRANSFORM', subtype: 'sanitize_html',  tainted: false },
+  'flask.escape':             { nodeType: 'TRANSFORM', subtype: 'sanitize_html',  tainted: false },
   'codecs.open':              { nodeType: 'INGRESS',   subtype: 'file_read', tainted: false },
-  'markupsafe.Markup':        { nodeType: 'TRANSFORM', subtype: 'sanitize',  tainted: false },
-  'bleach.clean':             { nodeType: 'TRANSFORM', subtype: 'sanitize',  tainted: false },
-  'django.utils.safestring.mark_safe': { nodeType: 'TRANSFORM', subtype: 'sanitize', tainted: false },
-  'django.utils.html.format_html': { nodeType: 'TRANSFORM', subtype: 'sanitize', tainted: false },
+  'markupsafe.Markup':        { nodeType: 'TRANSFORM', subtype: 'sanitize_html',  tainted: false },
+  'bleach.clean':             { nodeType: 'TRANSFORM', subtype: 'sanitize_html',  tainted: false },
+  'django.utils.safestring.mark_safe': { nodeType: 'TRANSFORM', subtype: 'sanitize_html', tainted: false },
+  'django.utils.html.format_html': { nodeType: 'TRANSFORM', subtype: 'sanitize_html', tainted: false },
 
   // ── re — regex ──
   're.match':                 { nodeType: 'TRANSFORM', subtype: 'parse',     tainted: false },

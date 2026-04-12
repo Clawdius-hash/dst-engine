@@ -39,6 +39,7 @@ import type { ScopeType, VariableInfo } from '../mapper.js';
 import type { CalleePattern } from '../calleePatterns.js';
 import { createNode } from '../types.js';
 import { lookupCallee as _lookupSwiftCallee } from '../languages/swift.js';
+import { isNeutralizingSubtype } from '../properties/neutralizers.js';
 
 // ---------------------------------------------------------------------------
 // AST Node Type Sets (tree-sitter-swift)
@@ -408,10 +409,10 @@ function extractTaintSources(expr: SyntaxNode, ctx: MapperContextLike): TaintSou
     case 'call_expression': {
       const callChain = extractCalleeChain(expr);
       const callResolution = _lookupSwiftCallee(callChain);
-      // Sanitizer calls break taint
+      // Neutralizing calls (sanitize, encode, etc.) break taint
       if (callResolution &&
           callResolution.nodeType === 'TRANSFORM' &&
-          (callResolution.subtype === 'sanitize' || callResolution.subtype === 'encode')) {
+          isNeutralizingSubtype(callResolution.subtype)) {
         return [];
       }
       // Check arguments for taint

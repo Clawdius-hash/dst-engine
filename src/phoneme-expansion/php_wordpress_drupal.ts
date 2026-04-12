@@ -76,9 +76,9 @@ export const PHONEMES_PHP_WORDPRESS_DRUPAL = {
   //
   // We map esc_html as the representative — the mapper should catch all
   // esc_* variants via prefix matching or explicit entries.
-  esc_html:             { nodeType: 'TRANSFORM', subtype: 'sanitize',       tainted: false },
-  esc_attr:             { nodeType: 'TRANSFORM', subtype: 'sanitize',       tainted: false },
-  esc_url:              { nodeType: 'TRANSFORM', subtype: 'sanitize',       tainted: false },
+  esc_html:             { nodeType: 'TRANSFORM', subtype: 'sanitize_html',       tainted: false },
+  esc_attr:             { nodeType: 'TRANSFORM', subtype: 'sanitize_html',       tainted: false },
+  esc_url:              { nodeType: 'TRANSFORM', subtype: 'sanitize_html',       tainted: false },
 
   // ── WordPress: Authorization ─────────────────────────────────────────
   //
@@ -112,8 +112,8 @@ export const PHONEMES_PHP_WORDPRESS_DRUPAL = {
   // wp_kses() is the heavy-duty HTML sanitizer — it strips all tags
   // except an explicit allowlist. wp_kses_post() allows post-safe HTML.
   // This is WordPress's answer to strip_tags() but with allowlists.
-  sanitize_text_field:  { nodeType: 'TRANSFORM', subtype: 'sanitize',       tainted: false },
-  wp_kses:              { nodeType: 'TRANSFORM', subtype: 'sanitize',       tainted: false },
+  sanitize_text_field:  { nodeType: 'TRANSFORM', subtype: 'sanitize_html',       tainted: false },
+  wp_kses:              { nodeType: 'TRANSFORM', subtype: 'sanitize_html',       tainted: false },
 
   // ── WordPress: Options API (wp_options table) ────────────────────────
   //
