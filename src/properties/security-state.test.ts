@@ -194,6 +194,87 @@ describe('neutralizers', () => {
   });
 });
 
+describe('SecurityState cross-file propagation', () => {
+  let createNode: typeof import('../types.js').createNode;
+  let createNeuralMap: typeof import('../types.js').createNeuralMap;
+  let resetSequenceHard: typeof import('../types.js').resetSequenceHard;
+  let runMarginPass: typeof import('../margin-pass.js').runMarginPass;
+
+  beforeEach(async () => {
+    const types = await import('../types.js');
+    createNode = types.createNode;
+    createNeuralMap = types.createNeuralMap;
+    resetSequenceHard = types.resetSequenceHard;
+    resetSequenceHard();
+    const mp = await import('../margin-pass.js');
+    runMarginPass = mp.runMarginPass;
+  });
+
+  it('cross-file synthetic entries carry untrusted security_state', () => {
+    // File A: has INGRESS + calls slugFilterOrder
+    const mapA = createNeuralMap('posts.js', 'slugFilterOrder(filter)');
+    const handler = createNode({
+      node_type: 'STRUCTURAL', node_subtype: 'function',
+      label: 'browse', line_start: 1, line_end: 20,
+      edges: [{ target: 'sink_sql', edge_type: 'CONTAINS' as const, conditional: false, async: false }],
+    });
+    const ingress = createNode({
+      node_type: 'INGRESS', node_subtype: 'http_request',
+      data_out: [{ name: 'filter', source: '', data_type: 'string', tainted: true, sensitivity: 'NONE' as const }],
+    });
+    const sinkSql = createNode({
+      id: 'sink_sql', node_type: 'STORAGE', node_subtype: 'sql_query',
+      label: 'knex.raw', line_start: 15, line_end: 15,
+    });
+    mapA.nodes = [handler, ingress, sinkSql];
+
+    // File B: function with template string
+    const mapB = createNeuralMap('slug-filter-order.js', '');
+    const sfoFunc = createNode({
+      node_type: 'STRUCTURAL', node_subtype: 'function',
+      label: 'slugFilterOrder', line_start: 1, line_end: 20,
+      edges: [{ target: 'tmpl', edge_type: 'CONTAINS' as const, conditional: false, async: false }],
+    });
+    const tmpl = createNode({
+      id: 'tmpl', node_type: 'TRANSFORM', node_subtype: 'template_string',
+      line_start: 10, line_end: 10,
+      data_in: [],
+    });
+    mapB.nodes = [sfoFunc, tmpl];
+
+    const summaries = new Map<string, import('../margin-pass.js').FileSummary>();
+    summaries.set('posts.js', {
+      map: mapA, functionReturnTaint: new Map(),
+      functionRegistry: new Map([['browse', handler.id]]),
+    });
+    summaries.set('slug-filter-order.js', {
+      map: mapB, functionReturnTaint: new Map(),
+      functionRegistry: new Map([['slugFilterOrder', sfoFunc.id]]),
+    });
+
+    const depGraph: import('../cross-file.js').DependencyGraph = {
+      files: ['posts.js', 'slug-filter-order.js'],
+      edges: [{
+        from: 'posts.js', to: 'slug-filter-order.js',
+        importInfo: { specifier: './slug-filter-order', resolvedPath: 'slug-filter-order.js',
+          importedNames: ['slugFilterOrder'], localName: 'slugFilterOrder', line: 1 },
+      }],
+      importsOf: new Map([['posts.js', ['slug-filter-order.js']]]),
+      importedBy: new Map([['slug-filter-order.js', ['posts.js']]]),
+    };
+
+    runMarginPass(summaries, depGraph);
+
+    const tmplNode = mapB.nodes.find(n => n.id === 'tmpl')!;
+    const crossFileEntry = tmplNode.data_in.find(d => d.name.startsWith('cross_file_param_taint_via_'));
+    expect(crossFileEntry).toBeDefined();
+    expect(crossFileEntry!.tainted).toBe(true);
+    expect(crossFileEntry!.security_state).toBeDefined();
+    expect(crossFileEntry!.security_state!.sql_safe).toBe(false);
+    expect(crossFileEntry!.security_state!.xss_safe).toBe(false);
+  });
+});
+
 const ctx: PropertyContext = {
   language: 'javascript',
   hasStory: true,
