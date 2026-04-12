@@ -21,6 +21,7 @@
 - [x] **Ghost CMS cross-file detection** — tainted data from posts.js propagates into slug-filter-order.js
 - [x] **OWASP benchmark verified** — 92.7% unchanged through all changes
 - [x] **Code review at integration seam** — caught circular import, CONTROL neutralization, SAFE handler
+- [x] **Phase B: Security type-state foundation** — SecurityState type (11 per-domain flags), neutralizer utility module with prefix matching, domain-aware phoneme reclassification (~35 entries: sanitize_html, sanitize_sql, sanitize_shell, sanitize_path), state-vs-requirement property (story-based, detects domain-specific neutralization mismatches), cross-file SecurityState propagation via margin pass.
 
 ## REAL BLOCKERS
 
