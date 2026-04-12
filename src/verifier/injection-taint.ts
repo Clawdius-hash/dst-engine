@@ -648,7 +648,7 @@ function verifyCWE79(map: NeuralMap): VerificationResult {
         const scopeSnapshots = getContainingScopeSnapshots(map, sink.id);
         const combinedScope = stripComments(scopeSnapshots.join('\n') || sink.analysis_snapshot || sink.code_snapshot);
         const isEncoded = combinedScope.match(
-          /\bescape\s*\(|\bescapeHtml\b|\bhtmlEncode\s*\(|\bencodeURI\b|\bsanitize\s*\(|\bDOMPurify\b|\btextContent\b|\bencodeForHTML\b|\bESAPI\b|\bEncoder\b.*\bencode\b|\bHtmlUtils\.htmlEscape\b|\bStringEscapeUtils\b/i
+          /\bescape\s*\(|\bescapeHtml\b|\bhtmlEncode\s*\(|\bencodeURI(?:Component)?\b|\bsanitize\s*\(|\bDOMPurify\b|\btextContent\b|\bencodeForHTML\b|\bESAPI\b|\bEncoder\b.*\bencode\b|\bHtmlUtils\.htmlEscape\b|\bStringEscapeUtils\b/i
         ) !== null;
 
         // JSON responses are not vulnerable to XSS — Content-Type: application/json

@@ -40,7 +40,7 @@ const TAINT_CWE_MAPPINGS: CWEMapping[] = [
   {
     cwe: 'CWE-89',
     name: 'SQL Injection',
-    when: { sinkType: 'STORAGE', sinkSubtype: ['sql_query', 'sql_write', 'sql_read'], missing: 'sanitization' },
+    when: { sinkType: 'STORAGE', sinkSubtype: ['sql_query', 'sql_write', 'sql_read', 'db_read', 'db_write', 'db_stored_proc'], missing: 'sanitization' },
     severity: 'critical',
   },
   // NoSQL Injection
