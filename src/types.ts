@@ -131,6 +131,11 @@ export interface DataFlow {
   range?: RangeInfo;
   /** Size of data being written — used by buffer overflow detection */
   write_size?: RangeInfo;
+  /**
+   * Security domain derived from the sink this data feeds — e.g.,
+   * 'sql_query', 'system_exec'. Set by backward traversal from sinks.
+   */
+  security_domain?: string;
 }
 
 export interface Edge {
@@ -176,6 +181,11 @@ export interface NeuralMap {
   created_at: string;
   parser_version: string;
   story?: SemanticSentence[];
+  /**
+   * Reverse edge index: target nodeId -> sources.
+   * Built post-processing for backward BFS.
+   */
+  reverseEdgeIndex?: Map<string, Array<{source: string, edge_type: string}>>;
 }
 
 let _sequenceCounter = 0;

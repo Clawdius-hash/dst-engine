@@ -30,6 +30,7 @@ import {
   generateProof,
   inferPayloadClassFromContent,
 } from './payload-gen.js';
+import { buildReverseEdgeIndex } from './mapper.js';
 import {
   resolveSinkClass,
   inferPayloadClassFromCWE,
@@ -861,5 +862,43 @@ describe('proof-based CWE reclassification', () => {
     const proof = generateProof(map, finding, 'CWE-89');
     expect(proof).not.toBeNull();
     expect(proof!.inferred_class).toBeUndefined();
+  });
+});
+
+// ---------------------------------------------------------------------------
+// buildReverseEdgeIndex
+// ---------------------------------------------------------------------------
+
+describe('buildReverseEdgeIndex', () => {
+  beforeEach(() => resetSequence());
+
+  it('produces correct predecessors for a 3-node chain', () => {
+    const src = createNode({
+      id: 'src',
+      node_type: 'INGRESS',
+      node_subtype: 'http_request',
+      edges: [{ target: 'mid', edge_type: 'DATA_FLOW', conditional: false, async: false }],
+    });
+    const mid = createNode({
+      id: 'mid',
+      node_type: 'TRANSFORM',
+      node_subtype: 'string_op',
+      edges: [{ target: 'sink', edge_type: 'DATA_FLOW', conditional: false, async: false }],
+    });
+    const sink = createNode({
+      id: 'sink',
+      node_type: 'STORAGE',
+      node_subtype: 'db_read',
+    });
+    const map = buildTestMap([src, mid, sink]);
+
+    const reverse = buildReverseEdgeIndex(map);
+
+    // sink's predecessor is mid
+    expect(reverse.get('sink')).toEqual([{ source: 'mid', edge_type: 'DATA_FLOW' }]);
+    // mid's predecessor is src
+    expect(reverse.get('mid')).toEqual([{ source: 'src', edge_type: 'DATA_FLOW' }]);
+    // src has no predecessors
+    expect(reverse.get('src')).toBeUndefined();
   });
 });

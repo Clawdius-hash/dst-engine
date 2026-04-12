@@ -994,6 +994,29 @@ function initializeTaint(map: NeuralMap): void {
 
 
 /**
+ * Build a reverse edge index: for every edge (S -> T), record
+ * `{ source: S.id, edge_type }` under key T.
+ *
+ * This enables backward BFS from sinks to discover what feeds them.
+ */
+export function buildReverseEdgeIndex(
+  map: NeuralMap,
+): Map<string, Array<{ source: string; edge_type: string }>> {
+  const reverse = new Map<string, Array<{ source: string; edge_type: string }>>();
+  for (const node of map.nodes) {
+    for (const edge of node.edges) {
+      let bucket = reverse.get(edge.target);
+      if (!bucket) {
+        bucket = [];
+        reverse.set(edge.target, bucket);
+      }
+      bucket.push({ source: node.id, edge_type: edge.edge_type });
+    }
+  }
+  return reverse;
+}
+
+/**
  * Build a NeuralMap from a parsed tree-sitter tree.
  *
  * This skeleton version:
@@ -1036,6 +1059,9 @@ export function buildNeuralMap(
   ctx.buildReadsEdges();
   ctx.buildWritesEdges();
   ctx.buildDependsEdges();
+
+  const reverseEdgeIndex = buildReverseEdgeIndex(ctx.neuralMap);
+  ctx.neuralMap.reverseEdgeIndex = reverseEdgeIndex;
 
   resolveSentences(ctx);
 
