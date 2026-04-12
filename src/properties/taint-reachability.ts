@@ -25,15 +25,6 @@ const DANGEROUS_SINK_TYPES: ReadonlySet<NodeType> = new Set([
 ]);
 
 /**
- * Subtypes of TRANSFORM that neutralize taint.
- * If a path passes through one of these, taint is considered neutralized.
- */
-const NEUTRALIZING_SUBTYPES: ReadonlySet<string> = new Set([
-  'sanitize', 'encrypt', 'hash', 'encode', 'escape', 'validate',
-  'parameterize', 'prepared_statement',
-]);
-
-/**
  * Edge types that represent actual data flow.
  */
 const FLOW_EDGE_TYPES: ReadonlySet<EdgeType> = new Set([

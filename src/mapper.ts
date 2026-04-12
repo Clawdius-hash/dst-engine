@@ -967,7 +967,7 @@ function initializeTaint(map: NeuralMap): void {
       }
     }
 
-    if (node.node_type === 'TRANSFORM' && node.node_subtype === 'sanitize') {
+    if (node.node_type === 'TRANSFORM' && (node.node_subtype === 'sanitize' || node.node_subtype.startsWith('sanitize_'))) {
       for (const flow of node.data_out) {
         flow.tainted = false;
       }
