@@ -218,15 +218,131 @@ export function runMarginPass(
     }
   }
 
-  // ── PARAMETER TAINT PROPAGATION ──────────────────────────────
-  // Second pass: for each import edge, if caller passes tainted args to an
-  // imported function, mark the function's contained nodes in the callee file
+  // ── PASS 2: SINK-CONTEXT PROPAGATION ──────────────────────────────
+  // Two steps:
+  //   2.1-2.2: Catalog which functions directly CONTAIN sinks (any order).
+  //   2.3: Push sink context to DEPENDENCIES — if this file has sinks and
+  //        imports functions from other files, those imported functions'
+  //        output feeds this file's sinks. Tag them.
+  //
+  // Reverse topo order (callers/roots first): when A imports from B and
+  // B imports from C, A is processed first (pushes to B), then B (pushes
+  // to C). Multi-hop propagation works naturally.
+  //
+  // V1 over-approximation: if ANY function in this file contains sinks
+  // AND this file imports functions, ALL imported functions get tagged
+  // with ALL this file's sink types. Matches PASS 3's V1 approach.
+  //
+  // MUST run before PASS 3 (parameter taint) so that functionSinkContext
+  // is populated when synthetic entries are created with security_domain.
+  const sinkPropOrder = [...order].reverse();
+
+  for (const file of sinkPropOrder) {
+    const summary = fileSummaries.get(file);
+    if (!summary) continue;
+
+    // ── Step 2.1–2.2: Per-file sink cataloging ──────────────────
+    const sinkNodes = summary.map.nodes.filter(n =>
+      n.node_type === 'STORAGE' ||
+      n.node_type === 'EXTERNAL' ||
+      n.node_type === 'EGRESS'
+    );
+
+    if (sinkNodes.length > 0) {
+      if (!summary.functionSinkContext) {
+        summary.functionSinkContext = new Map();
+      }
+
+      for (const [, funcNodeId] of summary.functionRegistry) {
+        const funcNode = summary.map.nodes.find(n => n.id === funcNodeId);
+        if (!funcNode) continue;
+
+        for (const sink of sinkNodes) {
+          if (sink.id === funcNodeId) continue;
+
+          const isContained = funcNode.edges.some(e =>
+            e.edge_type === 'CONTAINS' && e.target === sink.id
+          ) || (
+            funcNode.line_end > 0 &&
+            sink.line_start >= funcNode.line_start &&
+            sink.line_end <= funcNode.line_end
+          );
+
+          if (!isContained) continue;
+
+          let subtypes = summary.functionSinkContext.get(funcNodeId);
+          if (!subtypes) {
+            subtypes = new Set<string>();
+            summary.functionSinkContext.set(funcNodeId, subtypes);
+          }
+          if (sink.node_subtype) {
+            subtypes.add(sink.node_subtype);
+          }
+        }
+      }
+    }
+
+    // ── Step 2.3: Push sink context to dependencies ─────────────
+    // If this file has sink context (direct from Step 2.2 or propagated
+    // from a previous iteration), push it to the files it imports from.
+    // The imported functions' output feeds this file's sinks.
+    //
+    // This is the key insight for Ghost CMS: posts.js has sql_query sink
+    // and imports slugFilterOrder from slug-filter-order.js. Tag
+    // slugFilterOrder with sql_query so the proof system knows.
+    //
+    // Collect all known sink types for this file (direct + accumulated)
+    const allSinkTypes = new Set<string>();
+    if (summary.functionSinkContext) {
+      for (const subtypes of summary.functionSinkContext.values()) {
+        for (const s of subtypes) allSinkTypes.add(s);
+      }
+    }
+
+    if (allSinkTypes.size === 0) continue;
+
+    // Push to files this file imports from
+    const importEdges = depGraph.edges.filter(e => e.from === file);
+    for (const edge of importEdges) {
+      const depPath = edge.importInfo.resolvedPath ?? edge.to;
+      const depSummary = fileSummaries.get(depPath);
+      if (!depSummary) continue;
+
+      const importedNames = edge.importInfo.importedNames;
+      const resolvedNames = importedNames.includes('*')
+        ? [...depSummary.functionRegistry.keys()].filter(k => !k.includes(':'))
+        : importedNames;
+
+      for (const name of resolvedNames) {
+        const funcNodeId = depSummary.functionRegistry.get(name);
+        if (!funcNodeId) continue;
+
+        if (!depSummary.functionSinkContext) {
+          depSummary.functionSinkContext = new Map();
+        }
+
+        let subtypes = depSummary.functionSinkContext.get(funcNodeId);
+        if (!subtypes) {
+          subtypes = new Set<string>();
+          depSummary.functionSinkContext.set(funcNodeId, subtypes);
+        }
+        for (const s of allSinkTypes) subtypes.add(s);
+      }
+    }
+  }
+
+  // ── PASS 3: PARAMETER TAINT PROPAGATION ─────────────────────────
+  // For each import edge, if caller passes tainted args to an imported
+  // function, mark the function's contained nodes in the callee file
   // as receiving tainted input.  This closes the gap where a callee file has
   // no INGRESS of its own — e.g. Ghost CMS slugFilterOrder receives tainted
   // filter via cross-file call but the callee map never knew about it.
   //
   // V1 over-approximation: if ANY argument at the call-site is tainted, ALL
   // sink/transform nodes inside the callee function are marked tainted.
+  //
+  // Runs AFTER PASS 2 (sink-context) so that functionSinkContext is available
+  // for tagging synthetic entries with security_domain.
   for (const file of order) {
     const summary = fileSummaries.get(file);
     if (!summary) continue;
@@ -284,6 +400,10 @@ export function runMarginPass(
         const funcNode = depSummary.map.nodes.find(n => n.id === funcNodeId);
         if (!funcNode) continue;
 
+        // Look up security domain from functionSinkContext if available
+        const funcSinkCtx = depSummary.functionSinkContext?.get(funcNodeId);
+        const securityDomain = funcSinkCtx && funcSinkCtx.size > 0 ? [...funcSinkCtx][0] : undefined;
+
         // Mark nodes in the callee's map that are contained by this function
         // and receive data, as having tainted input
         let propagated = false;
@@ -312,6 +432,9 @@ export function runMarginPass(
               for (const d of node.data_in) {
                 if (!d.tainted) {
                   d.tainted = true;
+                  if (securityDomain && !d.security_domain) {
+                    d.security_domain = securityDomain;
+                  }
                   propagated = true;
                 }
               }
@@ -322,6 +445,7 @@ export function runMarginPass(
                 data_type: 'unknown',
                 tainted: true,
                 sensitivity: 'NONE',
+                ...(securityDomain ? { security_domain: securityDomain } : {}),
               });
               propagated = true;
             }
@@ -333,6 +457,9 @@ export function runMarginPass(
               for (const d of node.data_in) {
                 if (!d.tainted) {
                   d.tainted = true;
+                  if (securityDomain && !d.security_domain) {
+                    d.security_domain = securityDomain;
+                  }
                   propagated = true;
                 }
               }
@@ -344,6 +471,7 @@ export function runMarginPass(
                 data_type: 'unknown',
                 tainted: true,
                 sensitivity: 'NONE',
+                ...(securityDomain ? { security_domain: securityDomain } : {}),
               });
               propagated = true;
             }
@@ -353,116 +481,6 @@ export function runMarginPass(
         if (propagated) {
           dirty.add(depPath);
         }
-      }
-    }
-  }
-
-  // ── PASS 3: SINK-CONTEXT PROPAGATION ─────────────────────────────
-  // Two steps:
-  //   3.1-3.2: Catalog which functions directly CONTAIN sinks (any order).
-  //   3.3: Push sink context to DEPENDENCIES — if this file has sinks and
-  //        imports functions from other files, those imported functions'
-  //        output feeds this file's sinks. Tag them.
-  //
-  // Reverse topo order (callers/roots first): when A imports from B and
-  // B imports from C, A is processed first (pushes to B), then B (pushes
-  // to C). Multi-hop propagation works naturally.
-  //
-  // V1 over-approximation: if ANY function in this file contains sinks
-  // AND this file imports functions, ALL imported functions get tagged
-  // with ALL this file's sink types. Matches PASS 2's V1 approach.
-  const sinkPropOrder = [...order].reverse();
-
-  for (const file of sinkPropOrder) {
-    const summary = fileSummaries.get(file);
-    if (!summary) continue;
-
-    // ── Step 3.1–3.2: Per-file sink cataloging ──────────────────
-    const sinkNodes = summary.map.nodes.filter(n =>
-      n.node_type === 'STORAGE' ||
-      n.node_type === 'EXTERNAL' ||
-      n.node_type === 'EGRESS'
-    );
-
-    if (sinkNodes.length > 0) {
-      if (!summary.functionSinkContext) {
-        summary.functionSinkContext = new Map();
-      }
-
-      for (const [, funcNodeId] of summary.functionRegistry) {
-        const funcNode = summary.map.nodes.find(n => n.id === funcNodeId);
-        if (!funcNode) continue;
-
-        for (const sink of sinkNodes) {
-          if (sink.id === funcNodeId) continue;
-
-          const isContained = funcNode.edges.some(e =>
-            e.edge_type === 'CONTAINS' && e.target === sink.id
-          ) || (
-            funcNode.line_end > 0 &&
-            sink.line_start >= funcNode.line_start &&
-            sink.line_end <= funcNode.line_end
-          );
-
-          if (!isContained) continue;
-
-          let subtypes = summary.functionSinkContext.get(funcNodeId);
-          if (!subtypes) {
-            subtypes = new Set<string>();
-            summary.functionSinkContext.set(funcNodeId, subtypes);
-          }
-          if (sink.node_subtype) {
-            subtypes.add(sink.node_subtype);
-          }
-        }
-      }
-    }
-
-    // ── Step 3.3: Push sink context to dependencies ─────────────
-    // If this file has sink context (direct from Step 3.2 or propagated
-    // from a previous iteration), push it to the files it imports from.
-    // The imported functions' output feeds this file's sinks.
-    //
-    // This is the key insight for Ghost CMS: posts.js has sql_query sink
-    // and imports slugFilterOrder from slug-filter-order.js. Tag
-    // slugFilterOrder with sql_query so the proof system knows.
-    //
-    // Collect all known sink types for this file (direct + accumulated)
-    const allSinkTypes = new Set<string>();
-    if (summary.functionSinkContext) {
-      for (const subtypes of summary.functionSinkContext.values()) {
-        for (const s of subtypes) allSinkTypes.add(s);
-      }
-    }
-
-    if (allSinkTypes.size === 0) continue;
-
-    // Push to files this file imports from
-    const importEdges = depGraph.edges.filter(e => e.from === file);
-    for (const edge of importEdges) {
-      const depPath = edge.importInfo.resolvedPath ?? edge.to;
-      const depSummary = fileSummaries.get(depPath);
-      if (!depSummary) continue;
-
-      const importedNames = edge.importInfo.importedNames;
-      const resolvedNames = importedNames.includes('*')
-        ? [...depSummary.functionRegistry.keys()].filter(k => !k.includes(':'))
-        : importedNames;
-
-      for (const name of resolvedNames) {
-        const funcNodeId = depSummary.functionRegistry.get(name);
-        if (!funcNodeId) continue;
-
-        if (!depSummary.functionSinkContext) {
-          depSummary.functionSinkContext = new Map();
-        }
-
-        let subtypes = depSummary.functionSinkContext.get(funcNodeId);
-        if (!subtypes) {
-          subtypes = new Set<string>();
-          depSummary.functionSinkContext.set(funcNodeId, subtypes);
-        }
-        for (const s of allSinkTypes) subtypes.add(s);
       }
     }
   }

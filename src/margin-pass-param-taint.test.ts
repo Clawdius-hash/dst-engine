@@ -466,6 +466,111 @@ describe('Sink-context cataloging', () => {
     expect(sfoSummary.functionSinkContext!.get(sfoFunc.id)?.has('sql_query')).toBe(true);
   });
 
+  it('carries security_domain in cross_file_param_taint synthetic entries', () => {
+    // File A (posts.js): has INGRESS + STORAGE/sql_query sink inside a function,
+    //   AND imports slugFilterOrder — so the margin pass should:
+    //   1. Catalog browse's sink context as sql_query
+    //   2. Push sql_query to slugFilterOrder in B
+    //   3. Parameter taint pass creates synthetic entries WITH security_domain='sql_query'
+    const mapA = createNeuralMap('posts.js', '');
+    const browseFunc = createNode({
+      node_type: 'STRUCTURAL', node_subtype: 'function',
+      label: 'browse',
+      line_start: 1, line_end: 30,
+      edges: [
+        { target: 'sink_knex', edge_type: 'CONTAINS', conditional: false, async: false },
+        { target: 'call_sfo', edge_type: 'CONTAINS', conditional: false, async: false },
+      ],
+    });
+    const knexSink = createNode({
+      id: 'sink_knex',
+      node_type: 'STORAGE', node_subtype: 'sql_query',
+      label: 'knex.raw(query)',
+      line_start: 20, line_end: 20,
+      data_in: [],
+      edges: [],
+    });
+    const ingress = createNode({
+      node_type: 'INGRESS', node_subtype: 'http_request',
+      label: 'req.query.filter',
+      data_out: [{ name: 'filter', source: '', data_type: 'string', tainted: true, sensitivity: 'NONE' }],
+      edges: [],
+    });
+    const callSite = createNode({
+      id: 'call_sfo',
+      node_type: 'TRANSFORM', node_subtype: 'local_call',
+      label: 'slugFilterOrder(table, filter)',
+      code_snapshot: "slugFilterOrder('posts', frame.options.filter)",
+      line_start: 10, line_end: 10,
+      data_in: [{ name: 'filter', source: ingress.id, data_type: 'string', tainted: true, sensitivity: 'NONE' }],
+      edges: [],
+    });
+    mapA.nodes = [browseFunc, knexSink, ingress, callSite];
+
+    // File B (slug-filter-order.js): slugFilterOrder function with TRANSFORM, NO sinks
+    const mapB = createNeuralMap('slug-filter-order.js', '');
+    const sfoFunc = createNode({
+      node_type: 'STRUCTURAL', node_subtype: 'function',
+      label: 'slugFilterOrder',
+      param_names: ['table', 'filter'],
+      line_start: 1, line_end: 30,
+      edges: [
+        { target: 'transform_tpl', edge_type: 'CONTAINS', conditional: false, async: false },
+      ],
+    });
+    const templateNode = createNode({
+      id: 'transform_tpl',
+      node_type: 'TRANSFORM', node_subtype: 'template_string',
+      label: 'template literal',
+      line_start: 10, line_end: 10,
+      data_in: [],
+      edges: [],
+    });
+    mapB.nodes = [sfoFunc, templateNode];
+
+    const summaries = new Map<string, FileSummary>();
+    summaries.set('posts.js', {
+      map: mapA,
+      functionReturnTaint: new Map(),
+      functionRegistry: new Map([['browse', browseFunc.id]]),
+    });
+    summaries.set('slug-filter-order.js', {
+      map: mapB,
+      functionReturnTaint: new Map(),
+      functionRegistry: new Map([['slugFilterOrder', sfoFunc.id]]),
+    });
+
+    const depGraph: DependencyGraph = {
+      files: ['posts.js', 'slug-filter-order.js'],
+      edges: [{
+        from: 'posts.js',
+        to: 'slug-filter-order.js',
+        importInfo: {
+          specifier: './slug-filter-order',
+          resolvedPath: 'slug-filter-order.js',
+          importedNames: ['slugFilterOrder'],
+          localName: 'slugFilterOrder',
+          line: 1,
+        },
+      }],
+      importsOf: new Map([['posts.js', ['slug-filter-order.js']]]),
+      importedBy: new Map([['slug-filter-order.js', ['posts.js']]]),
+    };
+
+    runMarginPass(summaries, depGraph);
+
+    // The TRANSFORM node in B should have a synthetic data_in entry with security_domain='sql_query'
+    const tplNode = mapB.nodes.find(n => n.id === 'transform_tpl')!;
+    expect(tplNode.data_in.length).toBeGreaterThan(0);
+
+    const syntheticEntry = tplNode.data_in.find(d =>
+      d.name.startsWith('cross_file_param_taint_via_')
+    );
+    expect(syntheticEntry).toBeDefined();
+    expect(syntheticEntry!.tainted).toBe(true);
+    expect(syntheticEntry!.security_domain).toBe('sql_query');
+  });
+
   it('multi-hop: caller sink-context propagates through chain', () => {
     // File A (controller.js): has STORAGE/sql_query, imports from B
     const mapA = createNeuralMap('controller.js', '');
