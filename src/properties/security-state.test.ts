@@ -81,6 +81,67 @@ describe('SecurityState', () => {
   });
 });
 
+describe('SecurityState population in DataFlow', () => {
+  it('INGRESS nodes get untrusted security_state on data_out', async () => {
+    const { createNode, createNeuralMap, resetSequenceHard } = await import('../types.js');
+    resetSequenceHard();
+    const ingress = createNode({
+      node_type: 'INGRESS',
+      node_subtype: 'http_request',
+      data_out: [{ name: 'input', source: '', data_type: 'string', tainted: true, sensitivity: 'NONE' as const }],
+    });
+    const map = createNeuralMap('test.js', '');
+    map.nodes = [ingress];
+
+    const { initializeSecurityState } = await import('../mapper.js');
+    initializeSecurityState(map);
+
+    expect(ingress.data_out[0].security_state).toBeDefined();
+    expect(ingress.data_out[0].security_state!.sql_safe).toBe(false);
+    expect(ingress.data_out[0].security_state!.xss_safe).toBe(false);
+  });
+
+  it('TRANSFORM/sanitize nodes get neutralized security_state on data_out', async () => {
+    const { createNode, createNeuralMap, resetSequenceHard } = await import('../types.js');
+    resetSequenceHard();
+    const transform = createNode({
+      node_type: 'TRANSFORM',
+      node_subtype: 'sanitize',
+      data_out: [{ name: 'clean', source: '', data_type: 'string', tainted: false, sensitivity: 'NONE' as const }],
+    });
+    const map = createNeuralMap('test.js', '');
+    map.nodes = [transform];
+
+    const { initializeSecurityState } = await import('../mapper.js');
+    initializeSecurityState(map);
+
+    const state = transform.data_out[0].security_state!;
+    // sanitize (generic) marks xss_safe, shell_safe, ssti_safe, log_safe
+    // but NOT sql_safe (SQL needs parameterization)
+    expect(state.xss_safe).toBe(true);
+    expect(state.shell_safe).toBe(true);
+  });
+
+  it('TRANSFORM/sanitize_html sets only xss_safe', async () => {
+    const { createNode, createNeuralMap, resetSequenceHard } = await import('../types.js');
+    resetSequenceHard();
+    const transform = createNode({
+      node_type: 'TRANSFORM',
+      node_subtype: 'sanitize_html',
+      data_out: [{ name: 'escaped', source: '', data_type: 'string', tainted: false, sensitivity: 'NONE' as const }],
+    });
+    const map = createNeuralMap('test.js', '');
+    map.nodes = [transform];
+
+    const { initializeSecurityState } = await import('../mapper.js');
+    initializeSecurityState(map);
+
+    const state = transform.data_out[0].security_state!;
+    expect(state.xss_safe).toBe(true);
+    expect(state.sql_safe).toBe(false);
+  });
+});
+
 describe('neutralizers', () => {
   it('isNeutralizingSubtype matches exact neutralizers', () => {
     expect(isNeutralizingSubtype('sanitize')).toBe(true);

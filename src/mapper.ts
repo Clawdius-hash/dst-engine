@@ -6,6 +6,7 @@ import type { LanguageProfile } from './languageProfile.js';
 import { javascriptProfile } from './profiles/javascript.js';
 import { resolveSentences } from './sentence-resolver.js';
 import { getTemplateKey, generateSentence } from './sentence-generator.js';
+import { createUntrustedState, applyNeutralizer } from './properties/security-state.js';
 
 const CALL_NODE_TYPES = new Set([
   'call_expression',
@@ -992,6 +993,40 @@ function initializeTaint(map: NeuralMap): void {
   }
 }
 
+/**
+ * Populate security_state on DataFlow entries based on node classification.
+ * Runs AFTER initializeTaint — the boolean taint is already set.
+ *
+ * IMPORTANT: Only mirrors what initializeTaint does — sets state on INGRESS,
+ * EXTERNAL (untrusted), and the two neutralizers initializeTaint handles
+ * (sanitize, encrypt). The broader set of neutralizers (encode, validate,
+ * parameterize, etc.) is handled by the story walker in state-vs-requirement,
+ * just like taint-reachability handles them in its BFS/story walk rather
+ * than at initialization time.
+ */
+export function initializeSecurityState(map: NeuralMap): void {
+  for (const node of map.nodes) {
+    // INGRESS and EXTERNAL: all outputs are untrusted
+    if (node.node_type === 'INGRESS' || node.node_type === 'EXTERNAL') {
+      for (const flow of node.data_out) {
+        if (!flow.security_state) {
+          flow.security_state = createUntrustedState();
+        }
+      }
+    }
+
+    // Match initializeTaint: only sanitize and encrypt clear taint at init time
+    if (node.node_type === 'TRANSFORM' &&
+        (node.node_subtype === 'sanitize' || node.node_subtype.startsWith('sanitize_') ||
+         node.node_subtype === 'encrypt')) {
+      for (const flow of node.data_out) {
+        const base = flow.security_state ?? createUntrustedState();
+        flow.security_state = applyNeutralizer(base, node.node_subtype);
+      }
+    }
+  }
+}
+
 
 /**
  * Build a reverse edge index: for every edge (S -> T), record
@@ -1123,6 +1158,7 @@ export function buildNeuralMap(
   ctx.buildNodeIndex();
 
   initializeTaint(ctx.neuralMap);
+  initializeSecurityState(ctx.neuralMap);
 
   ctx.buildCallsEdges();
 

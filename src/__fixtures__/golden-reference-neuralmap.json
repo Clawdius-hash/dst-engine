@@ -225,7 +225,20 @@
           "source": "node_23_8",
           "data_type": "unknown",
           "tainted": true,
-          "sensitivity": "NONE"
+          "sensitivity": "NONE",
+          "security_state": {
+            "sql_safe": false,
+            "xss_safe": false,
+            "shell_safe": false,
+            "path_safe": false,
+            "ldap_safe": false,
+            "xpath_safe": false,
+            "xxe_safe": false,
+            "deserialize_safe": false,
+            "redirect_safe": false,
+            "ssti_safe": false,
+            "log_safe": false
+          }
         }
       ],
       "edges": [],
@@ -254,6 +267,19 @@
           "data_type": "unknown",
           "tainted": true,
           "sensitivity": "NONE",
+          "security_state": {
+            "sql_safe": false,
+            "xss_safe": false,
+            "shell_safe": false,
+            "path_safe": false,
+            "ldap_safe": false,
+            "xpath_safe": false,
+            "xxe_safe": false,
+            "deserialize_safe": false,
+            "redirect_safe": false,
+            "ssti_safe": false,
+            "log_safe": false
+          },
           "security_domain": "db_read"
         },
         {
@@ -262,6 +288,19 @@
           "data_type": "unknown",
           "tainted": true,
           "sensitivity": "NONE",
+          "security_state": {
+            "sql_safe": false,
+            "xss_safe": false,
+            "shell_safe": false,
+            "path_safe": false,
+            "ldap_safe": false,
+            "xpath_safe": false,
+            "xxe_safe": false,
+            "deserialize_safe": false,
+            "redirect_safe": false,
+            "ssti_safe": false,
+            "log_safe": false
+          },
           "security_domain": "db_read"
         }
       ],
@@ -676,6 +715,19 @@
           "data_type": "unknown",
           "tainted": true,
           "sensitivity": "PII",
+          "security_state": {
+            "sql_safe": false,
+            "xss_safe": false,
+            "shell_safe": false,
+            "path_safe": false,
+            "ldap_safe": false,
+            "xpath_safe": false,
+            "xxe_safe": false,
+            "deserialize_safe": false,
+            "redirect_safe": false,
+            "ssti_safe": false,
+            "log_safe": false
+          },
           "security_domain": "db_write"
         },
         {
@@ -685,6 +737,19 @@
           "data_type": "unknown",
           "tainted": true,
           "sensitivity": "SECRET",
+          "security_state": {
+            "sql_safe": false,
+            "xss_safe": false,
+            "shell_safe": false,
+            "path_safe": false,
+            "ldap_safe": false,
+            "xpath_safe": false,
+            "xxe_safe": false,
+            "deserialize_safe": false,
+            "redirect_safe": false,
+            "ssti_safe": false,
+            "log_safe": false
+          },
           "security_domain": "db_write"
         },
         {
@@ -693,6 +758,19 @@
           "data_type": "unknown",
           "tainted": true,
           "sensitivity": "NONE",
+          "security_state": {
+            "sql_safe": false,
+            "xss_safe": false,
+            "shell_safe": false,
+            "path_safe": false,
+            "ldap_safe": false,
+            "xpath_safe": false,
+            "xxe_safe": false,
+            "deserialize_safe": false,
+            "redirect_safe": false,
+            "ssti_safe": false,
+            "log_safe": false
+          },
           "security_domain": "db_write"
         },
         {
@@ -702,6 +780,19 @@
           "data_type": "unknown",
           "tainted": true,
           "sensitivity": "NONE",
+          "security_state": {
+            "sql_safe": false,
+            "xss_safe": false,
+            "shell_safe": false,
+            "path_safe": false,
+            "ldap_safe": false,
+            "xpath_safe": false,
+            "xxe_safe": false,
+            "deserialize_safe": false,
+            "redirect_safe": false,
+            "ssti_safe": false,
+            "log_safe": false
+          },
           "security_domain": "db_write"
         }
       ],
@@ -759,6 +850,19 @@
           "data_type": "unknown",
           "tainted": false,
           "sensitivity": "NONE",
+          "security_state": {
+            "sql_safe": false,
+            "xss_safe": true,
+            "shell_safe": true,
+            "path_safe": false,
+            "ldap_safe": false,
+            "xpath_safe": false,
+            "xxe_safe": false,
+            "deserialize_safe": false,
+            "redirect_safe": false,
+            "ssti_safe": true,
+            "log_safe": true
+          },
           "security_domain": "db_write"
         },
         {
@@ -768,6 +872,19 @@
           "data_type": "unknown",
           "tainted": false,
           "sensitivity": "NONE",
+          "security_state": {
+            "sql_safe": false,
+            "xss_safe": true,
+            "shell_safe": true,
+            "path_safe": false,
+            "ldap_safe": false,
+            "xpath_safe": false,
+            "xxe_safe": false,
+            "deserialize_safe": false,
+            "redirect_safe": false,
+            "ssti_safe": true,
+            "log_safe": true
+          },
           "security_domain": "db_write"
         },
         {
@@ -776,6 +893,19 @@
           "data_type": "unknown",
           "tainted": false,
           "sensitivity": "NONE",
+          "security_state": {
+            "sql_safe": false,
+            "xss_safe": true,
+            "shell_safe": true,
+            "path_safe": false,
+            "ldap_safe": false,
+            "xpath_safe": false,
+            "xxe_safe": false,
+            "deserialize_safe": false,
+            "redirect_safe": false,
+            "ssti_safe": true,
+            "log_safe": true
+          },
           "security_domain": "db_write"
         },
         {
@@ -785,6 +915,19 @@
           "data_type": "unknown",
           "tainted": false,
           "sensitivity": "NONE",
+          "security_state": {
+            "sql_safe": false,
+            "xss_safe": true,
+            "shell_safe": true,
+            "path_safe": false,
+            "ldap_safe": false,
+            "xpath_safe": false,
+            "xxe_safe": false,
+            "deserialize_safe": false,
+            "redirect_safe": false,
+            "ssti_safe": true,
+            "log_safe": true
+          },
           "security_domain": "db_write"
         },
         {
@@ -794,6 +937,19 @@
           "data_type": "unknown",
           "tainted": false,
           "sensitivity": "NONE",
+          "security_state": {
+            "sql_safe": false,
+            "xss_safe": true,
+            "shell_safe": true,
+            "path_safe": false,
+            "ldap_safe": false,
+            "xpath_safe": false,
+            "xxe_safe": false,
+            "deserialize_safe": false,
+            "redirect_safe": false,
+            "ssti_safe": true,
+            "log_safe": true
+          },
           "security_domain": "db_write"
         }
       ],
@@ -855,6 +1011,19 @@
           "data_type": "unknown",
           "tainted": false,
           "sensitivity": "PII",
+          "security_state": {
+            "sql_safe": false,
+            "xss_safe": true,
+            "shell_safe": true,
+            "path_safe": false,
+            "ldap_safe": false,
+            "xpath_safe": false,
+            "xxe_safe": false,
+            "deserialize_safe": false,
+            "redirect_safe": false,
+            "ssti_safe": true,
+            "log_safe": true
+          },
           "security_domain": "db_write"
         },
         {
@@ -863,6 +1032,19 @@
           "data_type": "unknown",
           "tainted": false,
           "sensitivity": "NONE",
+          "security_state": {
+            "sql_safe": false,
+            "xss_safe": true,
+            "shell_safe": true,
+            "path_safe": false,
+            "ldap_safe": false,
+            "xpath_safe": false,
+            "xxe_safe": false,
+            "deserialize_safe": false,
+            "redirect_safe": false,
+            "ssti_safe": true,
+            "log_safe": true
+          },
           "security_domain": "db_write"
         }
       ],
@@ -1116,6 +1298,19 @@
           "data_type": "unknown",
           "tainted": true,
           "sensitivity": "SECRET",
+          "security_state": {
+            "sql_safe": false,
+            "xss_safe": false,
+            "shell_safe": false,
+            "path_safe": false,
+            "ldap_safe": false,
+            "xpath_safe": false,
+            "xxe_safe": false,
+            "deserialize_safe": false,
+            "redirect_safe": false,
+            "ssti_safe": false,
+            "log_safe": false
+          },
           "security_domain": "http_response"
         }
       ],
@@ -1354,6 +1549,19 @@
           "data_type": "unknown",
           "tainted": true,
           "sensitivity": "SECRET",
+          "security_state": {
+            "sql_safe": false,
+            "xss_safe": false,
+            "shell_safe": false,
+            "path_safe": false,
+            "ldap_safe": false,
+            "xpath_safe": false,
+            "xxe_safe": false,
+            "deserialize_safe": false,
+            "redirect_safe": false,
+            "ssti_safe": false,
+            "log_safe": false
+          },
           "security_domain": "db_read"
         },
         {
@@ -1362,6 +1570,19 @@
           "data_type": "unknown",
           "tainted": true,
           "sensitivity": "NONE",
+          "security_state": {
+            "sql_safe": false,
+            "xss_safe": false,
+            "shell_safe": false,
+            "path_safe": false,
+            "ldap_safe": false,
+            "xpath_safe": false,
+            "xxe_safe": false,
+            "deserialize_safe": false,
+            "redirect_safe": false,
+            "ssti_safe": false,
+            "log_safe": false
+          },
           "security_domain": "db_read"
         },
         {
@@ -1371,6 +1592,19 @@
           "data_type": "unknown",
           "tainted": true,
           "sensitivity": "NONE",
+          "security_state": {
+            "sql_safe": false,
+            "xss_safe": false,
+            "shell_safe": false,
+            "path_safe": false,
+            "ldap_safe": false,
+            "xpath_safe": false,
+            "xxe_safe": false,
+            "deserialize_safe": false,
+            "redirect_safe": false,
+            "ssti_safe": false,
+            "log_safe": false
+          },
           "security_domain": "db_read"
         }
       ],
@@ -1755,6 +1989,19 @@
           "data_type": "unknown",
           "tainted": true,
           "sensitivity": "SECRET",
+          "security_state": {
+            "sql_safe": false,
+            "xss_safe": false,
+            "shell_safe": false,
+            "path_safe": false,
+            "ldap_safe": false,
+            "xpath_safe": false,
+            "xxe_safe": false,
+            "deserialize_safe": false,
+            "redirect_safe": false,
+            "ssti_safe": false,
+            "log_safe": false
+          },
           "security_domain": "http_response"
         }
       ],

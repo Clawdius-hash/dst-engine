@@ -24,6 +24,7 @@
 import type { NeuralMap, SemanticSentence } from './types.js';
 import type { DependencyGraph, DependencyEdge } from './cross-file.js';
 import { resolveSentences } from './sentence-resolver.js';
+import { createUntrustedState } from './properties/security-state.js';
 
 /** Summary data extracted from the mapper context for one file. */
 export interface FileSummary {
@@ -432,6 +433,9 @@ export function runMarginPass(
               for (const d of node.data_in) {
                 if (!d.tainted) {
                   d.tainted = true;
+                  if (!d.security_state) {
+                    d.security_state = createUntrustedState();
+                  }
                   if (securityDomain && !d.security_domain) {
                     d.security_domain = securityDomain;
                   }
@@ -445,6 +449,7 @@ export function runMarginPass(
                 data_type: 'unknown',
                 tainted: true,
                 sensitivity: 'NONE',
+                security_state: createUntrustedState(),
                 ...(securityDomain ? { security_domain: securityDomain } : {}),
               });
               propagated = true;
@@ -457,6 +462,9 @@ export function runMarginPass(
               for (const d of node.data_in) {
                 if (!d.tainted) {
                   d.tainted = true;
+                  if (!d.security_state) {
+                    d.security_state = createUntrustedState();
+                  }
                   if (securityDomain && !d.security_domain) {
                     d.security_domain = securityDomain;
                   }
@@ -471,6 +479,7 @@ export function runMarginPass(
                 data_type: 'unknown',
                 tainted: true,
                 sensitivity: 'NONE',
+                security_state: createUntrustedState(),
                 ...(securityDomain ? { security_domain: securityDomain } : {}),
               });
               propagated = true;
