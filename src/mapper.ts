@@ -1178,7 +1178,18 @@ export function buildNeuralMap(
   resolveSentences(ctx);
 
   if (ctx.sentences.length > 0) {
-    ctx.neuralMap.story = [...ctx.sentences].sort((a, b) => a.lineNumber - b.lineNumber);
+    // Sort by line number, break ties by taintClass priority.
+    // TAINTED (sources) must be registered before SINK (consumers) so the
+    // story walker sees the source first. This matters when an INGRESS
+    // sub-expression (req.body.name) is on the same line as its containing
+    // sink (db.query("..." + req.body.name)).
+    const TAINT_CLASS_PRIORITY: Record<string, number> = {
+      TAINTED: 0, SAFE: 1, TRANSFORM: 2, NEUTRAL: 3, STRUCTURAL: 4, SINK: 5,
+    };
+    ctx.neuralMap.story = [...ctx.sentences].sort((a, b) => {
+      if (a.lineNumber !== b.lineNumber) return a.lineNumber - b.lineNumber;
+      return (TAINT_CLASS_PRIORITY[a.taintClass] ?? 3) - (TAINT_CLASS_PRIORITY[b.taintClass] ?? 3);
+    });
   }
 
   const tDone = performance.now();
