@@ -100,7 +100,40 @@ export function detectFailOpen(map: NeuralMap): VerificationResult {
       // Check surrounding function is auth-related
       if (AUTH_CONTEXT.test(code)) {
         // Check that there isn't already a proper deny path that always sets to false
-        const hasConditionalDeny = /(?:if|else|unless|when)[\s\S]*?=\s*false\b/i.test(code);
+        let hasConditionalDeny = /(?:if|else|unless|when)[\s\S]*?=\s*false\b/i.test(code);
+
+        // If a deny path exists, check whether it's wrapped in a try block
+        // whose catch does NOT deny. If so, the deny is unreliable because an
+        // exception in the try body would skip the deny and the permissive
+        // catch would leave the security variable in its default-allow state.
+        if (hasConditionalDeny) {
+          // Find CONTROL/catch nodes sharing the same function scope
+          const funcScope = map.nodes.find(
+            n => n.node_type === 'STRUCTURAL' &&
+              /function|method/i.test(n.node_subtype) &&
+              n.line_start <= node.line_start &&
+              n.line_end >= node.line_end,
+          );
+          if (funcScope) {
+            const catchNodes = map.nodes.filter(
+              n => n.node_type === 'CONTROL' &&
+                (n.node_subtype === 'catch' || n.node_subtype === 'error_handling') &&
+                n.line_start >= funcScope.line_start &&
+                n.line_end <= funcScope.line_end,
+            );
+            for (const catchNode of catchNodes) {
+              const catchCode = stripComments(
+                catchNode.analysis_snapshot || catchNode.code_snapshot,
+              );
+              if (!SAFE_DENY.test(catchCode)) {
+                // Catch block doesn't deny -> deny in try body is unreliable
+                hasConditionalDeny = false;
+                break;
+              }
+            }
+          }
+        }
+
         if (!hasConditionalDeny) {
           const varMatch = code.match(DEFAULT_ALLOW);
           const varName = varMatch ? varMatch[1] : 'security variable';

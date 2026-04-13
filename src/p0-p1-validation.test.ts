@@ -641,7 +641,7 @@ function checkAuthorization(user, resource) {
       map = parse(CODE, 'auth-check.js');
     });
 
-    it.skip('detectFailOpen catches the default-allow initialization [GAP: hasConditionalDeny ignores try/catch wrappers]', () => {
+    it('detectFailOpen catches the default-allow initialization', () => {
       const result = detectFailOpen(map);
       expect(result.cwe).toBe('CWE-636');
       // This SHOULD be caught -- authorized starts as true
