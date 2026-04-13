@@ -111,9 +111,9 @@ const MEMBER_CALLS: Record<string, CalleePattern> = {
   'conn.ReadMessage':       { nodeType: 'INGRESS', subtype: 'websocket',    tainted: true },
 
   // -- os / environment --
-  'os.Getenv':              { nodeType: 'INGRESS', subtype: 'env_read',     tainted: false },
-  'os.LookupEnv':           { nodeType: 'INGRESS', subtype: 'env_read',     tainted: false },
-  'os.Environ':             { nodeType: 'INGRESS', subtype: 'env_read',     tainted: false },
+  'os.Getenv':              { nodeType: 'INGRESS', subtype: 'env_read',     tainted: true },
+  'os.LookupEnv':           { nodeType: 'INGRESS', subtype: 'env_read',     tainted: true },
+  'os.Environ':             { nodeType: 'INGRESS', subtype: 'env_read',     tainted: true },
   'os.Args':                { nodeType: 'INGRESS', subtype: 'env_read',     tainted: true },
   'os.Stdin':               { nodeType: 'INGRESS', subtype: 'user_input',   tainted: true },
   'flag.Parse':             { nodeType: 'INGRESS', subtype: 'env_read',     tainted: true },
@@ -122,11 +122,11 @@ const MEMBER_CALLS: Record<string, CalleePattern> = {
   'flag.Bool':              { nodeType: 'INGRESS', subtype: 'env_read',     tainted: true },
   'flag.Arg':               { nodeType: 'INGRESS', subtype: 'env_read',     tainted: true },
   'flag.Args':              { nodeType: 'INGRESS', subtype: 'env_read',     tainted: true },
-  'viper.Get':              { nodeType: 'INGRESS', subtype: 'env_read',     tainted: false },
-  'viper.GetString':        { nodeType: 'INGRESS', subtype: 'env_read',     tainted: false },
-  'viper.GetInt':           { nodeType: 'INGRESS', subtype: 'env_read',     tainted: false },
-  'viper.GetBool':          { nodeType: 'INGRESS', subtype: 'env_read',     tainted: false },
-  'viper.ReadInConfig':     { nodeType: 'INGRESS', subtype: 'env_read',     tainted: false },
+  'viper.Get':              { nodeType: 'INGRESS', subtype: 'env_read',     tainted: true },
+  'viper.GetString':        { nodeType: 'INGRESS', subtype: 'env_read',     tainted: true },
+  'viper.GetInt':           { nodeType: 'INGRESS', subtype: 'env_read',     tainted: true },
+  'viper.GetBool':          { nodeType: 'INGRESS', subtype: 'env_read',     tainted: true },
+  'viper.ReadInConfig':     { nodeType: 'INGRESS', subtype: 'env_read',     tainted: true },
 
   // -- File read --
   'os.Open':                { nodeType: 'INGRESS', subtype: 'file_read',    tainted: false },

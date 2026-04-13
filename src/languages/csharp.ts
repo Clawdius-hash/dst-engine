@@ -79,13 +79,13 @@ const MEMBER_CALLS: Record<string, CalleePattern> = {
   'StreamReader.ReadToEndAsync':  { nodeType: 'INGRESS', subtype: 'file_read',    tainted: false },
 
   // -- Environment --
-  'Environment.GetEnvironmentVariable': { nodeType: 'INGRESS', subtype: 'env_read', tainted: false },
+  'Environment.GetEnvironmentVariable': { nodeType: 'INGRESS', subtype: 'env_read', tainted: true },
   'Environment.GetCommandLineArgs': { nodeType: 'INGRESS', subtype: 'env_read',   tainted: true },
 
   // -- Configuration --
-  'IConfiguration.GetSection':    { nodeType: 'INGRESS', subtype: 'env_read',     tainted: false },
-  'IConfiguration.GetValue':      { nodeType: 'INGRESS', subtype: 'env_read',     tainted: false },
-  'IConfiguration.GetConnectionString': { nodeType: 'INGRESS', subtype: 'env_read', tainted: false },
+  'IConfiguration.GetSection':    { nodeType: 'INGRESS', subtype: 'env_read',     tainted: true },
+  'IConfiguration.GetValue':      { nodeType: 'INGRESS', subtype: 'env_read',     tainted: true },
+  'IConfiguration.GetConnectionString': { nodeType: 'INGRESS', subtype: 'env_read', tainted: true },
 
   // -- Deserialization --
   'JsonSerializer.Deserialize':       { nodeType: 'TRANSFORM', subtype: 'parse',  tainted: false },

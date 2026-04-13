@@ -86,13 +86,13 @@ const MEMBER_CALLS: Record<string, CalleePattern> = {
   'socket.on':                { nodeType: 'INGRESS', subtype: 'network_read', tainted: true },
 
   // -- Deno --
-  'Deno.env.get':             { nodeType: 'INGRESS', subtype: 'env_read',    tainted: false },
+  'Deno.env.get':             { nodeType: 'INGRESS', subtype: 'env_read',    tainted: true },
   'Deno.readTextFile':        { nodeType: 'INGRESS', subtype: 'file_read',   tainted: false },
   'Deno.readFile':            { nodeType: 'INGRESS', subtype: 'file_read',   tainted: false },
   'Deno.args':                { nodeType: 'INGRESS', subtype: 'env_read',    tainted: true },
 
   // -- Bun --
-  'Bun.env':                  { nodeType: 'INGRESS', subtype: 'env_read',    tainted: false },
+  'Bun.env':                  { nodeType: 'INGRESS', subtype: 'env_read',    tainted: true },
   'Bun.file':                 { nodeType: 'INGRESS', subtype: 'file_read',   tainted: false },
   'Bun.argv':                 { nodeType: 'INGRESS', subtype: 'env_read',    tainted: true },
 

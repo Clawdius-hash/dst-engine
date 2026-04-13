@@ -18,6 +18,7 @@ export interface CalleePattern {
   nodeType: NodeType;
   subtype: string;
   tainted: boolean; // INGRESS sources are auto-tainted
+  wildcard?: boolean;
 }
 
 // ── Direct calls (single identifier) ──────────────────────────────────────
@@ -224,7 +225,7 @@ const MEMBER_CALLS: Record<string, CalleePattern> = {
   'fs.unlinkSync':        { nodeType: 'EGRESS',     subtype: 'file_write',    tainted: false },
 
   // ── process.* → INGRESS ──
-  'process.env':          { nodeType: 'INGRESS',    subtype: 'env_read',      tainted: false },
+  'process.env':          { nodeType: 'INGRESS',    subtype: 'env_read',      tainted: true },
   'process.argv':         { nodeType: 'INGRESS',    subtype: 'env_read',      tainted: true },
   'process.stdin':        { nodeType: 'INGRESS',    subtype: 'user_input',    tainted: true },
   'process.exit':         { nodeType: 'CONTROL',    subtype: 'guard',         tainted: false },
@@ -581,7 +582,7 @@ const MEMBER_CALLS: Record<string, CalleePattern> = {
   'Deno.Command':         { nodeType: 'EXTERNAL',   subtype: 'system_exec',   tainted: false },
   'Deno.writeTextFile':   { nodeType: 'EGRESS',     subtype: 'file_write',    tainted: false },
   'Deno.serve':           { nodeType: 'STRUCTURAL', subtype: 'lifecycle',     tainted: false },
-  'Deno.env':             { nodeType: 'INGRESS',    subtype: 'env_read',      tainted: false },
+  'Deno.env':             { nodeType: 'INGRESS',    subtype: 'env_read',      tainted: true },
 
   // ═══════════════════════════════════════════════════════════════════════════
   // FRAMEWORK: GraphQL (Apollo Server / GraphQL Yoga)
@@ -755,13 +756,15 @@ export function lookupCallee(calleeChain: string[]): CalleePattern | null {
   if (STORAGE_READ_METHODS.has(methodName)) {
     // Disambiguate: Array.find vs db.find
     // If objectName is a known non-DB object, skip
-    if (!isLikelyArrayMethod(objectName, methodName)) {
-      return { nodeType: 'STORAGE', subtype: 'db_read', tainted: false };
+    if (!isLikelyNonDBObject(objectName)) {
+      return { nodeType: 'STORAGE', subtype: 'db_read', tainted: false, wildcard: true };
     }
   }
 
   if (STORAGE_WRITE_METHODS.has(methodName)) {
-    return { nodeType: 'STORAGE', subtype: 'db_write', tainted: false };
+    if (!isLikelyNonDBObject(objectName)) {
+      return { nodeType: 'STORAGE', subtype: 'db_write', tainted: false, wildcard: true };
+    }
   }
 
   // Transform patterns — only if the method name is unambiguous
@@ -785,49 +788,98 @@ export function lookupCallee(calleeChain: string[]): CalleePattern | null {
   return null;
 }
 
-// Known non-DB object names: HTTP framework objects, generic objects, array-like names.
-// If the object name is in this set, it's definitely not a database handle.
 const NON_DB_OBJECTS = new Set([
-  // Express / HTTP framework objects
+  // ── JavaScript builtins ──
+  'Map', 'Set', 'WeakMap', 'WeakSet', 'WeakRef',
+  'Array', 'Object', 'Promise', 'Reflect', 'Proxy',
+  'RegExp', 'Date', 'Math', 'Number', 'String', 'Boolean', 'Symbol',
+  'Error', 'TypeError', 'RangeError', 'SyntaxError', 'ReferenceError',
+  'Int8Array', 'Uint8Array', 'Uint8ClampedArray', 'Int16Array',
+  'Uint16Array', 'Int32Array', 'Uint32Array', 'Float32Array', 'Float64Array',
+  'BigInt64Array', 'BigUint64Array', 'ArrayBuffer', 'SharedArrayBuffer', 'DataView',
+  'JSON', 'console', 'Intl',
+  // ── Web/Node API objects ──
+  'Headers', 'URLSearchParams', 'URL', 'FormData', 'Blob', 'File', 'searchParams',
+  'ReadableStream', 'WritableStream', 'TransformStream',
+  'TextEncoder', 'TextDecoder', 'AbortController', 'AbortSignal',
+  'Request', 'Response',
+  'MessageChannel', 'MessagePort', 'BroadcastChannel',
+  'EventEmitter', 'EventTarget', 'Buffer',
+  // ── Node.js core objects ──
+  'stream', 'socket', 'net', 'tls', 'dgram',
+  'path', 'os', 'util', 'url', 'querystring', 'zlib',
+  // ── Crypto objects ──
+  'hash', 'hmac', 'cipher', 'decipher', 'sign', 'verify',
+  'crypto', 'Cipher', 'Decipher', 'Hash', 'Hmac', 'Sign', 'Verify',
+  // ── Common non-DB variable names ──
+  'cache', 'lru', 'memoryCache', 'lruCache',
+  'map', 'set', 'weakMap', 'dict', 'dictionary', 'lookup', 'index',
+  'config', 'options', 'settings', 'env', 'state',
+  'registry', 'store', 'storage',
+  'queue', 'stack', 'heap', 'ring', 'buffer',
+  'timer', 'interval', 'timeout',
+  'emitter', 'dispatcher', 'bus', 'channel',
+  'logger', 'log',
+  'metrics', 'counter', 'gauge', 'histogram',
+  'mutex', 'semaphore', 'lock',
+  'watcher', 'observer', 'listener', 'handler', 'subscriber',
+  'proxy', 'stub', 'mock', 'spy', 'fake',
+  'regex', 'regexp', 'pattern', 'matcher',
+  // ── React / UI framework objects ──
+  'React', 'ReactDOM', 'Component', 'PureComponent',
+  'ref', 'refs', 'props',
+  'Vue', 'Svelte', 'Solid',
+  'document', 'window', 'navigator', 'location', 'history',
+  'dom', 'element', 'node',
+  // ── Express / HTTP framework objects ──
   'app', 'router', 'express', 'req', 'res', 'request', 'response',
   'server', 'client', 'http', 'https',
-  // Fastify objects
   'fastify', 'reply', 'instance',
-  // Koa objects
   'ctx', 'context', 'koaRouter',
-  // Hapi objects
   'h', 'toolkit',
-  // Next.js objects
   'NextResponse', 'NextRequest', 'nextReq', 'nextRes',
-  // NestJS objects
   'controller', 'service', 'guard', 'pipe', 'interceptor', 'module',
-  // Hono objects
   'c', 'hono',
-  // Bun / Deno runtime objects
   'Bun', 'Deno',
-  // GraphQL / Apollo objects
   'graphql', 'ApolloServer', 'yoga',
-  // Generic non-DB
   'this', 'self', 'event', 'e',
-  // Array-like variable names
+  // ── Array-like variable names ──
   'arr', 'array', 'list', 'items', 'elements', 'results',
   'users', 'posts', 'records', 'rows', 'entries', 'values',
   'data', 'children', 'nodes', 'keys',
+  'args', 'arguments', 'params', 'parameters',
+  'files', 'paths', 'routes', 'endpoints',
+  'modules', 'plugins', 'middlewares', 'handlers',
+  'errors', 'warnings', 'messages', 'events',
+  'tasks', 'jobs', 'workers', 'processes', 'threads',
+  'chunks', 'segments', 'parts', 'pieces', 'fragments',
+  'fields', 'columns', 'headers', 'cookies',
+  'tags', 'labels', 'categories', 'groups',
+  'assets', 'resources', 'dependencies',
+  'components', 'directives', 'filters', 'pipes', 'guards',
+  'frames', 'layers', 'pages', 'views', 'templates',
+  'features', 'flags', 'toggles',
+  'rules', 'policies', 'permissions', 'roles',
+  'domains', 'targets', 'sources', 'sinks',
 ]);
 
 /**
- * Heuristic: is this likely an array method or a non-DB method?
- * Used to disambiguate .find() / .get() etc.
- *
- * Returns true if the object is known to NOT be a DB handle.
+ * Returns true if the object name is known to NOT be a database handle.
+ * Used to prevent wildcard STORAGE classification of JS builtins,
+ * framework objects, and common non-DB variable names.
  */
-function isLikelyArrayMethod(objectName: string, methodName: string): boolean {
-  // If the object is a known non-DB object, skip DB classification
+function isLikelyNonDBObject(objectName: string): boolean {
   if (NON_DB_OBJECTS.has(objectName)) return true;
 
-  // Only ambiguous methods — most DB methods (insert, delete, etc.) are never on arrays
-  const AMBIGUOUS = new Set(['find', 'findIndex', 'some', 'every', 'get']);
-  if (!AMBIGUOUS.has(methodName)) return false;
+  // Lowercase single-letter variables (loop vars: i, j, k, x, y)
+  if (objectName.length === 1 && objectName >= 'a' && objectName <= 'z') return true;
+
+  // Variables ending with collection type suffixes
+  const COLLECTION_SUFFIXES = ['List', 'Array', 'Queue', 'Stack', 'Map', 'Set',
+    'Cache', 'Buffer', 'Pool', 'Ring', 'Heap', 'Dict', 'Index'];
+  for (const suffix of COLLECTION_SUFFIXES) {
+    if (objectName.endsWith(suffix) && objectName.length > suffix.length) return true;
+  }
 
   return false;
 }

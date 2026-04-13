@@ -113,7 +113,7 @@ const MEMBER_CALLS: Record<string, CalleePattern> = {
   'cookies.encrypted':        { nodeType: 'INGRESS', subtype: 'http_request', tainted: true },
 
   // -- Environment --
-  'ENV.fetch':                { nodeType: 'INGRESS', subtype: 'env_read',    tainted: false },
+  'ENV.fetch':                { nodeType: 'INGRESS', subtype: 'env_read',    tainted: true },
 
   // -- ARGV --
   'ARGV.first':               { nodeType: 'INGRESS', subtype: 'env_read',    tainted: true },

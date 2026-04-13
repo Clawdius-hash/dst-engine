@@ -163,9 +163,9 @@ const MEMBER_CALLS: Record<string, CalleePattern> = {
   'Request.cookies':          { nodeType: 'INGRESS', subtype: 'http_request', tainted: true },
 
   // ── Environment / config (INGRESS) ──
-  'os.environ':               { nodeType: 'INGRESS', subtype: 'env_read',     tainted: false },
-  'os.getenv':                { nodeType: 'INGRESS', subtype: 'env_read',     tainted: false },
-  'os.environ.get':           { nodeType: 'INGRESS', subtype: 'env_read',     tainted: false },
+  'os.environ':               { nodeType: 'INGRESS', subtype: 'env_read',     tainted: true },
+  'os.getenv':                { nodeType: 'INGRESS', subtype: 'env_read',     tainted: true },
+  'os.environ.get':           { nodeType: 'INGRESS', subtype: 'env_read',     tainted: true },
 
   // ── sys — runtime input ──
   'sys.argv':                 { nodeType: 'INGRESS', subtype: 'env_read',     tainted: true },
@@ -682,7 +682,7 @@ const MEMBER_CALLS: Record<string, CalleePattern> = {
 
   // ── config ──
   'configparser.ConfigParser': { nodeType: 'META',   subtype: 'config',      tainted: false },
-  'dotenv.load_dotenv':        { nodeType: 'META',   subtype: 'config',      tainted: false },
+  'dotenv.load_dotenv':        { nodeType: 'EXTERNAL', subtype: 'config_read', tainted: false },
 
   // ── debug ──
   'pdb.set_trace':             { nodeType: 'META',   subtype: 'debug',       tainted: false },

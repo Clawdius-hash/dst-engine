@@ -74,8 +74,8 @@ const MEMBER_CALLS: Record<string, CalleePattern> = {
   'File.listFiles':             { nodeType: 'INGRESS', subtype: 'file_read',    tainted: false },
 
   // -- Environment --
-  'System.getenv':              { nodeType: 'INGRESS', subtype: 'env_read',     tainted: false },
-  'System.getProperty':         { nodeType: 'INGRESS', subtype: 'env_read',     tainted: false },
+  'System.getenv':              { nodeType: 'INGRESS', subtype: 'env_read',     tainted: true },
+  'System.getProperty':         { nodeType: 'INGRESS', subtype: 'env_read',     tainted: true },
 
   // -- SharedPreferences / DataStore read --
   'SharedPreferences.getString':  { nodeType: 'INGRESS', subtype: 'env_read',   tainted: false },

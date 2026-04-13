@@ -97,7 +97,7 @@ const MEMBER_CALLS: Record<string, CalleePattern> = {
   'UserDefaults.standard.value':    { nodeType: 'INGRESS', subtype: 'env_read', tainted: false },
 
   // -- Environment --
-  'ProcessInfo.processInfo.environment': { nodeType: 'INGRESS', subtype: 'env_read', tainted: false },
+  'ProcessInfo.processInfo.environment': { nodeType: 'INGRESS', subtype: 'env_read', tainted: true },
   'CommandLine.arguments':        { nodeType: 'INGRESS', subtype: 'env_read', tainted: true },
 
   // -- Keychain read --

@@ -84,16 +84,16 @@ const MEMBER_CALLS: Record<string, CalleePattern> = {
   'env::args':                  { nodeType: 'INGRESS', subtype: 'env_read',      tainted: true },
   'env.args_os':                { nodeType: 'INGRESS', subtype: 'env_read',      tainted: true },
   'env::args_os':               { nodeType: 'INGRESS', subtype: 'env_read',      tainted: true },
-  'env.var':                    { nodeType: 'INGRESS', subtype: 'env_read',      tainted: false },
-  'env::var':                   { nodeType: 'INGRESS', subtype: 'env_read',      tainted: false },
-  'env.var_os':                 { nodeType: 'INGRESS', subtype: 'env_read',      tainted: false },
-  'env::var_os':                { nodeType: 'INGRESS', subtype: 'env_read',      tainted: false },
-  'env.vars':                   { nodeType: 'INGRESS', subtype: 'env_read',      tainted: false },
-  'env::vars':                  { nodeType: 'INGRESS', subtype: 'env_read',      tainted: false },
-  'env.vars_os':                { nodeType: 'INGRESS', subtype: 'env_read',      tainted: false },
-  'env::vars_os':               { nodeType: 'INGRESS', subtype: 'env_read',      tainted: false },
-  'env.current_dir':            { nodeType: 'INGRESS', subtype: 'env_read',      tainted: false },
-  'env::current_dir':           { nodeType: 'INGRESS', subtype: 'env_read',      tainted: false },
+  'env.var':                    { nodeType: 'INGRESS', subtype: 'env_read',      tainted: true },
+  'env::var':                   { nodeType: 'INGRESS', subtype: 'env_read',      tainted: true },
+  'env.var_os':                 { nodeType: 'INGRESS', subtype: 'env_read',      tainted: true },
+  'env::var_os':                { nodeType: 'INGRESS', subtype: 'env_read',      tainted: true },
+  'env.vars':                   { nodeType: 'INGRESS', subtype: 'env_read',      tainted: true },
+  'env::vars':                  { nodeType: 'INGRESS', subtype: 'env_read',      tainted: true },
+  'env.vars_os':                { nodeType: 'INGRESS', subtype: 'env_read',      tainted: true },
+  'env::vars_os':               { nodeType: 'INGRESS', subtype: 'env_read',      tainted: true },
+  'env.current_dir':            { nodeType: 'INGRESS', subtype: 'env_read',      tainted: true },
+  'env::current_dir':           { nodeType: 'INGRESS', subtype: 'env_read',      tainted: true },
 
   // -- clap (CLI arg parsing) --
   'App.get_matches':            { nodeType: 'INGRESS', subtype: 'env_read',      tainted: true },
@@ -243,12 +243,12 @@ const MEMBER_CALLS: Record<string, CalleePattern> = {
   'warp::multipart':            { nodeType: 'INGRESS', subtype: 'http_request',  tainted: true },
 
   // -- config crates --
-  'config::Config.get':         { nodeType: 'INGRESS', subtype: 'env_read',      tainted: false },
-  'Config.get':                 { nodeType: 'INGRESS', subtype: 'env_read',      tainted: false },
-  'Config.get_string':          { nodeType: 'INGRESS', subtype: 'env_read',      tainted: false },
-  'Config.get_int':             { nodeType: 'INGRESS', subtype: 'env_read',      tainted: false },
-  'dotenv.dotenv':              { nodeType: 'INGRESS', subtype: 'env_read',      tainted: false },
-  'dotenvy::dotenv':            { nodeType: 'INGRESS', subtype: 'env_read',      tainted: false },
+  'config::Config.get':         { nodeType: 'INGRESS', subtype: 'env_read',      tainted: true },
+  'Config.get':                 { nodeType: 'INGRESS', subtype: 'env_read',      tainted: true },
+  'Config.get_string':          { nodeType: 'INGRESS', subtype: 'env_read',      tainted: true },
+  'Config.get_int':             { nodeType: 'INGRESS', subtype: 'env_read',      tainted: true },
+  'dotenv.dotenv':              { nodeType: 'INGRESS', subtype: 'env_read',      tainted: true },
+  'dotenvy::dotenv':            { nodeType: 'INGRESS', subtype: 'env_read',      tainted: true },
 
   // =========================================================================
   // EGRESS -- data leaving the system
