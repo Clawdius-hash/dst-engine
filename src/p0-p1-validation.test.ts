@@ -102,6 +102,7 @@ function makeFinding(
   sourceCode: string,
   sinkCode: string,
   severity: Finding['severity'] = 'high',
+  opts?: { sourceTrustBoundary?: string; sinkTrustBoundary?: string },
 ): ComposableFinding {
   return {
     cwe,
@@ -114,6 +115,8 @@ function makeFinding(
       description: `${cwe} finding in ${file}`,
       fix: 'test fix',
     },
+    ...(opts?.sourceTrustBoundary != null ? { sourceTrustBoundary: opts.sourceTrustBoundary } : {}),
+    ...(opts?.sinkTrustBoundary != null ? { sinkTrustBoundary: opts.sinkTrustBoundary } : {}),
   };
 }
 
@@ -425,12 +428,14 @@ describe('P1: COMPOSITION ENGINE VALIDATION', () => {
           'const username = req.body.username;',
           "db.query(\"INSERT INTO users (name) VALUES ('\" + username + \"')\")",
           'high',
+          { sourceTrustBoundary: 'network_external', sinkTrustBoundary: 'storage' },
         ),
         makeFinding(
           'CWE-89', 'api/admin.js',
           "db.query(\"SELECT * FROM users WHERE role = 'admin'\")",
           'res.json(rows)',
           'high',
+          { sourceTrustBoundary: 'storage', sinkTrustBoundary: 'network_external' },
         ),
       ];
 
@@ -456,12 +461,14 @@ describe('P1: COMPOSITION ENGINE VALIDATION', () => {
           'const key = readInput();',
           'process.env.API_KEY = key;',
           'medium',
+          { sourceTrustBoundary: 'network_external', sinkTrustBoundary: 'environment' },
         ),
         makeFinding(
           'CWE-200', 'routes/external.js',
           'const apiKey = process.env.API_KEY;',
           'fetch(url, { headers: { Authorization: apiKey } })',
           'high',
+          { sourceTrustBoundary: 'environment', sinkTrustBoundary: 'network_external' },
         ),
       ];
 
@@ -486,12 +493,14 @@ describe('P1: COMPOSITION ENGINE VALIDATION', () => {
           'const userInput = req.body.data;',
           "fs.writeFileSync('/tmp/cache.json', userInput)",
           'high',
+          { sourceTrustBoundary: 'network_external', sinkTrustBoundary: 'filesystem' },
         ),
         makeFinding(
           'CWE-502', 'services/cache-reader.js',
           "const raw = fs.readFileSync('/tmp/cache.json')",
           'const obj = JSON.parse(raw)',
           'high',
+          { sourceTrustBoundary: 'filesystem', sinkTrustBoundary: 'app_config' },
         ),
       ];
 

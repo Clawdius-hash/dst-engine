@@ -284,7 +284,7 @@ describe('composeFindings', () => {
   });
 
   describe('boundary counting', () => {
-    it('counts 1 boundary when findings are in different files', () => {
+    it('counts 0 boundaries when no trust boundaries are set', () => {
       const findingA = makeComposable({
         file: 'fileA.ts',
         sinkCode: 'db.query("INSERT INTO shared VALUES ($1)")',
@@ -296,22 +296,76 @@ describe('composeFindings', () => {
 
       const chains = composeFindings([findingA, findingB]);
       expect(chains).toHaveLength(1);
-      expect(chains[0].boundariesCrossed).toBe(1);
+      expect(chains[0].boundariesCrossed).toBe(0);
     });
 
-    it('counts 0 boundaries when findings are in the same file', () => {
-      const findingA = makeComposable({
-        file: 'same.ts',
-        sinkCode: 'db.query("INSERT INTO shared VALUES ($1)")',
-      });
-      const findingB = makeComposable({
-        file: 'same.ts',
-        sourceCode: 'db.query("SELECT * FROM shared")',
-      });
+    it('counts 0 boundaries when findings share the same trust boundary', () => {
+      const findings: ComposableFinding[] = [
+        {
+          cwe: 'CWE-89',
+          file: 'a.js',
+          finding: makeFinding({
+            source: { id: 's1', label: 'src', line: 1, code: 'req.body.x' },
+            sink: { id: 'k1', label: 'snk', line: 2, code: 'db.query("INSERT INTO shared VALUES ($1)")' },
+            severity: 'high',
+          }),
+          sinkStorageTarget: { kind: 'table', name: 'shared' },
+          sinkTrustBoundary: 'storage',
+          sourceTrustBoundary: 'storage',
+        },
+        {
+          cwe: 'CWE-200',
+          file: 'b.js',
+          finding: makeFinding({
+            source: { id: 's2', label: 'src', line: 1, code: 'db.query("SELECT * FROM shared")' },
+            sink: { id: 'k2', label: 'snk', line: 2, code: 'res.send(data)' },
+            severity: 'medium',
+          }),
+          sourceStorageTarget: { kind: 'table', name: 'shared' },
+          sourceTrustBoundary: 'storage',
+          sinkTrustBoundary: 'storage',
+        },
+      ];
 
-      const chains = composeFindings([findingA, findingB]);
+      const chains = composeFindings(findings);
       expect(chains).toHaveLength(1);
       expect(chains[0].boundariesCrossed).toBe(0);
+    });
+
+    it('counts trust boundaries crossed (not just file count)', () => {
+      // Finding A: source in network_external, sink in storage
+      // Finding B: source in storage, sink in subprocess
+      // That's 3 boundaries: network_external, storage, subprocess -> 2 crossings
+      const findings: ComposableFinding[] = [
+        {
+          cwe: 'CWE-89',
+          file: 'a.js',
+          finding: makeFinding({
+            source: { id: 's1', label: 'src', line: 1, code: 'req.body.x' },
+            sink: { id: 'k1', label: 'snk', line: 2, code: 'db.query("INSERT INTO users VALUES ($1)")' },
+            severity: 'high',
+          }),
+          sinkStorageTarget: { kind: 'table', name: 'users' },
+          sinkTrustBoundary: 'storage',
+          sourceTrustBoundary: 'network_external',
+        },
+        {
+          cwe: 'CWE-78',
+          file: 'b.js',
+          finding: makeFinding({
+            source: { id: 's2', label: 'src', line: 1, code: 'db.query("SELECT * FROM users")' },
+            sink: { id: 'k2', label: 'snk', line: 2, code: 'exec(cmd)' },
+            severity: 'high',
+          }),
+          sourceStorageTarget: { kind: 'table', name: 'users' },
+          sourceTrustBoundary: 'storage',
+          sinkTrustBoundary: 'subprocess',
+        },
+      ];
+
+      const chains = composeFindings(findings);
+      expect(chains.length).toBeGreaterThanOrEqual(1);
+      expect(chains[0].boundariesCrossed).toBe(2); // network_external -> storage -> subprocess
     });
   });
 

@@ -95,8 +95,15 @@ function describeChain(links: ChainLink[]): string {
 // ── Count boundary crossings ─────────────────────────────────────────────────
 
 function countBoundaries(links: ChainLink[]): number {
-  const files = new Set(links.map(l => l.finding.file));
-  return Math.max(0, files.size - 1);
+  const boundaries = new Set<string>();
+  for (const link of links) {
+    if (link.finding.sinkTrustBoundary) boundaries.add(link.finding.sinkTrustBoundary);
+    if (link.finding.sourceTrustBoundary) boundaries.add(link.finding.sourceTrustBoundary);
+  }
+  // Remove empty strings (defensive — the `if` guards above should prevent them)
+  boundaries.delete('');
+  // N distinct trust boundaries means N-1 crossings
+  return Math.max(0, boundaries.size - 1);
 }
 
 // ── Chain type classification ────────────────────────────────────────────────

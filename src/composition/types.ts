@@ -8,6 +8,10 @@ export interface ComposableFinding {
   sinkStorageTarget?: { kind: string; name: string } | null;
   /** AST-derived storage target for the source node (preferred over regex extraction) */
   sourceStorageTarget?: { kind: string; name: string } | null;
+  /** Trust boundary of the sink node (e.g. 'network_external', 'storage', 'subprocess') */
+  sinkTrustBoundary?: string;
+  /** Trust boundary of the source node */
+  sourceTrustBoundary?: string;
 }
 
 export interface ChainLink {
