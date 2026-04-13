@@ -34,6 +34,9 @@ const DIRECT_CALLS: Record<string, CalleePattern> = {
   unstable_cache:       { nodeType: 'CONTROL',   subtype: 'event_handler', tainted: false },
   generateMetadata:     { nodeType: 'META',      subtype: 'config',        tainted: false },
   generateStaticParams: { nodeType: 'META',      subtype: 'config',        tainted: false },
+  // Next.js App Router: bare cookies()/headers() from 'next/headers'
+  cookies:              { nodeType: 'INGRESS',   subtype: 'http_request',  tainted: true },
+  headers:              { nodeType: 'INGRESS',   subtype: 'http_request',  tainted: true },
 };
 
 // -- Member calls (object.method / Class.method) ------------------------------
@@ -56,8 +59,7 @@ const MEMBER_CALLS: Record<string, CalleePattern> = {
   'Req':                      { nodeType: 'INGRESS', subtype: 'http_request', tainted: true },
 
   // -- Next.js App Router inputs --
-  'cookies':                  { nodeType: 'INGRESS', subtype: 'http_request', tainted: true },
-  'headers':                  { nodeType: 'INGRESS', subtype: 'http_request', tainted: true },
+  // NOTE: bare cookies() and headers() are in DIRECT_CALLS above
   'NextRequest.nextUrl':      { nodeType: 'INGRESS', subtype: 'http_request', tainted: true },
   'NextRequest.cookies':      { nodeType: 'INGRESS', subtype: 'http_request', tainted: true },
   'NextRequest.headers':      { nodeType: 'INGRESS', subtype: 'http_request', tainted: true },
