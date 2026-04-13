@@ -125,6 +125,7 @@ export class MapperContext {
   readonly profile: LanguageProfile;
   readonly sentences: SemanticSentence[] = [];
   readonly taintLog: TaintEvent[] = [];
+  public dbImportDetected: boolean = false;
 
   addSentence(s: SemanticSentence): void {
     this.sentences.push(s);
@@ -1427,6 +1428,22 @@ function walkWithScopes(node: SyntaxNode, ctx: MapperContext, profile: LanguageP
       if (!n.sentences) n.sentences = [];
       n.sentences.push(sentence);
       ctx.addSentence(sentence);
+
+      // Dual-role: INGRESS/file_read with tainted args is also a path traversal sink
+      if (n.node_type === 'INGRESS' &&
+          (n.node_subtype === 'file_read' || n.node_subtype === 'file_access') &&
+          n.data_in.some(d => d.tainted)) {
+        const argVars = (snap.match(/\(([^)]*)\)/)?.[1] ?? '')
+          .replace(/"[^"]*"|'[^']*'/g, '')
+          .match(/\b[a-z_]\w*(?:\.\w+)*\b/gi) || [];
+        const sinkSentence = generateSentence('accesses-path',
+          { subject: n.label, variables: argVars.join(', '), context: `line ${n.line_start}` },
+          n.line_start, n.id, 'SINK' as SemanticSentence['taintClass']);
+        sinkSentence.taintBasis = 'PHONEME_RESOLUTION';
+        if (!n.sentences) n.sentences = [];
+        n.sentences.push(sinkSentence);
+        ctx.addSentence(sinkSentence);
+      }
     }
   }
 
