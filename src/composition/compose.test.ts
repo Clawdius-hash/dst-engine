@@ -1,0 +1,328 @@
+import { describe, it, expect } from 'vitest';
+import { composeFindings } from './compose.js';
+import type { ComposableFinding } from './types.js';
+import type { Finding } from '../verifier/types.js';
+
+// ── Helpers ──────────────────────────────────────────────────────────────────
+
+function makeFinding(overrides: Partial<Finding> & Pick<Finding, 'source' | 'sink'>): Finding {
+  return {
+    missing: 'sanitization',
+    severity: 'high',
+    description: 'test finding',
+    fix: 'add sanitization',
+    ...overrides,
+  };
+}
+
+function makeComposable(opts: {
+  cwe?: string;
+  file?: string;
+  sourceId?: string;
+  sourceCode?: string;
+  sinkId?: string;
+  sinkCode?: string;
+  severity?: Finding['severity'];
+}): ComposableFinding {
+  return {
+    cwe: opts.cwe ?? 'CWE-89',
+    file: opts.file ?? 'app.ts',
+    finding: makeFinding({
+      severity: opts.severity ?? 'high',
+      source: {
+        id: opts.sourceId ?? 'src1',
+        label: 'source',
+        line: 1,
+        code: opts.sourceCode ?? 'req.body.input',
+      },
+      sink: {
+        id: opts.sinkId ?? 'sink1',
+        label: 'sink',
+        line: 10,
+        code: opts.sinkCode ?? 'db.query("SELECT * FROM users")',
+      },
+    }),
+  };
+}
+
+// ── Tests ────────────────────────────────────────────────────────────────────
+
+describe('composeFindings', () => {
+  describe('storage target bridge', () => {
+    it('chains two findings that share a SQL table (A sink -> B source)', () => {
+      const findingA = makeComposable({
+        cwe: 'CWE-89',
+        file: 'write.ts',
+        sinkCode: 'db.query("INSERT INTO user_data VALUES ($1)")',
+      });
+      const findingB = makeComposable({
+        cwe: 'CWE-200',
+        file: 'read.ts',
+        sourceCode: 'db.query("SELECT * FROM user_data WHERE id = $1")',
+      });
+
+      const chains = composeFindings([findingA, findingB]);
+      expect(chains).toHaveLength(1);
+      expect(chains[0].links).toHaveLength(2);
+      expect(chains[0].chainType).toBe('storage');
+      expect(chains[0].links[1].bridgeType).toBe('storage');
+      expect(chains[0].links[1].bridgeDetail).toContain('user_data');
+    });
+
+    it('chains findings sharing a MongoDB collection', () => {
+      const findingA = makeComposable({
+        sinkCode: 'db.collection("orders").insertOne(doc)',
+      });
+      const findingB = makeComposable({
+        sourceCode: 'db.collection("orders").find({})',
+      });
+
+      const chains = composeFindings([findingA, findingB]);
+      expect(chains).toHaveLength(1);
+      expect(chains[0].links[1].bridgeDetail).toContain('orders');
+    });
+
+    it('chains findings sharing a file path', () => {
+      const findingA = makeComposable({
+        sinkCode: 'fs.writeFileSync("/tmp/secrets.json", data)',
+      });
+      const findingB = makeComposable({
+        sourceCode: 'fs.readFileSync("/tmp/secrets.json", "utf8")',
+      });
+
+      const chains = composeFindings([findingA, findingB]);
+      expect(chains).toHaveLength(1);
+      expect(chains[0].chainType).toBe('file_io');
+    });
+
+    it('chains findings sharing an env var', () => {
+      const findingA = makeComposable({
+        sinkCode: 'process.env.DB_PASSWORD = userInput',
+      });
+      const findingB = makeComposable({
+        sourceCode: 'const pw = process.env.DB_PASSWORD',
+      });
+
+      const chains = composeFindings([findingA, findingB]);
+      expect(chains).toHaveLength(1);
+      expect(chains[0].chainType).toBe('env_var');
+    });
+  });
+
+  describe('same-node bridge', () => {
+    it('chains two findings where A sink id matches B source id in same file', () => {
+      const findingA = makeComposable({
+        cwe: 'CWE-89',
+        file: 'handler.ts',
+        sinkId: 'node_42',
+        sinkCode: 'console.log(data)',  // no extractable target
+      });
+      const findingB = makeComposable({
+        cwe: 'CWE-79',
+        file: 'handler.ts',
+        sourceId: 'node_42',
+        sourceCode: 'const data = getInput()',  // no extractable target
+      });
+
+      const chains = composeFindings([findingA, findingB]);
+      expect(chains).toHaveLength(1);
+      expect(chains[0].chainType).toBe('same_node');
+      expect(chains[0].links[1].bridgeType).toBe('same_node');
+      expect(chains[0].links[1].bridgeDetail).toContain('node_42');
+    });
+
+    it('does NOT chain same-node bridge across different files', () => {
+      const findingA = makeComposable({
+        file: 'fileA.ts',
+        sinkId: 'node_42',
+        sinkCode: 'console.log(data)',
+      });
+      const findingB = makeComposable({
+        file: 'fileB.ts',
+        sourceId: 'node_42',
+        sourceCode: 'const data = getInput()',
+      });
+
+      const chains = composeFindings([findingA, findingB]);
+      expect(chains).toHaveLength(0);
+    });
+  });
+
+  describe('no chain for unrelated findings', () => {
+    it('does NOT chain findings with no shared target or node', () => {
+      const findingA = makeComposable({
+        sinkCode: 'db.query("INSERT INTO users VALUES ($1)")',
+        sinkId: 'node_1',
+        file: 'a.ts',
+      });
+      const findingB = makeComposable({
+        sourceCode: 'const x = req.params.id',
+        sourceId: 'node_99',
+        file: 'b.ts',
+      });
+
+      const chains = composeFindings([findingA, findingB]);
+      expect(chains).toHaveLength(0);
+    });
+  });
+
+  describe('severity escalation', () => {
+    it('escalates two highs to critical', () => {
+      const findingA = makeComposable({
+        severity: 'high',
+        sinkCode: 'db.query("INSERT INTO shared VALUES ($1)")',
+      });
+      const findingB = makeComposable({
+        severity: 'high',
+        sourceCode: 'db.query("SELECT * FROM shared")',
+      });
+
+      const chains = composeFindings([findingA, findingB]);
+      expect(chains).toHaveLength(1);
+      expect(chains[0].severity).toBe('critical');
+    });
+
+    it('escalates two mediums to high', () => {
+      const findingA = makeComposable({
+        severity: 'medium',
+        sinkCode: 'db.query("INSERT INTO shared VALUES ($1)")',
+      });
+      const findingB = makeComposable({
+        severity: 'medium',
+        sourceCode: 'db.query("SELECT * FROM shared")',
+      });
+
+      const chains = composeFindings([findingA, findingB]);
+      expect(chains).toHaveLength(1);
+      expect(chains[0].severity).toBe('high');
+    });
+
+    it('escalates medium + high to critical', () => {
+      const findingA = makeComposable({
+        severity: 'medium',
+        sinkCode: 'db.query("INSERT INTO shared VALUES ($1)")',
+      });
+      const findingB = makeComposable({
+        severity: 'high',
+        sourceCode: 'db.query("SELECT * FROM shared")',
+      });
+
+      const chains = composeFindings([findingA, findingB]);
+      expect(chains).toHaveLength(1);
+      expect(chains[0].severity).toBe('critical');
+    });
+
+    it('escalates two lows to medium', () => {
+      const findingA = makeComposable({
+        severity: 'low',
+        sinkCode: 'db.query("INSERT INTO shared VALUES ($1)")',
+      });
+      const findingB = makeComposable({
+        severity: 'low',
+        sourceCode: 'db.query("SELECT * FROM shared")',
+      });
+
+      const chains = composeFindings([findingA, findingB]);
+      expect(chains).toHaveLength(1);
+      expect(chains[0].severity).toBe('medium');
+    });
+
+    it('caps at critical (high + critical stays critical)', () => {
+      const findingA = makeComposable({
+        severity: 'critical',
+        sinkCode: 'db.query("INSERT INTO shared VALUES ($1)")',
+      });
+      const findingB = makeComposable({
+        severity: 'high',
+        sourceCode: 'db.query("SELECT * FROM shared")',
+      });
+
+      const chains = composeFindings([findingA, findingB]);
+      expect(chains).toHaveLength(1);
+      expect(chains[0].severity).toBe('critical');
+    });
+  });
+
+  describe('chain description', () => {
+    it('produces a non-empty description', () => {
+      const findingA = makeComposable({
+        cwe: 'CWE-89',
+        sinkCode: 'db.query("INSERT INTO logs VALUES ($1)")',
+      });
+      const findingB = makeComposable({
+        cwe: 'CWE-200',
+        sourceCode: 'db.query("SELECT * FROM logs")',
+      });
+
+      const chains = composeFindings([findingA, findingB]);
+      expect(chains).toHaveLength(1);
+      expect(chains[0].description).toBeTruthy();
+      expect(chains[0].description.length).toBeGreaterThan(10);
+    });
+  });
+
+  describe('deduplication', () => {
+    it('does not create both A->B and B->A for the same pair', () => {
+      // Both sink and source share the same table, so both directions would match
+      const findingA = makeComposable({
+        sinkCode: 'db.query("INSERT INTO shared VALUES ($1)")',
+        sourceCode: 'db.query("SELECT * FROM shared")',
+        sourceId: 'sA',
+        sinkId: 'kA',
+      });
+      const findingB = makeComposable({
+        sinkCode: 'db.query("INSERT INTO shared VALUES ($1)")',
+        sourceCode: 'db.query("SELECT * FROM shared")',
+        sourceId: 'sB',
+        sinkId: 'kB',
+      });
+
+      const chains = composeFindings([findingA, findingB]);
+      // Should get exactly 1, not 2 (deduped A->B and B->A)
+      expect(chains).toHaveLength(1);
+    });
+  });
+
+  describe('boundary counting', () => {
+    it('counts 1 boundary when findings are in different files', () => {
+      const findingA = makeComposable({
+        file: 'fileA.ts',
+        sinkCode: 'db.query("INSERT INTO shared VALUES ($1)")',
+      });
+      const findingB = makeComposable({
+        file: 'fileB.ts',
+        sourceCode: 'db.query("SELECT * FROM shared")',
+      });
+
+      const chains = composeFindings([findingA, findingB]);
+      expect(chains).toHaveLength(1);
+      expect(chains[0].boundariesCrossed).toBe(1);
+    });
+
+    it('counts 0 boundaries when findings are in the same file', () => {
+      const findingA = makeComposable({
+        file: 'same.ts',
+        sinkCode: 'db.query("INSERT INTO shared VALUES ($1)")',
+      });
+      const findingB = makeComposable({
+        file: 'same.ts',
+        sourceCode: 'db.query("SELECT * FROM shared")',
+      });
+
+      const chains = composeFindings([findingA, findingB]);
+      expect(chains).toHaveLength(1);
+      expect(chains[0].boundariesCrossed).toBe(0);
+    });
+  });
+
+  describe('empty / single input', () => {
+    it('returns empty array for empty input', () => {
+      expect(composeFindings([])).toEqual([]);
+    });
+
+    it('returns empty array for single finding', () => {
+      const f = makeComposable({});
+      expect(composeFindings([f])).toEqual([]);
+    });
+  });
+});
