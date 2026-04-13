@@ -15,3 +15,6 @@ export { generateChain, executeChain } from './chain-generator.js';
 
 export type { ContainerConfig, SandboxOptions, SandboxRunResult, SandboxFinding } from './orchestrator.js';
 export { OWASP_BENCHMARK_CONFIG, applyProofStrengthUpdate, runSandbox } from './orchestrator.js';
+
+export { FunctionChannel, generateHarness, buildFunctionTarget, buildInjectionParams, encodeFunctionTarget, decodeFunctionTarget, encodeFunctionParams } from './function-channel.js';
+export type { FunctionTarget, FunctionInjectionParams, SinkMockSpec, HarnessReport } from './function-channel.js';

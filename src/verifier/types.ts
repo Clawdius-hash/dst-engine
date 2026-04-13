@@ -65,7 +65,7 @@ export interface ProofPayload {
 
 /** How to deliver the payload to the application */
 export interface DeliverySpec {
-  channel: 'http' | 'stdin' | 'env' | 'file' | 'socket' | 'message_queue' | 'unknown';
+  channel: 'http' | 'stdin' | 'env' | 'file' | 'socket' | 'message_queue' | 'function' | 'unknown';
   http?: {
     method: string;
     path: string;

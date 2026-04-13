@@ -19,6 +19,8 @@ import type {
   ObservationResult,
   ChannelSnapshot,
 } from './channels.js';
+import type { Finding } from '../verifier/types.js';
+import type { NeuralMap, NeuralMapNode } from '../types.js';
 
 const execFileAsync = promisify(execFile);
 
@@ -272,6 +274,181 @@ export function encodeFunctionParams(fp: FunctionInjectionParams): DeliveryParam
   return { method: 'CALL', param: fp.target_param };
 }
 
+
+// ---------------------------------------------------------------------------
+// Factory functions — extract FunctionTarget + FunctionInjectionParams from NeuralMap
+// ---------------------------------------------------------------------------
+
+/**
+ * Given a NeuralMap and a Finding, extract the function containing the vulnerability.
+ *
+ * Strategy:
+ *   1. Find the source node from the finding
+ *   2. Find the enclosing STRUCTURAL/function node (tightest fit)
+ *   3. Extract the function source from the NeuralMap's source_code
+ */
+export function buildFunctionTarget(map: NeuralMap, finding: Finding): FunctionTarget | null {
+  // 1. Find the source node
+  const sourceNode = map.nodes.find(n => n.id === finding.source.id);
+  if (!sourceNode) return null;
+
+  // 2. Find enclosing STRUCTURAL/function nodes
+  let candidates = map.nodes.filter(n =>
+    n.node_type === 'STRUCTURAL' &&
+    n.node_subtype.includes('function') &&
+    n.line_start <= sourceNode.line_start &&
+    (n.line_end >= sourceNode.line_start || n.line_end === 0),
+  );
+
+  if (candidates.length === 0) return null;
+
+  // Prefer multi-line functions over single-line stubs when both exist
+  // (single-line STRUCTURAL/function nodes are typically anonymous wrappers
+  //  that don't contain a complete function body)
+  const multiLine = candidates.filter(n => n.line_end > n.line_start);
+  if (multiLine.length > 0) candidates = multiLine;
+
+  // 3. Pick tightest enclosing function (smallest line range)
+  const enclosing = candidates.reduce((best, curr) => {
+    const bestRange = best.line_end - best.line_start;
+    const currRange = curr.line_end - curr.line_start;
+    // line_end === 0 means single-line — prefer nodes with actual ranges
+    if (best.line_end === 0 && curr.line_end !== 0) return curr;
+    if (curr.line_end === 0 && best.line_end !== 0) return best;
+    return currRange < bestRange ? curr : best;
+  });
+
+  // 4. Extract function source from the source code
+  const lines = map.source_code.split('\n');
+  const functionSource = lines.slice(enclosing.line_start - 1, enclosing.line_end).join('\n');
+
+  return {
+    source_file: map.source_file,
+    function_name: enclosing.label,
+    line_start: enclosing.line_start,
+    line_end: enclosing.line_end,
+    function_source: functionSource,
+    language: (enclosing.language as FunctionTarget['language']) || 'javascript',
+  };
+}
+
+/**
+ * Given a NeuralMap, Finding, and SinkMockSpec array, build injection params.
+ *
+ * Strategy:
+ *   1. Find the source node from the finding
+ *   2. Get param_names from the enclosing STRUCTURAL/function node
+ *   3. If no param_names on the node, try regex extraction from function source
+ *   4. Determine which parameter carries the taint
+ *   5. Build default values for other params
+ */
+export function buildInjectionParams(
+  map: NeuralMap,
+  finding: Finding,
+  sinkMocks: SinkMockSpec[],
+): FunctionInjectionParams | null {
+  // 1. Find the source node
+  const sourceNode = map.nodes.find(n => n.id === finding.source.id);
+  if (!sourceNode) return null;
+
+  // 2. Find enclosing function node (same logic as buildFunctionTarget)
+  let candidates2 = map.nodes.filter(n =>
+    n.node_type === 'STRUCTURAL' &&
+    n.node_subtype.includes('function') &&
+    n.line_start <= sourceNode.line_start &&
+    (n.line_end >= sourceNode.line_start || n.line_end === 0),
+  );
+
+  if (candidates2.length === 0) return null;
+
+  // Prefer multi-line functions over single-line stubs
+  const multiLine2 = candidates2.filter(n => n.line_end > n.line_start);
+  if (multiLine2.length > 0) candidates2 = multiLine2;
+
+  const enclosing = candidates2.reduce((best, curr) => {
+    const bestRange = best.line_end - best.line_start;
+    const currRange = curr.line_end - curr.line_start;
+    if (best.line_end === 0 && curr.line_end !== 0) return curr;
+    if (curr.line_end === 0 && best.line_end !== 0) return best;
+    return currRange < bestRange ? curr : best;
+  });
+
+  // 3. Get parameter names — prefer AST-extracted param_names on the node
+  let paramNames: string[] = enclosing.param_names ?? [];
+
+  // If no param_names on the node, try regex extraction from function source
+  if (paramNames.length === 0) {
+    const lines = map.source_code.split('\n');
+    const funcSource = lines.slice(enclosing.line_start - 1, enclosing.line_end).join('\n');
+    paramNames = extractParamNamesFromSource(funcSource);
+  }
+
+  if (paramNames.length === 0) return null;
+
+  // 4. Determine which parameter carries the taint
+  //    Match against source node's label or code_snapshot
+  const sourceLabel = sourceNode.label.toLowerCase();
+  const sourceCode = sourceNode.code_snapshot.toLowerCase();
+
+  let targetIndex = -1;
+  for (let i = 0; i < paramNames.length; i++) {
+    const pLower = paramNames[i].toLowerCase();
+    if (sourceLabel.includes(pLower) || sourceCode.includes(pLower)) {
+      targetIndex = i;
+      break;
+    }
+  }
+
+  // Fallback: if no match found, use first parameter (most common for simple functions)
+  if (targetIndex === -1) {
+    targetIndex = 0;
+  }
+
+  // 5. Build other_params with default values
+  const otherParams: Array<{ name: string; default_value: string }> = [];
+  for (let i = 0; i < paramNames.length; i++) {
+    if (i !== targetIndex) {
+      otherParams.push({ name: paramNames[i], default_value: 'undefined' });
+    }
+  }
+
+  return {
+    target_param: paramNames[targetIndex],
+    param_index: targetIndex,
+    other_params: otherParams,
+    sink_mocks: sinkMocks,
+  };
+}
+
+/**
+ * Extract parameter names from function source using regex.
+ * Handles: function declarations, arrow functions, method shorthand.
+ */
+function extractParamNamesFromSource(source: string): string[] {
+  const patterns = [
+    /function\s+\w+\s*\(([^)]*)\)/,     // function foo(a, b)
+    /\(([^)]*)\)\s*=>/,                   // (a, b) =>
+    /\(([^)]*)\)\s*\{/,                   // (a, b) {  (method shorthand / anonymous)
+  ];
+
+  for (const re of patterns) {
+    const m = source.match(re);
+    if (m && m[1] !== undefined) {
+      const raw = m[1].trim();
+      if (raw === '') return [];
+      return raw.split(',').map(p => {
+        // Handle default values: "a = 5" => "a"
+        // Handle rest params: "...args" => "args"
+        // Handle destructuring: ignore for now (return raw)
+        let name = p.trim().split('=')[0].trim();
+        if (name.startsWith('...')) name = name.slice(3);
+        return name;
+      }).filter(n => n.length > 0);
+    }
+  }
+
+  return [];
+}
 
 // ---------------------------------------------------------------------------
 // FunctionChannel — implements Channel for function-level verification

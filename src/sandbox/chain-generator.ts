@@ -135,8 +135,8 @@ export function generateChain(
     sink_id: finding.sink.id,
   };
 
-  // Non-HTTP channels not supported in v1 — return empty chain
-  if (proof.delivery.channel !== 'http') {
+  // Non-HTTP/function channels not supported in v1 — return empty chain
+  if (proof.delivery.channel !== 'http' && proof.delivery.channel !== 'function') {
     return { chain_id, finding_ref, steps: [], proof };
   }
 

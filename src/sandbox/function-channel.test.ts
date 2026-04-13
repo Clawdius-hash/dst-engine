@@ -6,7 +6,7 @@
  * The harness must produce valid JSON (HarnessReport) on stdout.
  */
 
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeAll } from 'vitest';
 import { mkdtempSync, writeFileSync, unlinkSync } from 'fs';
 import { join } from 'path';
 import { tmpdir } from 'os';
@@ -18,6 +18,8 @@ import {
   encodeFunctionTarget,
   decodeFunctionTarget,
   encodeFunctionParams,
+  buildFunctionTarget,
+  buildInjectionParams,
 } from './function-channel.js';
 import type {
   FunctionTarget,
@@ -25,6 +27,16 @@ import type {
   HarnessReport,
 } from './function-channel.js';
 import type { DeliveryResult } from './channels.js';
+import { Parser, Language } from 'web-tree-sitter';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { buildNeuralMap } from '../mapper.js';
+import { resetSequence } from '../types.js';
+import { verifyAll } from '../verifier/index.js';
+import type { NeuralMap } from '../types.js';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const execFileAsync = promisify(execFile);
 
@@ -455,5 +467,209 @@ describe('FunctionChannel class', () => {
     expect(observation.signal_detected).toBe(true);
     expect(observation.confidence).toBe('high');
     expect(observation.signal_type).toBe('content_match');
+  });
+});
+
+
+// ---------------------------------------------------------------------------
+// buildFunctionTarget + buildInjectionParams (NeuralMap integration)
+// ---------------------------------------------------------------------------
+
+describe('buildFunctionTarget + buildInjectionParams', () => {
+  let parser: InstanceType<typeof Parser>;
+
+  beforeAll(async () => {
+    await Parser.init();
+    parser = new Parser();
+    const wasmPath = path.resolve(
+      __dirname,
+      '../../node_modules/tree-sitter-javascript/tree-sitter-javascript.wasm',
+    );
+    const wasmBuffer = fs.readFileSync(wasmPath);
+    const JavaScript = await Language.load(wasmBuffer);
+    parser.setLanguage(JavaScript);
+  });
+
+  function parseAndMap(code: string, file = 'test.js'): NeuralMap {
+    resetSequence();
+    const tree = parser.parse(code);
+    const { map } = buildNeuralMap(tree, code, file);
+    tree.delete();
+    return map;
+  }
+
+  it('extracts function target from NeuralMap for command injection', () => {
+    const code = [
+      "const { exec } = require('child_process');",
+      'function runCommand(cmd) {',
+      '  exec(cmd);',
+      '}',
+    ].join('\n');
+
+    const map = parseAndMap(code);
+    const results = verifyAll(map);
+
+    // Find a CWE-78 (OS Command Injection) finding
+    const cwe78 = results.find(r => r.cwe === 'CWE-78');
+    // The code may detect it as CWE-78 or we can use any finding that involves exec
+    const anyFinding = cwe78?.findings[0]
+      ?? results.flatMap(r => r.findings).find(f =>
+        f.sink.code.includes('exec') || f.sink.label.includes('exec'),
+      );
+
+    // If verifier didn't produce a finding, test the factory with a synthetic finding
+    const finding = anyFinding ?? {
+      source: { id: map.nodes.find(n => n.node_type === 'INGRESS')?.id ?? map.nodes[0]?.id ?? 'missing', label: 'cmd', line: 2, code: 'cmd' },
+      sink: { id: 'sink_1', label: 'exec', line: 3, code: 'exec(cmd)' },
+      missing: 'input validation',
+      severity: 'critical' as const,
+      description: 'Command injection via exec',
+      fix: 'Sanitize input',
+    };
+
+    const target = buildFunctionTarget(map, finding);
+    expect(target).not.toBeNull();
+    expect(target!.function_name).toBe('runCommand');
+    expect(target!.function_source).toContain('exec(cmd)');
+    expect(target!.line_start).toBeGreaterThan(0);
+    expect(target!.line_end).toBeGreaterThanOrEqual(target!.line_start);
+  });
+
+  it('builds injection params from finding', () => {
+    const code = [
+      "const { exec } = require('child_process');",
+      'function runCommand(cmd) {',
+      '  exec(cmd);',
+      '}',
+    ].join('\n');
+
+    const map = parseAndMap(code);
+    const results = verifyAll(map);
+
+    const cwe78 = results.find(r => r.cwe === 'CWE-78');
+    const anyFinding = cwe78?.findings[0]
+      ?? results.flatMap(r => r.findings).find(f =>
+        f.sink.code.includes('exec') || f.sink.label.includes('exec'),
+      );
+
+    const finding = anyFinding ?? {
+      source: { id: map.nodes.find(n => n.node_type === 'INGRESS')?.id ?? map.nodes[0]?.id ?? 'missing', label: 'cmd', line: 2, code: 'cmd' },
+      sink: { id: 'sink_1', label: 'exec', line: 3, code: 'exec(cmd)' },
+      missing: 'input validation',
+      severity: 'critical' as const,
+      description: 'Command injection via exec',
+      fix: 'Sanitize input',
+    };
+
+    const params = buildInjectionParams(map, finding, [
+      { module: 'child_process', method: 'exec' },
+    ]);
+    expect(params).not.toBeNull();
+    expect(params!.target_param).toBe('cmd');
+    expect(params!.param_index).toBe(0);
+    expect(params!.sink_mocks).toHaveLength(1);
+    expect(params!.sink_mocks[0].module).toBe('child_process');
+  });
+
+  it('returns null when source node not found', () => {
+    const code = 'function noop() {}';
+    const map = parseAndMap(code);
+
+    const finding = {
+      source: { id: 'nonexistent_id', label: 'x', line: 1, code: 'x' },
+      sink: { id: 'sink_1', label: 'y', line: 1, code: 'y' },
+      missing: 'n/a',
+      severity: 'low' as const,
+      description: 'test',
+      fix: 'test',
+    };
+
+    expect(buildFunctionTarget(map, finding)).toBeNull();
+    expect(buildInjectionParams(map, finding, [])).toBeNull();
+  });
+
+  it('picks the tightest enclosing function for nested functions', () => {
+    const code = [
+      'function outer(a) {',
+      '  function inner(b) {',
+      '    eval(b);',
+      '  }',
+      '  inner(a);',
+      '}',
+    ].join('\n');
+
+    const map = parseAndMap(code);
+
+    // Find the inner STRUCTURAL/function node
+    const innerNode = map.nodes.find(n =>
+      n.node_type === 'STRUCTURAL' && n.label === 'inner',
+    );
+    expect(innerNode).toBeDefined();
+
+    // Find the outer STRUCTURAL/function node
+    const outerNode = map.nodes.find(n =>
+      n.node_type === 'STRUCTURAL' && n.label === 'outer',
+    );
+    expect(outerNode).toBeDefined();
+
+    // Use the innerNode itself as the source — it IS inside inner's range
+    // and also inside outer's range, so tightest-fit should pick inner
+    const finding = {
+      source: { id: innerNode!.id, label: 'b', line: innerNode!.line_start, code: 'eval(b)' },
+      sink: { id: 'sink_1', label: 'eval', line: 3, code: 'eval(b)' },
+      missing: 'input validation',
+      severity: 'critical' as const,
+      description: 'eval injection',
+      fix: 'Avoid eval',
+    };
+
+    const target = buildFunctionTarget(map, finding);
+    expect(target).not.toBeNull();
+    // Should NOT pick outer — must be inner or a tighter sub-function
+    expect(target!.function_name).not.toBe('outer');
+    // The line range should be within inner's range (not the full outer)
+    expect(target!.line_start).toBeGreaterThanOrEqual(innerNode!.line_start);
+    expect(target!.line_end).toBeLessThanOrEqual(innerNode!.line_end);
+    // Function source should contain eval
+    expect(target!.function_source).toContain('eval');
+  });
+
+  it('extracts params via regex when param_names not on node', () => {
+    const code = [
+      "const { exec } = require('child_process');",
+      'function runCommand(cmd) {',
+      '  exec(cmd);',
+      '}',
+    ].join('\n');
+
+    const map = parseAndMap(code);
+
+    // Find the STRUCTURAL function node and strip param_names for this test
+    const funcNode = map.nodes.find(
+      n => n.node_type === 'STRUCTURAL' && n.label === 'runCommand',
+    );
+    expect(funcNode).toBeDefined();
+
+    // Save and clear param_names to force regex extraction
+    const saved = funcNode!.param_names;
+    funcNode!.param_names = undefined;
+
+    const finding = {
+      source: { id: funcNode!.id, label: 'cmd', line: 2, code: 'cmd' },
+      sink: { id: 'sink_1', label: 'exec', line: 3, code: 'exec(cmd)' },
+      missing: 'input validation',
+      severity: 'critical' as const,
+      description: 'Command injection',
+      fix: 'Sanitize',
+    };
+
+    const params = buildInjectionParams(map, finding, [
+      { module: 'child_process', method: 'exec' },
+    ]);
+    expect(params).not.toBeNull();
+    expect(params!.target_param).toBe('cmd');
+
+    // Restore
+    funcNode!.param_names = saved;
   });
 });
