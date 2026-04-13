@@ -40,6 +40,7 @@ export interface NodeRef {
   label: string;
   line: number;
   code: string;
+  file?: string;
 }
 
 // ---------------------------------------------------------------------------

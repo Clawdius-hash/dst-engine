@@ -25,6 +25,7 @@ export function nodeRef(node: NeuralMapNode): NodeRef {
     label: node.label,
     line: node.line_start,
     code: node.code_snapshot.slice(0, 200),
+    file: node.file,
   };
 }
 

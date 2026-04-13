@@ -34,6 +34,7 @@ export interface NodeRef {
   label: string;
   line: number;
   code: string;
+  file?: string;
 }
 
 export type Severity = 'critical' | 'high' | 'medium' | 'low';
@@ -53,7 +54,7 @@ const FLOW_EDGE_TYPES: ReadonlySet<EdgeType> = new Set([
 ]);
 
 export function nodeRef(node: NeuralMapNode): NodeRef {
-  return { id: node.id, label: node.label, line: node.line_start, code: node.code_snapshot.slice(0, 200) };
+  return { id: node.id, label: node.label, line: node.line_start, code: node.code_snapshot.slice(0, 200), file: node.file };
 }
 
 export function nodesOfType(map: NeuralMap, type: NodeType): NeuralMapNode[] {
