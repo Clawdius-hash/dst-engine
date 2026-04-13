@@ -4,9 +4,23 @@
  * Extracts vulnerable functions from source code, wraps them in a sandbox
  * with mocked sinks, executes in a child_process, and checks if the
  * canary payload reached the dangerous sink.
- *
- * Task 1: Types + generateHarness() only. FunctionChannel class in Task 2.
  */
+
+import { execFile } from 'child_process';
+import { mkdtempSync, writeFileSync, unlinkSync, rmdirSync } from 'fs';
+import { join } from 'path';
+import { tmpdir } from 'os';
+import { promisify } from 'util';
+import type {
+  Channel,
+  DeliveryTarget,
+  DeliveryParams,
+  DeliveryResult,
+  ObservationResult,
+  ChannelSnapshot,
+} from './channels.js';
+
+const execFileAsync = promisify(execFile);
 
 // ---------------------------------------------------------------------------
 // Types
@@ -238,4 +252,255 @@ function buildArgList(injection: FunctionInjectionParams, canaryExpr: string): s
   }
 
   return args;
+}
+
+
+// ---------------------------------------------------------------------------
+// Encoding helpers — map FunctionTarget/FunctionInjectionParams to Channel types
+// ---------------------------------------------------------------------------
+
+export function encodeFunctionTarget(ft: FunctionTarget): DeliveryTarget {
+  return { base_url: `file://${ft.source_file}`, path: `/${ft.function_name}` };
+}
+
+export function decodeFunctionTarget(dt: DeliveryTarget): { source_file: string; function_name: string } | null {
+  if (!dt.base_url.startsWith('file://')) return null;
+  return { source_file: dt.base_url.slice(7), function_name: dt.path.slice(1) };
+}
+
+export function encodeFunctionParams(fp: FunctionInjectionParams): DeliveryParams {
+  return { method: 'CALL', param: fp.target_param };
+}
+
+
+// ---------------------------------------------------------------------------
+// FunctionChannel — implements Channel for function-level verification
+// ---------------------------------------------------------------------------
+
+export class FunctionChannel implements Channel {
+  readonly name = 'function';
+  private timeoutMs: number;
+  private keepHarness: boolean;
+  private lastRequestTime?: number;
+  private targetRegistry = new Map<string, FunctionTarget>();
+  private injectionRegistry = new Map<string, FunctionInjectionParams>();
+
+  constructor(options?: { timeout_ms?: number; keep_harness?: boolean }) {
+    this.timeoutMs = options?.timeout_ms ?? 5000;
+    this.keepHarness = options?.keep_harness ?? false;
+  }
+
+  /**
+   * Register a function target and its injection params.
+   * Must be called before deliver() for the corresponding target.
+   */
+  registerTarget(target: FunctionTarget, params: FunctionInjectionParams): void {
+    const key = `${target.source_file}::${target.function_name}`;
+    this.targetRegistry.set(key, target);
+    this.injectionRegistry.set(key, params);
+  }
+
+  // ── Delivery ────────────────────────────────────────────────────────
+
+  async deliver(
+    payload: string,
+    target: DeliveryTarget,
+    params: DeliveryParams,
+  ): Promise<DeliveryResult> {
+    const decoded = decodeFunctionTarget(target);
+    if (!decoded) {
+      return {
+        delivered: false,
+        status_code: 400,
+        body: '',
+        response_time_ms: 0,
+        headers: {},
+        error: `Invalid function target: ${target.base_url}`,
+      };
+    }
+
+    const key = `${decoded.source_file}::${decoded.function_name}`;
+    const funcTarget = this.targetRegistry.get(key);
+    const injection = this.injectionRegistry.get(key);
+
+    if (!funcTarget || !injection) {
+      return {
+        delivered: false,
+        status_code: 404,
+        body: '',
+        response_time_ms: 0,
+        headers: {},
+        error: `Target not registered: ${key}`,
+      };
+    }
+
+    // Generate the harness source
+    const harnessSource = generateHarness(funcTarget, injection, payload);
+
+    // Write to temp file
+    const dir = mkdtempSync(join(tmpdir(), 'dst-harness-'));
+    const harnessPath = join(dir, 'harness.mjs');
+    writeFileSync(harnessPath, harnessSource);
+
+    const start = performance.now();
+    try {
+      const { stdout } = await execFileAsync('node', [harnessPath], {
+        timeout: this.timeoutMs,
+      });
+
+      const elapsed = performance.now() - start;
+      this.lastRequestTime = Date.now();
+
+      return {
+        delivered: true,
+        status_code: 200,
+        body: stdout.trim(),
+        response_time_ms: Math.round(elapsed),
+        headers: {},
+      };
+    } catch (err: unknown) {
+      const elapsed = performance.now() - start;
+      this.lastRequestTime = Date.now();
+
+      // Check if the process was killed (timeout)
+      if (err && typeof err === 'object' && 'killed' in err && (err as any).killed) {
+        return {
+          delivered: false,
+          status_code: 408,
+          body: '',
+          response_time_ms: Math.round(elapsed),
+          headers: {},
+          error: `Harness execution timed out after ${this.timeoutMs}ms`,
+        };
+      }
+
+      // Process exited with non-zero but may have produced stdout (e.g. uncaught error after report)
+      const stdout = (err as any)?.stdout;
+      if (stdout && typeof stdout === 'string' && stdout.trim()) {
+        // Try to parse — the harness may have written the report before crashing
+        try {
+          JSON.parse(stdout.trim());
+          return {
+            delivered: true,
+            status_code: 200,
+            body: stdout.trim(),
+            response_time_ms: Math.round(elapsed),
+            headers: {},
+          };
+        } catch {
+          // stdout wasn't valid JSON, fall through to error
+        }
+      }
+
+      const message = err instanceof Error ? err.message : String(err);
+      return {
+        delivered: false,
+        status_code: 500,
+        body: '',
+        response_time_ms: Math.round(elapsed),
+        headers: {},
+        error: message,
+      };
+    } finally {
+      if (!this.keepHarness) {
+        try { unlinkSync(harnessPath); } catch { /* ignore */ }
+        try { rmdirSync(dir); } catch { /* ignore */ }
+      }
+    }
+  }
+
+  // ── Observation / Oracle evaluation ─────────────────────────────────
+
+  observe(
+    oracle: { type: string; pattern: string; positive: boolean },
+    attackResult: DeliveryResult,
+    baselineResult?: DeliveryResult,
+  ): ObservationResult {
+    // Parse HarnessReport from the attack result body
+    let attackReport: HarnessReport | null = null;
+    try {
+      if (attackResult.body) {
+        attackReport = JSON.parse(attackResult.body) as HarnessReport;
+      }
+    } catch {
+      return {
+        signal_detected: false,
+        signal_type: 'none',
+        evidence: 'Failed to parse HarnessReport from attack result body',
+        confidence: 'none',
+      };
+    }
+
+    if (!attackReport) {
+      return {
+        signal_detected: false,
+        signal_type: 'none',
+        evidence: 'No HarnessReport in attack result body',
+        confidence: 'none',
+      };
+    }
+
+    // Parse baseline report if present
+    let baselineReport: HarnessReport | null = null;
+    if (baselineResult?.body) {
+      try {
+        baselineReport = JSON.parse(baselineResult.body) as HarnessReport;
+      } catch {
+        // Baseline parse failure is not fatal — just means no baseline comparison
+      }
+    }
+
+    // Check if the canary (oracle.pattern) appears in any sink call args
+    const canaryInAttack = attackReport.sink_calls.some(
+      sc => sc.canary_found || sc.args.some(a => a && a.includes(oracle.pattern)),
+    );
+
+    // Baseline comparison: if canary appears in both, it's not payload-caused
+    const canaryInBaseline = baselineReport
+      ? baselineReport.sink_calls.some(
+          sc => sc.canary_found || sc.args.some(a => a && a.includes(oracle.pattern)),
+        )
+      : false;
+
+    if (canaryInAttack && canaryInBaseline) {
+      return {
+        signal_detected: false,
+        signal_type: 'content_match',
+        evidence: `Canary "${oracle.pattern}" found in BOTH attack and baseline sink calls — not payload-caused`,
+        confidence: 'none',
+      };
+    }
+
+    if (canaryInAttack) {
+      // Find the specific sink call for evidence
+      const matchingSink = attackReport.sink_calls.find(
+        sc => sc.canary_found || sc.args.some(a => a && a.includes(oracle.pattern)),
+      );
+      return {
+        signal_detected: true,
+        signal_type: 'content_match',
+        evidence: matchingSink
+          ? `Canary "${oracle.pattern}" reached sink ${matchingSink.sink} with args: ${matchingSink.args.join(', ')}`
+          : `Canary "${oracle.pattern}" found in sink calls`,
+        confidence: 'high',
+      };
+    }
+
+    return {
+      signal_detected: false,
+      signal_type: 'content_match',
+      evidence: `Canary "${oracle.pattern}" not found in any sink calls`,
+      confidence: 'none',
+    };
+  }
+
+  // ── Snapshot ────────────────────────────────────────────────────────
+
+  snapshot(): ChannelSnapshot {
+    return {
+      channel_type: 'function',
+      connected: true,
+      last_request_time: this.lastRequestTime,
+    };
+  }
 }
