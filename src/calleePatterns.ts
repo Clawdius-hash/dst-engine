@@ -716,6 +716,19 @@ const RESOURCE_MEMORY_METHODS = new Set([
   'alloc', 'allocUnsafe', 'allocUnsafeSlow',
 ]);
 
+// ── Common sanitizer/encoder function name patterns ──────────────────────
+// Two-tier: strict for direct calls (no ambiguous bare words), broad for member calls.
+//
+// STRICT (direct calls, length 1): Only words that are unambiguously sanitizer-like
+// when standing alone. Ambiguous words (escape, encode, filter, clean, strip) MUST
+// have a domain suffix (Html, Sql, Url, Input, etc.) to match.
+//
+// BROAD (member calls, length >= 2): All sanitizer-like bases match with or without
+// suffix, because isLikelyNonDBObject() guards against Array.filter, String.replace, etc.
+const SANITIZER_NAME_PATTERN_STRICT = /^(?:(?:sanitize|purify|scrub|bleach|xss|htmlspecialchars)(?:Html|Xml|Sql|Url|Uri|Input|Output|String|Data|Content|Special|Chars)?|(?:escape|encode|filter|clean|strip)(?:Html|Xml|Sql|Url|Uri|Input|Output|String|Data|Content|Special|Chars))$/i;
+
+const SANITIZER_NAME_PATTERN = /^(?:escape|sanitize|encode|purify|clean|strip|filter|scrub|bleach|xss|htmlspecialchars)(?:Html|Xml|Sql|Url|Uri|Input|Output|String|Data|Content|Special|Chars)?$/i;
+
 // ── Lookup function ───────────────────────────────────────────────────────
 
 /**
@@ -737,6 +750,14 @@ export function lookupCallee(calleeChain: string[]): CalleePattern | null {
   if (calleeChain.length === 1) {
     const direct = DIRECT_CALLS[calleeChain[0]!];
     if (direct) return { ...direct };
+
+    // Wildcard: sanitizer/encoder function names not in DIRECT_CALLS
+    // Uses the STRICT pattern — ambiguous bases (escape, encode, filter, clean, strip)
+    // must have a domain suffix (e.g. escapeHtml, filterInput) to match.
+    if (SANITIZER_NAME_PATTERN_STRICT.test(calleeChain[0]!)) {
+      return { nodeType: 'TRANSFORM', subtype: 'sanitize', tainted: false };
+    }
+
     return null;
   }
 
@@ -769,6 +790,22 @@ export function lookupCallee(calleeChain: string[]): CalleePattern | null {
   if (STORAGE_WRITE_METHODS.has(methodName)) {
     if (!isLikelyNonDBObject(objectName)) {
       return { nodeType: 'STORAGE', subtype: 'db_write', tainted: false, wildcard: true };
+    }
+  }
+
+  // Wildcard: common sanitizer/encoder function names -> TRANSFORM/sanitize
+  // These functions are likely security-relevant even when not in the pattern DB.
+  // The 11-domain SecurityState system uses TRANSFORM/sanitize to track neutralization.
+  // Placed AFTER STORAGE wildcards (so db.query wins) but BEFORE TRANSFORM_FORMAT/CALCULATE
+  // (because sanitizer detection is more security-critical than format detection).
+  //
+  // Note: The direct-call (length 1) sanitizer wildcard is in Strategy 1 above, using
+  // SANITIZER_NAME_PATTERN_STRICT (ambiguous bases like filter/clean/strip require a suffix).
+  // Here we handle method calls (length >= 2) with the broader SANITIZER_NAME_PATTERN,
+  // guarded by isLikelyNonDBObject to prevent Array.filter, String.replace, etc.
+  if (SANITIZER_NAME_PATTERN.test(methodName)) {
+    if (!isLikelyNonDBObject(objectName)) {
+      return { nodeType: 'TRANSFORM', subtype: 'sanitize', tainted: false };
     }
   }
 
