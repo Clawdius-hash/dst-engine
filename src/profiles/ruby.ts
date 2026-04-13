@@ -1540,7 +1540,7 @@ function classifyNode(node: SyntaxNode, ctx: MapperContextLike): void {
           });
         }
         if (resolution.nodeType === 'INGRESS') {
-          n.attack_surface.push('user_input');
+          n.attack_surface.push(resolution.subtype === 'env_read' ? 'environment' : 'user_input');
         }
         if (resolution.nodeType === 'EXTERNAL' && resolution.subtype === 'system_exec') {
           n.attack_surface.push('command_injection');
@@ -2215,7 +2215,7 @@ export const rubyProfile: LanguageProfile = {
   },
 
   // Layer 4: Taint Source Detection
-  ingressPattern: /(?:params\s*\[|params\.(?:require|permit|fetch|slice|merge|to_unsafe_h)|request\.(?:body|headers|env|path|url|host|method|remote_ip|content_type|query_string|query_parameters|request_parameters|raw_post|body_stream|params)|cookies\s*\[|session\s*\[|ARGV|gets\b|\$stdin)/,
+  ingressPattern: /(?:params\s*\[|params\.(?:require|permit|fetch|slice|merge|to_unsafe_h)|request\.(?:body|headers|env|path|url|host|method|remote_ip|content_type|query_string|query_parameters|request_parameters|raw_post|body_stream|params)|cookies\s*\[|session\s*\[|ARGV|gets\b|\$stdin|ENV\s*\[|ENV\.fetch)/,
   taintedPaths: TAINTED_PATHS,
 
   // Layer 5: Node Classification

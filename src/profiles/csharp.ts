@@ -1554,7 +1554,7 @@ function classifyNode(node: SyntaxNode, ctx: MapperContextLike): void {
           });
         }
         if (resolution.nodeType === 'INGRESS') {
-          n.attack_surface.push('user_input');
+          n.attack_surface.push(resolution.subtype === 'env_read' ? 'environment' : 'user_input');
         }
         if (resolution.nodeType === 'EXTERNAL' && resolution.subtype === 'system_exec') {
           n.attack_surface.push('command_injection');
@@ -1845,7 +1845,7 @@ function classifyNode(node: SyntaxNode, ctx: MapperContextLike): void {
           });
         }
         if (resolution.nodeType === 'INGRESS') {
-          n.attack_surface.push('user_input');
+          n.attack_surface.push(resolution.subtype === 'env_read' ? 'environment' : 'user_input');
         }
         if (resolution.nodeType === 'EXTERNAL' && resolution.subtype === 'system_exec') {
           n.attack_surface.push('command_injection');
@@ -2225,7 +2225,7 @@ export const csharpProfile: LanguageProfile = {
   },
 
   // Layer 4: Taint Source Detection
-  ingressPattern: /(?:Request\.(?:Form|Query|Body|Headers|Cookies|Path|QueryString|RouteValues|ReadFromJsonAsync|ReadFormAsync)|HttpContext\.(?:Request|Session)|Console\.(?:ReadLine|ReadKey|Read)|Environment\.GetCommandLineArgs|\[FromBody\]|\[FromQuery\]|\[FromRoute\]|\[FromHeader\]|\[FromForm\]|BinaryFormatter\.Deserialize)/,
+  ingressPattern: /(?:Request\.(?:Form|Query|Body|Headers|Cookies|Path|QueryString|RouteValues|ReadFromJsonAsync|ReadFormAsync)|HttpContext\.(?:Request|Session)|Console\.(?:ReadLine|ReadKey|Read)|Environment\.GetCommandLineArgs|Environment\.GetEnvironmentVariable|\[FromBody\]|\[FromQuery\]|\[FromRoute\]|\[FromHeader\]|\[FromForm\]|BinaryFormatter\.Deserialize)/,
   taintedPaths: TAINTED_PATHS,
 
   // Layer 5: Node Classification

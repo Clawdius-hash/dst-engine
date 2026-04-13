@@ -29,6 +29,35 @@ import { analyzeStructure as _analyzeStructure } from '../structuralPatterns.js'
 import { isNeutralizingSubtype } from '../properties/neutralizers.js';
 
 // ---------------------------------------------------------------------------
+// Per-file import gate — DB package detection for wildcard STORAGE filtering
+// ---------------------------------------------------------------------------
+
+const KNOWN_DB_PACKAGES = new Set([
+  'mysql', 'mysql2', 'pg', 'pg-pool', 'postgres',
+  'knex', 'sequelize', 'mongoose', 'mongodb',
+  'better-sqlite3', 'sqlite3', 'sql.js',
+  'prisma', '@prisma/client',
+  'typeorm', 'mikro-orm', '@mikro-orm/core',
+  'objection', 'bookshelf', 'waterline',
+  'massive', 'slonik', 'kysely',
+  'drizzle-orm', 'mssql', 'oracledb',
+  'pg-promise', 'tedious',
+  'redis', 'ioredis',
+  'cassandra-driver', 'couchbase', 'nano',
+  'level', 'levelup', 'leveldown',
+  'nedb', 'lowdb', 'lokijs',
+]);
+
+function isKnownDbPackage(moduleSpec: string): boolean {
+  if (KNOWN_DB_PACKAGES.has(moduleSpec)) return true;
+  // Check base package name (strip subpath): @prisma/client → @prisma/client, knex/lib/foo → knex
+  const baseName = moduleSpec.startsWith('@')
+    ? moduleSpec.split('/').slice(0, 2).join('/')
+    : moduleSpec.split('/')[0];
+  return KNOWN_DB_PACKAGES.has(baseName!);
+}
+
+// ---------------------------------------------------------------------------
 // Constant Folding — resolves string concatenation at parse time
 // ---------------------------------------------------------------------------
 // Handles evasion patterns like:
@@ -823,6 +852,11 @@ function processVariableDeclaration(node: SyntaxNode, ctx: MapperContextLike): v
           }
         }
       }
+      if (ctx.dbImportDetected !== undefined && aliasChain && aliasChain.length > 0) {
+        if (isKnownDbPackage(aliasChain[0]!)) {
+          (ctx as any).dbImportDetected = true;
+        }
+      }
     }
 
     // Constant folding: const action = "quer" + "y" -> constantValue = "query"
@@ -1251,6 +1285,14 @@ function classifyNode(node: SyntaxNode, ctx: MapperContextLike): void {
       ctx.neuralMap.nodes.push(importNode);
       ctx.lastCreatedNodeId = importNode.id;
       ctx.emitContainsIfNeeded(importNode.id);
+      // Detect DB package imports for the per-file import gate
+      const importSource = node.childForFieldName('source');
+      if (importSource && ctx.dbImportDetected !== undefined) {
+        const moduleSpec = importSource.text.replace(/['"]/g, '');
+        if (isKnownDbPackage(moduleSpec)) {
+          (ctx as any).dbImportDetected = true;
+        }
+      }
       break;
     }
     // -- CALL EXPRESSION: classify by callee --
@@ -1307,6 +1349,10 @@ function classifyNode(node: SyntaxNode, ctx: MapperContextLike): void {
 
       const resolution = _resolveCallee(node);
       if (resolution) {
+        // Per-file import gate: wildcard STORAGE matches only valid if file imports a DB package
+        if (resolution.wildcard && !(ctx as any).dbImportDetected) {
+          return; // Skip — this is a false positive in a non-DB file
+        }
         const label = node.text.length > 100 ? node.text.slice(0, 97) + '...' : node.text;
         const n = createNode({
           label,
@@ -1328,7 +1374,7 @@ function classifyNode(node: SyntaxNode, ctx: MapperContextLike): void {
           });
         }
         if (resolution.nodeType === 'INGRESS') {
-          n.attack_surface.push('user_input');
+          n.attack_surface.push(resolution.subtype === 'env_read' ? 'environment' : 'user_input');
         }
         if (resolution.nodeType === 'EXTERNAL' && resolution.subtype === 'system_exec') {
           n.attack_surface.push('command_injection');
@@ -1571,6 +1617,10 @@ function classifyNode(node: SyntaxNode, ctx: MapperContextLike): void {
           if (aliasVar?.aliasChain) {
             const aliasPattern = _lookupCallee(aliasVar.aliasChain);
             if (aliasPattern) {
+              // Per-file import gate: wildcard STORAGE matches only valid if file imports a DB package
+              if (aliasPattern.wildcard && !(ctx as any).dbImportDetected) {
+                break; // Skip — this is a false positive in a non-DB file
+              }
               const label = node.text.length > 100 ? node.text.slice(0, 97) + '...' : node.text;
               const aliasN = createNode({
                 label,
@@ -1879,6 +1929,10 @@ function classifyNode(node: SyntaxNode, ctx: MapperContextLike): void {
 
         const resolution = _resolvePropertyAccess(node);
         if (resolution) {
+          // Per-file import gate: wildcard STORAGE from property access
+          if (resolution.wildcard && !(ctx as any).dbImportDetected) {
+            break;
+          }
           const label = node.text.length > 100 ? node.text.slice(0, 97) + '...' : node.text;
           const n = createNode({
             label,
@@ -2634,7 +2688,7 @@ export const javascriptProfile: LanguageProfile = {
   },
 
   // Layer 4: Taint Source Detection
-  ingressPattern: /\b(req\.body|req\.query|req\.params|req\.headers|req\.cookies)\b/,
+  ingressPattern: /\b(req\.body|req\.query|req\.params|req\.headers|req\.cookies|process\.env)\b/,
   taintedPaths: TAINTED_PATHS,
 
   // Layer 5: Node Classification

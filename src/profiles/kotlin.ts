@@ -1623,7 +1623,7 @@ function classifyNode(node: SyntaxNode, ctx: MapperContextLike): void {
           });
         }
         if (resolution.nodeType === 'INGRESS') {
-          n.attack_surface.push('user_input');
+          n.attack_surface.push(resolution.subtype === 'env_read' ? 'environment' : 'user_input');
         }
         if (resolution.nodeType === 'EXTERNAL' && resolution.subtype === 'system_exec') {
           n.attack_surface.push('command_injection');
@@ -2311,7 +2311,7 @@ export const kotlinProfile: LanguageProfile = {
   },
 
   // Layer 4: Taint Source Detection
-  ingressPattern: /(?:call\.(?:receive|receiveText|parameters|receiveMultipart)|call\.request\.(?:headers|queryParameters|cookies|uri)|incoming\.receive|request\.(?:getParameter|getHeader|body)|intent\.(?:getStringExtra|data|extras)|readLine\(\)|readln\(\)|@(?:RequestBody|PathVariable|RequestParam|RequestHeader|CookieValue|ModelAttribute))/,
+  ingressPattern: /(?:call\.(?:receive|receiveText|parameters|receiveMultipart)|call\.request\.(?:headers|queryParameters|cookies|uri)|incoming\.receive|request\.(?:getParameter|getHeader|body)|intent\.(?:getStringExtra|data|extras)|readLine\(\)|readln\(\)|@(?:RequestBody|PathVariable|RequestParam|RequestHeader|CookieValue|ModelAttribute)|System\.(?:getenv|getProperty))/,
   taintedPaths: TAINTED_PATHS,
 
   // Layer 5: Node Classification

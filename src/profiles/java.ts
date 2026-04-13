@@ -2303,7 +2303,7 @@ function classifyNode(node: SyntaxNode, ctx: MapperContextLike): void {
           });
         }
         if (resolution.nodeType === 'INGRESS') {
-          n.attack_surface.push('user_input');
+          n.attack_surface.push(resolution.subtype === 'env_read' ? 'environment' : 'user_input');
         }
         if (resolution.nodeType === 'EXTERNAL' && resolution.subtype === 'system_exec') {
           n.attack_surface.push('command_injection');
@@ -2966,7 +2966,7 @@ function classifyNode(node: SyntaxNode, ctx: MapperContextLike): void {
           });
         }
         if (resolution.nodeType === 'INGRESS') {
-          n.attack_surface.push('user_input');
+          n.attack_surface.push(resolution.subtype === 'env_read' ? 'environment' : 'user_input');
         }
         if (resolution.nodeType === 'EXTERNAL' && resolution.subtype === 'system_exec') {
           n.attack_surface.push('command_injection');

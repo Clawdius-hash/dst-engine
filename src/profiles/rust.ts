@@ -1036,7 +1036,7 @@ function classifyNode(node: SyntaxNode, ctx: MapperContextLike): void {
           });
         }
         if (resolution.nodeType === 'INGRESS') {
-          n.attack_surface.push('user_input');
+          n.attack_surface.push(resolution.subtype === 'env_read' ? 'environment' : 'user_input');
         }
         if (resolution.nodeType === 'EXTERNAL' && resolution.subtype === 'exec') {
           n.attack_surface.push('command_injection');
@@ -1802,7 +1802,7 @@ export const rustProfile: LanguageProfile = {
   analyzeStructure,
 
   // Layer 4: Taint Source Detection
-  ingressPattern: /\b(stdin\.read_line|env::args|web::Json|web::Path|web::Query|web::Form|extract::Json|extract::Path|extract::Query|serde_json::from_str|req\.body|req\.query|req\.headers)\b/,
+  ingressPattern: /\b(stdin\.read_line|env::args|env::var|env::vars|web::Json|web::Path|web::Query|web::Form|extract::Json|extract::Path|extract::Query|serde_json::from_str|req\.body|req\.query|req\.headers)\b/,
   taintedPaths: TAINTED_PATHS,
 
   // Layer 5: Node Classification

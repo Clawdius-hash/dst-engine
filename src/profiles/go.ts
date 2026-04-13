@@ -898,7 +898,7 @@ function classifyNode(node: SyntaxNode, ctx: MapperContextLike): void {
           });
         }
         if (resolution.nodeType === 'INGRESS') {
-          n.attack_surface.push('user_input');
+          n.attack_surface.push(resolution.subtype === 'env_read' ? 'environment' : 'user_input');
         }
         if (resolution.nodeType === 'EXTERNAL' && resolution.subtype === 'system_exec') {
           n.attack_surface.push('command_injection');
@@ -1449,7 +1449,7 @@ export const goProfile: LanguageProfile = {
   },
 
   // Layer 4: Taint Source Detection
-  ingressPattern: /(?:r\.(?:FormValue|FormFile|PostFormValue|ParseForm|Body|URL|Header|Host|RemoteAddr|Cookies?|URL\.Query|URL\.Path)|req\.(?:FormValue|Body|Header|URL)|c\.(?:Query|Param|PostForm|DefaultQuery|GetRawData|ShouldBindJSON|ShouldBind|BindJSON|Bind|GetHeader|FormFile|Request|ClientIP|Cookie|FullPath|QueryParam|QueryParams|FormValue|PathParam|Params|Body|BodyParser|Get|Cookies)|os\.(?:Args|Stdin)|flag\.(?:Parse|String|Int|Bool|Arg|Args)|bufio\.(?:NewReader|NewScanner))/,
+  ingressPattern: /(?:r\.(?:FormValue|FormFile|PostFormValue|ParseForm|Body|URL|Header|Host|RemoteAddr|Cookies?|URL\.Query|URL\.Path)|req\.(?:FormValue|Body|Header|URL)|c\.(?:Query|Param|PostForm|DefaultQuery|GetRawData|ShouldBindJSON|ShouldBind|BindJSON|Bind|GetHeader|FormFile|Request|ClientIP|Cookie|FullPath|QueryParam|QueryParams|FormValue|PathParam|Params|Body|BodyParser|Get|Cookies)|os\.(?:Args|Stdin|Getenv|LookupEnv|Environ)|flag\.(?:Parse|String|Int|Bool|Arg|Args)|bufio\.(?:NewReader|NewScanner))/,
   taintedPaths: TAINTED_PATHS,
 
   // Layer 5: Node Classification
