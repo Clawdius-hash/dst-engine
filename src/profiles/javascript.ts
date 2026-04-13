@@ -27,6 +27,7 @@ import { resolveCallee as _resolveCallee, resolvePropertyAccess as _resolvePrope
 import { lookupCallee as _lookupCallee } from '../calleePatterns.js';
 import { analyzeStructure as _analyzeStructure } from '../structuralPatterns.js';
 import { isNeutralizingSubtype } from '../properties/neutralizers.js';
+import { extractStorageMetadata } from '../extractStorageMetadata.js';
 
 // ---------------------------------------------------------------------------
 // Per-file import gate — DB package detection for wildcard STORAGE filtering
@@ -1382,6 +1383,9 @@ function classifyNode(node: SyntaxNode, ctx: MapperContextLike): void {
         ctx.neuralMap.nodes.push(n);
         ctx.lastCreatedNodeId = n.id;
         ctx.emitContainsIfNeeded(n.id);
+        n.callee_chain = resolution.chain;
+        const _storageTarget = extractStorageMetadata(node, resolution);
+        if (_storageTarget) n.metadata.storage_target = _storageTarget;
 
         // Data flow: resolve arguments via recursive taint extraction
         const argsNode = node.childForFieldName('arguments');

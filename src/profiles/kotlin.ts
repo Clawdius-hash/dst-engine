@@ -43,6 +43,7 @@ import type { CalleePattern } from '../calleePatterns.js';
 import { createNode } from '../types.js';
 import { lookupCallee as _lookupKotlinCallee } from '../languages/kotlin.js';
 import { isNeutralizingSubtype } from '../properties/neutralizers.js';
+import { extractStorageMetadata } from '../extractStorageMetadata.js';
 
 // ---------------------------------------------------------------------------
 // Anti-evasion: constant folding for Kotlin
@@ -1648,6 +1649,9 @@ function classifyNode(node: SyntaxNode, ctx: MapperContextLike): void {
         ctx.neuralMap.nodes.push(n);
         ctx.lastCreatedNodeId = n.id;
         ctx.emitContainsIfNeeded(n.id);
+        n.callee_chain = resolution.chain;
+        const _storageTarget = extractStorageMetadata(node, resolution);
+        if (_storageTarget) n.metadata.storage_target = _storageTarget;
 
         // Data flow: resolve arguments via recursive taint extraction
         const argsNode = getValueArguments(node);

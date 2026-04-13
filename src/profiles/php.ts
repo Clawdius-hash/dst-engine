@@ -42,6 +42,7 @@ import type { CalleePattern } from '../calleePatterns.js';
 import { createNode } from '../types.js';
 import { lookupCallee as _lookupCallee } from '../languages/php.js';
 import { isNeutralizingSubtype } from '../properties/neutralizers.js';
+import { extractStorageMetadata } from '../extractStorageMetadata.js';
 
 // ---------------------------------------------------------------------------
 // AST Node Type Sets
@@ -1463,6 +1464,9 @@ function classifyNode(node: SyntaxNode, ctx: MapperContextLike): void {
         ctx.neuralMap.nodes.push(n);
         ctx.lastCreatedNodeId = n.id;
         ctx.emitContainsIfNeeded(n.id);
+        n.callee_chain = resolution.chain;
+        const _storageTarget = extractStorageMetadata(node, resolution);
+        if (_storageTarget) n.metadata.storage_target = _storageTarget;
 
         // Data flow: resolve arguments via recursive taint extraction
         const argsNode = node.childForFieldName('arguments');
@@ -1637,6 +1641,9 @@ function classifyNode(node: SyntaxNode, ctx: MapperContextLike): void {
         ctx.neuralMap.nodes.push(n);
         ctx.lastCreatedNodeId = n.id;
         ctx.emitContainsIfNeeded(n.id);
+        n.callee_chain = resolution.chain;
+        const _storageTarget2 = extractStorageMetadata(node, resolution);
+        if (_storageTarget2) n.metadata.storage_target = _storageTarget2;
 
         // Data flow
         const argsNode = node.childForFieldName('arguments');
@@ -1705,6 +1712,9 @@ function classifyNode(node: SyntaxNode, ctx: MapperContextLike): void {
         ctx.neuralMap.nodes.push(n);
         ctx.lastCreatedNodeId = n.id;
         ctx.emitContainsIfNeeded(n.id);
+        n.callee_chain = resolution.chain;
+        const _storageTarget3 = extractStorageMetadata(node, resolution);
+        if (_storageTarget3) n.metadata.storage_target = _storageTarget3;
 
         // Data flow
         const argsNode = node.childForFieldName('arguments');
@@ -2168,7 +2178,7 @@ export const phpProfile: LanguageProfile = {
   },
 
   // Layer 4: Taint Source Detection
-  ingressPattern: /(?:\$_(?:GET|POST|REQUEST|COOKIE|FILES|SERVER)\s*\[|\$request->(?:input|get|post|query|all|only|except|file|header|cookie|ip|path|url|fullUrl|method|json|validate|validated)\s*\(|file_get_contents\s*\(\s*['"]php:\/\/input['"]|Request::(?:input|get|query)\s*\()/,
+  ingressPattern: /(?:\$_(?:GET|POST|REQUEST|COOKIE|FILES|SERVER|ENV)\s*\[|\$request->(?:input|get|post|query|all|only|except|file|header|cookie|ip|path|url|fullUrl|method|json|validate|validated)\s*\(|file_get_contents\s*\(\s*['"]php:\/\/input['"]|Request::(?:input|get|query)\s*\(|getenv\s*\()/,
   taintedPaths: TAINTED_PATHS,
 
   // Layer 5: Node Classification

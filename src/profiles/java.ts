@@ -44,6 +44,7 @@ import type { SemanticSentence } from '../types.js';
 import { generateSentence, getTemplateKey } from '../sentence-generator.js';
 import { lookupCallee as _lookupJavaCallee } from '../languages/java.js';
 import { isNeutralizingSubtype } from '../properties/neutralizers.js';
+import { extractStorageMetadata } from '../extractStorageMetadata.js';
 
 // ---------------------------------------------------------------------------
 // Anti-evasion: constant folding for Java
@@ -2327,6 +2328,9 @@ function classifyNode(node: SyntaxNode, ctx: MapperContextLike): void {
         ctx.neuralMap.nodes.push(n);
         ctx.lastCreatedNodeId = n.id;
         ctx.emitContainsIfNeeded(n.id);
+        n.callee_chain = resolution.chain;
+        const _storageTarget = extractStorageMetadata(node, resolution);
+        if (_storageTarget) n.metadata.storage_target = _storageTarget;
 
         // Data flow: resolve arguments via recursive taint extraction
         const argsNode = node.childForFieldName('arguments');
@@ -2974,6 +2978,9 @@ function classifyNode(node: SyntaxNode, ctx: MapperContextLike): void {
         ctx.neuralMap.nodes.push(n);
         ctx.lastCreatedNodeId = n.id;
         ctx.emitContainsIfNeeded(n.id);
+        n.callee_chain = resolution.chain;
+        const _storageTarget2 = extractStorageMetadata(node, resolution);
+        if (_storageTarget2) n.metadata.storage_target = _storageTarget2;
 
         // Data flow from tainted arguments
         const argsNode = node.childForFieldName('arguments');

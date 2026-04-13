@@ -40,6 +40,7 @@ import type { CalleePattern } from '../calleePatterns.js';
 import { createNode } from '../types.js';
 import { lookupCallee as _lookupSwiftCallee } from '../languages/swift.js';
 import { isNeutralizingSubtype } from '../properties/neutralizers.js';
+import { extractStorageMetadata } from '../extractStorageMetadata.js';
 
 // ---------------------------------------------------------------------------
 // AST Node Type Sets (tree-sitter-swift)
@@ -1016,6 +1017,9 @@ function classifyNode(node: SyntaxNode, ctx: MapperContextLike): void {
         ctx.neuralMap.nodes.push(n);
         ctx.lastCreatedNodeId = n.id;
         ctx.emitContainsIfNeeded(n.id);
+        n.callee_chain = chain;
+        const _storageTarget = extractStorageMetadata(node, { ...resolution, chain });
+        if (_storageTarget) n.metadata.storage_target = _storageTarget;
 
         // Data flow: extract tainted arguments
         const callSuffix = node.children.find((c: SyntaxNode) => c.type === 'call_suffix');
