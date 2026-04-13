@@ -13,7 +13,8 @@ export type PayloadClass =
   | 'deserialization'
   | 'open_redirect'
   | 'log_injection'
-  | 'ssti';
+  | 'ssti'
+  | 'ssrf';
 
 
 export const SINK_CLASS_MAP: Record<string, PayloadClass> = {
@@ -34,6 +35,8 @@ export const SINK_CLASS_MAP: Record<string, PayloadClass> = {
   'deserialize_rce': 'deserialization',
   'log_write': 'log_injection',
   'template_render': 'ssti',
+  'api_call': 'ssrf',
+  'url_fetch': 'ssrf',
 };
 
 /**
@@ -66,7 +69,8 @@ const CWE_TO_PAYLOAD_CLASS: Record<string, PayloadClass> = {
   'CWE-90': 'ldap_injection',
   'CWE-643': 'xpath_injection',
   'CWE-611': 'xxe',
-  'CWE-918': 'open_redirect',
+  'CWE-918': 'ssrf',
+  'CWE-88': 'ssrf',
   'CWE-601': 'open_redirect',
   'CWE-502': 'deserialization',
   'CWE-117': 'log_injection',
@@ -196,6 +200,33 @@ export const SAFE_COMMANDS = [
   'ver',
 ];
 
+
+export const SSRF_PAYLOADS: Record<string, ProofPayloadTemplate> = {
+  host_injection: {
+    value: 'dst-ssrf-probe.example.com',
+    canary: 'dst-ssrf-probe',
+    context: 'url_context',
+    execution_safe: true,
+  },
+  url_injection: {
+    value: 'https://dst-ssrf-probe.example.com/callback',
+    canary: 'dst-ssrf-probe',
+    context: 'url_context',
+    execution_safe: true,
+  },
+  metadata_probe: {
+    value: 'http://169.254.169.254/latest/meta-data/',
+    canary: '169.254.169.254',
+    context: 'url_context',
+    execution_safe: true,
+  },
+  localhost_probe: {
+    value: 'http://127.0.0.1:80/',
+    canary: '127.0.0.1',
+    context: 'url_context',
+    execution_safe: true,
+  },
+};
 
 export const SQL_DESTRUCTIVE = /\b(DROP|DELETE|TRUNCATE|ALTER|CREATE|INSERT|UPDATE|GRANT|REVOKE|EXEC)\b/i;
 export const SQL_READ_ONLY = /\b(SELECT|OR|AND|UNION|SLEEP|WAITFOR|pg_sleep|CONVERT)\b/i;

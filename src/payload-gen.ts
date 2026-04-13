@@ -15,6 +15,7 @@ import {
   resolveSinkClass,
   inferPayloadClassFromCWE,
   SQL_INJECTION_PAYLOADS,
+  SSRF_PAYLOADS,
   TRANSFORM_EFFECTS,
   classifyTransform,
   SAFE_COMMANDS,
@@ -138,6 +139,7 @@ const CANARY_MAP: Record<string, string> = {
   open_redirect: 'DST_REDIR_PROOF',
   log_injection: 'DST_LOG_PROOF',
   ssti: 'DST_SSTI_PROOF',
+  ssrf: 'DST_SSRF_PROOF',
 };
 
 export function generateCanary(payloadClass: PayloadClass): string {
@@ -157,6 +159,10 @@ export function selectPayload(
 ): { primary: ProofPayload; variants: ProofPayload[] } {
   if (payloadClass === 'sql_injection') {
     return selectSQLPayload(sinkNode, sinkRef, pathAnalysis);
+  }
+
+  if (payloadClass === 'ssrf') {
+    return selectSSRFPayload(sinkNode, sinkRef, pathAnalysis);
   }
 
   const canary = generateCanary(payloadClass);
@@ -220,6 +226,32 @@ function selectSQLPayload(
         execution_safe: tmpl.execution_safe,
       });
     }
+  }
+
+  return { primary, variants };
+}
+
+function selectSSRFPayload(
+  sinkNode: NeuralMapNode | null,
+  sinkRef: NodeRef,
+  pathAnalysis: PathAnalysis | null,
+): { primary: ProofPayload; variants: ProofPayload[] } {
+  const snap = sinkNode?.analysis_snapshot || sinkNode?.code_snapshot || sinkRef.code;
+  const isHostInjection = /req\.headers\.host|request\.headers\.host|headers\.get\(['"]host['"]\)/i.test(snap);
+
+  const primary: ProofPayload = isHostInjection
+    ? { ...SSRF_PAYLOADS.host_injection } as ProofPayload
+    : { ...SSRF_PAYLOADS.url_injection } as ProofPayload;
+
+  const variants: ProofPayload[] = [
+    { ...SSRF_PAYLOADS.metadata_probe } as ProofPayload,
+    { ...SSRF_PAYLOADS.localhost_probe } as ProofPayload,
+  ];
+
+  if (!isHostInjection) {
+    variants.unshift({ ...SSRF_PAYLOADS.host_injection } as ProofPayload);
+  } else {
+    variants.unshift({ ...SSRF_PAYLOADS.url_injection } as ProofPayload);
   }
 
   return { primary, variants };
@@ -352,6 +384,26 @@ export function buildOracle(
   primary: ProofPayload,
   pathAnalysis: PathAnalysis | null,
 ): OracleDefinition {
+  // SSRF-specific oracle
+  if (payloadClass === 'ssrf') {
+    const staticProof = pathAnalysis
+      ? `SSRF: server-side request target is attacker-controlled. ` +
+        `Taint flows through ${pathAnalysis.path_node_ids.length} nodes without URL validation. ` +
+        `Inject canary hostname "${primary.canary}" via Host header to verify server makes outbound request to attacker-controlled host.`
+      : `SSRF: Host header or URL parameter flows into server-side HTTP request without URL validation or hostname allowlist. ` +
+        `Send request with Host: ${primary.value} to test server-side request redirection.`;
+
+    return {
+      type: 'hybrid' as const,
+      static_proof: staticProof,
+      dynamic_signal: {
+        type: 'content_match' as const,
+        pattern: primary.canary,
+        positive: true,
+      },
+    };
+  }
+
   let staticProof: string;
   if (pathAnalysis) {
     const transformCount = pathAnalysis.transforms.length;
@@ -537,6 +589,19 @@ export function generateProof(
     primary.value,
     pathAnalysis?.transforms.map(t => t.effect) ?? [],
   );
+
+  // SSRF Host header delivery override
+  if (payloadClass === 'ssrf' && sinkNode) {
+    const sinkSnap = sinkNode.analysis_snapshot || sinkNode.code_snapshot;
+    if (/req\.headers\.host|request\.headers\.host/i.test(sinkSnap)) {
+      delivery.channel = 'http';
+      delivery.http = {
+        method: delivery.http?.method || 'GET',
+        path: delivery.http?.path || '/',
+        header: 'Host',
+      };
+    }
+  }
 
   const oracle = buildOracle(payloadClass, primary, pathAnalysis);
 
