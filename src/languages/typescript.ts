@@ -60,6 +60,10 @@ const MEMBER_CALLS: Record<string, CalleePattern> = {
 
   // -- Next.js App Router inputs --
   // NOTE: bare cookies() and headers() are in DIRECT_CALLS above
+  // ES import resolution: import { cookies } from 'next/headers' -> cookies() resolves
+  // via aliasChain ['next/headers', 'cookies'] -> MEMBER_CALLS lookup 'next/headers.cookies'
+  'next/headers.cookies':     { nodeType: 'INGRESS', subtype: 'http_request', tainted: true },
+  'next/headers.headers':     { nodeType: 'INGRESS', subtype: 'http_request', tainted: true },
   'NextRequest.nextUrl':      { nodeType: 'INGRESS', subtype: 'http_request', tainted: true },
   'NextRequest.cookies':      { nodeType: 'INGRESS', subtype: 'http_request', tainted: true },
   'NextRequest.headers':      { nodeType: 'INGRESS', subtype: 'http_request', tainted: true },

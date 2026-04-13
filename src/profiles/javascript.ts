@@ -1297,6 +1297,58 @@ function classifyNode(node: SyntaxNode, ctx: MapperContextLike): void {
           (ctx as any).dbImportDetected = true;
         }
       }
+
+      // ── ES import scope registration ──
+      // Register imported identifiers as scope variables with aliasChain
+      // so that cookies() from 'next/headers' resolves to ['next/headers', 'cookies']
+      const importClause = node.children.find((c: any) => c.type === 'import_clause');
+      if (importClause && moduleName !== 'unknown') {
+        // Skip type-only imports (tree-sitter-js puts 'type' in ERROR node before clause)
+        const prevSibling = importClause.previousSibling;
+        const isTypeOnly = prevSibling?.type === 'ERROR' && prevSibling.text === 'type';
+        if (!isTypeOnly) {
+          for (let ci = 0; ci < importClause.childCount; ci++) {
+            const clauseChild = importClause.child(ci)!;
+
+            // Default import: import express from 'express'
+            if (clauseChild.type === 'identifier') {
+              ctx.declareVariable(clauseChild.text, 'import');
+              const v = ctx.resolveVariable(clauseChild.text);
+              if (v) v.aliasChain = [moduleName];
+            }
+
+            // Star import: import * as fs from 'fs'
+            if (clauseChild.type === 'namespace_import') {
+              const nameNode = clauseChild.children.find((c: any) => c.type === 'identifier');
+              if (nameNode) {
+                ctx.declareVariable(nameNode.text, 'import');
+                const v = ctx.resolveVariable(nameNode.text);
+                if (v) v.aliasChain = [moduleName];
+              }
+            }
+
+            // Named imports: import { cookies, headers } from 'next/headers'
+            if (clauseChild.type === 'named_imports') {
+              for (let ni = 0; ni < clauseChild.namedChildCount; ni++) {
+                const specifier = clauseChild.namedChild(ni);
+                if (specifier?.type !== 'import_specifier') continue;
+
+                const nameNode = specifier.childForFieldName('name');
+                const aliasNode = specifier.childForFieldName('alias');
+
+                if (nameNode) {
+                  const localName = aliasNode ? aliasNode.text : nameNode.text;
+                  const originalName = nameNode.text;
+
+                  ctx.declareVariable(localName, 'import');
+                  const v = ctx.resolveVariable(localName);
+                  if (v) v.aliasChain = [moduleName, originalName];
+                }
+              }
+            }
+          }
+        }
+      }
       break;
     }
     // -- CALL EXPRESSION: classify by callee --
