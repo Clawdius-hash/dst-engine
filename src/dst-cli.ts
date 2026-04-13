@@ -294,7 +294,8 @@ function collectSourceFiles(dir: string): string[] {
       files.push(...collectSourceFiles(fullPath));
     } else if (entry.isFile()) {
       const ext = path.extname(entry.name).toLowerCase();
-      if (!SCANNABLE_EXTENSIONS.has(ext)) continue;
+      const isEnvFile = entry.name === '.env' || entry.name.startsWith('.env.');
+      if (!SCANNABLE_EXTENSIONS.has(ext) && !isEnvFile) continue;
       if (entry.name.includes('.test.') || entry.name.includes('.spec.') ||
           entry.name.includes('.min.') || entry.name.includes('.bundle.')) {
         continue;

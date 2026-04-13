@@ -650,6 +650,11 @@ const MEMBER_CALLS: Record<string, CalleePattern> = {
   'pool.connect':         { nodeType: 'RESOURCE',   subtype: 'connections',   tainted: false },
   'pool.acquire':         { nodeType: 'RESOURCE',   subtype: 'connections',   tainted: false },
   'pool.query':           { nodeType: 'RESOURCE',   subtype: 'connections',   tainted: false },
+
+  // ── Config readers — taint sources from external config files ──
+  'dotenv.config':        { nodeType: 'EXTERNAL',   subtype: 'config_read',   tainted: false },
+  'nconf.get':            { nodeType: 'INGRESS',    subtype: 'env_read',      tainted: true },
+  'convict.get':          { nodeType: 'INGRESS',    subtype: 'env_read',      tainted: true },
 };
 
 // ── Wildcard member calls (*.method) ──────────────────────────────────────
