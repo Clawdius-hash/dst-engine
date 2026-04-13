@@ -28,6 +28,7 @@ import { lookupCallee as _lookupCallee } from '../calleePatterns.js';
 import { analyzeStructure as _analyzeStructure } from '../structuralPatterns.js';
 import { isNeutralizingSubtype } from '../properties/neutralizers.js';
 import { extractStorageMetadata } from '../extractStorageMetadata.js';
+import { classifyTrustBoundary } from '../trustBoundary.js';
 
 // ---------------------------------------------------------------------------
 // Per-file import gate — DB package detection for wildcard STORAGE filtering
@@ -1018,6 +1019,7 @@ function processFunctionParams(funcNode: SyntaxNode, ctx: MapperContextLike): vo
       label: `req.${name}`,
       node_type: 'INGRESS',
       node_subtype: subtype,
+      trust_boundary: classifyTrustBoundary('INGRESS', subtype),
       language: 'javascript',
       file: ctx.neuralMap.source_file,
       line_start: objectPattern.startPosition.row + 1,
@@ -1076,6 +1078,7 @@ function processFunctionParams(funcNode: SyntaxNode, ctx: MapperContextLike): vo
       label: paramName,
       node_type: 'INGRESS',
       node_subtype: 'framework_handler',
+      trust_boundary: classifyTrustBoundary('INGRESS', 'framework_handler'),
       language: 'javascript',
       file: ctx.neuralMap.source_file,
       line_start: firstRealParam.startPosition.row + 1,
@@ -1386,6 +1389,7 @@ function classifyNode(node: SyntaxNode, ctx: MapperContextLike): void {
         n.callee_chain = resolution.chain;
         const _storageTarget = extractStorageMetadata(node, resolution);
         if (_storageTarget) n.metadata.storage_target = _storageTarget;
+        n.trust_boundary = classifyTrustBoundary(n.node_type, n.node_subtype);
 
         // Data flow: resolve arguments via recursive taint extraction
         const argsNode = node.childForFieldName('arguments');

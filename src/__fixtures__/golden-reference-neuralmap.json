@@ -425,7 +425,7 @@
         }
       ],
       "attack_surface": [],
-      "trust_boundary": "",
+      "trust_boundary": "storage",
       "tags": []
     },
     {
@@ -476,7 +476,7 @@
       "data_out": [],
       "edges": [],
       "attack_surface": [],
-      "trust_boundary": "",
+      "trust_boundary": "network_external",
       "tags": []
     },
     {
@@ -493,7 +493,7 @@
       "data_out": [],
       "edges": [],
       "attack_surface": [],
-      "trust_boundary": "",
+      "trust_boundary": "network_external",
       "tags": []
     },
     {
@@ -527,7 +527,7 @@
       ],
       "edges": [],
       "attack_surface": [],
-      "trust_boundary": "",
+      "trust_boundary": "network_external",
       "tags": []
     },
     {
@@ -563,7 +563,7 @@
       "data_out": [],
       "edges": [],
       "attack_surface": [],
-      "trust_boundary": "",
+      "trust_boundary": "network_external",
       "tags": []
     },
     {
@@ -580,7 +580,7 @@
       "data_out": [],
       "edges": [],
       "attack_surface": [],
-      "trust_boundary": "",
+      "trust_boundary": "network_external",
       "tags": []
     },
     {
@@ -597,7 +597,7 @@
       "data_out": [],
       "edges": [],
       "attack_surface": [],
-      "trust_boundary": "",
+      "trust_boundary": "network_external",
       "tags": []
     },
     {
@@ -1156,7 +1156,7 @@
         }
       ],
       "attack_surface": [],
-      "trust_boundary": "",
+      "trust_boundary": "auth",
       "tags": []
     },
     {
@@ -1225,7 +1225,7 @@
       ],
       "edges": [],
       "attack_surface": [],
-      "trust_boundary": "",
+      "trust_boundary": "storage",
       "tags": []
     },
     {
@@ -1284,7 +1284,7 @@
       ],
       "edges": [],
       "attack_surface": [],
-      "trust_boundary": "",
+      "trust_boundary": "auth",
       "tags": []
     },
     {
@@ -1472,7 +1472,7 @@
       ],
       "edges": [],
       "attack_surface": [],
-      "trust_boundary": "",
+      "trust_boundary": "network_external",
       "tags": []
     },
     {
@@ -1489,7 +1489,7 @@
       "data_out": [],
       "edges": [],
       "attack_surface": [],
-      "trust_boundary": "",
+      "trust_boundary": "network_external",
       "tags": []
     },
     {
@@ -1818,7 +1818,7 @@
         }
       ],
       "attack_surface": [],
-      "trust_boundary": "",
+      "trust_boundary": "storage",
       "tags": []
     },
     {
@@ -1869,7 +1869,7 @@
       "data_out": [],
       "edges": [],
       "attack_surface": [],
-      "trust_boundary": "",
+      "trust_boundary": "network_external",
       "tags": []
     },
     {
@@ -1886,7 +1886,7 @@
       "data_out": [],
       "edges": [],
       "attack_surface": [],
-      "trust_boundary": "",
+      "trust_boundary": "network_external",
       "tags": []
     },
     {
@@ -1947,7 +1947,7 @@
       ],
       "edges": [],
       "attack_surface": [],
-      "trust_boundary": "",
+      "trust_boundary": "auth",
       "tags": []
     },
     {
@@ -1998,7 +1998,7 @@
       "data_out": [],
       "edges": [],
       "attack_surface": [],
-      "trust_boundary": "",
+      "trust_boundary": "network_external",
       "tags": []
     },
     {
@@ -2015,7 +2015,7 @@
       "data_out": [],
       "edges": [],
       "attack_surface": [],
-      "trust_boundary": "",
+      "trust_boundary": "network_external",
       "tags": []
     },
     {
@@ -2057,7 +2057,7 @@
       ],
       "edges": [],
       "attack_surface": [],
-      "trust_boundary": "",
+      "trust_boundary": "auth",
       "tags": []
     },
     {
@@ -2229,7 +2229,7 @@
       ],
       "edges": [],
       "attack_surface": [],
-      "trust_boundary": "",
+      "trust_boundary": "network_external",
       "tags": []
     },
     {

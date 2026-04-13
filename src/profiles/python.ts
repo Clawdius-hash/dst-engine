@@ -32,6 +32,7 @@ import { createNode } from '../types.js';
 import { lookupCallee as _lookupCallee } from '../languages/python.js';
 import { isNeutralizingSubtype } from '../properties/neutralizers.js';
 import { extractStorageMetadata } from '../extractStorageMetadata.js';
+import { classifyTrustBoundary } from '../trustBoundary.js';
 
 // ---------------------------------------------------------------------------
 // Constant Folding — resolves string construction at parse time
@@ -1655,6 +1656,7 @@ function classifyNode(node: SyntaxNode, ctx: MapperContextLike): void {
         n.callee_chain = resolution.chain;
         const _storageTarget = extractStorageMetadata(node, resolution);
         if (_storageTarget) n.metadata.storage_target = _storageTarget;
+        n.trust_boundary = classifyTrustBoundary(n.node_type, n.node_subtype);
 
         // ── Parameterized query detection ──────────────────────────
         // When a STORAGE call (e.g. cursor.execute) uses a parameterized

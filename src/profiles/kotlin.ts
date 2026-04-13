@@ -44,6 +44,7 @@ import { createNode } from '../types.js';
 import { lookupCallee as _lookupKotlinCallee } from '../languages/kotlin.js';
 import { isNeutralizingSubtype } from '../properties/neutralizers.js';
 import { extractStorageMetadata } from '../extractStorageMetadata.js';
+import { classifyTrustBoundary } from '../trustBoundary.js';
 
 // ---------------------------------------------------------------------------
 // Anti-evasion: constant folding for Kotlin
@@ -1312,6 +1313,7 @@ function processFunctionParams(funcNode: SyntaxNode, ctx: MapperContextLike): vo
           label: paramName,
           node_type: 'INGRESS',
           node_subtype: subtype,
+          trust_boundary: classifyTrustBoundary('INGRESS', subtype),
           language: 'kotlin',
           file: ctx.neuralMap.source_file,
           line_start: param.startPosition.row + 1,
@@ -1652,6 +1654,7 @@ function classifyNode(node: SyntaxNode, ctx: MapperContextLike): void {
         n.callee_chain = resolution.chain;
         const _storageTarget = extractStorageMetadata(node, resolution);
         if (_storageTarget) n.metadata.storage_target = _storageTarget;
+        n.trust_boundary = classifyTrustBoundary(n.node_type, n.node_subtype);
 
         // Data flow: resolve arguments via recursive taint extraction
         const argsNode = getValueArguments(node);

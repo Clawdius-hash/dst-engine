@@ -35,6 +35,7 @@ import { createNode } from '../types.js';
 import { lookupCallee as _lookupCallee } from '../languages/go.js';
 import { isNeutralizingSubtype } from '../properties/neutralizers.js';
 import { extractStorageMetadata } from '../extractStorageMetadata.js';
+import { classifyTrustBoundary } from '../trustBoundary.js';
 
 // ---------------------------------------------------------------------------
 // AST Node Type Sets
@@ -661,6 +662,7 @@ function processFunctionParams(funcNode: SyntaxNode, ctx: MapperContextLike): vo
             label: name,
             node_type: 'INGRESS',
             node_subtype: 'http_request',
+            trust_boundary: classifyTrustBoundary('INGRESS', 'http_request'),
             language: 'go',
             file: ctx.neuralMap.source_file,
             line_start: param.startPosition.row + 1,
@@ -910,6 +912,7 @@ function classifyNode(node: SyntaxNode, ctx: MapperContextLike): void {
         n.callee_chain = resolution.chain;
         const _storageTarget = extractStorageMetadata(node, resolution);
         if (_storageTarget) n.metadata.storage_target = _storageTarget;
+        n.trust_boundary = classifyTrustBoundary(n.node_type, n.node_subtype);
 
         // Data flow: resolve arguments via recursive taint extraction
         const argsNode = node.childForFieldName('arguments');
