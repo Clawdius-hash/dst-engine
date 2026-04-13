@@ -127,7 +127,7 @@ describe('P0: ENV VAR TAINT VALIDATION', () => {
 
   describe('Pattern 1: process.env.DB_HOST -> SQL injection', () => {
     const CODE = `
-const db = require('./db');
+const db = require('mysql');
 const dbHost = process.env.DB_HOST;
 const result = db.query("SELECT * FROM users WHERE host = '" + dbHost + "'");
     `.trim();
@@ -156,7 +156,7 @@ const result = db.query("SELECT * FROM users WHERE host = '" + dbHost + "'");
       expect(hasTaintedOut).toBe(true);
     });
 
-    it.skip('detects a STORAGE node for db.query [GAP: db.query() not in STORAGE patterns]', () => {
+    it('detects a STORAGE node for db.query', () => {
       const storageNodes = nodesByType(map, 'STORAGE');
       const hasQuery = storageNodes.some(n =>
         n.code_snapshot.includes('query') || n.code_snapshot.includes('db')
@@ -164,7 +164,7 @@ const result = db.query("SELECT * FROM users WHERE host = '" + dbHost + "'");
       expect(hasQuery).toBe(true);
     });
 
-    it.skip('verifyAll produces at least one SQL injection finding (CWE-89) [GAP: needs STORAGE node for db.query]', () => {
+    it('verifyAll produces at least one SQL injection finding (CWE-89)', () => {
       const failed = failedResults(results);
       const hasSQLi = hasCWE(results, '89');
       expect(
@@ -353,10 +353,11 @@ fs.writeFileSync(uploadDir + '/' + filename, data);
       expect(hasTaintedOut).toBe(true);
     });
 
-    it.skip('detects a file write node (STORAGE or EXTERNAL) [GAP: fs.writeFileSync not classified]', () => {
+    it('detects a file write node (EGRESS/file_write)', () => {
+      const egressNodes = nodesByType(map, 'EGRESS');
       const storageNodes = nodesByType(map, 'STORAGE');
       const externalNodes = nodesByType(map, 'EXTERNAL');
-      const allRelevant = [...storageNodes, ...externalNodes];
+      const allRelevant = [...egressNodes, ...storageNodes, ...externalNodes];
       const hasFileWrite = allRelevant.some(n =>
         n.code_snapshot.includes('writeFileSync') || n.code_snapshot.includes('writeFile')
       );
