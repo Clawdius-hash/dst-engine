@@ -646,7 +646,16 @@ async function main(): Promise<void> {
         for (const result of fr.results) {
           if (result.holds) continue;
           for (const finding of result.findings) {
-            composable.push({ cwe: result.cwe, file: fr.filename, finding });
+            // Look up NeuralMap nodes for AST-derived storage metadata
+            const sinkNode = fr.map.nodes.find(n => n.id === finding.sink.id);
+            const sourceNode = fr.map.nodes.find(n => n.id === finding.source.id);
+            composable.push({
+              cwe: result.cwe,
+              file: fr.filename,
+              finding,
+              sinkStorageTarget: (sinkNode?.metadata?.storage_target as { kind: string; name: string } | undefined) ?? null,
+              sourceStorageTarget: (sourceNode?.metadata?.storage_target as { kind: string; name: string } | undefined) ?? null,
+            });
           }
         }
       }

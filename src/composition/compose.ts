@@ -11,6 +11,29 @@
 import type { ComposableFinding, ChainLink, FindingChain } from './types.js';
 import { extractStorageTarget, type ExtractedTarget } from './extract-target.js';
 
+// ── AST metadata → ExtractedTarget normalisation ────────────────────────────
+// StorageTarget (AST) uses kinds: table, collection, model, file, env, cache_key
+// ExtractedTarget (regex) uses kinds: storage, file_io, env_var, config, network
+// This maps AST kinds to composition-engine kinds so bridge classification works.
+
+const AST_KIND_TO_EXTRACTED: Record<string, ExtractedTarget['kind']> = {
+  table:      'storage',
+  collection: 'storage',
+  model:      'storage',
+  file:       'file_io',
+  env:        'env_var',
+  cache_key:  'config',
+};
+
+function normaliseAstTarget(
+  meta: { kind: string; name: string } | null | undefined,
+): ExtractedTarget | null {
+  if (!meta) return null;
+  const mapped = AST_KIND_TO_EXTRACTED[meta.kind];
+  if (!mapped) return null;          // unknown AST kind — fall through to regex
+  return { kind: mapped, name: meta.name };
+}
+
 // ── Bridge classification ────────────────────────────────────────────────────
 
 function classifyBridge(target: ExtractedTarget): ChainLink['bridgeType'] {
@@ -97,8 +120,16 @@ export function composeFindings(findings: ComposableFinding[]): FindingChain[] {
   const sourceTargets = new Map<number, ExtractedTarget | null>();
 
   for (let i = 0; i < findings.length; i++) {
-    sinkTargets.set(i, extractStorageTarget(findings[i].finding.sink.code));
-    sourceTargets.set(i, extractStorageTarget(findings[i].finding.source.code));
+    const f = findings[i];
+    // Prefer AST-derived metadata; fall back to regex extraction from code snapshot
+    sinkTargets.set(
+      i,
+      normaliseAstTarget(f.sinkStorageTarget) ?? extractStorageTarget(f.finding.sink.code),
+    );
+    sourceTargets.set(
+      i,
+      normaliseAstTarget(f.sourceStorageTarget) ?? extractStorageTarget(f.finding.source.code),
+    );
   }
 
   for (let a = 0; a < findings.length; a++) {

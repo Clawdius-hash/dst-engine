@@ -4,6 +4,10 @@ export interface ComposableFinding {
   cwe: string;
   file: string;
   finding: Finding;
+  /** AST-derived storage target for the sink node (preferred over regex extraction) */
+  sinkStorageTarget?: { kind: string; name: string } | null;
+  /** AST-derived storage target for the source node (preferred over regex extraction) */
+  sourceStorageTarget?: { kind: string; name: string } | null;
 }
 
 export interface ChainLink {

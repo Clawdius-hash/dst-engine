@@ -325,4 +325,84 @@ describe('composeFindings', () => {
       expect(composeFindings([f])).toEqual([]);
     });
   });
+
+  describe('AST metadata preference over regex', () => {
+    it('prefers sinkStorageTarget metadata over regex extraction', () => {
+      const findings: ComposableFinding[] = [
+        {
+          cwe: 'CWE-89',
+          file: 'a.js',
+          finding: makeFinding({
+            source: { id: 's1', label: 'req.body', line: 1, code: 'req.body.x', file: 'a.js' },
+            sink: { id: 'k1', label: 'db.query', line: 2, code: 'some code without sql keywords', file: 'a.js' },
+            missing: 'CONTROL',
+            severity: 'high',
+          }),
+          sinkStorageTarget: { kind: 'table', name: 'users' },
+        },
+        {
+          cwe: 'CWE-89',
+          file: 'b.js',
+          finding: makeFinding({
+            source: { id: 's2', label: 'db.query', line: 1, code: 'some code without sql keywords', file: 'b.js' },
+            sink: { id: 'k2', label: 'res.json', line: 2, code: 'res.json(result)', file: 'b.js' },
+            missing: 'CONTROL',
+            severity: 'medium',
+          }),
+          sourceStorageTarget: { kind: 'table', name: 'users' },
+        },
+      ];
+
+      const chains = composeFindings(findings);
+      // Should chain via metadata even though code_snapshot has no SQL keywords
+      expect(chains.length).toBeGreaterThanOrEqual(1);
+      expect(chains[0].chainType).toBe('storage');
+      expect(chains[0].links[1].bridgeDetail).toContain('users');
+    });
+
+    it('falls back to regex when metadata is absent', () => {
+      // No metadata — relies on regex extracting "shared" from SQL
+      const findingA = makeComposable({
+        sinkCode: 'db.query("INSERT INTO shared VALUES ($1)")',
+      });
+      const findingB = makeComposable({
+        sourceCode: 'db.query("SELECT * FROM shared")',
+      });
+
+      const chains = composeFindings([findingA, findingB]);
+      expect(chains).toHaveLength(1);
+      expect(chains[0].chainType).toBe('storage');
+    });
+
+    it('metadata takes precedence over conflicting regex extraction', () => {
+      // The code says "users" table but metadata says "orders"
+      const findings: ComposableFinding[] = [
+        {
+          cwe: 'CWE-89',
+          file: 'a.js',
+          finding: makeFinding({
+            source: { id: 's1', label: 'src', line: 1, code: 'req.body' },
+            sink: { id: 'k1', label: 'snk', line: 2, code: 'db.query("INSERT INTO users VALUES ($1)")', file: 'a.js' },
+            severity: 'high',
+          }),
+          sinkStorageTarget: { kind: 'table', name: 'orders' },
+        },
+        {
+          cwe: 'CWE-200',
+          file: 'b.js',
+          finding: makeFinding({
+            source: { id: 's2', label: 'src', line: 1, code: 'db.query("SELECT * FROM orders")', file: 'b.js' },
+            sink: { id: 'k2', label: 'snk', line: 2, code: 'res.send(data)', file: 'b.js' },
+            severity: 'medium',
+          }),
+        },
+      ];
+
+      const chains = composeFindings(findings);
+      // Metadata says "orders" for A's sink; regex extracts "orders" from B's source
+      // They should chain because both resolve to storage/orders
+      expect(chains.length).toBeGreaterThanOrEqual(1);
+      expect(chains[0].links[1].bridgeDetail).toContain('orders');
+    });
+  });
 });
