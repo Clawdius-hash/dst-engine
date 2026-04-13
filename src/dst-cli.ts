@@ -7,6 +7,8 @@ import type { NeuralMap } from './types';
 import type { LanguageProfile } from './languageProfile';
 import { buildDependencyGraph } from './cross-file';
 import { runMarginPass } from './margin-pass';
+import { composeFindings } from './composition/index.js';
+import type { ComposableFinding } from './composition/types.js';
 import * as fs from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
@@ -634,6 +636,29 @@ async function main(): Promise<void> {
         }
       } catch (err) {
         console.log(`  Cross-file analysis error: ${(err as Error).message?.slice(0, 80)}`);
+      }
+    }
+
+    // ─── Cross-finding composition pass ────────────────────────────
+    if (allResults.length >= 1) {
+      const composable: ComposableFinding[] = [];
+      for (const fr of allResults) {
+        for (const result of fr.results) {
+          if (result.holds) continue;
+          for (const finding of result.findings) {
+            composable.push({ cwe: result.cwe, file: fr.filename, finding });
+          }
+        }
+      }
+
+      if (composable.length >= 2) {
+        const chains = composeFindings(composable);
+        if (chains.length > 0) {
+          console.log(`\n  Exploit chains: ${chains.length} chain(s) detected`);
+          for (const chain of chains) {
+            console.log(`    [${chain.severity.toUpperCase()}] ${chain.description}`);
+          }
+        }
       }
     }
 
