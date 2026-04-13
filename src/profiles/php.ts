@@ -626,10 +626,12 @@ function extractTaintSources(expr: SyntaxNode, ctx: MapperContextLike): TaintSou
       // Superglobals are always tainted
       if (PHP_SUPERGLOBAL_TAINT.has(varName)) {
         // Create an INGRESS node for the superglobal access
+        const subtype = (varName === '_ENV') ? 'env_read' : 'http_request';
+        const surface = (varName === '_ENV') ? 'environment' : 'user_input';
         const ingressNode = createNode({
           label: `$${varName}`,
           node_type: 'INGRESS',
-          node_subtype: 'http_request',
+          node_subtype: subtype,
           language: 'php',
           file: ctx.neuralMap.source_file,
           line_start: expr.startPosition.row + 1,
@@ -642,7 +644,7 @@ function extractTaintSources(expr: SyntaxNode, ctx: MapperContextLike): TaintSou
             tainted: true,
             sensitivity: 'NONE',
           }],
-          attack_surface: ['user_input'],
+          attack_surface: [surface],
         });
         ingressNode.data_out[0].source = ingressNode.id;
         ctx.neuralMap.nodes.push(ingressNode);

@@ -83,6 +83,7 @@ const TAINTED_PATHS: ReadonlySet<string> = new Set([
   'cookies', 'session',
   // Rack
   'env',
+  'ENV',
   // ARGV / STDIN
   'ARGV', '$stdin',
 ]);
@@ -1903,7 +1904,7 @@ function classifyNode(node: SyntaxNode, ctx: MapperContextLike): void {
         const elemN = createNode({
           label: node.text.slice(0, 60),
           node_type: 'INGRESS',
-          node_subtype: 'http_request',
+          node_subtype: (obj.text === 'ENV') ? 'env_read' : 'http_request',
           language: 'ruby',
           file: ctx.neuralMap.source_file,
           line_start: node.startPosition.row + 1,
@@ -1917,7 +1918,7 @@ function classifyNode(node: SyntaxNode, ctx: MapperContextLike): void {
           tainted: true,
           sensitivity: 'NONE',
         });
-        elemN.attack_surface.push('user_input');
+        elemN.attack_surface.push((obj.text === 'ENV') ? 'environment' : 'user_input');
         ctx.neuralMap.nodes.push(elemN);
         ctx.lastCreatedNodeId = elemN.id;
         ctx.emitContainsIfNeeded(elemN.id);
