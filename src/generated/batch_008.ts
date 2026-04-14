@@ -12,6 +12,7 @@
 import type { NeuralMap, NeuralMapNode } from '../types';
 import {
   nodeRef, nodesOfType, hasTaintedPathWithoutControl, createGenericVerifier,
+  cweDomainMatchesSink,
   type VerificationResult, type Finding, type Severity,
 } from './_helpers';
 
@@ -47,6 +48,7 @@ function createFilteringVerifier(
 
     for (const src of ingress) {
       for (const sink of sinks) {
+        if (!cweDomainMatchesSink(cweId, sink)) continue;
         if (hasTaintedPathWithoutControl(map, src.id, sink.id)) {
           if (!FILTER_COMPLETE_SAFE.test(sink.code_snapshot)) {
             findings.push({

@@ -18,6 +18,7 @@ import {
   nodeRef, nodesOfType, hasPathWithoutTransform,
   sinkHasTaintedDataIn, scopeBasedTaintReaches, sharesFunctionScope,
   hasTaintedPathWithoutControl, stripComments, getContainingScopeSnapshots,
+  cweDomainMatchesSink,
   type VerificationResult, type Finding, type Severity,
 } from './_helpers';
 
@@ -144,6 +145,7 @@ function createOutputVerifier(
 
     for (const src of ingress) {
       for (const sink of sinks) {
+        if (!cweDomainMatchesSink(cweId, sink)) continue;
         // Primary: BFS taint path without TRANSFORM gate
         let vulnerable = hasPathWithoutTransform(map, src.id, sink.id);
         let detectedVia: 'bfs' | 'sink_tainted' | 'scope_taint' = 'bfs';

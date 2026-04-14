@@ -8,7 +8,7 @@
 import type { NeuralMap, NeuralMapNode, NodeType } from '../types';
 import {
   nodeRef, nodesOfType, hasTaintedPathWithoutControl, hasPathWithoutTransform,
-  hasPathWithoutIntermediateType,
+  hasPathWithoutIntermediateType, cweDomainMatchesSink,
   type VerificationResult, type Finding, type Severity,
 } from './_helpers';
 
@@ -33,6 +33,7 @@ function v(
     for (const src of sources) {
       for (const sink of sinks) {
         if (src.id === sink.id) continue;
+        if (!cweDomainMatchesSink(cweId, sink)) continue;
         if (bfsCheck(map, src.id, sink.id)) {
           if (!safePattern.test(sink.code_snapshot) && !safePattern.test(src.code_snapshot)) {
             findings.push({
