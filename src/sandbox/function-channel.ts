@@ -246,16 +246,26 @@ function escapeForJS(s: string): string {
   return JSON.stringify(s);
 }
 
+/**
+ * Serialize a param_shape object into a JS expression string,
+ * replacing the placeholder '__CANARY__' with the actual canary expression.
+ */
+function shapeToExpr(shape: Record<string, any> | string, canaryExpr: string): string {
+  if (typeof shape === 'string') {
+    return shape === '__CANARY__' ? canaryExpr : JSON.stringify(shape);
+  }
+  const entries = Object.entries(shape).map(([k, v]) => {
+    const valExpr = shapeToExpr(v, canaryExpr);
+    return `${JSON.stringify(k)}: ${valExpr}`;
+  });
+  return `{ ${entries.join(', ')} }`;
+}
+
 function buildArgList(injection: FunctionInjectionParams, canaryExpr: string): string[] {
-  // Figure out total param count
+  // Total params = other_params (non-target) + 1 (target), but at least param_index + 1
   const totalParams = Math.max(
     injection.param_index + 1,
-    injection.other_params.length > 0
-      ? Math.max(...injection.other_params.map(p => {
-          // other_params don't have indices, they're in order excluding target
-          return 0; // handled below
-        })) + 1
-      : injection.param_index + 1,
+    injection.other_params.length + 1,   // other_params excludes target, so +1
   );
 
   // Build ordered args: the canary goes at param_index, other_params fill the rest
@@ -264,7 +274,12 @@ function buildArgList(injection: FunctionInjectionParams, canaryExpr: string): s
 
   for (let i = 0; i < totalParams; i++) {
     if (i === injection.param_index) {
-      args.push(canaryExpr);
+      // If param_shape is an object, build a nested object expression with canary inside
+      if (injection.param_shape && typeof injection.param_shape === 'object') {
+        args.push(shapeToExpr(injection.param_shape, canaryExpr));
+      } else {
+        args.push(canaryExpr);
+      }
     } else if (otherIdx < injection.other_params.length) {
       args.push(injection.other_params[otherIdx].default_value);
       otherIdx++;
