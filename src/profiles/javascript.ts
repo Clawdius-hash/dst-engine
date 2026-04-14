@@ -2017,6 +2017,16 @@ function classifyNode(node: SyntaxNode, ctx: MapperContextLike): void {
           break;
         }
 
+        // Skip inner member_expression if parent member_expression resolves
+        // to the same callee pattern. Prevents double INGRESS:
+        // process.env (inner) + process.env.NODE_ENV (outer) → only outer.
+        if (node.parent?.type === 'member_expression') {
+          const parentResolution = _resolvePropertyAccess(node.parent);
+          if (parentResolution && parentResolution.nodeType !== 'STRUCTURAL') {
+            break;
+          }
+        }
+
         const resolution = _resolvePropertyAccess(node);
         if (resolution) {
           // Per-file import gate: wildcard STORAGE from property access
