@@ -927,7 +927,7 @@ export function scopeBasedTaintReaches(
 //
 // Backported from ZeroDay ZDAY-002 domain mismatch detection.
 
-export type SinkDomain = 'SQL' | 'HTML' | 'SHELL' | 'FILE' | 'LDAP' | 'URL' | 'XML' | 'CRYPTO' | 'UNKNOWN';
+export type SinkDomain = 'SQL' | 'HTML' | 'SHELL' | 'FILE' | 'LDAP' | 'URL' | 'XML' | 'CRYPTO' | 'LOG' | 'UNKNOWN';
 
 const DOMAIN_SQL_RE   = /\b(query|execute|prepare|sql|SELECT\s|INSERT\s|UPDATE\s|DELETE\s|\.run\s*\(|\.exec\s*\(|Statement|ResultSet|hibernate|HQL|JPQL|criteria|createQuery|createNativeQuery|preparedStatement)\b/i;
 const DOMAIN_HTML_RE  = /\b(render|\.send\s*\(|\.write\s*\(|\.html\s*\(|innerHTML|document\.write|\.append\(|response\.getWriter|HttpServletResponse|\.setContentType.*text\/html)\b/i;
@@ -943,11 +943,21 @@ const DOMAIN_XML_RE   = /\b(XQuery|xquery|xmldb|XPath|xpath|SAXParser|DocumentBu
  * Returns UNKNOWN if no confident match — UNKNOWN sinks are never filtered out.
  */
 export function classifySinkDomain(node: NeuralMapNode): SinkDomain {
+  // Prefer structured node_subtype over regex on code snapshots.
+  // The mapper already classified this node — use that classification first.
+  if (node.node_subtype === 'log_write' || node.node_subtype === 'display') return 'LOG';
+  if (node.node_subtype === 'http_response' || node.node_subtype === 'redirect') return 'HTML';
+  if (node.node_subtype === 'system_exec') return 'SHELL';
+  if (node.node_subtype === 'sql_query' || node.node_subtype === 'db_read' || node.node_subtype === 'db_write') return 'SQL';
+  if (node.node_subtype === 'file_read' || node.node_subtype === 'file_write' || node.node_subtype === 'file_access') return 'FILE';
+  if (node.node_subtype === 'api_call' || node.node_subtype === 'url_fetch') return 'URL';
+  if (node.node_subtype === 'xml_parse') return 'XML';
+  if (node.node_subtype === 'ldap_query') return 'LDAP';
+
+  // Fallback: regex on code snapshot for nodes without precise subtypes
   const code = node.code_snapshot + ' ' + (node.analysis_snapshot || '') + ' ' + node.node_subtype;
 
   // Order matters: more specific before less specific.
-  // LDAP before SQL (ldap_search contains "search" but is LDAP, not SQL).
-  // SHELL before URL (exec could be SQL exec or shell exec — check shell-specific first).
   if (DOMAIN_LDAP_RE.test(code))  return 'LDAP';
   if (DOMAIN_SHELL_RE.test(code)) return 'SHELL';
   if (DOMAIN_SQL_RE.test(code))   return 'SQL';
@@ -980,9 +990,25 @@ const CWE_DOMAIN_MAP: Record<string, ReadonlySet<SinkDomain>> = {
   'CWE-89':  new Set(['SQL']),
   'CWE-564': new Set(['SQL']),           // Hibernate SQL injection
 
-  // XSS / HTML injection
+  // XSS / HTML injection — all XSS variants require HTML output context
   'CWE-79':  new Set(['HTML']),
   'CWE-80':  new Set(['HTML']),
+  'CWE-81':  new Set(['HTML']),           // XSS in error messages
+  'CWE-83':  new Set(['HTML']),           // XSS in attributes
+  'CWE-85':  new Set(['HTML']),           // doubled character XSS
+  'CWE-86':  new Set(['HTML']),           // XSS via HTTP headers
+  'CWE-87':  new Set(['HTML']),           // XSS via alternate syntax
+
+  // Output neutralization — these are XSS-adjacent, require HTML/output context
+  'CWE-75':  new Set(['HTML']),           // sanitize special elements
+  'CWE-138': new Set(['HTML']),           // neutralize special elements
+  'CWE-150': new Set(['HTML']),           // neutralize escape sequences
+  'CWE-692': new Set(['HTML']),           // incomplete XSS denylist
+  'CWE-790': new Set(['HTML']),           // improper filtering of special elements
+  'CWE-791': new Set(['HTML']),           // incomplete filtering
+
+  // Log injection — requires LOG output context
+  'CWE-117': new Set(['LOG']),
 
   // LDAP injection
   'CWE-90':  new Set(['LDAP']),
