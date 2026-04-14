@@ -80,6 +80,10 @@ export interface VariableInfo {
   collectionTaint?: Array<{ tainted: boolean; producingNodeId: string | null }>;
   keyedTaint?: Map<string, { tainted: boolean; producingNodeId: string | null }>;
   range?: RangeInfo;
+  /** Structural role inferred from usage patterns (input/output/continuation/data) */
+  role?: import('./parameterRole.js').ParameterRole;
+  /** Data origin — where this parameter's value comes from */
+  dataOrigin?: import('./parameterRole.js').DataOrigin;
 }
 
 export type ScopeType = 'module' | 'function' | 'block' | 'class';
