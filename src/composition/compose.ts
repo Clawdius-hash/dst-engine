@@ -116,6 +116,19 @@ function classifyChainType(links: ChainLink[]): string {
   return uniqueBridges.length === 1 ? uniqueBridges[0] : 'multi_bridge';
 }
 
+// ── Directionality: READ→READ suppression ───────────────────────────────────
+
+const READ_SUBTYPES: ReadonlySet<string> = new Set([
+  'env_read', 'file_read', 'db_read', 'config_read',
+  'stream_read', 'container_read', 'http_request',
+  'cache_read', 'state_read',
+]);
+
+function isReadSubtype(subtype: string | undefined): boolean {
+  if (!subtype) return false;
+  return READ_SUBTYPES.has(subtype);
+}
+
 // ── Public API ───────────────────────────────────────────────────────────────
 
 export function composeFindings(findings: ComposableFinding[]): FindingChain[] {
@@ -153,6 +166,16 @@ export function composeFindings(findings: ComposableFinding[]): FindingChain[] {
       const bSourceTarget = sourceTargets.get(b)!;
 
       if (aSinkTarget && bSourceTarget && aSinkTarget.name === bSourceTarget.name && aSinkTarget.kind === bSourceTarget.kind) {
+        // Directionality: suppress READ→READ chains.
+        // Two independent reads of the same resource (e.g., process.env.NODE_ENV)
+        // are not an exploit chain. Only WRITE→READ flows are real chains.
+        // When node semantics are absent (backward compat), allow the chain.
+        const aSinkIsRead = isReadSubtype(fa.sinkNodeSubtype);
+        const bSourceIsRead = isReadSubtype(fb.sourceNodeSubtype);
+        if (aSinkIsRead && bSourceIsRead) {
+          continue;
+        }
+
         seen.add(key);
         const bridgeType = classifyBridge(aSinkTarget);
         const links: ChainLink[] = [

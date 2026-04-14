@@ -459,4 +459,171 @@ describe('composeFindings', () => {
       expect(chains[0].links[1].bridgeDetail).toContain('orders');
     });
   });
+
+  describe('directionality: READ→READ chains suppressed', () => {
+    it('does NOT chain two independent env var READS', () => {
+      const findings: ComposableFinding[] = [
+        {
+          cwe: 'CWE-215',
+          file: 'index.ts',
+          finding: makeFinding({
+            source: { id: 's1', label: 'src', line: 1, code: 'process.env.NODE_ENV' },
+            sink: { id: 'k1', label: 'snk', line: 2, code: 'if (process.env.NODE_ENV === "dev")' },
+            severity: 'medium',
+          }),
+          sinkStorageTarget: { kind: 'env', name: 'NODE_ENV' },
+          sinkNodeType: 'INGRESS',
+          sinkNodeSubtype: 'env_read',
+        },
+        {
+          cwe: 'CWE-454',
+          file: 'resolver.ts',
+          finding: makeFinding({
+            source: { id: 's2', label: 'src', line: 1, code: 'process.env.NODE_ENV' },
+            sink: { id: 'k2', label: 'snk', line: 2, code: 'console.warn(msg)' },
+            severity: 'medium',
+          }),
+          sourceStorageTarget: { kind: 'env', name: 'NODE_ENV' },
+          sourceNodeType: 'INGRESS',
+          sourceNodeSubtype: 'env_read',
+        },
+      ];
+      const chains = composeFindings(findings);
+      expect(chains).toHaveLength(0);
+    });
+
+    it('DOES chain a real WRITE→READ env var flow', () => {
+      const findings: ComposableFinding[] = [
+        {
+          cwe: 'CWE-89',
+          file: 'writer.ts',
+          finding: makeFinding({
+            source: { id: 's1', label: 'src', line: 1, code: 'req.body.x' },
+            sink: { id: 'k1', label: 'snk', line: 2, code: 'process.env.DB_PASSWORD = userInput' },
+            severity: 'high',
+          }),
+          sinkStorageTarget: { kind: 'env', name: 'DB_PASSWORD' },
+          sinkNodeType: 'EGRESS',
+          sinkNodeSubtype: 'env_write',
+        },
+        {
+          cwe: 'CWE-89',
+          file: 'reader.ts',
+          finding: makeFinding({
+            source: { id: 's2', label: 'src', line: 1, code: 'const pw = process.env.DB_PASSWORD' },
+            sink: { id: 'k2', label: 'snk', line: 2, code: 'db.connect(pw)' },
+            severity: 'high',
+          }),
+          sourceStorageTarget: { kind: 'env', name: 'DB_PASSWORD' },
+          sourceNodeType: 'INGRESS',
+          sourceNodeSubtype: 'env_read',
+        },
+      ];
+      const chains = composeFindings(findings);
+      expect(chains).toHaveLength(1);
+      expect(chains[0].chainType).toBe('env_var');
+    });
+
+    it('does NOT chain two independent file READS', () => {
+      const findings: ComposableFinding[] = [
+        {
+          cwe: 'CWE-22',
+          file: 'a.ts',
+          finding: makeFinding({
+            source: { id: 's1', label: 'src', line: 1, code: 'req.body.path' },
+            sink: { id: 'k1', label: 'snk', line: 2, code: 'fs.readFile("/config/app.json")' },
+            severity: 'high',
+          }),
+          sinkStorageTarget: { kind: 'file', name: '/config/app.json' },
+          sinkNodeType: 'INGRESS',
+          sinkNodeSubtype: 'file_read',
+        },
+        {
+          cwe: 'CWE-200',
+          file: 'b.ts',
+          finding: makeFinding({
+            source: { id: 's2', label: 'src', line: 1, code: 'fs.readFile("/config/app.json")' },
+            sink: { id: 'k2', label: 'snk', line: 2, code: 'res.send(data)' },
+            severity: 'medium',
+          }),
+          sourceStorageTarget: { kind: 'file', name: '/config/app.json' },
+          sourceNodeType: 'INGRESS',
+          sourceNodeSubtype: 'file_read',
+        },
+      ];
+      const chains = composeFindings(findings);
+      expect(chains).toHaveLength(0);
+    });
+
+    it('DOES chain file WRITE→READ', () => {
+      const findings: ComposableFinding[] = [
+        {
+          cwe: 'CWE-89',
+          file: 'a.ts',
+          finding: makeFinding({
+            source: { id: 's1', label: 'src', line: 1, code: 'req.body.x' },
+            sink: { id: 'k1', label: 'snk', line: 2, code: 'fs.writeFileSync("/tmp/secrets.json", data)' },
+            severity: 'high',
+          }),
+          sinkStorageTarget: { kind: 'file', name: '/tmp/secrets.json' },
+          sinkNodeType: 'EGRESS',
+          sinkNodeSubtype: 'file_write',
+        },
+        {
+          cwe: 'CWE-200',
+          file: 'b.ts',
+          finding: makeFinding({
+            source: { id: 's2', label: 'src', line: 1, code: 'fs.readFileSync("/tmp/secrets.json", "utf8")' },
+            sink: { id: 'k2', label: 'snk', line: 2, code: 'res.send(data)' },
+            severity: 'medium',
+          }),
+          sourceStorageTarget: { kind: 'file', name: '/tmp/secrets.json' },
+          sourceNodeType: 'INGRESS',
+          sourceNodeSubtype: 'file_read',
+        },
+      ];
+      const chains = composeFindings(findings);
+      expect(chains).toHaveLength(1);
+      expect(chains[0].chainType).toBe('file_io');
+    });
+
+    it('chains work when node semantics are absent (backward compatible)', () => {
+      const findingA = makeComposable({
+        sinkCode: 'db.query("INSERT INTO shared VALUES ($1)")',
+      });
+      const findingB = makeComposable({
+        sourceCode: 'db.query("SELECT * FROM shared")',
+      });
+      const chains = composeFindings([findingA, findingB]);
+      expect(chains).toHaveLength(1);
+    });
+
+    it('same_node bridges are NOT affected by directionality', () => {
+      const findingA: ComposableFinding = {
+        cwe: 'CWE-129',
+        file: 'handler.ts',
+        finding: makeFinding({
+          source: { id: 's1', label: 'src', line: 1, code: 'req.headers' },
+          sink: { id: 'node_42', label: 'snk', line: 2, code: '(req as any)[key]' },
+          severity: 'high',
+        }),
+        sinkNodeType: 'TRANSFORM',
+        sinkNodeSubtype: 'assignment',
+      };
+      const findingB: ComposableFinding = {
+        cwe: 'CWE-704',
+        file: 'handler.ts',
+        finding: makeFinding({
+          source: { id: 'node_42', label: 'src', line: 2, code: '(req as any)[key]' },
+          sink: { id: 'k2', label: 'snk', line: 3, code: 'processData(value)' },
+          severity: 'medium',
+        }),
+        sourceNodeType: 'TRANSFORM',
+        sourceNodeSubtype: 'assignment',
+      };
+      const chains = composeFindings([findingA, findingB]);
+      expect(chains).toHaveLength(1);
+      expect(chains[0].chainType).toBe('same_node');
+    });
+  });
 });

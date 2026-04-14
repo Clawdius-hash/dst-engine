@@ -12,6 +12,14 @@ export interface ComposableFinding {
   sinkTrustBoundary?: string;
   /** Trust boundary of the source node */
   sourceTrustBoundary?: string;
+  /** Node type of the sink (INGRESS, EGRESS, STORAGE, TRANSFORM, etc.) */
+  sinkNodeType?: string;
+  /** Node subtype of the sink (db_write, file_read, env_read, http_response, etc.) */
+  sinkNodeSubtype?: string;
+  /** Node type of the source */
+  sourceNodeType?: string;
+  /** Node subtype of the source */
+  sourceNodeSubtype?: string;
 }
 
 export interface ChainLink {
