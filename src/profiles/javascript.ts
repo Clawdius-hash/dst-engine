@@ -29,6 +29,7 @@ import { analyzeStructure as _analyzeStructure } from '../structuralPatterns.js'
 import { isNeutralizingSubtype } from '../properties/neutralizers.js';
 import { extractStorageMetadata } from '../extractStorageMetadata.js';
 import { classifyTrustBoundary } from '../trustBoundary.js';
+import { analyzeParameterUsage, inferRole, detectCallbackOrigin, type CallbackOriginResult } from '../parameterRole.js';
 
 // ---------------------------------------------------------------------------
 // Per-file import gate — DB package detection for wildcard STORAGE filtering
@@ -2567,12 +2568,117 @@ function classifyNode(node: SyntaxNode, ctx: MapperContextLike): void {
 }
 
 // ---------------------------------------------------------------------------
+// findParentCallExpression — locate enclosing call for callback detection
+// ---------------------------------------------------------------------------
+
+/**
+ * Walk up the AST to find the call_expression that contains this function as an argument.
+ * app.get('/path', handler) -> returns the app.get() call_expression
+ */
+function findParentCallExpression(funcNode: SyntaxNode): SyntaxNode | null {
+  let current = funcNode.parent;
+  // Walk up through: arguments -> call_expression
+  while (current) {
+    if (current.type === 'call_expression') return current;
+    // Stop at statement boundaries to avoid false matches
+    if (current.type === 'expression_statement' ||
+        current.type === 'variable_declaration' ||
+        current.type === 'lexical_declaration' ||
+        current.type === 'return_statement' ||
+        current.type === 'program') {
+      return null;
+    }
+    current = current.parent;
+  }
+  return null;
+}
+
+// ---------------------------------------------------------------------------
 // postVisitFunction — check if return expression is tainted
 // ---------------------------------------------------------------------------
 
 function postVisitFunction(node: SyntaxNode, ctx: MapperContextLike): void {
   if (node.type !== 'arrow_function' && node.type !== 'function_declaration' && node.type !== 'function') {
     return;
+  }
+
+  // -- Structural parameter role inference ------------------------------------
+  // After the function body has been walked, analyze how each parameter
+  // was used. If this function is a callback to an external module,
+  // mark input-role parameters as tainted INGRESS nodes.
+  {
+    const params = node.childForFieldName('parameters');
+    if (params && ctx.currentScope) {
+      const paramNames: string[] = [];
+      for (let pi = 0; pi < params.namedChildCount; pi++) {
+        const p = params.namedChild(pi);
+        if (p?.type === 'identifier') paramNames.push(p.text);
+        else if (p?.type === 'assignment_pattern') {
+          const left = p.childForFieldName('left');
+          if (left?.type === 'identifier') paramNames.push(left.text);
+        } else if (p?.type === 'rest_pattern') {
+          const inner = p.namedChildren?.[0];
+          if (inner?.type === 'identifier') paramNames.push(inner.text);
+        }
+      }
+
+      if (paramNames.length > 0) {
+        const inferBody = node.childForFieldName('body');
+        if (inferBody) {
+          const usages = analyzeParameterUsage(inferBody, paramNames);
+
+          // Check if this function is a callback to an external module
+          let callbackOrigin: CallbackOriginResult = { isExternal: false };
+          const parentCall = findParentCallExpression(node);
+          if (parentCall) {
+            callbackOrigin = detectCallbackOrigin(parentCall, node, node.tree.rootNode);
+          }
+
+          for (const [pName, usage] of usages) {
+            const role = inferRole(usage);
+            const varInfo = ctx.resolveVariable(pName);
+            if (!varInfo) continue;
+
+            varInfo.role = role;
+            varInfo.dataOrigin = callbackOrigin.isExternal ? 'external_callback' : 'unknown';
+
+            // If external callback + input role -> mark as tainted INGRESS
+            // But don't override if already tainted (e.g., by Express handler detection)
+            if (callbackOrigin.isExternal && role === 'input' && !varInfo.tainted) {
+              varInfo.tainted = true;
+              const subtype = callbackOrigin.moduleCategory === 'HTTP_FRAMEWORK'
+                ? 'http_request'
+                : callbackOrigin.moduleCategory === 'FILESYSTEM'
+                  ? 'file_read'
+                  : callbackOrigin.moduleCategory === 'DATABASE'
+                    ? 'db_read'
+                    : 'external_input';
+              const ingressNode = createNode({
+                label: `${pName} (structural)`,
+                node_type: 'INGRESS',
+                node_subtype: subtype,
+                language: 'javascript',
+                file: ctx.neuralMap.source_file,
+                line_start: node.startPosition.row + 1,
+                line_end: node.startPosition.row + 1,
+                code_snapshot: `${pName} <- callback param from ${callbackOrigin.moduleName ?? 'external'}`,
+                analysis_snapshot: node.text.slice(0, 200),
+                attack_surface: ['external_callback'],
+              });
+              ingressNode.data_out.push({
+                name: pName,
+                source: ingressNode.id,
+                data_type: 'unknown',
+                tainted: true,
+                sensitivity: 'NONE',
+              });
+              ctx.neuralMap.nodes.push(ingressNode);
+              varInfo.producingNodeId = ingressNode.id;
+            }
+          }
+        }
+      }
+    }
   }
 
   const body = node.childForFieldName('body');
