@@ -6,7 +6,7 @@ import {
   applyNeutralizer,
   isStateValidForSink,
 } from './security-state.js';
-import { isNeutralizingSubtype, getNeutralizedDomains } from './neutralizers.js';
+import { isNeutralizingSubtype, getNeutralizedDomains, domainToNeutralizer } from './neutralizers.js';
 import { stateVsRequirement } from './state-vs-requirement.js';
 import type { PropertyContext } from './types.js';
 
@@ -191,6 +191,27 @@ describe('neutralizers', () => {
     expect(getNeutralizedDomains('validate')).toContain('redirect_safe');
     expect(getNeutralizedDomains('validate')).not.toContain('xxe_safe');
     expect(getNeutralizedDomains('validate')).not.toContain('deserialize_safe');
+  });
+});
+
+describe('domainToNeutralizer', () => {
+  it('maps sql_safe to parameterize', () => {
+    expect(domainToNeutralizer('sql_safe')).toBe('parameterize');
+  });
+  it('maps xss_safe to encode', () => {
+    expect(domainToNeutralizer('xss_safe')).toBe('encode');
+  });
+  it('maps shell_safe to safe_api', () => {
+    expect(domainToNeutralizer('shell_safe')).toBe('safe_api');
+  });
+  it('maps path_safe to validate', () => {
+    expect(domainToNeutralizer('path_safe')).toBe('validate');
+  });
+  it('maps xxe_safe to configure', () => {
+    expect(domainToNeutralizer('xxe_safe')).toBe('configure');
+  });
+  it('maps log_safe to encode', () => {
+    expect(domainToNeutralizer('log_safe')).toBe('encode');
   });
 });
 

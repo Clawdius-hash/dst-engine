@@ -96,3 +96,24 @@ export function getNeutralizedDomains(subtype: string): SecurityDomain[] {
       return [];
   }
 }
+
+/**
+ * Reverse mapping: given a security domain, what neutralizer type fixes it?
+ * Used by the fix derivation engine to determine the correct remediation.
+ */
+export function domainToNeutralizer(domain: SecurityDomain): string {
+  switch (domain) {
+    case 'sql_safe':         return 'parameterize';
+    case 'xss_safe':         return 'encode';
+    case 'shell_safe':       return 'safe_api';
+    case 'path_safe':        return 'validate';
+    case 'ldap_safe':        return 'parameterize';
+    case 'xpath_safe':       return 'parameterize';
+    case 'xxe_safe':         return 'configure';
+    case 'deserialize_safe': return 'validate';
+    case 'redirect_safe':    return 'validate';
+    case 'ssti_safe':        return 'encode';
+    case 'log_safe':         return 'encode';
+    default:                 return 'validate';
+  }
+}
