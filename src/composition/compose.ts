@@ -118,15 +118,48 @@ function classifyChainType(links: ChainLink[]): string {
 
 // ── Directionality: READ→READ suppression ───────────────────────────────────
 
-const READ_SUBTYPES: ReadonlySet<string> = new Set([
-  'env_read', 'file_read', 'db_read', 'config_read',
-  'stream_read', 'container_read', 'http_request',
-  'cache_read', 'state_read',
+const WRITE_SUBTYPES: ReadonlySet<string> = new Set([
+  'db_write', 'file_write', 'env_write', 'cache_write',
+  'state_write', 'log_write',
 ]);
 
-function isReadSubtype(subtype: string | undefined): boolean {
-  if (!subtype) return false;
-  return READ_SUBTYPES.has(subtype);
+const WRITE_NODE_TYPES: ReadonlySet<string> = new Set([
+  'EGRESS', 'STORAGE',
+]);
+
+/**
+ * Check if a finding's sink actually WRITES to a shared resource.
+ * For a composition chain A→B through resource X to be real,
+ * A's sink must WRITE to X (not just mention X in its code).
+ *
+ * Returns true if the node is a write operation, false if it's a read,
+ * and false for undefined (backward compat: chains without semantics are allowed).
+ */
+function isWriteOperation(nodeType: string | undefined, nodeSubtype: string | undefined): boolean {
+  if (!nodeType && !nodeSubtype) return false; // no semantics = unknown = don't filter
+  if (nodeSubtype && WRITE_SUBTYPES.has(nodeSubtype)) return true;
+  if (nodeType && WRITE_NODE_TYPES.has(nodeType) && nodeSubtype !== 'http_request') return true;
+  return false;
+}
+
+/**
+ * Check if neither side of a bridge performs a write to the bridged resource.
+ * If A's sink doesn't write and B's source doesn't write, it's READ→READ.
+ */
+function isBothSidesReadOnly(
+  fa: ComposableFinding,
+  fb: ComposableFinding,
+): boolean {
+  // If either side lacks node semantics, be conservative (allow the chain)
+  const aHasSemantics = fa.sinkNodeType !== undefined || fa.sinkNodeSubtype !== undefined;
+  const bHasSemantics = fb.sourceNodeType !== undefined || fb.sourceNodeSubtype !== undefined;
+  if (!aHasSemantics && !bHasSemantics) return false; // no data = don't filter
+
+  const aWrites = isWriteOperation(fa.sinkNodeType, fa.sinkNodeSubtype);
+  const bWrites = isWriteOperation(fb.sourceNodeType, fb.sourceNodeSubtype);
+
+  // If neither side writes to the bridged resource, it's READ→READ
+  return !aWrites && !bWrites;
 }
 
 // ── Public API ───────────────────────────────────────────────────────────────
@@ -167,12 +200,10 @@ export function composeFindings(findings: ComposableFinding[]): FindingChain[] {
 
       if (aSinkTarget && bSourceTarget && aSinkTarget.name === bSourceTarget.name && aSinkTarget.kind === bSourceTarget.kind) {
         // Directionality: suppress READ→READ chains.
-        // Two independent reads of the same resource (e.g., process.env.NODE_ENV)
-        // are not an exploit chain. Only WRITE→READ flows are real chains.
-        // When node semantics are absent (backward compat), allow the chain.
-        const aSinkIsRead = isReadSubtype(fa.sinkNodeSubtype);
-        const bSourceIsRead = isReadSubtype(fb.sourceNodeSubtype);
-        if (aSinkIsRead && bSourceIsRead) {
+        // For a chain through a shared resource to be real, one side must WRITE
+        // to the resource and the other must READ. Two independent reads
+        // (e.g., two files both reading process.env.NODE_ENV) are not a chain.
+        if (isBothSidesReadOnly(fa, fb)) {
           continue;
         }
 

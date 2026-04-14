@@ -657,6 +657,10 @@ async function main(): Promise<void> {
               sourceStorageTarget: (sourceNode?.metadata?.storage_target as { kind: string; name: string } | undefined) ?? null,
               sinkTrustBoundary: sinkNode?.trust_boundary ?? '',
               sourceTrustBoundary: sourceNode?.trust_boundary ?? '',
+              sinkNodeType: sinkNode?.node_type,
+              sinkNodeSubtype: sinkNode?.node_subtype,
+              sourceNodeType: sourceNode?.node_type,
+              sourceNodeSubtype: sourceNode?.node_subtype,
             });
           }
         }
