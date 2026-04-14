@@ -20,6 +20,7 @@ import {
   encodeFunctionParams,
   buildFunctionTarget,
   buildInjectionParams,
+  chainToObject,
 } from './function-channel.js';
 import type {
   FunctionTarget,
@@ -671,6 +672,37 @@ describe('buildFunctionTarget + buildInjectionParams', () => {
 
     // Restore
     funcNode!.param_names = saved;
+  });
+});
+
+
+// ---------------------------------------------------------------------------
+// chainToObject — callee chain to nested parameter object
+// ---------------------------------------------------------------------------
+
+describe('chainToObject', () => {
+  it('converts property chain to nested object', () => {
+    expect(chainToObject(['req', 'headers', 'host'], ['req'], 'CANARY')).toEqual({ headers: { host: 'CANARY' } });
+  });
+
+  it('converts deep chain', () => {
+    expect(chainToObject(['req', 'body', 'user', 'name'], ['req'], 'CANARY')).toEqual({ body: { user: { name: 'CANARY' } } });
+  });
+
+  it('returns payload for single-element chain', () => {
+    expect(chainToObject(['hostname'], ['hostname'], 'CANARY')).toBe('CANARY');
+  });
+
+  it('returns payload when root not in params', () => {
+    expect(chainToObject(['unknown', 'prop'], ['req'], 'CANARY')).toBe('CANARY');
+  });
+
+  it('returns payload for empty chain', () => {
+    expect(chainToObject([], ['req'], 'CANARY')).toBe('CANARY');
+  });
+
+  it('handles two-level chain', () => {
+    expect(chainToObject(['ctx', 'request'], ['ctx'], 'CANARY')).toEqual({ request: 'CANARY' });
   });
 });
 
