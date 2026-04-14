@@ -353,6 +353,27 @@ describe('detectCallbackOrigin', () => {
     tree.delete();
   });
 
+  it('handles two-hop alias: const x = require("express"); const app = x(); app.get(...)', () => {
+    const code = `
+      const myFramework = require('express');
+      const server = myFramework();
+      server.post('/data', function process(input, output) {
+        const cmd = input.body.command;
+        output.json({ received: cmd });
+      });
+    `;
+    const tree = parser.parse(code);
+    const funcs = tree.rootNode.descendantsOfType('function_expression');
+    const handler = funcs[0];
+    const callExpr = handler.parent?.parent;
+
+    expect(callExpr?.type).toBe('call_expression');
+    const origin = detectCallbackOrigin(callExpr!, handler, tree.rootNode);
+    expect(origin.isExternal).toBe(true);
+    expect(origin.moduleCategory).toBe('HTTP_FRAMEWORK');
+    tree.delete();
+  });
+
   it('returns not-external when call has no function arguments', () => {
     const code = `
       const x = require('express');
