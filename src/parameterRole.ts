@@ -1,3 +1,5 @@
+import type Parser from 'web-tree-sitter';
+
 /**
  * Parameter roles derived from structural AST analysis.
  *
@@ -62,4 +64,143 @@ export function createEmptyUsage(name: string): ParameterUsage {
     invokedAsFunction: false,
     passedAsArgument: false,
   };
+}
+
+/**
+ * Walk a function body's AST and observe how each parameter is used.
+ * Pure structural analysis — no callee pattern lookups, no framework knowledge.
+ */
+export function analyzeParameterUsage(
+  functionBody: Parser.SyntaxNode,
+  paramNames: string[],
+): Map<string, ParameterUsage> {
+  const paramSet = new Set(paramNames);
+  const usages = new Map<string, ParameterUsage>();
+  for (const name of paramNames) {
+    usages.set(name, createEmptyUsage(name));
+  }
+
+  function walk(node: Parser.SyntaxNode): void {
+    // 1. Member expression: param.property
+    if (node.type === 'member_expression') {
+      const obj = node.childForFieldName('object');
+      const prop = node.childForFieldName('property');
+      if (obj && prop) {
+        const rootIdent = extractRootIdentifier(obj);
+        if (rootIdent && paramSet.has(rootIdent)) {
+          const usage = usages.get(rootIdent)!;
+          const parent = node.parent;
+
+          if (parent?.type === 'call_expression' &&
+              parent.childForFieldName('function')?.id === node.id) {
+            usage.methodsCalled.add(prop.text);
+          } else if (parent?.type === 'assignment_expression' &&
+                     parent.childForFieldName('left')?.id === node.id) {
+            usage.propertiesWritten.add(prop.text);
+          } else {
+            if (obj.type === 'identifier' && obj.text === rootIdent) {
+              usage.propertiesRead.add(prop.text);
+            }
+          }
+        }
+      }
+    }
+
+    // 2. Subscript expression: param['property']
+    if (node.type === 'subscript_expression') {
+      const obj = node.childForFieldName('object');
+      const index = node.childForFieldName('index');
+      if (obj && index && obj.type === 'identifier' && paramSet.has(obj.text)) {
+        const usage = usages.get(obj.text)!;
+        if (index.type === 'string' || index.type === 'template_string') {
+          const key = index.text.replace(/^['"`]|['"`]$/g, '');
+          if (key) usage.propertiesRead.add(key);
+        }
+      }
+    }
+
+    // 3. Call expression: param() — parameter invoked as function
+    if (node.type === 'call_expression') {
+      const func = node.childForFieldName('function');
+      if (func && func.type === 'identifier' && paramSet.has(func.text)) {
+        usages.get(func.text)!.invokedAsFunction = true;
+      }
+
+      // 4. Parameter passed as argument: someFunc(param)
+      const args = node.childForFieldName('arguments');
+      if (args) {
+        for (let i = 0; i < args.namedChildCount; i++) {
+          const arg = args.namedChild(i);
+          if (arg && arg.type === 'identifier' && paramSet.has(arg.text)) {
+            usages.get(arg.text)!.passedAsArgument = true;
+          }
+        }
+      }
+    }
+
+    // 5. Destructuring: const { body, headers } = param
+    if (node.type === 'variable_declarator') {
+      const name = node.childForFieldName('name');
+      const value = node.childForFieldName('value');
+      if (name?.type === 'object_pattern' && value?.type === 'identifier' && paramSet.has(value.text)) {
+        const usage = usages.get(value.text)!;
+        for (let i = 0; i < name.namedChildCount; i++) {
+          const prop = name.namedChild(i);
+          if (prop) {
+            const key = prop.type === 'shorthand_property_identifier_pattern'
+              ? prop.text
+              : prop.childForFieldName('key')?.text;
+            if (key) usage.propertiesRead.add(key);
+          }
+        }
+      }
+    }
+
+    for (let i = 0; i < node.childCount; i++) {
+      const child = node.child(i);
+      if (child) walk(child);
+    }
+  }
+
+  walk(functionBody);
+  return usages;
+}
+
+/**
+ * Extract the root identifier from a potentially nested member expression.
+ * req.body.user.name -> 'req'
+ */
+function extractRootIdentifier(node: Parser.SyntaxNode): string | null {
+  if (node.type === 'identifier') return node.text;
+  if (node.type === 'member_expression') {
+    const obj = node.childForFieldName('object');
+    if (obj) return extractRootIdentifier(obj);
+  }
+  if (node.type === 'call_expression') {
+    const func = node.childForFieldName('function');
+    if (func) return extractRootIdentifier(func);
+  }
+  return null;
+}
+
+/**
+ * Infer the structural role of a parameter from its usage patterns.
+ */
+export function inferRole(usage: ParameterUsage): ParameterRole {
+  if (usage.invokedAsFunction && usage.propertiesRead.size === 0 && usage.methodsCalled.size === 0) {
+    return 'continuation';
+  }
+  if (usage.invokedAsFunction && usage.propertiesRead.size === 0) {
+    return 'continuation';
+  }
+  if (usage.propertiesRead.size > 0) {
+    return 'input';
+  }
+  if (usage.methodsCalled.size > 0) {
+    return 'output';
+  }
+  if (usage.passedAsArgument || usage.propertiesWritten.size > 0) {
+    return 'data';
+  }
+  return 'unknown';
 }
