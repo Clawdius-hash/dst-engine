@@ -9,6 +9,7 @@ import { buildDependencyGraph } from './cross-file';
 import { runMarginPass } from './margin-pass';
 import { composeFindings } from './composition/index.js';
 import type { ComposableFinding } from './composition/types.js';
+import { isSecurityCWE } from './cweTiers.js';
 import * as fs from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
@@ -315,8 +316,8 @@ interface FileResult {
   results: ReturnType<typeof verifyAll>;
 }
 
-function printFileReport(fr: FileResult): void {
-  const failed = fr.results.filter(r => !r.holds);
+function printFileReport(fr: FileResult, securityOnly: boolean): void {
+  const failed = fr.results.filter(r => !r.holds && (!securityOnly || isSecurityCWE(r.cwe)));
   if (failed.length === 0) return;
 
   console.log(`\n${'━'.repeat(60)}`);
@@ -337,10 +338,19 @@ function printFileReport(fr: FileResult): void {
   }
 }
 
-function printSummary(allResults: FileResult[], elapsed: number): void {
+function printSummary(allResults: FileResult[], elapsed: number, securityOnly: boolean): void {
   const totalNodes = allResults.reduce((s, r) => s + r.map.nodes.length, 0);
   const totalEdges = allResults.reduce((s, r) => s + r.map.edges.length, 0);
 
+  // Count ALL findings (unfiltered) for the hint message
+  let totalAll = 0;
+  for (const fr of allResults) {
+    for (const r of fr.results) {
+      if (!r.holds) totalAll += r.findings.length;
+    }
+  }
+
+  // Count displayed findings (filtered by tier when securityOnly)
   let totalFindings = 0;
   let criticalCount = 0;
   let highCount = 0;
@@ -349,7 +359,7 @@ function printSummary(allResults: FileResult[], elapsed: number): void {
 
   for (const fr of allResults) {
     for (const r of fr.results) {
-      if (!r.holds) {
+      if (!r.holds && (!securityOnly || isSecurityCWE(r.cwe))) {
         for (const f of r.findings) {
           totalFindings++;
           if (f.severity === 'critical') criticalCount++;
@@ -361,12 +371,17 @@ function printSummary(allResults: FileResult[], elapsed: number): void {
     }
   }
 
-  const cleanFiles = allResults.filter(fr => fr.results.every(r => r.holds)).length;
+  const cleanFiles = allResults.filter(fr =>
+    fr.results.every(r => r.holds || (securityOnly && !isSecurityCWE(r.cwe)))
+  ).length;
 
   console.log('');
   console.log('╔══════════════════════════════════════════════════════════╗');
   console.log('║                    SCAN COMPLETE                        ║');
   console.log('╚══════════════════════════════════════════════════════════╝');
+  if (securityOnly && totalAll > totalFindings) {
+    console.log(`  Mode: Security findings only (${totalAll - totalFindings} quality findings hidden — use --full to see all)`);
+  }
   console.log('');
   console.log(`  Files scanned:  ${allResults.length}`);
   console.log(`  Clean files:    ${cleanFiles}`);
@@ -471,6 +486,7 @@ async function main(): Promise<void> {
   const noDedup = args.includes('--no-dedup');
   const pedantic = args.includes('--pedantic');
   const proveMode = args.includes('--prove');
+  const fullMode = args.includes('--full');
   const target = args.find(a => !a.startsWith('--'));
   const isDemo = args.includes('--demo') || !target;
   const verifyOptions = (noDedup || pedantic)
@@ -579,7 +595,7 @@ async function main(): Promise<void> {
 
         if (proveMode) await enrichWithProofs(results, summary.map);
 
-        const findings = results.filter(r => !r.holds).reduce((s, r) => s + r.findings.length, 0);
+        const findings = results.filter(r => !r.holds && (fullMode || isSecurityCWE(r.cwe))).reduce((s, r) => s + r.findings.length, 0);
 
         fileSummaries.set(file.replace(/\\/g, '/'), summary);
         allResults.push({ filename: shortName, map: summary.map, results });
@@ -668,9 +684,12 @@ async function main(): Promise<void> {
 
       if (composable.length >= 2) {
         const chains = composeFindings(composable);
-        if (chains.length > 0) {
-          console.log(`\n  Exploit chains: ${chains.length} chain(s) detected`);
-          for (const chain of chains) {
+        const chainsToShow = fullMode ? chains : chains.filter(chain =>
+          chain.links.some(l => isSecurityCWE(l.finding.cwe))
+        );
+        if (chainsToShow.length > 0) {
+          console.log(`\n  Exploit chains: ${chainsToShow.length} chain(s) detected`);
+          for (const chain of chainsToShow) {
             console.log(`    [${chain.severity.toUpperCase()}] ${chain.description}`);
           }
         }
@@ -686,10 +705,10 @@ async function main(): Promise<void> {
       console.log(JSON.stringify(jsonResults, null, 2));
     } else {
       for (const fr of allResults) {
-        printFileReport(fr);
+        printFileReport(fr, !fullMode);
       }
 
-      printSummary(allResults, Date.now() - startTime);
+      printSummary(allResults, Date.now() - startTime, !fullMode);
     }
   }
 }
