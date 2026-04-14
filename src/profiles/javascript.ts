@@ -1154,6 +1154,37 @@ function processFunctionParams(funcNode: SyntaxNode, ctx: MapperContextLike): vo
 }
 
 // ---------------------------------------------------------------------------
+// isInsideDevGate — detect if node is inside a process.env.NODE_ENV check
+// ---------------------------------------------------------------------------
+
+/**
+ * Check if a node is inside an if-block gated by process.env.NODE_ENV check.
+ * Walks up AST looking for if_statement whose condition contains NODE_ENV.
+ */
+function isInsideDevGate(node: SyntaxNode): boolean {
+  let current = node.parent;
+  while (current) {
+    if (current.type === 'if_statement') {
+      const condition = current.childForFieldName('condition');
+      if (condition) {
+        const condText = condition.text;
+        if (condText.includes('process.env.NODE_ENV') &&
+            (condText.includes("'development'") || condText.includes('"development"') ||
+             condText.includes("'production'") || condText.includes('"production"'))) {
+          return true;
+        }
+      }
+    }
+    if (current.type === 'function_declaration' || current.type === 'arrow_function' ||
+        current.type === 'function' || current.type === 'function_expression') {
+      return false;
+    }
+    current = current.parent;
+  }
+  return false;
+}
+
+// ---------------------------------------------------------------------------
 // classifyNode — the heart of the switch statement
 // ---------------------------------------------------------------------------
 
@@ -1472,6 +1503,11 @@ function classifyNode(node: SyntaxNode, ctx: MapperContextLike): void {
         const _storageTarget = extractStorageMetadata(node, resolution);
         if (_storageTarget) n.metadata.storage_target = _storageTarget;
         n.trust_boundary = classifyTrustBoundary(n.node_type, n.node_subtype);
+
+        // Dev-gate: tag EGRESS display/log_write inside NODE_ENV checks
+        if (n.node_type === 'EGRESS' && (n.node_subtype === 'display' || n.node_subtype === 'log_write') && isInsideDevGate(node)) {
+          n.metadata.dev_gated = true;
+        }
 
         // Data flow: resolve arguments via recursive taint extraction
         const argsNode = node.childForFieldName('arguments');
@@ -2057,6 +2093,11 @@ function classifyNode(node: SyntaxNode, ctx: MapperContextLike): void {
           ctx.neuralMap.nodes.push(n);
           ctx.lastCreatedNodeId = n.id;
           ctx.emitContainsIfNeeded(n.id);
+
+          // Dev-gate: tag EGRESS display/log_write inside NODE_ENV checks
+          if (n.node_type === 'EGRESS' && (n.node_subtype === 'display' || n.node_subtype === 'log_write') && isInsideDevGate(node)) {
+            n.metadata.dev_gated = true;
+          }
         }
       }
       break;

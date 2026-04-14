@@ -943,6 +943,10 @@ const DOMAIN_XML_RE   = /\b(XQuery|xquery|xmldb|XPath|xpath|SAXParser|DocumentBu
  * Returns UNKNOWN if no confident match — UNKNOWN sinks are never filtered out.
  */
 export function classifySinkDomain(node: NeuralMapNode): SinkDomain {
+  // Dev-gated EGRESS nodes (inside NODE_ENV checks) are always LOG domain —
+  // they never run in production, so HTML-domain CWEs (XSS) should not fire.
+  if (node.metadata?.dev_gated) return 'LOG';
+
   // Prefer structured node_subtype over regex on code snapshots.
   // The mapper already classified this node — use that classification first.
   if (node.node_subtype === 'log_write' || node.node_subtype === 'display') return 'LOG';
