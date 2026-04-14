@@ -42,6 +42,8 @@ export interface FunctionInjectionParams {
   param_index: number;
   other_params: Array<{ name: string; default_value: string }>;
   sink_mocks: SinkMockSpec[];
+  /** Pre-computed nested object shape for the target parameter */
+  param_shape?: Record<string, any> | string;
 }
 
 export interface SinkMockSpec {
@@ -59,6 +61,24 @@ export interface HarnessReport {
   return_value?: string;
   error?: string;
   elapsed_ms: number;
+}
+
+/**
+ * Convert a callee chain like ['req', 'headers', 'host'] into a nested object
+ * { headers: { host: payload } } for harness parameter construction.
+ * chain[0] is the parameter name itself. chain[1..n] is the nesting path.
+ */
+export function chainToObject(
+  chain: string[],
+  funcParams: string[],
+  payload: string,
+): Record<string, any> | string {
+  if (chain.length <= 1) return payload;
+  if (!funcParams.includes(chain[0])) return payload;
+  return chain.slice(1).reduceRight<any>(
+    (acc, key) => ({ [key]: acc }),
+    payload,
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -412,11 +432,18 @@ export function buildInjectionParams(
     }
   }
 
+  // 6. Compute parameter object shape from source node's callee chain
+  let paramShape: Record<string, any> | string | undefined;
+  if (sourceNode.callee_chain && sourceNode.callee_chain.length > 1) {
+    paramShape = chainToObject(sourceNode.callee_chain, paramNames, '__CANARY__');
+  }
+
   return {
     target_param: paramNames[targetIndex],
     param_index: targetIndex,
     other_params: otherParams,
     sink_mocks: sinkMocks,
+    param_shape: paramShape,
   };
 }
 
@@ -516,12 +543,15 @@ export class FunctionChannel implements Channel {
 
     // Write to temp file
     const dir = mkdtempSync(join(tmpdir(), 'dst-harness-'));
-    const harnessPath = join(dir, 'harness.mjs');
+    const ext = funcTarget.language === 'typescript' ? '.ts' : '.mjs';
+    const harnessPath = join(dir, `harness${ext}`);
     writeFileSync(harnessPath, harnessSource);
 
     const start = performance.now();
     try {
-      const { stdout } = await execFileAsync('node', [harnessPath], {
+      const cmd = harnessPath.endsWith('.ts') ? 'npx' : 'node';
+      const args = harnessPath.endsWith('.ts') ? ['tsx', harnessPath] : [harnessPath];
+      const { stdout } = await execFileAsync(cmd, args, {
         timeout: this.timeoutMs,
       });
 
