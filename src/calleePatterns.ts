@@ -160,7 +160,7 @@ const MEMBER_CALLS: Record<string, CalleePattern> = {
   'res.json':             { nodeType: 'EGRESS',     subtype: 'http_response', tainted: false },
   'res.render':           { nodeType: 'EGRESS',     subtype: 'http_response', tainted: false },
   'res.redirect':         { nodeType: 'EGRESS',     subtype: 'redirect',      tainted: false },
-  'res.status':           { nodeType: 'EGRESS',     subtype: 'http_response', tainted: false },
+  'res.status':           { nodeType: 'TRANSFORM',  subtype: 'http_status',   tainted: false },
   'res.end':              { nodeType: 'EGRESS',     subtype: 'http_response', tainted: false },
   'res.write':            { nodeType: 'EGRESS',     subtype: 'http_response', tainted: false },
   'res.sendFile':         { nodeType: 'EGRESS',     subtype: 'http_response', tainted: false },

@@ -94,13 +94,15 @@ function verifyCWE134(map: NeuralMap): VerificationResult {
 
   const FORMAT_FUNC134 = /\b(printf|fprintf|sprintf|snprintf|vprintf|vfprintf|vsprintf|vsnprintf|syslog|format|String\.format|str\.format|\.format\s*\(|Template\(|template\.render|render_template_string|Formatter\(\)|FormatMessage|NSLog|os_log)\b/;
 
-  const formatSinks = map.nodes.filter(n =>
-    (n.node_type === 'TRANSFORM' || n.node_type === 'EXTERNAL' ||
+  const formatSinks = map.nodes.filter(n => {
+    // Console/log output uses template literals, not printf — exclude
+    if (n.node_subtype === 'display' || n.node_subtype === 'log_write') return false;
+
+    return (n.node_type === 'TRANSFORM' || n.node_type === 'EXTERNAL' ||
      n.node_type === 'EGRESS' || n.node_type === 'STORAGE') &&
     (n.node_subtype.includes('format') || n.node_subtype.includes('printf') ||
-     n.node_subtype.includes('template') || n.node_subtype.includes('log') ||
-     FORMAT_FUNC134.test(n.analysis_snapshot || n.code_snapshot))
-  );
+     FORMAT_FUNC134.test(n.analysis_snapshot || n.code_snapshot));
+  });
 
   const FORMAT_SAFE134 = /\b(static.*format|const.*format|literal|hardcoded|fixed.*format|format.*constant)\b/i;
 

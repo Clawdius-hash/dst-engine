@@ -483,8 +483,8 @@
       "id": "node_23_17",
       "label": "res.status(404)",
       "sequence": 17,
-      "node_type": "EGRESS",
-      "node_subtype": "http_response",
+      "node_type": "TRANSFORM",
+      "node_subtype": "http_status",
       "language": "javascript",
       "file": "routes/api.js",
       "line_start": 15,
@@ -493,7 +493,7 @@
       "data_out": [],
       "edges": [],
       "attack_surface": [],
-      "trust_boundary": "network_external",
+      "trust_boundary": "",
       "tags": []
     },
     {
@@ -587,8 +587,8 @@
       "id": "node_23_22",
       "label": "res.status(500)",
       "sequence": 22,
-      "node_type": "EGRESS",
-      "node_subtype": "http_response",
+      "node_type": "TRANSFORM",
+      "node_subtype": "http_status",
       "language": "javascript",
       "file": "routes/api.js",
       "line_start": 20,
@@ -597,7 +597,7 @@
       "data_out": [],
       "edges": [],
       "attack_surface": [],
-      "trust_boundary": "network_external",
+      "trust_boundary": "",
       "tags": []
     },
     {
@@ -1519,8 +1519,8 @@
       "id": "node_23_38",
       "label": "res.status(201)",
       "sequence": 38,
-      "node_type": "EGRESS",
-      "node_subtype": "http_response",
+      "node_type": "TRANSFORM",
+      "node_subtype": "http_status",
       "language": "javascript",
       "file": "routes/api.js",
       "line_start": 38,
@@ -1529,7 +1529,7 @@
       "data_out": [],
       "edges": [],
       "attack_surface": [],
-      "trust_boundary": "network_external",
+      "trust_boundary": "",
       "tags": []
     },
     {
@@ -1956,8 +1956,8 @@
       "id": "node_23_48",
       "label": "res.status(401)",
       "sequence": 48,
-      "node_type": "EGRESS",
-      "node_subtype": "http_response",
+      "node_type": "TRANSFORM",
+      "node_subtype": "http_status",
       "language": "javascript",
       "file": "routes/api.js",
       "line_start": 47,
@@ -1966,7 +1966,7 @@
       "data_out": [],
       "edges": [],
       "attack_surface": [],
-      "trust_boundary": "network_external",
+      "trust_boundary": "",
       "tags": []
     },
     {
@@ -2085,8 +2085,8 @@
       "id": "node_23_54",
       "label": "res.status(401)",
       "sequence": 54,
-      "node_type": "EGRESS",
-      "node_subtype": "http_response",
+      "node_type": "TRANSFORM",
+      "node_subtype": "http_status",
       "language": "javascript",
       "file": "routes/api.js",
       "line_start": 52,
@@ -2095,7 +2095,7 @@
       "data_out": [],
       "edges": [],
       "attack_surface": [],
-      "trust_boundary": "network_external",
+      "trust_boundary": "",
       "tags": []
     },
     {
