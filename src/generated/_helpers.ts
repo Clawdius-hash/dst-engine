@@ -994,7 +994,9 @@ const CWE_DOMAIN_MAP: Record<string, ReadonlySet<SinkDomain>> = {
   'CWE-79':  new Set(['HTML']),
   'CWE-80':  new Set(['HTML']),
   'CWE-81':  new Set(['HTML']),           // XSS in error messages
+  'CWE-82':  new Set(['HTML']),           // XSS in IMG tag attributes
   'CWE-83':  new Set(['HTML']),           // XSS in attributes
+  'CWE-84':  new Set(['HTML']),           // XSS in URI
   'CWE-85':  new Set(['HTML']),           // doubled character XSS
   'CWE-86':  new Set(['HTML']),           // XSS via HTTP headers
   'CWE-87':  new Set(['HTML']),           // XSS via alternate syntax
