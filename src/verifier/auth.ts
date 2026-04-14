@@ -6932,7 +6932,14 @@ function verifyCWE454(map: NeuralMap): VerificationResult {
   for (const node of map.nodes) {
     const code = stripComments(node.analysis_snapshot || node.code_snapshot);
 
-    if (ENV_RE454.test(code) && TRUST_RE454.test(code) && !VALID_RE454.test(code)) {
+    const isConfigGate = (map.story ?? []).some(s =>
+      s.templateKey === 'gate-conditional' &&
+      s.nodeId === node.id &&
+      s.slots?.subject === 'NODE_ENV' &&
+      /['"](?:development|production|test|staging)['"]/.test(s.slots?.condition ?? '')
+    );
+
+    if (ENV_RE454.test(code) && TRUST_RE454.test(code) && !VALID_RE454.test(code) && !isConfigGate) {
       const trustVar = code.match(TRUST_RE454)?.[0];
       findings.push({
         source: nodeRef(node), sink: nodeRef(node),

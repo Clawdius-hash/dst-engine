@@ -1245,7 +1245,18 @@ function verifyCWE215(map: NeuralMap): VerificationResult {
 
   for (const node of map.nodes) {
     const code = stripComments(node.analysis_snapshot || node.code_snapshot);
-    if (DEBUG_RE.test(code) && !SAFE_RE.test(code)) {
+    const isEnvGate = (map.story ?? []).some(s =>
+      s.templateKey === 'gate-conditional' &&
+      s.nodeId === node.id &&
+      /NODE_ENV|RAILS_ENV|FLASK_ENV|APP_ENV/.test(s.slots?.subject ?? '')
+    );
+    const isInsideEnvGate = (map.story ?? []).some(s =>
+      s.templateKey === 'gate-conditional' &&
+      /NODE_ENV/.test(s.slots?.subject ?? '') &&
+      parseInt(s.slots?.gate_start_line ?? '0') <= node.line_start &&
+      parseInt(s.slots?.gate_end_line ?? '0') >= node.line_end
+    );
+    if (DEBUG_RE.test(code) && !SAFE_RE.test(code) && !isEnvGate && !isInsideEnvGate) {
       const hasSensitive = SENSITIVE_DEBUG_RE.test(code);
       findings.push({ source: nodeRef(node), sink: nodeRef(node), missing: 'CONTROL (production environment gate for debug code)',
         severity: hasSensitive ? 'high' : 'medium',

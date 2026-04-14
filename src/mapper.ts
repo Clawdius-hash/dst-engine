@@ -1361,7 +1361,34 @@ function walkWithScopes(node: SyntaxNode, ctx: MapperContext, profile: LanguageP
     for (const n of newNodes) {
       if (n.sentences && n.sentences.length > 0) continue;
       const templateKey = getTemplateKey(n.node_type, n.node_subtype);
-      if (templateKey === 'gate-conditional' || templateKey === 'iterates-over') continue;
+      if (templateKey === 'iterates-over') continue;
+      if (templateKey === 'gate-conditional') {
+        const condText = n.code_snapshot.slice(0, 200);
+        let subject = '';
+        let condition = condText;
+        const ifMatch = condText.match(/if\s*\(([^)]+)\)/);
+        if (ifMatch) condition = ifMatch[1];
+        const envMatch = condition.match(/process\.env\.(\w+)/);
+        if (envMatch) subject = envMatch[1];
+        else {
+          const identMatch = condition.match(/\b([a-zA-Z_]\w*)\b/);
+          if (identMatch) subject = identMatch[1];
+        }
+        const sentence = generateSentence('gate-conditional',
+          {
+            condition: condition.slice(0, 120),
+            gate_type: n.node_subtype === 'branch' ? 'branch' : 'loop',
+            subject,
+            gate_start_line: String(n.line_start),
+            gate_end_line: String(n.line_end),
+          },
+          n.line_start, n.id, 'STRUCTURAL');
+        sentence.taintBasis = 'PHONEME_RESOLUTION';
+        if (!n.sentences) n.sentences = [];
+        n.sentences.push(sentence);
+        ctx.addSentence(sentence);
+        continue;
+      }
       // Sink templates (executes-query, writes-response, accesses-path) ARE now
       // emitted generically with variables slots extracted from args. This enables
       // V2 detection for all languages. The V2 verifiers have a sparse-story fallback:
