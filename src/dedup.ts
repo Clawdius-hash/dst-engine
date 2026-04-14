@@ -216,6 +216,9 @@ defineFamily('CWE-59', [61, 62, 64, 65]);
 
 defineFamily('CWE-79', [80, 81, 82, 83, 84, 85, 86, 87]);
 
+// Output neutralization — CWE-75 fires on same output patterns as XSS
+defineFamily('CWE-75', [76, 138, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 692]);
+
 defineFamily('CWE-20', [
   228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240,
 ]);
