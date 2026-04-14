@@ -146,11 +146,15 @@ describe('Pattern Oracle: structural inference matches existing patterns', () =>
       expect(hasNodeOfType(map, 'EXTERNAL', 'system_exec')).toBe(true);
     });
 
-    // GAP: aliased module member calls — cp = require('child_process'); cp.exec(...)
-    // resolveCallee doesn't expand variable aliases for member expressions.
-    // The alias chain ['child_process'] is stored on the variable but not consulted
-    // when building the callee chain for member_expression calls.
-    it.todo('aliased module member: cp.exec after const cp = require("child_process")');
+    // Aliased module member calls — cp = require('child_process'); cp.exec(...)
+    it('aliased module member: cp.exec after const cp = require("child_process")', () => {
+      const code = `
+        const cp = require('child_process');
+        cp.exec('ls -la ' + userInput);
+      `;
+      const map = parse(code);
+      expect(hasNodeOfType(map, 'EXTERNAL', 'system_exec')).toBe(true);
+    });
   });
 
   describe('Filesystem patterns', () => {

@@ -149,4 +149,20 @@ describe('Structural inference integration', () => {
     const ingress = findNodes(map.nodes, 'INGRESS');
     expect(ingress.length).toBeGreaterThanOrEqual(1);
   });
+
+  it('creates INGRESS for function_expression callbacks (custom var names)', () => {
+    const code = `
+      const myFramework = require('express');
+      const server = myFramework();
+      server.post('/data', function process(input, output) {
+        const cmd = input.body.command;
+        output.json({ received: cmd });
+      });
+    `;
+    const { map } = parse(code);
+    const ingress = findNodes(map.nodes, 'INGRESS');
+    const inputIngress = ingress.find(n => n.label.includes('input'));
+    expect(inputIngress).toBeTruthy();
+    expect(inputIngress!.node_subtype).toBe('http_request');
+  });
 });

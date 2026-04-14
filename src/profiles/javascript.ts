@@ -389,6 +389,7 @@ function extractRangeFromCondition(
 const FUNCTION_SCOPE_TYPES: ReadonlySet<string> = new Set([
   'function_declaration',
   'function',
+  'function_expression',
   'arrow_function',
   'method_definition',
   'generator_function_declaration',
@@ -1404,7 +1405,35 @@ function classifyNode(node: SyntaxNode, ctx: MapperContextLike): void {
         }
       }
 
-      const resolution = _resolveCallee(node);
+      let resolution = _resolveCallee(node);
+
+      // Alias chain fallback for member expressions: cp.exec() where cp = require('child_process')
+      // If resolveCallee returned null or a wildcard, check if the callee's root identifier
+      // has an aliasChain and retry with the aliased chain for a more specific match.
+      if (!resolution || resolution.wildcard) {
+        const aliasFallbackCallee = node.childForFieldName('function');
+        if (aliasFallbackCallee?.type === 'member_expression') {
+          const aliasRootObj = aliasFallbackCallee.childForFieldName('object');
+          const aliasMemberProp = aliasFallbackCallee.childForFieldName('property');
+          if (aliasRootObj?.type === 'identifier' && aliasMemberProp) {
+            const aliasRootVar = ctx.resolveVariable(aliasRootObj.text);
+            if (aliasRootVar?.aliasChain) {
+              const rebuiltChain = [...aliasRootVar.aliasChain, aliasMemberProp.text];
+              const aliasResult = _lookupCallee(rebuiltChain);
+              if (aliasResult) {
+                resolution = {
+                  nodeType: aliasResult.nodeType,
+                  subtype: aliasResult.subtype,
+                  tainted: aliasResult.tainted,
+                  chain: rebuiltChain,
+                  wildcard: aliasResult.wildcard,
+                };
+              }
+            }
+          }
+        }
+      }
+
       if (resolution) {
         // Per-file import gate: wildcard STORAGE matches only valid if file imports a DB package
         if (resolution.wildcard && !(ctx as any).dbImportDetected) {
@@ -2598,7 +2627,7 @@ function findParentCallExpression(funcNode: SyntaxNode): SyntaxNode | null {
 // ---------------------------------------------------------------------------
 
 function postVisitFunction(node: SyntaxNode, ctx: MapperContextLike): void {
-  if (node.type !== 'arrow_function' && node.type !== 'function_declaration' && node.type !== 'function') {
+  if (node.type !== 'arrow_function' && node.type !== 'function_declaration' && node.type !== 'function' && node.type !== 'function_expression') {
     return;
   }
 
