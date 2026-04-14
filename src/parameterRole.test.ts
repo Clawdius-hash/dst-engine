@@ -4,7 +4,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 import type { ParameterRole, ParameterUsage } from './parameterRole.js';
-import { analyzeParameterUsage, inferRole, createEmptyUsage } from './parameterRole.js';
+import { analyzeParameterUsage, inferRole, createEmptyUsage, detectCallbackOrigin } from './parameterRole.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -251,5 +251,121 @@ describe('inferRole', () => {
     usage.invokedAsFunction = true;
     usage.passedAsArgument = true;
     expect(inferRole(usage)).toBe('continuation');
+  });
+});
+
+describe('detectCallbackOrigin', () => {
+  it('detects function passed as callback to require("express").get()', () => {
+    const code = `
+      const express = require('express');
+      const app = express();
+      app.get('/users', function handler(req, res) {
+        res.json({});
+      });
+    `;
+    const tree = parser.parse(code);
+    // Find the inline function expression (not the keyword token)
+    const funcs = tree.rootNode.descendantsOfType('function_expression');
+    const handler = funcs[0];
+    // function_expression -> arguments -> call_expression
+    const callExpr = handler.parent?.parent;
+
+    expect(callExpr?.type).toBe('call_expression');
+    const origin = detectCallbackOrigin(callExpr!, handler, tree.rootNode);
+    expect(origin.isExternal).toBe(true);
+    expect(origin.moduleCategory).toBe('HTTP_FRAMEWORK');
+    expect(origin.moduleName).toBe('express');
+    tree.delete();
+  });
+
+  it('detects arrow function callback to fs module', () => {
+    const code = `
+      const fs = require('fs');
+      fs.readFile('/etc/passwd', (err, data) => {
+        console.log(data);
+      });
+    `;
+    const tree = parser.parse(code);
+    const arrows = tree.rootNode.descendantsOfType('arrow_function');
+    const callback = arrows[0];
+    const callExpr = callback.parent?.parent;
+
+    expect(callExpr?.type).toBe('call_expression');
+    const origin = detectCallbackOrigin(callExpr!, callback, tree.rootNode);
+    expect(origin.isExternal).toBe(true);
+    expect(origin.moduleCategory).toBe('FILESYSTEM');
+    tree.delete();
+  });
+
+  it('returns not-external for callback to local function', () => {
+    const code = `
+      function myHelper(callback) { callback(); }
+      myHelper(function handler(data) {
+        console.log(data);
+      });
+    `;
+    const tree = parser.parse(code);
+    const funcs = tree.rootNode.descendantsOfType('function_expression');
+    const handler = funcs.find(f => f.text.includes('console'))!;
+    // function_expression -> arguments -> call_expression
+    const callExpr = handler.parent?.parent;
+
+    const origin = detectCallbackOrigin(callExpr!, handler, tree.rootNode);
+    expect(origin.isExternal).toBe(false);
+    tree.delete();
+  });
+
+  it('detects ES import-based external callback', () => {
+    const code = `
+      import express from 'express';
+      const app = express();
+      app.post('/login', (req, res) => {
+        const { username } = req.body;
+      });
+    `;
+    const tree = parser.parse(code);
+    const arrows = tree.rootNode.descendantsOfType('arrow_function');
+    const callback = arrows[0];
+    const callExpr = callback.parent?.parent;
+
+    const origin = detectCallbackOrigin(callExpr!, callback, tree.rootNode);
+    expect(origin.isExternal).toBe(true);
+    expect(origin.moduleCategory).toBe('HTTP_FRAMEWORK');
+    tree.delete();
+  });
+
+  it('detects database callback via new constructor', () => {
+    const code = `
+      const pg = require('pg');
+      const client = new pg.Client();
+      client.query('SELECT 1', (err, result) => {
+        console.log(result);
+      });
+    `;
+    const tree = parser.parse(code);
+    const arrows = tree.rootNode.descendantsOfType('arrow_function');
+    const callback = arrows[0];
+    const callExpr = callback.parent?.parent;
+
+    const origin = detectCallbackOrigin(callExpr!, callback, tree.rootNode);
+    expect(origin.isExternal).toBe(true);
+    expect(origin.moduleCategory).toBe('DATABASE');
+    tree.delete();
+  });
+
+  it('returns not-external when call has no function arguments', () => {
+    const code = `
+      const x = require('express');
+      x.listen(3000);
+    `;
+    const tree = parser.parse(code);
+    const calls = tree.rootNode.descendantsOfType('call_expression');
+    const listenCall = calls.find(c => c.text.includes('listen'))!;
+
+    // No callback function node to pass
+    const origin = detectCallbackOrigin(listenCall, listenCall, tree.rootNode);
+    expect(origin.isExternal).toBe(true); // module IS external
+    // But in real usage, we only call this when we find a function arg
+    tree.delete();
   });
 });

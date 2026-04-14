@@ -1,4 +1,5 @@
 import type Parser from 'web-tree-sitter';
+import { getModuleCategory, type ModuleCategory } from './moduleIdentity.js';
 
 /**
  * Parameter roles derived from structural AST analysis.
@@ -203,4 +204,136 @@ export function inferRole(usage: ParameterUsage): ParameterRole {
     return 'data';
   }
   return 'unknown';
+}
+
+export interface CallbackOriginResult {
+  isExternal: boolean;
+  moduleCategory?: ModuleCategory;
+  moduleName?: string;
+}
+
+/**
+ * Determine if a function passed as argument to a call expression
+ * is being registered with an external module.
+ */
+export function detectCallbackOrigin(
+  callExpression: Parser.SyntaxNode,
+  callbackNode: Parser.SyntaxNode,
+  rootNode: Parser.SyntaxNode,
+): CallbackOriginResult {
+  if (callExpression.type !== 'call_expression') {
+    return { isExternal: false };
+  }
+
+  const callee = callExpression.childForFieldName('function');
+  if (!callee) return { isExternal: false };
+
+  const rootIdent = extractRootIdentifier(callee);
+  if (!rootIdent) return { isExternal: false };
+
+  const moduleName = traceToModuleSource(rootIdent, rootNode);
+  if (!moduleName) return { isExternal: false };
+
+  const category = getModuleCategory(moduleName);
+  if (!category) return { isExternal: false };
+
+  return {
+    isExternal: true,
+    moduleCategory: category,
+    moduleName,
+  };
+}
+
+/**
+ * Trace a variable name back to its require() or import source.
+ */
+function traceToModuleSource(varName: string, rootNode: Parser.SyntaxNode): string | null {
+  // Strategy 1: Find require() declarations
+  const declarations = rootNode.descendantsOfType('variable_declarator');
+  for (const decl of declarations) {
+    const name = decl.childForFieldName('name');
+    if (!name || name.text !== varName) continue;
+
+    const value = decl.childForFieldName('value');
+    if (!value) continue;
+
+    // Direct require: const x = require('mod')
+    const reqModule = extractRequireModule(value);
+    if (reqModule) return reqModule;
+
+    // Factory pattern: const app = require('express')()
+    if (value.type === 'call_expression') {
+      const innerFunc = value.childForFieldName('function');
+      if (innerFunc) {
+        const reqModule2 = extractRequireModule(innerFunc);
+        if (reqModule2) return reqModule2;
+
+        // Generic factory: const app = express() where express is imported/required
+        const factoryIdent = extractRootIdentifier(innerFunc);
+        if (factoryIdent && factoryIdent !== varName) {
+          const traced = traceToModuleSource(factoryIdent, rootNode);
+          if (traced) return traced;
+        }
+      }
+    }
+
+    // new Constructor: const client = new pg.Client()
+    if (value.type === 'new_expression') {
+      const constructor = value.childForFieldName('constructor');
+      if (constructor) {
+        const rootOfNew = extractRootIdentifier(constructor);
+        if (rootOfNew && rootOfNew !== varName) {
+          // Recursively trace: if const pg = require('pg'), and we have new pg.Client()
+          const traced = traceToModuleSource(rootOfNew, rootNode);
+          if (traced) return traced;
+        }
+      }
+    }
+  }
+
+  // Strategy 2: Find import declarations
+  const imports = rootNode.descendantsOfType('import_statement');
+  for (const imp of imports) {
+    const source = imp.childForFieldName('source');
+    if (!source) continue;
+    const moduleName = source.text.replace(/^['"`]|['"`]$/g, '');
+
+    const clause = imp.children.find(c => c.type === 'import_clause');
+    if (clause) {
+      for (let i = 0; i < clause.namedChildCount; i++) {
+        const child = clause.namedChild(i);
+        // Default import: import express from 'express'
+        if (child?.type === 'identifier' && child.text === varName) {
+          return moduleName;
+        }
+        // Named imports: import { Router } from 'express'
+        if (child?.type === 'named_imports') {
+          for (let j = 0; j < child.namedChildCount; j++) {
+            const spec = child.namedChild(j);
+            if (!spec) continue;
+            const alias = spec.childForFieldName('alias');
+            const specName = spec.childForFieldName('name');
+            const localName = alias?.text ?? specName?.text;
+            if (localName === varName) return moduleName;
+          }
+        }
+      }
+    }
+  }
+
+  return null;
+}
+
+/**
+ * Extract module name from a require() call expression node.
+ */
+function extractRequireModule(node: Parser.SyntaxNode): string | null {
+  if (node.type !== 'call_expression') return null;
+  const func = node.childForFieldName('function');
+  if (!func || func.text !== 'require') return null;
+  const args = node.childForFieldName('arguments');
+  if (!args || args.namedChildCount === 0) return null;
+  const firstArg = args.namedChild(0);
+  if (!firstArg || (firstArg.type !== 'string' && firstArg.type !== 'template_string')) return null;
+  return firstArg.text.replace(/^['"`]|['"`]$/g, '');
 }
