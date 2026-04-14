@@ -143,4 +143,36 @@ describe('Smoke: structural inference on real-world patterns', () => {
     );
     expect(dangerousSinks).toHaveLength(0);
   });
+
+  it('ternary with literal branches does NOT propagate taint from condition', () => {
+    const code = `
+      const express = require('express');
+      const app = express();
+      app.get('/test', (req, res) => {
+        const sameSite = process.env.NODE_ENV !== 'development' ? 'none' : 'lax';
+        res.json({ sameSite });
+      });
+    `;
+    const map = parse(code);
+    const taintedSameSite = map.story?.filter(s =>
+      s.taintClass === 'TAINTED' && s.slots?.subject === 'sameSite'
+    ) ?? [];
+    expect(taintedSameSite).toHaveLength(0);
+  });
+
+  it('ternary with tainted branch DOES propagate taint', () => {
+    const code = `
+      const express = require('express');
+      const app = express();
+      app.get('/test', (req, res) => {
+        const output = process.env.NODE_ENV !== 'dev' ? 'safe' : req.body.evil;
+        res.json({ output });
+      });
+    `;
+    const map = parse(code);
+    const taintedOutput = map.story?.filter(s =>
+      s.taintClass === 'TAINTED' && s.slots?.subject === 'output'
+    ) ?? [];
+    expect(taintedOutput.length).toBeGreaterThanOrEqual(1);
+  });
 });

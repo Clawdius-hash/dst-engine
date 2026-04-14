@@ -713,6 +713,28 @@ function extractTaintSources(expr: SyntaxNode, ctx: MapperContextLike): TaintSou
 }
 
 // ---------------------------------------------------------------------------
+// isLiteralNode — returns true when a syntax node is provably a compile-time
+// constant (string, number, boolean, null, template without substitution,
+// negative number literal, or a ternary whose BOTH branches are literals).
+// ---------------------------------------------------------------------------
+
+function isLiteralNode(node: SyntaxNode): boolean {
+  if (/^(string|number|integer|float|true|false|null|undefined)$/.test(node.type)) return true;
+  if (node.type === 'string_fragment') return true;
+  if (node.type === 'template_string' && !node.children.some(c => c.type === 'template_substitution')) return true;
+  if (node.type === 'unary_expression' && node.childForFieldName('operator')?.text === '-') {
+    const arg = node.childForFieldName('argument');
+    return arg ? /^(number|integer|float)$/.test(arg.type) : false;
+  }
+  if (node.type === 'ternary_expression') {
+    const consequence = node.childForFieldName('consequence');
+    const alternative = node.childForFieldName('alternative');
+    return !!(consequence && alternative && isLiteralNode(consequence) && isLiteralNode(alternative));
+  }
+  return false;
+}
+
+// ---------------------------------------------------------------------------
 // processVariableDeclaration
 // ---------------------------------------------------------------------------
 
@@ -738,6 +760,17 @@ function processVariableDeclaration(node: SyntaxNode, ctx: MapperContextLike): v
 
     // lastCreatedNodeId was set by walking the value expression (children-first)
     let producingNodeId = ctx.lastCreatedNodeId;
+
+    // Guard: ternary with all-literal branches — condition's INGRESS bleeds into
+    // lastCreatedNodeId but should NOT taint the variable. The output is domain-bounded.
+    const valueExpr = declarator.childForFieldName('value');
+    if (valueExpr?.type === 'ternary_expression') {
+      const consequence = valueExpr.childForFieldName('consequence');
+      const alternative = valueExpr.childForFieldName('alternative');
+      if (consequence && alternative && isLiteralNode(consequence) && isLiteralNode(alternative)) {
+        producingNodeId = null;
+      }
+    }
 
     // Check if the producing node is tainted (INGRESS or has tainted data_out)
     let tainted = false;
