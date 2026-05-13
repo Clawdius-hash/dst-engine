@@ -508,7 +508,12 @@ async function main(): Promise<void> {
     if (proveMode) await enrichWithProofs(results, map);
 
     if (jsonOutput) {
-      console.log(JSON.stringify(results, null, 2));
+      fs.writeFileSync(
+        "result.json",
+        JSON.stringify(results, null, 2),
+        "utf-8"
+      );
+      console.log("Results saved to result.json");
     } else {
       console.log(formatReport(results));
 
