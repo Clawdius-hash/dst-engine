@@ -712,7 +712,14 @@ async function main(): Promise<void> {
         nodes: fr.map.nodes.length,
         results: fr.results,
       }));
-      console.log(JSON.stringify(jsonResults, null, 2));
+      
+      fs.writeFileSync(
+        "/tmp/result.json",
+        JSON.stringify(jsonResults, null, 2),
+        "utf-8"
+      );
+      console.log("Results saved to result.json");
+  
     } else {
       for (const fr of allResults) {
         printFileReport(fr, !fullMode);
