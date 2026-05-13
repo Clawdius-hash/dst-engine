@@ -10,9 +10,11 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /opt/dst-engine
 
 RUN git clone https://github.com/MassDeterministicEngines/dst-engine.git .
+
+RUN npm install -g tsx
 RUN npm install --legacy-peer-deps
 
-RUN printf '#!/bin/sh\nexec node --import tsx /opt/dst-engine/src/dst-cli.ts "$@"\n' \
+RUN printf '#!/bin/sh\nexec tsx /opt/dst-engine/src/dst-cli.ts "$@"\n' \
     > /usr/local/bin/dst-cli \
     && chmod +x /usr/local/bin/dst-cli
 
